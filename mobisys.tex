@@ -1,0 +1,100 @@
+\documentclass{sig-alternate-10pt}
+%\input{nsfformat.sty}
+
+\usepackage{url}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{times}
+\usepackage{color}
+\usepackage{fancyvrb}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\rmdefault}{ptm}
+
+%\usepackage[compact]{titlesec}
+
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{stfloats}
+
+\renewcommand{\baselinestretch}{0.90}
+
+\newenvironment{packed_enum}{
+\begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+\newenvironment{packed_item}{
+\begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+
+\newcommand{\eg}{\hbox{\em e.g.}}
+\newcommand{\ie}{\hbox{\em i.e.}}
+\newcommand{\cf}{\hbox{\em cf. }}
+\newcommand{\etal}{\hbox{\em et al.}}
+\newcommand{\etc}{\hbox{\em etc.}}
+
+\newif\ifrev
+%%%%%%%%%%%%%%%%%%
+% COMMENT OUT NEXT LINE TO HIDE TODOs
+\revtrue
+%%%%%%%%%%%%%%%%%%
+
+\ifrev
+  \newcommand{\yanyan}[1]{{\color{blue} [Yanyan: #1]}}
+\else
+  \newcommand{\yanyan}[1]{}
+\fi
+
+\title{Sensibility Testbed and Its Privacy Framework for Secure Mobile Internet Measurement}
+
+
+\author { Yanyan Zhuang \and Albert Rafetseder \and Justin Capposl \and ??}
+
+%\email{\small\tt \{doliveir, jnavarro, femilian\}@bowdoin}
+
+% \and \small\tt{crandall@cs.unm.edu}}
+
+
+
+%\begin{tabular}{cccc}
+%        \multicolumn{1}{c}{Daniela Oliveira} &
+%        \multicolumn{1}{c}{Jedidiah Crandall} &
+%        \multicolumn{1}{c}{Jesus Navarro}  &
+%         \multicolumn{1}{c}{Felix Emiliano}   \\ [.5ex] 
+%        \multicolumn{2}{c}{Bowdoin College} &
+%        \multicolumn{2}{c}{University of New Mexico } \\ [.5ex] 
+%        \multicolumn{2}{c}{{\small\tt \{doliveir, jnavarro, femilian\}@bowdoin.edu}} &
+%        \multicolumn{2}{c}{{\small\tt crandall@bowdoin.edu }} &
+%\end{tabular}
+
+
+
+%}
+\date{}
+
+\begin{document}
+
+\smallskip
+
+\maketitle
+\setcounter{page}{1}
+
+%\begin{quote}
+%``The world is so full of a number of things'' - that it can be extremely, even hopelessly, confusing. \emph{George Smith, 1945}
+
+%\end{quote}
+
+\smallskip
+
+\input{abstract}
+
+\input{intro}
+
+{\bibliographystyle{abbrv} \bibliography{bibdata}} 
+
+\end{document} 

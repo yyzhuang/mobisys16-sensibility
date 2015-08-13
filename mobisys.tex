@@ -1,12 +1,11 @@
 \documentclass{sig-alternate-10pt}
 %\input{nsfformat.sty}
 
-\usepackage{url}
+%\usepackage{url}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \usepackage{wrapfig}
 \usepackage{multirow}
 \usepackage{times}
-\usepackage{color}
-\usepackage{fancyvrb}
 \renewcommand{\sfdefault}{phv}
 \renewcommand{\rmdefault}{ptm}
 
@@ -15,8 +14,14 @@
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{stfloats}
+\usepackage{listings}
 
 \renewcommand{\baselinestretch}{0.90}
+
+\usepackage{fancyvrb}
+\usepackage{fixltx2e}
+\fvset{framesep=2mm,fontsize=\scriptsize,framerule=.1mm,numbersep=1mm,commandchars=\\\{\}}
+\usepackage[usenames,dvipsnames]{color}
 
 \newenvironment{packed_enum}{
 \begin{enumerate}
@@ -53,7 +58,8 @@
 \title{Sensibility Testbed and Its Privacy Framework for Secure Mobile Internet Measurement}
 
 
-\author { Yanyan Zhuang \and Albert Rafetseder \and Justin Capposl \and ??}
+\author { Yanyan Zhuang$^{\dag, \ddag}$ \and Albert Rafetseder$^{\dag}$ \and Justin Cappos$^{\dag}$ \and some other author\\
+$^{\dag}$New York University, $^{\ddag}$University of British Columbia}
 
 %\email{\small\tt \{doliveir, jnavarro, femilian\}@bowdoin}
 
@@ -94,6 +100,10 @@
 \input{abstract}
 
 \input{intro}
+
+\input{design}
+
+\input{policy}
 
 {\bibliographystyle{abbrv} \bibliography{bibdata}} 
 

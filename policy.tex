@@ -1,0 +1,363 @@
+\section{Privacy Policies}\label{sec-policy}
+
+On Alice's device, the Sensibility Testbed app contains a native Android portion
+(Section~\ref{sec-owner-participate}). When Alice starts the app, the native code initializes a
+Python interpreter, launches the Repy sandbox, and starts the communication between the device and
+the clearinghouse. The sandbox's restricted, secure API provides calls to file system, networking,
+threading functions, and so on. Therefore, Bob's code can read files, send data through the
+network, etc., from Alice's device. However, the original Repy sandbox does not include calls
+specific to mobile devices, such as GPS location, WiFi network, Bluetooth, accelerometer, cellular
+network, etc. To obtain smartphone-specific data, we first implemented a set of functions using
+Android native code in the Sensibility Testbed app. The Repy sandbox then uses RPC to invoke the
+corresponding Android code, and returns the data from native code to a sandboxed program. The Repy
+sandbox thus defines a set of sensor API in its Python-like language, such as
+\path{get_location()}, \path{get_accelerometer()}, \path{get_wifi()}, etc~\cite{sensor-api}. As
+such, the original Repy interface and the added sensor API together provide the complete \textit{OS
+level} sandbox kernel on a mobile device, as shown in Figure~\ref{fig-blur}.
+
+\begin{figure}
+\center{\includegraphics[width=\columnwidth]{figs/blur.pdf}}
+%\vspace*{-20pt}
+\caption{\small Sensibility Testbed blur policies. 
+\label{fig-blur}}
+\end{figure}
+
+This sandbox kernel determines how IRB policies are implemented by affecting API calls. It can
+interpose on a call and modify the data returned, or control the frequency a call can be made over
+a period of time. As mentioned above, Bob provided his IRB policies through our clearinghouse.
+Before Bob runs his experiment, the clearinghouse instructs the sandbox on Alice's device to
+restrict sensor access in accordance with these IRB policies. Using the \path{get_location()} call
+as an example, when Bob's code requests location data from Alice's device, the Repy sandbox first
+invokes the location-related Android code. When the location data is returned, Bob's IRB policy
+indicates that the returned location coordinates should be blurred to the nearest city to Alice's
+device, instead of her actual location. As a result, the sandbox returns an approximate location to
+Bob's program. Furthermore, as Bob's IRB policy disallows collecting information about cell tower
+IDs, any access to cell IDs is blocked entirely on Alice's device. Similarly, other information
+like WiFi SSID can be blurred to a hashed string, the frequency to access an accelerometer or a
+gyroscope~\cite{michalevsky2014gyrophone} can be restricted to prevent inferring passwords from the
+movement and tilt of the device, and so on. As shown in Figure~\ref{fig-blur}, different policies
+can be stacked together as a set of filters for different sensors, before a sandboxed program can
+access the sensor data.
+
+\subsection{Blurring Layers: Reducing Data Precision}\label{sec-layer}
+
+\yanyan{TODO: replace all security layers with blurring layers. fix the line wrapping.}
+The Sensibility Testbed uses an extended version of the Repy sandbox, whose 
+security mechanism is described in our prior work by Cappos, {\it et 
+al}~\cite{cappos2010retaining}. This section briefly explains this sandboxing 
+technique, and how it is used in Sensibility Testbed.
+
+In Sensibility Testbed, we construct a researcher's IRB policies as a set of 
+isolated and contained reference monitors, which we call blurring layers. 
+Each blurring layer is untrusted by its ancestor blurring layers, but is trusted
+by its descendant layers. The lowest blurring layer (with no ancestors) is the 
+Sensibility Testbed's sandbox kernel, as shown in Figure~\ref{fig-arch}. Each 
+blurring layer has a \textit{virtual namespace} that provides function mapping 
+(substuting raw data access with restricted data access), and the boundary 
+between two blurring layers is monitored by an \textit{encasement library} that
+verifies interface semantics at runtime. 
+
+\subsubsection{Virtual Namespace}
+
+The namespace of each blurring layer executes the code with the 
+corresponding layer's function mapping. Normally, the namespace of a 
+blurring layer does not contain functions from the sandbox kernel or 
+the namespace of its parent layer, unless explicitly specified by the 
+mapping. For example, if a layer \path{foo} with functions \path{get_battery()}, 
+\path{restricted_get_accelerometer()}, and \path{get_accelerometer()} 
+were to instantiate a child layer \path{bar} with a function mapping 
+\path{{'get_battery': get_battery, 'get_accelerometer': restricted_get_accelerometer}}, 
+then the module \path{bar} would have access
+to \path{foo.get_battery} via the name \path{get_battery} and to
+\path{foo.restricted_get_accelerometer} via the name 
+\path{get_accelerometer}. Layer \path{bar} would not be able to 
+access \path{foo.get_accelerometer}.
+
+\subsubsection{Encasement Library}
+
+The virtual namespace is useful for loading
+code dynamically, but does not provide adequate security for
+use as an isolation boundary. The encasement library in the 
+Repy sandbox provides isolation between virtual namespaces. 
+%Security layers do not share objects or functions.
+%The encasement library copies all objects that are passed
+%between security layers.
+%
+Each function call that can be called by other (descendant) blurring
+layers is wrapped in a verification function. The verification 
+function uses a \textit{contract} for a function to verify its
+behavior.  This concept is similar to system call filtering
+mechanisms~\cite{acharya2000mapbox, fraser2000hardening} 
+that mediate access to a sensitive function interface. In our case, 
+the function interfaces are the calls to smartphone sensors that 
+can potentially reveal device owner's private information. 
+For each sensitive function, the contract lists the number 
+and types of its arguments, the exceptions that can be raised 
+by the function, and the return type of the function\footnote{Since 
+Python is a dynamically typed language, it is useful to type check 
+a function's arguments, exceptions, and return values.}.
+
+A contract is represented as a Python dictionary. As an example, if 
+the blurring layer \path{foo} wanted to create a contract that would map
+\path{get_battery{}} and \path{restricted_get_accelerometer()} into 
+a new namespace, the contract would be: 
+
+\begin{Verbatim}
+\{\textcolor{BrickRed}{'get_battery'}: \{
+  \textcolor{BrickRed}{'type'}: \textcolor{BrickRed}{'func'},
+  \textcolor{BrickRed}{'args'}: \textcolor{Purple}{None}, 
+  \textcolor{BrickRed}{'exceptions'}: (\textcolor{Purple}{BatteryNotFoundError}), 
+  \textcolor{BrickRed}{'return'}: dict,
+  \textcolor{BrickRed}{'target'}: get_battery
+  \}, 
+\textcolor{BrickRed}{'get_accelerometer'}: \{
+  \textcolor{BrickRed}{'type'}: \textcolor{BrickRed}{'func'},
+  \textcolor{BrickRed}{'args'}: str, 
+  \textcolor{BrickRed}{'exceptions'}: (\textcolor{Purple}{ValueError}), 
+  \textcolor{BrickRed}{'return'}: list,
+  \textcolor{BrickRed}{'target'}: restricted_get_accelerometer
+  \}
+\}
+\end{Verbatim} 
+
+Note that the symbols in the contract come from \path{foo}'s 
+namespace. Thus the target for the \path{get_battery} in the 
+contract is the \path{foo.get_battery} function. Similarly, the 
+target for the \path{get_accelerometer} in the contract is the 
+\path{foo.restricted_get_accelerometer}.
+
+The verification function uses the contract to perform
+type-checking whenever a function is called. If the verification 
+function detects a semantic violation, the program is terminated. 
+%In addition to type checking, the verification function copies 
+%arguments and return values of mutable types to prevent 
+%time-of-check-to-time-of-use bugs. Since mutable types are 
+%copied, the caller cannot cause a race condition by modifying objects.
+
+\subsubsection{Blurring Layer Instantiation}
+
+Each security layer provides the encasement library
+with a contract to instantiate the next security layer. Eventually
+the final security layer starts the user program with
+the appropriate set of functions. This instantiation process
+is helpful when an experimenter wants to implement a security
+layer that restricts a specific function (an example is given in 
+Section~\ref{sec-precision-example}). This is
+done by substituting a version of the function that enforces
+a given policy. All security layers loaded after this layer will
+have access to the version of the function which enforces this
+new policy. Since every layer above the interposition layer
+has access only to the new version of the function, the experimenter's
+program is forced to use the new policy.
+
+From start to finish, the entire process proceeds as follows. 
+The clearinghouse creates a list of security layers for a researcher's
+experiment, according to the IRB policies specified by this 
+researcher. The sandbox on a mobile device (under the control of
+this researcher) obtains a list of command-line arguments 
+from the clearinghouse, which includes all the security layers.
+%the first of which must be the encasement library.
+%The kernel reads in the encasement library code and uses
+%the virtual namespace abstraction to execute the code with
+%the exported kernel functions. The encasement library
+The sandbox then uses its security layer creation call to instantiate 
+the first security layer according to its contract, or function 
+mapping that contains the kernel's exported functions.
+%the security layer instantiation call, and the remaining
+%command-line arguments. 
+The newly instantiated
+security layer repeats this process using the 
+%encasement library's
+security layer creation call to instantiate the next
+security layer with a potentially updated contract and function
+mapping. Eventually, the experimenter's program is instantiated
+in a separate security layer with the functions provided
+through the stack of security layers that preceded it.
+The experimenter's program will then be subject to all the 
+policies defined in the preceding layers.
+
+\subsubsection{An Example Policy Implementation}
+\label{sec-precision-example}
+
+%\subsubsection{Reducing Data Precision}
+
+The following is an example implementation of location blurring layer. First, \path{get_location()}
+is defined as a sandbox function to get unfiltered location information from a mobile device. 
+
+\begin{Verbatim}
+1. \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{get_location}}():
+2.   \textcolor{BrickRed}{"""}
+3.   \textcolor{BrickRed}{Get raw location data from GPS, network or passive.}
+4.   \textcolor{BrickRed}{"""}
+5. 
+6.   \textcolor{BrickRed}{# start the locating process} 
+7.   sensorlib.request_data(\textcolor{BrickRed}{'startLocating'})
+8.
+9.   \textcolor{BrickRed}{# try to read current location}
+10.  location = sensorlib.request_data(\textcolor{BrickRed}{'readLocation'})
+11.
+12.  \textcolor{BrickRed}{# stop the locating process} 
+13.  sensorlib.request_data(\textcolor{BrickRed}{'stopLocating'})
+14.
+15.  \textcolor{Purple}{if not} location:
+16.    \textcolor{Purple}{raise} LocationNotFoundException    
+17.  
+18.  \textcolor{Purple}{return} location
+\end{Verbatim}
+
+On line 7 above, \path{sensorlib.request_data()} is an RPC call defined in the extended 
+Repy sandbox, 
+%\path{sensor_socket} is the socket for the Repy code to communicate with the native code, 
+and string \path{'startLocating'} is the name of the native Java method that tells the Android 
+location manager to start to look up location information. Line 10 and 13 are similar RPC 
+calls that reads location information from the Android locaiton manager, and stops the location 
+lookup. Since \path{get_location()} is defined in the namespace of the sandbox kernel, it can 
+be used by an experimenter in a sandboxed program if no blurring layer is in place.
+
+When experimenter Bob requests a device, the clearinghouse recognizes that all the location data
+collected by Bob must be filtered down to a blurred location that only identifies a nearest city.
+%rather than the exact location of the device. 
+Therefore, the following blurring layer is
+automatically loaded along with Bob's experiment code. In the following, we name this
+blurring layer \path{blur_to_city}.
+
+\begin{Verbatim}
+1. \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{get_city_location}}():
+2.   \textcolor{BrickRed}{"""}
+3.   \textcolor{BrickRed}{This function replaces the exact coordinates of} 
+4.   \textcolor{BrickRed}{the Android device with the coordinates for the } 
+5.   \textcolor{BrickRed}{geographic center of the nearest city.}
+6.   \textcolor{BrickRed}{"""}
+7.
+8.   location = get_location()
+9.
+10.  closest_city = find_closest_city(location[\textcolor{BrickRed}{"latitude"}],
+11.    location[\textcolor{BrickRed}{"longitude"}])
+12.
+13.  location[\textcolor{BrickRed}{"latitude"}] = closest_city[\textcolor{BrickRed}{"latitude"}]
+14.  location[\textcolor{BrickRed}{"longitude"}] = closest_city[\textcolor{BrickRed}{"longitude"}]
+15.
+16.  \textcolor{Purple}{return} location
+17.
+18. \textcolor{BrickRed}{# Substitute get_location with get_city_location.}
+19. \textbf{CHILD_CONTEXT_DEF[\textcolor{BrickRed}{"get_location"}] = \{}
+20.    \textbf{\textcolor{BrickRed}{"type"}: \textcolor{BrickRed}{"func"},}
+21.    \textbf{\textcolor{BrickRed}{"args"}: \textcolor{Purple}{None},}
+22.    \textbf{\textcolor{BrickRed}{"return"}: \textcolor{Purple}{dict},}
+23.    \textbf{\textcolor{BrickRed}{"exceptions"}: \textcolor{BrickRed}{"any"},}
+24.    \textbf{\textcolor{BrickRed}{"target"}: get_city_location,}
+25. \textbf{\}}
+26.
+27. \textbf{secure_dispatch_module()}
+\end{Verbatim}
+
+
+Line 1 -- 16 defines a new function \path{get_city_location()} which returns a nearest city to the
+device, in \path{blur_to_city}'s namespace that is outside the sandbox kernel. 
+Lines 19 -- 25 defines a contract for \path{get_city_location()}, and stores it in a global dictionary 
+\path{CHILD_CONTEXT_DEF}. The target for \path{get_city_location()} in this
+contract is the sandbox kernel function \path{get_location()} (line 19).
+%On Line 19, \path{CHILD_CONTEXT_DEF} indicates that this data structure is to replace the
+%Repy library function \path{get_location()}. 
+Line 20 - 23 define the function's type, arguments,
+return values, and any potential exceptions. 
+%Line 24 indicates that Repy library function
+%\path{get_location()} will be replaced by \path{get_city_location()} defined in line 1 - 16, once
+%this blurring layer is in effect, which means the blurring layer is enforced via running along a
+%sandboxed program. Finally, in order for this blurring layer to take effect, we need to call
+Finally, \path{secure_dispatch_module()} at the end of the code (line 27) instantiates this
+\path{blur_to_city} layer, when running along with the sandbox kernel. As a result, 
+whenever Bob's experiment code calls \path{get_location()} defined in the sandbox, 
+the \path{blur_to_city} layer replaces it with \path{get_city_location()}. 
+
+Similarly, if Bob's IRB policy disallows access to cell ID, then another blurring layer 
+can substitue the \path{get_cellID()} call in the sandbox kernel with a function that
+returns \path{None}. This layer can be instantiated by any other layers.
+Such a policy implementation is opaque to all the experimenters who run 
+sandboxed programs in Sensibility Testbed.
+
+\subsection{Nanny: Restricting Data Access Frequency}
+
+Reducing data precision partially protects a device owner's privacy. Frequent data 
+access can also be another channel for a program to snoop personal information.
+Additionally, the battery power of a device can be drained if sensors are accessed
+unnecessarily frequently. The sandbox in Sensibility Testbed provides a mechanism
+called \path{nanny}, to mediate and restrict the access to sensors by imposing a quota. 
+
+\subsubsection{Access Regulation}
+
+\path{nanny} treats all sensors as \textit{resources}, and the function calls to 
+access the sensors as the \textit{usage} of resources. \path{nanny}'s control 
+mechanism for a resource is to limit the \textit{rate} of its usage. For example, 
+when an 
+%Utilization is controlled over one or more periods, where
+experiment program's use of the resource is above a given threshold, the 
+program is paused for as long as required to bound it below the
+threshold, on average. Therefore, if an experiment program attempts to 
+use a resource at a rate faster than is allowed, the function 
+call to a sensor is blocked until sufficient time has passed. 
+
+To monitor and control the usage of resources, \path{nanny} keeps a 
+table of resource assignments that track and update requests and releases. 
+Once resource caps are set, an experiment program can never call a 
+function to access a sensor more frequenly than the cap. A function call 
+request can be met only if the frequency is no greater than the cap. 
+
+\subsubsection{An Example Policy Implementation}\label{sec-rate-example}
+
+Since access regulation is a policy, it can also implemented as a blurring layer, 
+in a similar way as reducing the data precision (Section~\ref{sec-precision-example}).
+Recall that in Section~\ref{sec-irb-policy}, Bob's IRB policy requires that
+his experiment can get location updates every 10 minutes (600 seconds). 
+Therefore, the following blurring layer is automatically loaded along with 
+Bob's experiment code. In the following, we name this blurring layer 
+\path{restrict_location}.
+
+\begin{Verbatim}
+1.  \textcolor{BrickRed}{# allow get_location call once per 600 seconds}
+2.  \textbf{resourcesdict = \{\textcolor{BrickRed}{'get_location'}: 1/600\}} 
+3.
+4.  \textbf{nanny.start_resource_nanny(resourcesdict)}
+5.
+6.  \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{restricted_get_location}}():
+7.    \textbf{nanny.tattle_quantity(\textcolor{BrickRed}{'get_location'}, 1)}
+8.    location_data = get_location()
+9.    return location_data
+10.
+11. CHILD_CONTEXT_DEF[\textcolor{BrickRed}{"get_location"}] = \{
+12.   \textcolor{BrickRed}{"type"}: \textcolor{BrickRed}{"func"},
+13.   \textcolor{BrickRed}{"args"}: \textcolor{Purple}{None},
+14.   \textcolor{BrickRed}{"return"}: \textcolor{Purple}{dict},
+15.   \textcolor{BrickRed}{"exceptions"}: \textcolor{BrickRed}{"any"},
+16.   \textcolor{BrickRed}{"target"}:  restricted_get_location,
+17. \}
+18. 
+19. secure_dispatch_module()
+\end{Verbatim}
+
+Line 2 above defines the resrouce assignment table to track and update 
+function calls. Line 4 initializes \path{nanny} with the resrouce assignment 
+table, and line 6 -- 9 defines a 
+function \path{restricted_get_location()} that restricts locaiton updates. 
+The \path{tattle_quantity()} call on line 7 charges \textit{one} location call 
+request. It tells \path{nanny} that \path{get_location()} on line 8 will 
+be called exactly once. Therefore, whenever \path{get_location()} is 
+called by an experiment program, the program will be paused for 600
+seconds before it can call \path{get_location()} again.
+
+The contract on line 11 -- 17 defines that the target
+for \path{restricted_get_location()} is \path{get_location()}. If 
+\path{restrict_location} is the first blurring layer above the sandbox, then
+\path{restricted_get_location()} will replace the \path{get_location()}
+in the sandbox namespace. If there is a preceding blurring layer 
+before \path{restrict_location} that already updated its contract and 
+function mapping for \path{get_location()} (like \path{blur_to_city}  
+in Section~\ref{sec-precision-example}), then
+\path{restricted_get_location()} will replace the \path{get_location()} 
+with the policy implemented in this preceding blurring layer.
+
+The mechanisms in this section are all transparent to the experimenters 
+and device owners, as the implemetation of policies is controlled by the 
+clearinghouse on behalf of the experimenters. An experimenter is aware 
+of a certain policy in place, but does not need to explicitly invoke such a 
+policy. 

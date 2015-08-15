@@ -8,6 +8,64 @@ securely collect data from remote mobile devices.
 
 \subsection{Overview}
 
+\begin{figure}
+\center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
+%\vspace*{-20pt}
+\caption{\small Sensibility Testbed architecture. \yanyan{need 
+to replot this diagram.}
+\label{fig-arch}}
+\end{figure}
+
+\textbf{Interacting parties.}
+In Sensibility Testbed, there are three types of interacting
+parties: mobile devices owned by ordinary people, with our app
+installed; a clearinghouse server that discovers and configures
+participating devices; and researchers wanting to run
+experiments on mobile devices (see Figure~\ref{fig-arch}). Mobile devices
+provide resources and data for researchers to use in their
+experiments. In order to perform safe experiment on mobile
+devices, a researcher must provide to the clearinghouse server
+the IRB policies from his institute for accessing devices. These 
+policies restrict what and how data can be accessed by the 
+researcher. The
+clearinghouse server helps the researcher acquire and manage
+devices, and also codifies the policies specified by the
+researcher's IRB into data blurring layers that are enforced on
+mobile devices (Section~\ref{sec-policy}). Such a process can protect device
+owners' personal information. After obtaining remote sandboxes
+and having IRB policies in place, researchers can perform
+experiment on the devices using their credentials assigned by
+the clearinghouse. Researchers' code runs in a sandbox on any
+remote device that isolates the code from the rest of the device
+host system. To control the execution of code, the researcher
+uses a local machine to manage the experiments via an experiment
+tool (ET). This tool can deploy and run experiments in sandboxes
+on remote devices that are acquired through the clearinghouse.
+
+\textbf{Enforcing IRB approved restrictions.}
+A recent research study has shown that more than half of the 
+surveyed individuals stated no problem in supplying imprecise 
+data from their personal devices to protect their 
+privacy~\cite{fawaz2014location}. Based on this fact, restricting 
+the precision (spatial or temporal precision) or \textit{blurring 
+data} would be a good privacy protection mechanism we can 
+provide for end users. In Sensibility Testbed, the data blurring 
+mechanism is implemented as reference monitors in sandbox, 
+each enforcing an access control 
+policy over sensor access~\cite{ref}. Using a sandboxing 
+technique in our prior work~\cite{cappos2010retaining}, we can 
+interject code to implement privacy policies and control what 
+happens with the data gathered on the device. A sensor access 
+policy can (1) reduce 
+the precision of the raw sensor data returned from a device, such
+as returning the device location at the city granularity; (2) restrict 
+the frequency of accessing a sensor, such as the polling rate of 
+accelerometer, to avoid password inferring; and (3) disable the 
+access to a certain sensor in sensitive situations, such as 
+turning off camera when a device is at residential or work areas.
+\yanyan{we haven't implemented the last one.}
+
+\textbf{Testbed scenarios.}
 Prior to running an experiment on Sensibility Testbed, a
 researcher first fills out a form in plain text to describe the
 purpose of the research experiment. This experiment description
@@ -58,7 +116,6 @@ demonstrate how device owners opt in as volunteers, and how
 researchers do experiment on devices without compromising device
 owners' privacy.
 
-\textbf{Testbed scenarios.}
 To demonstrate how Sensibility Testbed lowers the barriers for
 researchers to perform research experiment on mobile devices,
 and protects device owners' privacy, this section will go
@@ -192,7 +249,7 @@ authorized to use this sandbox on Alice's device, and Alice's
 device is assigned to Bob's experiment account.
 
 \subsubsection{Researcher Securely Access Remote Device}
-
+\yanyan{Albert thinks this is too much detail.}
 After assigning Alice's device to Bob's account, the
 clearinghouse instructs the sandbox on her device to apply data
 access policies for Bob's experiment: For policy (1) defined in

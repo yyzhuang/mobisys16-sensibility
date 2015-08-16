@@ -66,17 +66,25 @@ recruit participants from a trusted group, such as students and
 colleagues. For example, PhoneLab provides a platform for 
 people to run Android apps on their participants' smartphones 
 and log data from these devices. Each participant is provided 
-with an Android device and data plan for a very low cost. This 
-approach cannot solve the privacy issue. With the above usage 
-models, researchers from different research groups are not 
-able to test their hypothesis at a world-wide scale or reuse each 
-others' user base.
+with an Android device and data plan at a very low cost. This 
+approach cannot solve the privacy issue. Although PhoneLab 
+requires experimenters to submit an IRB approval letter for 
+human subjects compliance, the experimenters have to enforce
+the IRB policies in their experiments~\cite{nandugudi2013phonelab}. 
+Moreover, with the above usage models, researchers from 
+different research groups are not able to test their hypothesis 
+at a world-wide scale or reuse each others' user base.
 					
 This work is a first step towards lowering the technical
 barriers to mobile Internet research without lowering the
 ethical standard~\cite{zevenbergen2013ethical}, while 
-protecting the security and privacy of end users. We design 
-and implement Sensibility Testbed~\cite{sensibility, 
+protecting the security and privacy of end users. Our testbed 
+infrastructure codifies experimenters' IRB policies and 
+implements these policies on end devices. Our work also 
+maximizes the reuse of experiment infrastructure, thus reducing 
+experimenters' recruitment and deployment burden. 
+
+We design and implement Sensibility Testbed~\cite{sensibility, 
 zhuang2014sensibility}, an Internet-wide testbed for mobile devices that
 allows researchers to run code and deploy services on ordinary
 people's smartphones or tablets for research purpose. It ensures
@@ -87,11 +95,16 @@ owners make their devices accessible to different research
 communities anonymously, without putting
 their devices at risk. Meanwhile, it offers technical measures
 that allow researchers to collect data from remote mobile
-devices without impairing the device owner's privacy. The
-Sensibility Testbed relieves researcher from the burden of
-recruiting subjects for every single experiment; the device
+devices without impairing the device owner's privacy, by codifying 
+experimenters' IRB policies on end devices. The
+Sensibility Testbed also relieves researcher from the burden of
+recruiting subjects for every single experiment, and 
+experimenters can share their code and user base by reusing
+our testbed infrastructure; the device
 owners need only give consents once, instead of giving multiple
-consents to each project of each researcher.
+consents to each project of each researcher.\yanyan{device owners
+can opt out an experiment: not implemented yet but shall we 
+mention this?}
 
 Sensibility Testbed makes experiment
 prototyping faster, the remote control and management of devices
@@ -109,16 +122,21 @@ policies, specified by a researcher, and implementation of
 these policies on mobile devices to protect the privacy of 
 device owners.
 
-\item A consortium structure for minimizing the pain of IRB 
-approvals.  This enables participants to opt in to a large 
-array of very low risk experiments and for experimenters to 
-get a blanket approval to work with that pool of participants.  
-This eliminates the need for every experiment to get approval 
-from every participant.\yanyan{not sure about this.}
+\item Sensibility Testbed reduces experimenters' burden of 
+recruiting subjects; experimenters can share their code and 
+user base by reusing our testbed infrastructure.
 
-\item \yanyan{Perhaps talk about IRB approved restrictions 
-being technically enforced?  If so, perhaps roll it into the 
-generation of policies.}
+%A consortium structure for minimizing the pain of IRB 
+%approvals.  This enables participants to opt in to a large 
+%array of very low risk experiments and for experimenters to 
+%get a blanket approval to work with that pool of participants.  
+%This eliminates the need for every experiment to get approval 
+%from every participant.\yanyan{not sure about this.}
+
+\item We implement Sensibility Testbed, evaluate its effectiveness
+in protecting device owners' privacy, and its performance 
+\yanyan{what performance can we show?}
 \end{enumerate}
 
-The rest of this paper is organized as follows. 
+The rest of this paper is organized as follows. In Section~\ref{sec-design}
+we introduce the design of Sensibility Testbed.

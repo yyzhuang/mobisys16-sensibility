@@ -149,7 +149,11 @@ To install the sandbox on a device, a device owner downloads
 our Sensibility Testbed app from the Google Play Store \cite{sensibility-app}.
 The app contains the Repy sandbox, native Android code to 
 start or stop the sandbox, and interface to communicate with the testbed 
-infrastructure, mainly the clearinghouse (described below).
+infrastructure, mainly the clearinghouse (described below). 
+However, the Repy sandbox does not include calls to access sensors. 
+To obtain the sensor data, we need to extend the sandbox. 
+The extended Repy sandbox will be described in Section~\ref{sec-repy-ext}
+with more details.
 
 \subsubsection{Clearinghouse}\label{sec-ch}
 The clearinghouse~\cite{ch} is a testbed server that keeps track of 
@@ -285,18 +289,16 @@ type (3G, 4G, LTE, etc.), and signal strength.
 When Alice, a smartphone owner, decides to participate in
 Sensibility Testbed, she first downloads our Sensibility Testbed
 app~\cite{sensibility-app}, currently supports Android devices.
-This app contains a testbed key that we call
-\path{key.sensibility}, a secure sandbox for researchers to run
-experiments on Alice's device (Section XX), and native Android
-code to start or stop the sandbox, access sensors on Alice's
-device, handle user interaction, and communicate with the
-testbed clearinghouse. Before installation, the app displays a
+This app contains a testbed key \path{key.sensibility} used for 
+device discovery, the Repy sandbox (Section~\ref{sec-repy}), 
+and native Android code to handle user interaction, communicate 
+with the clearinghouse, and so on. Before installation, the app displays a
 consent form to Alice \yanyan{cite link}, where she can review
 the testbed's general usage policy \yanyan{cite link}. If Alice
 agrees to the terms and policy, the app will be installed on her
 device. When the app is started, Alice's device can be
-discovered by the clearinghouse (device discovery is discussed
-in Section XX). To keep track of Alice's device, the
+discovered by the clearinghouse (Section~\ref{sec-acquire-run}). 
+To keep track of Alice's device, the
 clearinghouse uses a database that stores her device's unique
 cryptographic key \path{key.alice} generated during
 installation. This key is not associated with Alice's or her
@@ -310,24 +312,25 @@ individual experiments.
 \subsubsection{Researcher Provides IRB
 Policies}\label{sec-irb-policy}
 
-To run code on Sensibility Testbed, researcher Bob provides a
-detailed experiment description to our clearinghouse. The IRB at
-Bob's institution specifies what data can be accessed by a
-research experiment, at which granularity or frequency can such
-data be accessed, how data should be securely stored, and so on.
+To run code on Sensibility Testbed, experimenter Bob provides a
+set of detailed IRB policies by his institution. The policies specify 
+what data can be accessed by a research experiment, at which 
+granularity or frequency can such data be accessed, how data 
+should be securely stored, and so on.
 For example, Bob's experiment can (1) read location information
 from devices at the granularity of a city, (2) read accurate
 cellular signal strength and network type, but no information
 about cell IDs should be accessed, and (3) get location and
-cellular network data updates every 10 minutes. Bob submits an
-experiment description for these requirements, which the
-clearinghouse will codify into policies that are later enforced
-on remote mobile devices (Section~\ref{sec-ch}).
+cellular network data updates every 10 minutes. 
+%Bob submits an
+%experiment description for these requirements, which the
+%clearinghouse will codify into policies that are later enforced
+%on remote mobile devices (Section~\ref{sec-ch}).
 
 Note that Bob cannot request access to all sensors at any rate
 even his IRB approves such a policy. The Sensibility Testbed's
 IRB allows a set of default policies to access to sensors in a
-way that is low risk, whose access can be pre-approved with the
+way that is low risk, \yanyan{cite}whose access can be pre-approved with the
 researcher's local IRB. However, Sensibility Testbed does not
 provide unfettered access to all sensors. Access to sensors of
 higher risk needs to go through the Sensibility Testbed's IRB,
@@ -340,28 +343,19 @@ account and request a number of devices from our clearinghouse.
 \subsubsection{Researcher Acquires Device(s) and Runs an
 Experiment}\label{sec-acquire-run}
 
-The above clearinghouse protocol ensures the enforcement of data
-access policies. Additionally, to perform an experiment, the
-following interactions are necessary: (a) Bob needs to write
-experiment code in a language supported by our secure sandbox,
-(b) the clearinghouse needs to acquire and assign devices to
-Bob's experiment account, and (c) Bob needs to securely access
-the devices and run the experiment code. The following describes
-these three interactions.
-
-%Suppose a device owner Alice installs the Sensibility Testbed app. 
-When the app is started on Alice's device, her devices can be 
-discovered by the clearinghouse. This is achieved
-by distributing a testbed-specific key, \path{key.sensibility},
-with the app downloaded and installed by Alice. When the app is
-started, her device contacts a lookup service to advertise
-itself to Sensibility Testbed. \yanyan{add lookup service in Fig 1?}
+%The above clearinghouse protocol ensures the enforcement of data
+%access policies. Additionally, 
+To perform an experiment, the clearinghouse first needs to 
+acquire and assign devices to Bob's experiment account. 
+Recall that a testbed-specific key, \path{key.sensibility}, is distributed
+with the Sensibility Testbed app downloaded and installed by device
+owners (Section~\ref{sec-owner-participate}). When the app is started, 
+Alice's device contacts a lookup service to advertise itself to Sensibility 
+Testbed. \yanyan{add lookup service in Fig 1?}
 The clearinghouse periodically queries the lookup service to
 discover any new devices. Once Alice's device is discovered, the
 clearinghouse obtains its install key \path{key.alice} generated
-during installation, and stores this key in a database. Note that
-this key is not associated with Alice's identity 
-(Section~\ref{sec-owner-participate}).
+during installation, and stores this key in a database. 
 
 %\yanyan{Albert thinks this is too much detail.}
 At this moment,  Bob has obtained an account with the clearinghouse 
@@ -375,12 +369,22 @@ clearinghouse first
 %adds Bob's public key, \path{key.bob-pub}, to
 %the sandbox on Alice's device. This indicates that Bob is
 %authorized to use this sandbox on Alice's device, and 
-assigns Alice's device to Bob's experiment account, 
-then instructs the sandbox on her device to apply data
-access policies for Bob's experiment: For policy (1) defined in
+assigns Alice's device to Bob's experiment account, then instructs 
+the sandbox on Alice's device to add Bob's policies by preloading
+a set of blurring layer code.
+%Bob writes his experiment 
+%code in the Python-like language supported by our secure sandbox.
+%The following is a snipet of code that gets location coordinates 
+%from a device:
+
+Next, Bob needs to upload his code to Alice's devices and 
+run the experiment. When he accesses the device through
+the experiment management tool, the sandbox on Alice's device 
+applies the data access policies loaded by the clearinghouse: For policy (1) in
 Section~\ref{sec-irb-policy}, the sandbox blurs the location
 information returned from Alice's phone down to the coordinates
 of the nearest city; for policy (2), the sandbox blocks the
 access to cell IDs; for policy (3), the sandbox limits the rate
 of GPS location and cellular network queries from Bob's
 experiment to one every 10 minutes.
+

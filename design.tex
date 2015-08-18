@@ -55,28 +55,31 @@ acquired through the clearinghouse (Section~\ref{sec-emt}).
 
 \subsubsection{Enforcing IRB Approved Policies}
 Experiment code on smartphones and tablets mainly access
-the \textit{sensors} on these devices. In this work, we broadly 
+the \textit{sensors} on these devices, as they provide  
+interesting data for research projects. In this work, we broadly 
 define sensors as the hardware components that can record 
 phenomena about the physical world, such as the WiFi/cellular 
 network, GPS location, movement acceleration, etc. Although
-these sensors provide much convenience in everyday apps, 
-they expose sensitive information that may contain device 
-owner's personal information.
+these sensors provide much convenience to end users, they 
+could expose sensitive information that may contain the device 
+owner's personal information due to their close proximity to 
+the owners.
 
-However, there are ways to use these sensor data without 
-compromising device owners' privacy.
+Fortunately, studies have given some hints that we can use 
+these sensor data without compromising device owners' privacy.
 A recent research study has shown that more than half of the 
 surveyed individuals stated no problem in supplying imprecise 
 sensor data from their personal devices to protect their 
 privacy~\cite{fawaz2014location}. Based on this fact, restricting 
-the precision, or \textit{blurring 
-data}, can be a good privacy protection mechanism we can 
-provide for end users. 
+the amount of data accessible, such as reducing the precision or 
+access frequency, can be a good privacy protection mechanism we can 
+provide for end users. In this work, we call this mechanism 
+\textit{data blurring}.
 
 In Sensibility Testbed, the data blurring 
-mechanism is implemented as reference monitors in a sandbox, 
-each enforcing an access control 
-policy over sensor access~\cite{ref}. Using a sandboxing 
+mechanism is implemented as reference monitors in a 
+sandbox~\cite{ref}, each enforcing an access control 
+policy over sensor access. Using a sandboxing 
 technique in our prior work~\cite{cappos2010retaining}, we can 
 interject code to implement privacy policies and control what 
 happens with the data gathered on the device. A sensor access 
@@ -106,8 +109,8 @@ and an experiment management tool.
 %experiment code from the device host system. 
 Instead of developing full-fledged Android apps, all 
 experiments in Sensibility Testbed are written in a language
-similar to Python, and run in a restricted, Python-based
-sandbox called Repy, or Restricted Python\footnote{This is the 
+similar to Python, and run in a restricted %Python-based
+sandbox called Repy (Restricted Python)\footnote{This is the 
 same security-reviewed sandbox~\cite{cappos2010retaining} used in
 our prior work, the Seattle testbed~\cite{seattle}. This sandbox
 mitigates the impact of bugs in experimenter code. It
@@ -115,7 +118,7 @@ has been deployed on the Seattle testbed over the last 6 years.
 Our experience has shown that the risk of it being faulty is
 very low.}. The sandbox exposes a programming 
 interface~\cite{repyv2} to experimenter programs to access 
-resources on the device. It provides performance isolation: 
+resources on the device. It provides performance isolation.
 Repy uses OS hooks to monitor and control the amount of 
 CPU and memory used by a sandboxed program. To restrict 
 other resources, such as network and disk I/O, the sandbox 
@@ -151,9 +154,9 @@ The app contains the Repy sandbox, native Android code to
 start or stop the sandbox, and interface to communicate with the testbed 
 infrastructure, mainly the clearinghouse (described below). 
 However, the Repy sandbox does not include calls to access sensors. 
-To obtain the sensor data, we need to extend the sandbox. 
-The extended Repy sandbox will be described in Section~\ref{sec-repy-ext}
-with more details.
+%To obtain the sensor data, we need to extend the sandbox. 
+The extended Repy sandbox that allows access to sensor 
+data will be described in Section~\ref{sec-repy-ext} with more details.
 
 \subsubsection{Clearinghouse}\label{sec-ch}
 The clearinghouse~\cite{ch} is a testbed server that keeps track of 
@@ -178,8 +181,9 @@ extend beyond the experiment policy. The clearinghouse
 translates and codifies each policy, and instructs the 
 sandboxes on remote devices to implement these policies. 
 When experiment code is running in the sandbox, the 
-policies will be applied to restrict the precision of sensor 
-data or the frequency to access sensors. This Sensibility Testbed
+policies will be applied to restrict %the precision of sensor 
+%data or the frequency to access 
+sensor access. This Sensibility Testbed
 clearinghouse protocol for research plays a central role in
 easing the device recruitment and experiment setup for experimenters, 
 and ensures the enforcement
@@ -217,7 +221,7 @@ data to the experimenter's server. After the data is collected, how to store
 the data securely is mandated by the experimenter's IRB.}.
 
 \smallskip
-\textbf{Summary.}
+\textbf{Summary:}
 %Prior to running an experiment on Sensibility Testbed, a
 %experimenter first fills out a form in plain text to describe the
 %purpose of the research experiment. This experiment description
@@ -250,8 +254,6 @@ Using Sensibility Testbed, experimenters are able to go
 through a streamlined process of device recruitment and 
 experiment setup, and device owners' privacy is protected
 from any inadvertent or malicious attempt.
-The testbed reduces the burden from both the device owners and
-experimenters. 
 
 By agreeing to our general usage policy, device 
 owners of different ages, from different countries, with different
@@ -262,7 +264,9 @@ experiment
 %them devices from a set of available resources. As a result, 
 %the researcher
 does not need to get consent from each subject for each individual
-experiment. 
+experiment. The testbed thus reduces the burden from both the 
+device owners and experimenters. 
+
 %the device owners do not need to give consents 
 %multiple times, to each project of each researcher. 
 In the following, we use several use cases to
@@ -329,7 +333,7 @@ cellular network data updates every 10 minutes.
 
 Note that Bob cannot request access to all sensors at any rate
 even his IRB approves such a policy. The Sensibility Testbed's
-IRB allows a set of default policies to access to sensors in a
+IRB allows a set of default policies to access sensors in a
 way that is low risk, \yanyan{cite}whose access can be pre-approved with the
 researcher's local IRB. However, Sensibility Testbed does not
 provide unfettered access to all sensors. Access to sensors of

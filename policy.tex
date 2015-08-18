@@ -81,17 +81,18 @@ The sandbox kernel determines how IRB policies are implemented by affecting API 
 interpose on a call and modify the data returned, or control the frequency a call can be made over
 a period of time. 
 %As mentioned above, Bob provided his IRB policies through our clearinghouse.
-Before Bob runs his experiment, the clearinghouse loads the access policies and instructs the sandbox on Alice's device to
-restrict sensor access accordingly. 
+%Before Bob runs his experiment, the clearinghouse loads the access policies and instructs the sandbox on Alice's device to
+%restrict sensor access accordingly. 
 
 Using the \path{get_location()} call as an example, 
 when Bob's code requests location data from Alice's device, the Repy sandbox first
-invokes the location-related Android code (line 10 in Figure~\ref{fig-getlocation}). 
+invokes the location-related Android code. 
+%(line 10 in Figure~\ref{fig-getlocation}). 
 When the location data is returned, Bob's IRB policy
 indicates that the returned location coordinates should be blurred to the nearest city to Alice's
 device, instead of her actual location. As a result, the sandbox returns an approximate location to
 Bob's program. Furthermore, as Bob's IRB policy disallows collecting information about cell tower
-IDs, any access to cell IDs is blocked entirely on Alice's device. Similarly, other information
+IDs, any access to cell IDs is blocked entirely on Alice's device, by another policy. Similarly, other information
 like WiFi SSID can be blurred to a hashed string, the frequency to access an accelerometer or a
 gyroscope~\cite{michalevsky2014gyrophone} can be restricted to prevent inferring passwords from the
 movement and tilt of the device, and so on. 
@@ -110,10 +111,10 @@ and the implementation of each policy a \textit{blurring layer}.
 %technique, and how it is used in Sensibility Testbed.
 
 In Sensibility Testbed, we construct a researcher's IRB policies as a set of 
-isolated and contained reference monitors called blurring layers. They can 
+isolated and contained reference monitors called blurring layers. They each
+implement one IRB policy, and can 
 be stacked together to form a policy stack. A lower layer is the ancestor of 
-a higher layer. Each 
-blurring layer implements an IRB policy, is untrusted by its ancestor layers, 
+a higher layer. Each blurring layer is untrusted by its ancestor layers, 
 but is trusted by its descendant layers. Every layer inherits the policy 
 defined by its ancestor layer. The experiment program is on the top 
 of the policy stack, therefore it inherits all the policies defined by the
@@ -304,8 +305,8 @@ a nearest city to the device.
 %in \path{blur_to_city}'s namespace that is outside the sandbox kernel. 
 Lines 19 -- 25 defines a contract for \path{get_city_location()}. 
 %and stores it in a global dictionary \path{CHILD_CONTEXT_DEF}. 
-The target for \path{get_city_location()} in this
-contract is the sandbox kernel function \path{get_location()} (line 19).
+In this contract, the target for the sandbox kernel function 
+\path{get_location()} (line 19) is \path{get_city_location()} (line 24).
 This means that \path{get_city_location()} will substitute  
 \path{get_location()} defined by the sandbox.
 %On Line 19, \path{CHILD_CONTEXT_DEF} indicates that this data structure is to replace the
@@ -334,7 +335,7 @@ Reducing data precision partially protects a device owner's privacy. Frequent da
 access can also be another channel for a program to snoop personal information.
 Additionally, the battery power of a device can be drained if sensors are accessed
 unnecessarily frequently. The sandbox in Sensibility Testbed provides a second mechanism
-called \path{nanny}, to mediate and restrict the access frequency to sensors. 
+called \path{nanny} that mediates and restricts the access frequency to sensors. 
 
 \subsubsection{Access Regulation}
 
@@ -399,7 +400,7 @@ next time this experiment program
 will be paused for 600 seconds before it can call \path{get_location()} again.
 
 The contract on line 11 -- 17 defines that the target
-for \path{restricted_get_location()} is \path{get_location()}. If 
+for \path{get_location()} is \path{restricted_get_location()}. If 
 \path{restrict_location} is the first descendant of the sandbox kernel, then
 \path{restricted_get_location()} will replace the \path{get_location()}
 in the sandbox virtual namespace. If there is a preceding blurring layer 
@@ -407,7 +408,9 @@ before \path{restrict_location} that already updated its
 function mapping for \path{get_location()} (like \path{blur_to_city}  
 in Section~\ref{sec-precision-example}), then
 \path{restricted_get_location()} will replace the \path{get_location()} call
-with the policy implemented in this preceding blurring layer.
+with the policy implemented in this preceding blurring layer.\yanyan{but
+will the call to \path{get_location(}) still return city location in this case? 
+How to explain?}
 
 \smallskip
 The mechanisms in this section are all transparent to the experimenters 

@@ -301,7 +301,11 @@ of the sandbox kernel.
 
 
 Line 1 -- 16 defines a new function \path{get_city_location()} which returns 
-a nearest city to the device. 
+a nearest city to the device. On line 10 -- 11, the function \path{find_closest_city()}
+uses a quadtree-like algorithm~\cite{gruteser2003anonymous} that subdivides 
+the area around the device until the area contains at least a city.
+This algorithm can be applied similarly if a policy requires location 
+precision at the state/province or country level.
 %in \path{blur_to_city}'s namespace that is outside the sandbox kernel. 
 Lines 19 -- 25 defines a contract for \path{get_city_location()}. 
 %and stores it in a global dictionary \path{CHILD_CONTEXT_DEF}. 
@@ -333,7 +337,13 @@ sandboxed programs in Sensibility Testbed.
 
 Reducing data precision partially protects a device owner's privacy. Frequent data 
 access can also be another channel for a program to snoop personal information.
-Additionally, the battery power of a device can be drained if sensors are accessed
+For example, if sensor queries are made sufficiently frequent, they can be used
+to track an individual's activity. The goal is to prevent an accumulation of identifiable 
+information, similar to prior work like~\cite{gruteser2003anonymous}\footnote{The 
+details about how frequent a certain sensor can be accessed to avoid such an 
+attack is out of the scope of this work.}. 
+Additionally, the battery power of a device can 
+be drained faster if sensors are accessed
 unnecessarily frequently. The sandbox in Sensibility Testbed provides a second mechanism
 called \path{nanny} that mediates and restricts the access frequency to sensors. 
 

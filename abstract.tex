@@ -1,24 +1,47 @@
 \begin{abstract}
-Recent interest in mobile networks and systems has resulted in increasing
-research studies about personal devices such as smartphones and
-tablets. Because of mobile devices' proximity to people, if used properly,
-they can be of tremendous value to the research community. However,
-the privacy and security challenges have also increased
-dramatically. In this paper we introduce Sensibility Testbed, a
-testbed with security and privacy techniques that ensure the
-security of user-owned devices, and the privacy of
-user-generated data. The use model of Sensibility Testbed is
-unique in that it (1) manages how device owners make their
-devices accessible to the research community, and (2) offers
-experiment measures to researchers that allow them to collect
-data from remote mobile devices without rendering these devices
-at risk.
-					
-Sensibility Testbed provides privacy mechanisms to protect
-device owners' privacy by mediating data access according to
-researcher's IRB policies. The testbed also uses security
-measures to prevent any inadvertent or malicious bugs in
-experiment code and thus protects the devices. Sensibility
+The research potential of personal devices, such as smartphones
+and tablets, has sparked a number of recent research initiatives.
+Because these devices are omnipresent, they could be of tremendous
+value to the research community. Unfortunately, the expanded use of
+these devices also has lead to increased privacy and security 
+challenges, which makes research on these devices difficult.
+In this paper we introduce Sensibility Testbed, an experimental  
+platform for advancing the use of smart devices in research, 
+%security and privacy measures to ensure the
+while ensuring the security of the mobile devices and the privacy of
+the data generated. 
+%The use model of Sensibility Testbed is
+%unique in that it (1) manages how device owners make their
+%devices accessible to the research community, and (2) offers
+
+Sensibility Testbed's platform design not only encourages reusing 
+experiment code and infrastructure, but also saves effort on 
+recruiting participants and managing a deployment. 
+Furthermore, Sensibility Testbed maintains device safety and privacy of 
+participants. Experiment code runs in isolated sandboxes to 
+prevent any inadvertent or malicious bugs. Access 
+to sensor values is mediated according to the policies 
+set by the institutional review board of the researcher's 
+university or institution. 
+%using a combination of blurring and rate-limiting. 
+This allows Sensibility Testbed to cater to a wider range of 
+participants than prior mobile testbeds. 
+%beyond that of previous campus-only,
+%incentivized testbeds, thereby adding to the diversity of the
+%installed base in terms of participating devices, OS software
+%versions, network operators, participant demographics, countries,
+%etc.
+%
+%experiment measures to researchers that allow them to collect
+%data from remote mobile devices without rendering these devices
+%at risk. 
+%					
+%Sensibility Testbed provides privacy mechanisms to protect
+%device owners' privacy by mediating data access according to
+%researcher's IRB policies. The testbed also uses security
+%measures to prevent any inadvertent or malicious bugs in
+%experiment code and thus protects the devices. 
+Therefore, Sensibility
 Testbed allows safe research without rendering devices
 vulnerable, and lowers the barriers for researchers to perform
 research experiment on end users' mobile devices.

@@ -1,10 +1,10 @@
 \section{Sensibility Testbed Design}\label{sec-design}
 
-This section describes the design of Sensibility Testbed. On one
+This section describes the design of the Sensibility Testbed. On one
 hand, Sensibility Testbed manages how device owners make their
 devices accessible to the research community. On the other hand,
 it offers technical resources to researchers that allow them to
-securely collect data from remote mobile devices. We start from 
+securely collect data from remote mobile devices. We start with  
 an overview of the testbed infrastructure (Section~\ref{sec-overview}), 
 and a description of each testbed component 
 (Section~\ref{sec-component}), then finally a discussion of how all the 
@@ -54,30 +54,28 @@ and run experiments in sandboxes on remote devices that are
 acquired through the clearinghouse (Section~\ref{sec-emt}).
 
 \subsubsection{Enforcing IRB Approved Policies}
-Experiment code on smartphones and tablets mainly access
+Experiment code on smartphones and tablets mainly accesses
 the \textit{sensors} on these devices, as they provide  
 interesting data for research projects. In this work, we broadly 
 define sensors as the hardware components that can record 
 phenomena about the physical world, such as the WiFi/cellular 
 network, GPS location, movement acceleration, etc. Although
 these sensors provide much convenience to end users, they 
-could expose sensitive information that may contain the device 
-owner's personal information due to their close proximity to 
-the owners.
+could expose sensitive information about the device 
+owner.
 
-Fortunately, studies have given some hints that we can use 
-these sensor data without compromising device owners' privacy, 
-while still sufficient for service functioning.
+Fortunately, studies have given some hints that we can access and use 
+this sensor data without compromising device owners' privacy or service functioning.
 A recent research study has shown that more than half of the 
 surveyed individuals stated no problem in supplying imprecise 
 sensor data from their personal devices to protect their 
 privacy~\cite{fawaz2014location}. Experience also has shown 
 that imprecise information is sufficient for a large class of 
 services. For example, the US Federal Coomunications 
-Commission requires that for wireless emergency callers, the 
-emergency rescue and response teams are able to estimate the 
-caller's position with an accuracy of 125~m (RMS) in 67\% of
-cases, instead of the exact location. Based on these fact, restricting 
+Commission requires that instead of the exact location, , the 
+emergency rescue and response teams are able to estimate the 911 
+wireless emergency caller's position with an accuracy of 125~m 
+(RMS). Based on these fact, restricting 
 the amount of data accessible, such as reducing the precision or 
 access frequency, can be a good privacy protection mechanism we can 
 provide for end users. In this work, we call this mechanism 
@@ -92,17 +90,17 @@ interject code to implement privacy policies and control what
 happens with the data gathered on the device. A sensor access 
 policy can (1) reduce 
 the precision of the raw sensor data returned from a device, such
-as returning the device location at the city granularity; (2) restrict 
+as returning the location of a nearest city rather than the device's exact location; (2) restrict 
 the frequency of accessing a sensor, such as the polling rate of 
-accelerometer, to avoid password inferring; and (3) disable the 
+accelerometer, to avoid password inferring; and (3) disable  
 access to a certain sensor in sensitive situations, such as 
 turning off camera when a device is at residential or work areas.
-The last policy is our ongoing work. This paper mainly handles
+The last policy is our ongoing work. This paper mainly addresses
 the first two types of policies. 
 
 \subsection{Testbed Components}\label{sec-component}
 
-The components of Sensibility Testbed are shown in Figure~\ref{fig-arch}.
+The components of the Sensibility Testbed are shown in Figure~\ref{fig-arch}.
 They are central to the operation of the testbed. 
 In this section, we describe the function of each component: the
 secure sandbox~\cite{cappos2010retaining}, the clearinghouse~\cite{ch}, 
@@ -276,9 +274,9 @@ device owners and experimenters.
 
 %the device owners do not need to give consents 
 %multiple times, to each project of each researcher. 
-In the following, we use several use cases to
+In the following, we present several use cases to
 demonstrate how device owners opt in as volunteers, and how
-researchers do experiment on devices without compromising device
+researchers do experiments on devices without compromising device
 owners' privacy.
 
 \subsection{Testbed Scenarios}\label{sec-scenario}
@@ -299,7 +297,7 @@ type (3G, 4G, LTE, etc.), and signal strength.
 
 When Alice, a smartphone owner, decides to participate in
 Sensibility Testbed, she first downloads our Sensibility Testbed
-app~\cite{sensibility-app}, currently supports Android devices.
+app~\cite{sensibility-app}, which currently supports Android devices.
 This app contains a testbed key \path{key.sensibility} used for 
 device discovery, the Repy sandbox (Section~\ref{sec-repy}), 
 and native Android code to handle user interaction, communicate 
@@ -324,14 +322,14 @@ individual experiments.
 Policies}\label{sec-irb-policy}
 
 To run code on Sensibility Testbed, experimenter Bob provides a
-set of detailed IRB policies by his institution. The policies specify 
+set of detailed IRB policies from his institution. The policies specify 
 what data can be accessed by a research experiment, at which 
-granularity or frequency can such data be accessed, how data 
+granularity or frequency such data can be accessed, how data 
 should be securely stored, and so on.
 For example, Bob's experiment can (1) read location information
 from devices at the granularity of a city, (2) read accurate
-cellular signal strength and network type, but no information
-about cell IDs should be accessed, and (3) get location and
+cellular signal strength and network type, but not allow access to 
+information about cell IDs, and (3) get location and
 cellular network data updates every 10 minutes. 
 %Bob submits an
 %experiment description for these requirements, which the
@@ -339,13 +337,13 @@ cellular network data updates every 10 minutes.
 %on remote mobile devices (Section~\ref{sec-ch}).
 
 Note that Bob cannot request access to all sensors at any rate
-even his IRB approves such a policy. The Sensibility Testbed's
+even if his IRB approves such a policy. The Sensibility Testbed's
 IRB allows a set of default policies to access sensors in a
-way that is low risk, \yanyan{cite}whose access can be pre-approved with the
+way that is low risk, \yanyan{cite}and for which access can be pre-approved with the
 researcher's local IRB. However, Sensibility Testbed does not
 provide unfettered access to all sensors. Access to sensors of
 higher risk needs to go through the Sensibility Testbed's IRB,
-in addition to the researcher's IRB. For most cases, we expect
+in addition to the researcher's IRB. In most cases, we expect
 that a researcher need only go through their local IRB to get
 the sensor access they need for their experiment. After
 providing his IRB policies, Bob next can obtain an experiment
@@ -397,5 +395,5 @@ information returned from Alice's phone down to the coordinates
 of the nearest city; for policy (2), the sandbox blocks the
 access to cell IDs; for policy (3), the sandbox limits the rate
 of GPS location and cellular network queries from Bob's
-experiment to one every 10 minutes.
+experiment to one in every 10 minutes.
 

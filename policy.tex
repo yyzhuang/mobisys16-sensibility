@@ -60,7 +60,7 @@ defined in the extended Repy sandbox,
 %\path{sensor_socket} is the socket for the Repy code to communicate with the native code, 
 and the string \path{'startLocating'} is the name of the native Java method that tells the Android 
 location manager to start to look up location information. Line 10 and 13 are similar RPC 
-calls that reads location information from the Android locaiton manager, and stops the location 
+calls that read location information from the Android location manager, and stops the location 
 lookup. Therefore, \path{get_location()} %is defined in the namespace of the sandbox kernel, it 
 can be used by an experimenter in a sandboxed program if no blurring layer is in place.
 A full list of sensor
@@ -328,7 +328,7 @@ whenever Bob's experiment code calls \path{get_location()} defined in the sandbo
 the \path{blur_to_city} layer replaces it with \path{get_city_location()}. 
 
 Similarly, if Bob's IRB policy disallows access to cell ID, then another blurring layer 
-can substitue the \path{get_cellID()} call in the sandbox kernel with a function that
+can substitute the \path{get_cellID()} call in the sandbox kernel with a function that
 returns \path{None}. %This layer can be instantiated by any other layers.
 Such a policy implementation is opaque to all the experimenters who run 
 sandboxed programs in Sensibility Testbed.
@@ -344,8 +344,8 @@ details about how frequent a certain sensor can be accessed to avoid such an
 attack is out of the scope of this work.}. 
 Additionally, the battery power of a device can 
 be drained faster if sensors are accessed
-unnecessarily frequently. The sandbox in Sensibility Testbed provides a second mechanism
-called \path{nanny} that mediates and restricts the access frequency to sensors. 
+with unnecessary frequency. The sandbox in Sensibility Testbed provides a second mechanism
+called \path{nanny} that mediates and restricts access frequency to sensors. 
 
 \subsubsection{Access Regulation}
 
@@ -398,10 +398,10 @@ Bob's experiment code. In the following, we name this blurring layer
 19. secure_dispatch_module()
 \end{Verbatim}
 
-Line 2 above defines the resrouce assignment table to track and update 
+Line 2 above defines the resource assignment table to track and update 
 the function call to \path{get_location()}. Line 4 initializes \path{nanny} 
-with the resrouce assignment table, and line 6 -- 9 defines a 
-function \path{restricted_get_location()} that restricts locaiton updates. 
+with the resource assignment table, and line 6 -- 9 defines a 
+function \path{restricted_get_location()} that restricts location updates. 
 The \path{tattle_quantity()} call on line 7 charges \textit{one} \path{get_location()} call 
 request. It tells \path{nanny} that when \path{restricted_get_location()} 
 is called, \path{get_location()} (line 8) will be called exactly once. The

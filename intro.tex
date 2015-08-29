@@ -65,8 +65,18 @@ how to obtain subjects' informed consent, etc. IRB also
 regulates data collected from the subjects, e.g., what data can be collected, what can 
 be done after the data has been collected, and so on. This
 process is time-consuming, and the researcher needs to repeat
-the process for different projects. Even with participants 
-recruited according to the policy, researchers from different 
+the process for different projects. To lower potential security and 
+privacy risks and to ease the participant recruitment, many of the current testbeds choose to 
+recruit participants from a trusted group, such as students and 
+colleagues. For example, PhoneLab provides a platform for 
+people to run Android apps on their participants' smartphones 
+and log data from these devices. %Each participant is provided 
+%with an Android device and data plan at a very low cost. 
+This does not solve the privacy issue. 
+The participants in this case are on-campus students and faculty, 
+and thus not representable of the general smart device users. 
+The research results could potentially be biased.
+Even with participants recruited, researchers from different 
 groups cannot test their hypothesis at a world-wide scale. 
 %or reuse each other's user base, experiment code, and infrastructure.
   
@@ -108,21 +118,12 @@ different research groups have to repeat effort in their individual
 experiment deployment, infrastructure set up, policy implementation, etc. 
 %or reuse each others' user and code base.
 
-To lower potential security and privacy risks, many of the current testbeds choose to 
-recruit participants from a trusted group, such as students and 
-colleagues. For example, PhoneLab provides a platform for 
-people to run Android apps on their participants' smartphones 
-and log data from these devices. %Each participant is provided 
-%with an Android device and data plan at a very low cost. 
-The participants in this case are on-campus students and faculty, 
-and thus not representable of the general smart device users. 
-The research results could potentially 
-be biased.
 					
 The research presented in this paper is a first step towards lowering the technical
 barriers to research on personal mobile devices without lowering the
-ethical standards of the research institution~\cite{zevenbergen2013ethical}, while still 
-protecting the security and privacy of end users. We design and implement 
+ethical standards of the research institution~\cite{zevenbergen2013ethical}. 
+%while still protecting the security and privacy of end users. 
+We designed and implemented 
 Sensibility Testbed~\cite{sensibility, zhuang2014sensibility}, a 
 public, Internet-wide testbed for mobile devices that
 allows researchers to run code and deploy services on ordinary
@@ -135,18 +136,20 @@ maximizes the reuse of experiment infrastructure, thus reducing
 experimenters' recruitment and deployment burden. 
 
 Sensibility Testbed is a unique research testbed in several ways.
-First, the usage model of Sensibility Testbed is
-unique in that it maintains testbed services to manage how device 
+First, %the usage model of Sensibility Testbed is
+%unique in that 
+it maintains testbed services to manage how device 
 owners make their devices accessible to different research 
 communities anonymously, without putting
-their devices at risk. Sensibility Testbed offers technical measures
-that allow researchers to collect data from remote mobile
-devices without impairing the device owner's privacy by codifying 
-experimenters' IRB policies on end devices. 
-Sensibility Testbed also relieves researchers from the burden of
+their devices at risk. 
+%Sensibility Testbed offers technical measures
+%that allow researchers to collect data from remote mobile
+%devices without impairing the device owner's privacy by codifying 
+%experimenters' IRB policies on end devices. 
+Second, Sensibility Testbed relieves researchers from the burden of
 recruiting subjects for every single experiment, and 
 experimenters can share their code and user base by reusing
-our testbed infrastructure; the device
+our testbed infrastructure. The device
 owners need only give consent once, instead of 
 consenting to each project of each researcher separately.\yanyan{device owners
 can opt out an experiment: not implemented yet but shall we 

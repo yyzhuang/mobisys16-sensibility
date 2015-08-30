@@ -14,60 +14,11 @@ and protect device owners' personal information
 
 \subsection{Overview}\label{sec-overview}
 
-\begin{figure}
-\center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
-%\vspace*{-20pt}
-\caption{\small Sensibility Testbed architecture. \yanyan{need 
-to replot this diagram.}
-\label{fig-arch}}
-\end{figure}
-
-\subsubsection{Interacting Parties}\label{sec-parties}
-In Sensibility Testbed, there are three types of interacting
-parties, as shown in Figure~\ref{fig-arch}: mobile devices 
-owned by ordinary people, with our app installed; a 
-clearinghouse server that discovers and configures
-participating devices; and researchers wanting to run
-experiments on mobile devices. 
-
-Mobile devices
-provide resources and data for researchers to use in their
-experiments. In order to perform safe experiments on mobile
-devices, a researcher must provide to the clearinghouse server
-the IRB policies from his institute for accessing devices 
-(Section~\ref{sec-ch}). \yanyan{need a screenshot} These 
-policies restrict what and how data can be accessed by the 
-researcher. The
-clearinghouse server helps the researcher acquire and manage
-devices, and also codifies the policies specified by the
-researcher's IRB into data blurring layers that are enforced on
-mobile devices (Section~\ref{sec-policy}). Such a process can protect device
-owners' personal information. After obtaining remote sandboxes
-and having IRB policies in place, researchers can perform
-experiments on the devices using their credentials assigned by
-the clearinghouse. Researchers' code runs in a sandbox on any
-remote device that isolates the code from the rest of the device
-host system (Section~\ref{sec-repy}). To control the execution of 
-code, the researcher uses a local machine to manage the 
-experiments via an experiment tool (ET). This tool can deploy 
-and run experiments in sandboxes on remote devices that are 
-acquired through the clearinghouse (Section~\ref{sec-emt}).
-
-\subsubsection{Enforcing IRB Approved Policies}
-Experiment code on smartphones and tablets mainly accesses
-the \textit{sensors} on these devices, as they provide  
-interesting data for research projects. In this work, we broadly 
-define sensors as the hardware components that can record 
-phenomena about the physical world, such as the WiFi/cellular 
-network, GPS location, movement acceleration, etc. Although
-these sensors provide much convenience to end users, they 
-could expose sensitive information about the device 
-owner.
-
-Fortunately, studies have given some hints that we can access and use 
-this sensor data without compromising device owners' privacy or service functioning.
+Despite the privacy and security risks of ussing sensors, 
+studies have indicated that we can access and use sensor data 
+without compromising device owners' privacy or service functioning.
 A recent research study has shown that more than half of the 
-surveyed individuals stated no problem in supplying imprecise 
+surveyed individuals had no problem in supplying imprecise 
 sensor data from their personal devices to protect their 
 privacy~\cite{fawaz2014location}. Experience also has shown 
 that imprecise information is sufficient for a large class of 
@@ -97,6 +48,48 @@ access to a certain sensor in sensitive situations, such as
 turning off camera when a device is at residential or work areas.
 The last policy is our ongoing work. This paper mainly addresses
 the first two types of policies. 
+
+%\subsubsection{Interacting Parties}\label{sec-parties}
+In Sensibility Testbed, there are three types of interacting
+parties, as shown in Figure~\ref{fig-arch}: mobile devices 
+owned by ordinary people, with our app installed; a 
+clearinghouse server that discovers and configures
+participating devices; and researchers wanting to run
+experiments on mobile devices. 
+
+\begin{figure}
+\center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
+%\vspace*{-20pt}
+\caption{\small Sensibility Testbed architecture. \yanyan{need 
+to replot this diagram.}
+\label{fig-arch}}
+\end{figure}
+
+Mobile devices
+provide resources and data for researchers to use in their
+experiments. In order to perform safe experiments on mobile
+devices, a researcher must provide to the clearinghouse server
+the IRB policies from his institute for accessing devices 
+(Section~\ref{sec-ch}). \yanyan{need a screenshot} These 
+policies restrict what and how data can be accessed by the 
+researcher. The
+clearinghouse server helps the researcher acquire and manage
+devices, and also codifies the policies specified by the
+researcher's IRB into data blurring layers that are enforced on
+mobile devices (Section~\ref{sec-policy}). Such a process can protect device
+owners' personal information. After obtaining remote sandboxes
+and having IRB policies in place, researchers can perform
+experiments on the devices using their credentials assigned by
+the clearinghouse. Researchers' code runs in a sandbox on any
+remote device that isolates the code from the rest of the device
+host system (Section~\ref{sec-repy}). To control the execution of 
+code, the researcher uses a local machine to manage the 
+experiments via an experiment tool (ET). This tool can deploy 
+and run experiments in sandboxes on remote devices that are 
+acquired through the clearinghouse (Section~\ref{sec-emt}).
+
+%\subsubsection{Enforcing IRB Approved Policies}
+
 
 \subsection{Testbed Components}\label{sec-component}
 
@@ -141,14 +134,16 @@ and each sandbox is isolated from one another.
 
 More importantly, the sandbox allows us to interject
 code to implement privacy policies and control what happens with
-the data gathered on the device. For  an experiment
-that involves GPS location, a privacy policy might restrict the
-level of data granularity available to the experiment. For example, it can
-obfuscate GPS location such that it only identifies the center
-of the city that the device is located in, rather than the exact
-location. Using the same technique, IP addresses may be anonymized, 
+the data gathered on the device. 
+%For  an experiment
+%that involves GPS location, a privacy policy might restrict the
+%level of data granularity available to the experiment. For example, it can
+%obfuscate GPS location such that it only identifies the center
+%of the city that the device is located in, rather than the exact
+%location. Using the same technique, 
+For example, IP addresses may be anonymized, 
 specific sensor access can be disabled entirely, and the frequency to 
-access a certain sensor can be controlled. Such privacy
+access a certain sensor can be controlled, and so on. Such privacy
 protection is a contribution of Sensibility Testbed, which does
 not exist in any prior work. The details of policy implementation 
 are in Section~\ref{sec-policy}.
@@ -157,7 +152,8 @@ To install the sandbox on a device, a device owner downloads
 our Sensibility Testbed app from the Google Play Store \cite{sensibility-app}.
 The app contains the Repy sandbox, native Android code to 
 start or stop the sandbox, and interface to communicate with the testbed 
-infrastructure, mainly the clearinghouse (described below). 
+infrastructure, mainly the clearinghouse (described below). \yanyan{add
+a screenshot?}
 However, the Repy sandbox does not include calls to access sensors. 
 %To obtain the sensor data, we need to extend the sandbox. 
 The extended Repy sandbox that allows access to sensor 
@@ -178,7 +174,7 @@ devices for their experiments.
 The clearinghouse
 plays an intermediate role between the experimenter and 
 the device owner.
-As described in Section~\ref{sec-parties}, when an 
+As described in Section~\ref{sec-overview}, when an 
 experimenter registers at the clearinghouse, he
 needs to provide his IRB policies. These policies ensure that
 the researcher cannot conduct experiments to access data that
@@ -194,8 +190,7 @@ easing the device recruitment and experiment setup for experimenters,
 and ensures the enforcement
 of privacy policy\footnote{The Sensibility Testbed Clearinghouse
 protocol for research with human subjects has been approved by
-the IRB at New York University. \yanyan{might need a link to
-your approval letter or ref number}}. 
+the IRB at New York University (IRB \# 15-10751).}. 
 
 \subsubsection{Experiment Tool}\label{sec-emt}
 
@@ -226,7 +221,7 @@ data to the experimenter's server. After the data is collected, how to store
 the data securely is mandated by the experimenter's IRB.}.
 
 \smallskip
-\textbf{Summary:}
+In summary, 
 %Prior to running an experiment on Sensibility Testbed, a
 %experimenter first fills out a form in plain text to describe the
 %purpose of the research experiment. This experiment description
@@ -255,7 +250,7 @@ the data securely is mandated by the experimenter's IRB.}.
 %protocol for research with human subjects has been approved by
 %the IRB at New York University. \yanyan{might need a link to
 %your approval letter or ref number}}. 
-Using Sensibility Testbed, experimenters are able to go 
+using Sensibility Testbed, experimenters are able to go 
 through a streamlined process of device recruitment and 
 experiment setup, and device owners' privacy is protected
 from any inadvertent or malicious attempt.
@@ -263,8 +258,8 @@ from any inadvertent or malicious attempt.
 By agreeing to our general usage policy, device 
 owners of different ages, from different countries, with different
 background need only to opt in \textit{once} to our testbed as 
-volunteers. An experimenter who wants to conduct a research 
-experiment 
+volunteers (during the time of app installation). An experimenter 
+who wants to conduct a research experiment 
 %requests devices through our clearinghouse, which assigns 
 %them devices from a set of available resources. As a result, 
 %the researcher
@@ -325,7 +320,8 @@ To run code on Sensibility Testbed, experimenter Bob provides a
 set of detailed IRB policies from his institution. The policies specify 
 what data can be accessed by a research experiment, at which 
 granularity or frequency such data can be accessed, how data 
-should be securely stored, and so on.
+should be securely stored, and so on. \yanyan{cite register 
+experiment website url.}
 For example, Bob's experiment can (1) read location information
 from devices at the granularity of a city, (2) read accurate
 cellular signal strength and network type, but not allow access to 
@@ -342,7 +338,9 @@ IRB allows a set of default policies to access sensors in a
 way that is low risk, \yanyan{cite}and for which access can be pre-approved with the
 researcher's local IRB. However, Sensibility Testbed does not
 provide unfettered access to all sensors. Access to sensors of
-higher risk needs to go through the Sensibility Testbed's IRB,
+higher risk, e.g., the policies that request restricted sensor data, 
+or at higher frequencies than our default policies, 
+needs to go through the Sensibility Testbed's IRB,
 in addition to the researcher's IRB. In most cases, we expect
 that a researcher need only go through their local IRB to get
 the sensor access they need for their experiment. After
@@ -360,7 +358,7 @@ Recall that a testbed-specific key, \path{key.sensibility}, is distributed
 with the Sensibility Testbed app downloaded and installed by device
 owners (Section~\ref{sec-owner-participate}). When the app is started, 
 Alice's device contacts a lookup service to advertise itself to Sensibility 
-Testbed. \yanyan{add lookup service in Fig 1?}
+Testbed using \path{key.sensibility}. \yanyan{add lookup service in Fig 1?}
 The clearinghouse periodically queries the lookup service to
 discover any new devices. Once Alice's device is discovered, the
 clearinghouse obtains its install key \path{key.alice} generated
@@ -388,7 +386,7 @@ a set of blurring layer code.
 
 Next, Bob needs to upload his code to Alice's devices and 
 run the experiment. When he accesses the device through
-the experiment management tool, the sandbox on Alice's device 
+the experiment tool, the sandbox on Alice's device 
 applies the data access policies loaded by the clearinghouse: For policy (1) in
 Section~\ref{sec-irb-policy}, the sandbox blurs the location
 information returned from Alice's phone down to the coordinates

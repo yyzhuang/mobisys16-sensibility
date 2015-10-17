@@ -5,7 +5,7 @@
 The research potential of personal devices, such as smartphones 
 and tablets, has sparked a number of recent research initiatives. 
 Because these devices are omnipresent, they could be of 
-tremendous value to the research community. Unfortunately, the 
+tremendous value to the research community. However, the 
 expanded use of these devices has resulted in increased privacy 
 and security challenges. The question remains whether this type 
 of research can be carried out without causing breaches of personal 
@@ -17,21 +17,21 @@ platform for advancing the use of personal mobile devices in research.
 %The use model of Sensibility Testbed is
 %unique in that it (1) manages how device owners make their
 %devices accessible to the research community, and (2) offers
-%
-Its contributions are twofold. First, 
-Sensibility Testbed's platform design not only encourages reusing 
-experiment code and infrastructure, but also saves effort on 
-recruiting participants and managing a deployment. 
-Second, Sensibility Testbed maintains the security of the mobile 
-devices and the privacy of
-the data generated. Experiment code runs in isolated sandboxes to 
+Sensibility Testbed provides privacy protection of mobile device 
+data, and maintains the security of device systems from 
+potentially buggy experiment code. The experiment code in Sensibility 
+Testbed runs in isolated sandboxes to 
 prevent inadvertent or malicious bugs. Access 
 to sensor values is mediated according to the policies 
 set by the institutional review board (IRB) of the researcher's 
-university or institution. 
+university or institution. Policies are enforced by a set of 
+\textit{blurring layers} via the secure sandbox. As a result, 
+this allows Sensibility Testbed to cater to a wider range of 
+participants than prior mobile testbeds. Furthermore, 
+Sensibility Testbed's platform design encourages reusing 
+experiment code and infrastructure, and saves effort on 
+recruiting participants and managing a deployment. 
 %using a combination of blurring and rate-limiting. 
-This allows Sensibility Testbed to cater to a wider range of 
-participants than prior mobile testbeds. 
 %beyond that of previous campus-only,
 %incentivized testbeds, thereby adding to the diversity of the
 %installed base in terms of participating devices, OS software
@@ -47,8 +47,8 @@ participants than prior mobile testbeds.
 %researcher's IRB policies. The testbed also uses security
 %measures to prevent any inadvertent or malicious bugs in
 %experiment code and thus protects the devices. 
-Therefore, Sensibility
-Testbed lowers the barriers for researchers to perform
+
+Sensibility Testbed lowers the barriers for researchers to perform
 research experiment on end users' mobile devices, and 
 allows safe research without rendering devices vulnerable.
 

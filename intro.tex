@@ -23,7 +23,7 @@ community to study mobile network and devices
 systems community to deploy new services and test research
 prototypes (e.g., Phonelab~\cite{phonelab, nandugudi2013phonelab}).  
 					
-For researchers, however, there are two obstacles for research
+For researchers, however, there are two challenges for research
 about mobile devices. First, the privacy and security challenges
 have increased dramatically over the years. The use of 
 smartphones and tablets has introduced a new class of threats, 
@@ -32,20 +32,21 @@ as code on smartphones and tablets mainly accesses
 this work, we broadly define sensors as the hardware components 
 that can record phenomena about the physical world, such as the 
 WiFi/cellular network, GPS location, movement acceleration, etc.}. 
-Although these sensors provide convenience to device users, they 
-could expose sensitive information about the device 
+%Although these sensors provide convenience to device users, they 
+These sensors could expose sensitive information about the device 
 owner. For example, a smartphone's GPS locations,
 WiFi connections, or Bluetooth pairing history can be highly
 personal. In particular, some seemingly benign apps can provide 
 companies or governments access to ordinary 
 people's daily activities~\cite{AngryBirds}. Furthermore, 
-a malicious party could also potentially bypass a
+a malicious party could potentially bypass a
 device's security protections and gain access to user
 privileges. We not only need to  protect the privacy
 of device owners so that the code cannot eavesdrop on phone
 conversations or infer passwords, but also ensure the security of a device
-so that researcher's code cannot inadvertently damage or
-maliciously hack into the device.
+so that researcher's code cannot inadvertently damage 
+%or maliciously hack into 
+the device.
 
 Study has shown that device owners usually do not understand the 
 basics of privacy, or the implication of device 
@@ -54,7 +55,7 @@ permissions~\cite{camp2015respecting}.
 %research related to end users without compromising data privacy
 %and ethical merit. 
 To preserve privacy, research institutions have established 
-institutional review board~\cite{irb} and adopted formal 
+institutional review board (IRB)~\cite{irb} and adopted formal 
 procedures for approving and monitoring research involving 
 human subjects. IRB provides researchers with guidelines about 
 %Due to the different goals and unforeseen risks of each
@@ -67,100 +68,135 @@ how to obtain subjects' informed consent, etc. IRB also
 regulates data collected from the subjects, e.g., what data can be collected, what can 
 be done after the data has been collected, and so on. This
 process is time-consuming, and the researcher needs to repeat
-the process for different projects. To lower potential security and 
-privacy risks and to ease the participant recruitment, many of the current testbeds choose to 
+the process for different projects. Therefore, the second challenge
+for researchers is the repetitive labor work, and because IRB is
+applied at each individual institution, it is difficult (and uncommon) 
+for researchers to reuse each other's user base, experiment code, 
+and infrastructure. In this work, we introduce a mobile testbed, 
+Sensibility Testbed~\cite{sensibility, zhuang2015privacy}, a public, 
+Internet-wide testbed that allows researchers to run code on ordinary
+people's smartphones. This testbed addresses both of these challenges.
+
+Currently, to lower potential security and privacy risks and to ease the 
+participant recruitment, many of the current testbeds choose to 
 recruit participants from a trusted group, such as students and 
-colleagues. For example, PhoneLab provides a platform for 
+colleagues~\cite{hao2013isleep, wang2012no, 
+wang2013sensing}. For example, PhoneLab provides a platform for 
 people to run Android apps on their participants' smartphones 
-and log data from these devices. %Each participant is provided 
-%with an Android device and data plan at a very low cost. 
-This does not solve the privacy issue. 
-The participants in this case are on-campus students and faculty, 
+and log data from these devices. They recruit participants by 
+giving them an Android device and data plan at a low cost, in 
+exchange for a commitment to use the phone as their personal 
+devices. This does not solve the privacy issue. 
+The participants in this case are students and faculties on campus, 
 and thus not representable of the general smart device users. 
-The research results could potentially be biased.
-Even with participants recruited, researchers from different 
-groups cannot test their hypothesis at a world-wide scale. 
+%The research results could potentially be biased.
+With such a usage model, the researchers from different research 
+groups are not able to test their hypothesis at a world-wide scale.
+%Even with participants recruited, researchers from different 
+%groups cannot test their hypothesis at a world-wide scale. 
 %or reuse each other's user base, experiment code, and infrastructure.
-  
-Second, it is difficult and uncommon for researchers to reuse each 
-other's user base, experiment code, and infrastructure. 
-Currently, there are two ways for researchers to conduct mobile 
-experiments while compliant with the ethical standard. 
-First, many mobile research projects conduct experiments 
-by either distributing an app through a marketplace, or using a 
-small number of lab participants (e.g., by distributing devices to 
-lab assistants)~\cite{hao2013isleep, wang2012no, 
-wang2013sensing}. This usage model does not require any 
-platform support (with the exception of a marketplace), but it 
-is difficult for external research groups to reuse the experiment 
-code, the participating devices, or reproduce the experiment 
-setup. Second, research projects can be carried out on 
-smartphone testbeds, such as Phonelab~\cite{phonelab, 
-nandugudi2013phonelab} and 
-Mobilyzer~\cite{nikravesh2015mobilyzer}. 
-The problem with these testbeds is that they do not  yet
-have a systematic way to protect device owners' security and 
-privacy. Various security and privacy mechanisms thus place 
-the burden on researchers, where they must ensure every 
-experiment is compliant to the IRB policies and implement 
-experiments with different standards. This constitutes
-significant overhead for an experiment deployment. For example, 
-PhoneLab requires experimenters to 
-submit an IRB approval letter for human subjects compliance. 
-However, the experimenters have to enforce the IRB policies in their 
+In contrast, Sensibility Testbed provides a secure, sandboxed 
+environment for \textit{anyone} to run experiment code on Android devices. 
+As a result, device owners do not need to trust the researchers 
+who run code on their personal devices.
+   
+To protect the privacy of end-user generated data, the 
+current approaches to ensuring the research 
+compliance with ethical standard is through IRB. However, 
+the present research projects do not yet have a systematic 
+way to protect device owners' privacy, and thus they place 
+the burden on researchers. Each researcher must ensure every 
+experiment is compliant with their individual IRB policies. 
+%and implement experiments with different standards. 
+This constitutes significant overhead for an experiment 
+deployment, as different research groups have to repeat 
+the process of experiment deployment, infrastructure 
+set up, policy implementation, etc. The resulting 
+experiment code, devices, and experiment setup are 
+difficult for external research groups to reuse.
+For example, PhoneLab requires experimenters to 
+obtain an IRB approval, however, the experimenters have 
+to enforce the IRB policies in their 
 experiments~\cite{nandugudi2013phonelab}. 
 Mobilyzer~\cite{nikravesh2015mobilyzer} is distributed 
-as a library that can be included in Android apps, and requires 
-explicit user consent. However, there is no gurantee that an 
+as a library that can be included in Android apps. 
+%and requires explicit user consent. 
+However, there is no gurantee that an 
 experiment is compliant with the researcher's IRB policies.
-With the above usage models, 
+
+In contrast to all prior testbeds, Sensibility Testbed's
+infrastructure codifies experimenters' IRB policies and 
+implements these policies on end-user devices. Each 
+policy is enforced by a \textit{blurring layer} in a secure 
+sandbox. Different policies can be customized by loading
+individual blurring layers in order. Our testbed also allows
+any device owners to participate as anonymous volunteers,
+without putting their devices at risk. It can 
+maximize the reuse of experiment infrastructure, thus reducing 
+experimenters' recruitment and deployment burden. 
+%
+%there are two ways for researchers to conduct mobile 
+%experiments while compliant with the ethical standard. 
+%First, many mobile research projects conduct experiments 
+%by either distributing an app through a marketplace, or using a 
+%small number of lab participants (e.g., by distributing devices to 
+%lab assistants). This usage model does not require any 
+%platform support (with the exception of a marketplace), but it 
+%is difficult for external research groups to reuse the experiment 
+%code, the participating devices, or reproduce the experiment 
+%setup. Second, research projects can be carried out on 
+%smartphone testbeds, such as Phonelab~\cite{phonelab, 
+%nandugudi2013phonelab} and 
+%Mobilyzer~\cite{nikravesh2015mobilyzer}. 
+%The problem with these testbeds is that they do not yet
+%have a systematic way to protect device owners' security and 
+%privacy. Various security and privacy mechanisms thus place 
+%the burden on researchers, where they must ensure every 
+%experiment is compliant to the IRB policies and implement 
+%experiments with different standards. This constitutes
+%significant overhead for an experiment deployment. 
+%
+%
+%With the above usage models, 
 %researchers from different research groups are not able to 
 %test their hypothesis at a world-wide scale. As a result, 
-different research groups have to repeat effort in their individual 
-experiment deployment, infrastructure set up, policy implementation, etc. 
+%different research groups have to repeat effort in their individual 
+%experiment deployment, infrastructure set up, policy implementation, etc. 
 %or reuse each others' user and code base.
-
-					
+%
+%					
 The research presented in this paper is a first step towards lowering the technical
 barriers to research on personal mobile devices without lowering the
 ethical standards of the research institution~\cite{zevenbergen2013ethical}. 
 %while still protecting the security and privacy of end users. 
-We designed and implemented 
-Sensibility Testbed~\cite{sensibility, zhuang2014sensibility}, a 
-public, Internet-wide testbed for mobile devices that
-allows researchers to run code and deploy services on ordinary
-people's smartphones or tablets for research purpose. Sensibility Testbed ensures
-the security of user-owned devices and the privacy of
-user-generated data. Our testbed 
-infrastructure codifies experimenters' IRB policies and 
-implements these policies on end-user devices. Our work also 
-maximizes the reuse of experiment infrastructure, thus reducing 
-experimenters' recruitment and deployment burden. 
-
-Sensibility Testbed is a unique research testbed in several ways.
-First, %the usage model of Sensibility Testbed is
-%unique in that 
-it maintains testbed services to manage how device 
-owners make their devices accessible to different research 
-communities anonymously, without putting
-their devices at risk. 
-%Sensibility Testbed offers technical measures
-%that allow researchers to collect data from remote mobile
-%devices without impairing the device owner's privacy by codifying 
-%experimenters' IRB policies on end devices. 
-Second, Sensibility Testbed relieves researchers from the burden of
-recruiting subjects for every single experiment, and 
-experimenters can share their code and user base by reusing
-our testbed infrastructure. The device
-owners need only give consent once, instead of 
-consenting to each project of each researcher separately.\yanyan{device owners
-can opt out an experiment: not implemented yet but shall we 
-mention this?}
-
-Sensibility Testbed makes experiment
+Sensibility Testbed ensures the security of user-owned devices and the 
+privacy of user-generated data.  
+%
+%Sensibility Testbed is a unique research testbed in several ways.
+%First, %the usage model of Sensibility Testbed is
+%%unique in that 
+%it maintains testbed services to manage how device 
+%owners make their devices accessible to different research 
+%communities anonymously, without putting
+%their devices at risk. 
+%%Sensibility Testbed offers technical measures
+%%that allow researchers to collect data from remote mobile
+%%devices without impairing the device owner's privacy by codifying 
+%%experimenters' IRB policies on end devices. 
+%Second, Sensibility Testbed relieves researchers from the burden of
+%recruiting subjects for every single experiment, and 
+%experimenters can share their code and user base by reusing
+%our testbed infrastructure. The device
+%owners need only give consent once, instead of 
+%consenting to each project of each researcher separately.\yanyan{device owners
+%can opt out an experiment: not implemented yet but shall we 
+%mention this?}
+%
+It makes experiment
 prototyping faster, the remote control and management of devices
-easier, and running experiment code more secure. The
-contributions of this work are as follows:
+easier, and running experiment code more secure. 
+
+The contributions of this work are as follows:
 
 \begin{enumerate}
 \item We design Sensibility Testbed, which uses security and 

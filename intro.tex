@@ -199,20 +199,27 @@ easier, and running experiment code more secure.
 The contributions of this work are as follows:
 
 \begin{enumerate}
-\item We design Sensibility Testbed, which uses security and 
-privacy techniques to minimize the technical challenges for 
-network researchers to perform meaningful research, without 
-without compromising the ethical standards outlined by the 
-research institution.
+%\item We design Sensibility Testbed, which uses security and 
+%privacy techniques to minimize the technical challenges for 
+%network researchers to perform meaningful research, without 
+%without compromising the ethical standards outlined by the 
+%research institution.
 
-\item Sensibility Testbed supports generation of data access 
-policies, specified by a researcher, and implementation of 
-these policies on mobile devices to protect the privacy of 
-device owners.
+\item Sensibility Testbed provides privacy protection by 
+codifying experimenters' IRB policies and implementing 
+these policies on end-user devices. Different policies can 
+be customized, and thus the testbed can cater to a wide 
+range of research.
 
-\item Sensibility Testbed reduces experimenters' burden of 
-recruiting subjects; experimenters can share their code and 
-user base by reusing our testbed infrastructure.
+%\item Sensibility Testbed supports generation of data access 
+%policies, specified by a researcher, and implementation of 
+%these policies on mobile devices to protect the privacy of 
+%device owners.
+
+\item Sensibility Testbed allows any device owners to participate 
+as anonymous volunteers, without putting their devices at risk. 
+It also reduces experimenters' burden, and experimenters can share 
+code and user base through our testbed infrastructure.
 
 %A consortium structure for minimizing the pain of IRB 
 %approvals.  This enables participants to opt in to a large 
@@ -222,9 +229,10 @@ user base by reusing our testbed infrastructure.
 %from every participant.\yanyan{not sure about this.}
 
 \item We implement Sensibility Testbed, evaluate its effectiveness
-in protecting device owners' privacy, and its performance 
-\yanyan{what performance can we show?}
+in protecting device owners' privacy. \yanyan{to be continued.}
 \end{enumerate}
 
 The rest of this paper is organized as follows. In Section~\ref{sec-design}
-we introduce the design of Sensibility Testbed.
+we introduce the design of Sensibility Testbed. Section~\ref{sec-policy}
+describes how IRB policies are codified and implemented on end-user
+devices.

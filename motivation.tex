@@ -1,0 +1,48 @@
+\section{Motivation}\label{sec-motivation}
+
+\textbf{Privacy and security of mobile devices.}
+Recent privacy breaches and security break-ins of mobile systems 
+have resulted in higher concerns about using mobile devices like 
+smartphones and tablets~\cite{breach}. Apps can post tweets to a 
+user's Twitter account without asking for permission~\cite{tweet}. 
+Compromised apps can even let criminals break into individual's 
+bank account~\cite{starbucks}. As a result, many device owners 
+are aware that running apps on their smartphones can raise privacy 
+and security risks. 
+
+However, data from the enormous number of smartphones, 
+if used properly, can be of tremendous value to the research 
+community, with little or no dedicated infrastructure and maintenance 
+cost. For example, accelerometers on end-user devices can 
+detect vibrations within the frequency and intensity range of 
+seismic waves, and can assist distributed earthquake 
+detection~\cite{faulkner2011next}. Cameras, GPS, WiFi, and 
+cellular triangulation can be employed in distributed networks 
+of sensors for traffic monitoring and accident 
+prevention~\cite{mohan2008nericell, thiagarajan2009vtrack}. 
+The challenge to providing data access to the research community
+depends on strong protection against privacy and security breaches.
+
+\textbf{Restricting accessible data.}
+Despite the risks of using sensors, 
+studies have indicated that we can access and use sensor data 
+without compromising device owners' privacy or service functioning.
+A recent research study has shown that more than half of the 
+surveyed individuals had no problem in supplying imprecise 
+sensor data from their personal devices to protect their 
+privacy~\cite{fawaz2014location}. Experience also has shown 
+that imprecise information is sufficient for a large class of 
+services. For example, the US Federal Coomunications 
+Commission requires that instead of the exact location, the 
+emergency rescue and response teams are able to estimate the 911 
+wireless emergency caller's position with an accuracy of 125~m 
+(RMS). 
+
+Based on these fact, restricting 
+the amount of data accessible, such as reducing the precision or 
+access frequency, can be a good privacy protection mechanism we can 
+provide for end users. In this work, we coin the term \textit{data blurring}
+as our privacy protection mechanism. This mechanism is used in 
+conjunction with a researcher's IRB policies, where each data access
+policy is codified as a blurring layer, and different policies are
+customized by loading individual blurring layers in order.

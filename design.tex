@@ -1,10 +1,11 @@
 \section{Sensibility Testbed Design}\label{sec-design}
 
-This section describes the design of the Sensibility Testbed. On one
-hand, Sensibility Testbed manages how device owners make their
-devices accessible to the research community. On the other hand,
-it offers technical resources to researchers that allow them to
-securely collect data from remote mobile devices. We start with  
+This section describes the design of the Sensibility Testbed. 
+%On one hand, Sensibility Testbed manages how device owners make their
+%devices accessible to the research community. On the other hand,
+%it offers technical resources to researchers that allow them to
+%securely collect data from remote mobile devices. 
+We start with
 an overview of the testbed infrastructure (Section~\ref{sec-overview}), 
 and a description of each testbed component 
 (Section~\ref{sec-component}), then finally a discussion of how all the 
@@ -12,25 +13,8 @@ components work together to assist experimenters' experimentation,
 and protect device owners' personal information 
 (Section~\ref{sec-scenario}).
 
-\subsection{Overview}\label{sec-overview}
 
-Despite the privacy and security risks of ussing sensors, 
-studies have indicated that we can access and use sensor data 
-without compromising device owners' privacy or service functioning.
-A recent research study has shown that more than half of the 
-surveyed individuals had no problem in supplying imprecise 
-sensor data from their personal devices to protect their 
-privacy~\cite{fawaz2014location}. Experience also has shown 
-that imprecise information is sufficient for a large class of 
-services. For example, the US Federal Coomunications 
-Commission requires that instead of the exact location, , the 
-emergency rescue and response teams are able to estimate the 911 
-wireless emergency caller's position with an accuracy of 125~m 
-(RMS). Based on these fact, restricting 
-the amount of data accessible, such as reducing the precision or 
-access frequency, can be a good privacy protection mechanism we can 
-provide for end users. In this work, we call this mechanism 
-\textit{data blurring}.
+\subsection{Overview}\label{sec-overview}
 
 In Sensibility Testbed, the data blurring 
 mechanism is implemented as reference monitors in a 

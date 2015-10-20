@@ -120,10 +120,12 @@ access the sensor data.
 %al}~\cite{cappos2010retaining}. This section briefly explains this sandboxing 
 %technique, and how it is used in Sensibility Testbed.
 
-In Sensibility Testbed, we construct a researcher's IRB policies as a set of 
-isolated and contained reference monitors called blurring layers. They each
-implement one IRB policy, and can 
-be stacked together to form a policy stack. A lower layer is the ancestor of 
+%In Sensibility Testbed, we construct a researcher's IRB policies as a set of 
+%isolated and contained reference monitors called blurring layers. They each
+%implement one IRB policy, and can 
+%be stacked together to form a policy stack. 
+In a policy stack, each blurring layer is an isolated and contained reference 
+monitor. A lower layer is the ancestor of 
 a higher layer. Each blurring layer is untrusted by its ancestor layers, 
 but is trusted by its descendant layers. Every layer inherits the policy 
 defined by its ancestor layer. The experiment program is on the top 
@@ -161,8 +163,10 @@ layer \path{bar} with a function mapping
 then the module \path{bar} would have access
 to \path{foo.get_battery} via the name \path{get_battery}, and to
 \path{foo.restricted_get_accelerometer} via the name 
-\path{get_accelerometer}. In this case, layer \path{bar} would not 
-be able to access \path{foo.get_accelerometer}.
+\path{get_accelerometer}: i.e., the function on the left of \texttt{:}
+\textit{replaces} the function on the right via the virtual namespace. 
+In this case, layer \path{bar} would not be able to access 
+\path{foo.get_accelerometer}.
 
 \subsubsection{Contract}
 
@@ -188,7 +192,7 @@ by the function, and the return type of the function\footnote{\scriptsize
 Since Python is a dynamically typed language, it is useful to type check 
 a function's arguments, exceptions, and return values.}.
 
-A contract is represented as a Python dictionary. As an example, if 
+A contract is represented as a Python dictionary in our sandbox. As an example, if 
 the blurring layer \path{foo} wanted to create a contract that would map
 \path{get_battery{}} and \path{restricted_get_accelerometer()} into 
 a new namespace, the contract would be: 

@@ -4,13 +4,28 @@ In this section we evaluate the effectiveness of Sensibility Testbed's
 privacy mechanisms, its usability as a mobile testbed, and its 
 performance.
 
-\subsection{Deployment experience}
+\todo{Q: how is the testbed being used? A: deployment experience: 
+number of people, projects, issues, etc. (\ref{sec-external})}
 
-\yanyan{compare to other projects,  developers can save
-thousands of lines of code.}
+\todo{Q: how easy is it to use the testbed? A: ease of use: 
+hackathon; compared to common measurement app (Android), 
+how many lines of code can one save (\ref{sec-ease})}
 
-\yanyan{Sensibility Testbed has been adopted by xxx (mention 
-SAS). The experience from the main developer
+\todo{Q: what's the overhead? A: overhead and battery (\ref{sec-benchmark})}
+
+\todo{Q: how well the testbed protects privacy, and still allows experiments
+to function? A: \ref{sec-accurate} and \ref{sec-function}.}
+
+\todo{Q: how people feel if their privacy has been protected? are they willing
+to participate? A: \ref{sec-usability}}
+
+\subsection{Deployment experience}\label{sec-deployment}
+
+
+\subsubsection{External Projects}\label{sec-external}
+
+\yanyan{Sensibility Testbed has been adopted by xxx. 
+The experience from the main developer
 was overall positive, and identified cases where instructions
 for use were unclear. While it took several e-mail exchanges to
 clarify these issues, the developer reported that writing the code to
@@ -19,36 +34,48 @@ they have used our library since zzz. We are currently in
 discussions with other researchers about integrating Sensibility 
 Testbed into their research.}
 
-\subsection{Microbenchmarks}
+\subsubsection{Ease of Use}\label{sec-ease}
 
-\subsubsection{Sensibility Testbed's Ease of Use}
+\yanyan{SAS hackathon apps, used by people outside of CS}
 
-\yanyan{to show how easy (reduce burden from experimenters), 
-we can show how much time a student spent doing some
+\yanyan{how much time a student spent doing some
 measurements (like Thomas's motion detection alg).}
 
-\subsubsection{Measurement Overhead}
+\yanyan{compare to other projects,  developers can save
+thousands of lines of code.}
+
+\subsection{Microbenchmarks}\label{sec-benchmark}
 
 \yanyan{briefly show how effective/efficient it collects data, 
 and overhead compared to native.}
 
-\subsection{How does Sensibility Testbed protect privacy?}
+\subsubsection{Measurement Overhead}
 
-\yanyan{show how effective it protects privacy, but still allows
-useful experiment (use advanced learning methods, show no
-privacy can be breached?)}
-
-\subsubsection{Reducing Data Precision}
-
-\yanyan{use location as an example}
-
-\subsubsection{Restricting Data Access Frequency}
-
-\yanyan{use accelerometer as an example}
+\subsubsection{Battery Consumption}
 
 
+\subsection{Privacy Protection}
 
-\subsection{Device owners survey}
 
-\yanyan{show how people feel if their privacy has been 
-protected: whether device owners feel the protection is enough.}
+\subsubsection{Data Accuracy}\label{sec-accurate}
+
+\yanyan{compare the results of an algorithm on blurred data 
+collected from the testbed vs more frequent collection. this is 
+useful for showing that we collect a representative sample of 
+the data (Seth's algorithm?)}
+
+\subsubsection{Experiment Functionality}\label{sec-function}
+
+\yanyan{with the privacy protection in place, is the data we 
+provide sufficient for experiments to function?}
+
+\todo{need to find a good use case.}
+
+
+\subsection{Usability}\label{sec-usability}
+
+\yanyan{user survey on privacy: show how people feel if their 
+privacy has been protected, whether device owners feel the 
+protection is enough.}
+
+\yanyan{incentives to participants}

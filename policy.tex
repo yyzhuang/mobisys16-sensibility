@@ -1,34 +1,5 @@
 \section{Enforcing Privacy Policies}\label{sec-policy}
 
-In Section~\ref{sec-repy}, we introduced the Repy sandbox briefly. 
-In this section, we describe how Repy is extended so that experiments
-can access smartphone sensors (Section~\ref{sec-repy-ext}), and 
-how to control the precision of sensor data (Section~\ref{sec-layer}), 
-and frequency of sensor access (Section~\ref{sec-nanny}).
-
-\subsection{Extended Sandbox}\label{sec-repy-ext}
-
-\subsubsection{Sensor Access from the Python Sandbox}
-
-%In the use cases in Section~\ref{sec-scenario}, when Alice starts 
-%the Sensibility Testbed app, the native code in the app initializes a
-%Python interpreter, launches the Repy sandbox, and starts the 
-%communication between the device and the clearinghouse. The 
-%sandbox's API provides calls to file system, networking, 
-%threading functions, and so on. Therefore, Bob's code can read 
-%files, send data through the network, etc., from Alice's device. 
-As in Section~\ref{sec-repy}, the Repy sandbox does not include 
-calls to access sensors. But an experimenter's code needs 
-access to sensors such as GPS, WiFi, Bluetooth, accelerometer, 
-cellular network, etc. We thus extended Repy sandbox to allow 
-access to sensor data. We first implemented a set of functions using
-Android native code in the Sensibility Testbed app. The Repy 
-sandbox then uses a Remote Procedure Call (RPC) to invoke the
-corresponding Android code, and returns the data from native code 
-to a sandboxed program. This defines a set of sensor API in 
-Repy's Python-like language, such as \path{get_location()}, 
-\path{get_accelerometer()}, \path{get_wifi()}, etc. 
-
 \begin{figure}
 \begin{Verbatim}
 1. \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{get_location}}():
@@ -54,16 +25,45 @@ Repy's Python-like language, such as \path{get_location()},
 \label{fig-getlocation}}
 \end{figure}
 
+In Section~\ref{sec-repy}, we introduced the Repy sandbox briefly. 
+In this section, we describe how Repy is extended so that experiments
+can access smartphone sensors (Section~\ref{sec-repy-ext}), and 
+how to control the precision of sensor data (Section~\ref{sec-layer}), 
+and frequency of sensor access (Section~\ref{sec-nanny}).
+
+\subsection{Extended Sandbox}\label{sec-repy-ext}
+
+\subsubsection{Sensor Access from the Python Sandbox}
+
+%In the use cases in Section~\ref{sec-scenario}, when Alice starts 
+%the Sensibility Testbed app, the native code in the app initializes a
+%Python interpreter, launches the Repy sandbox, and starts the 
+%communication between the device and the clearinghouse. The 
+%sandbox's API provides calls to file system, networking, 
+%threading functions, and so on. Therefore, Bob's code can read 
+%files, send data through the network, etc., from Alice's device. 
+%As in Section~\ref{sec-repy}, the Repy sandbox does not include 
+%calls to access sensors. But 
+To allow an experimenter's code to access sensors such as 
+GPS, WiFi, Bluetooth, accelerometer, cellular network, etc., we  
+extended Repy sandbox as follows. We first implemented a set of functions using
+Android native code in the Sensibility Testbed app. The Repy 
+sandbox then uses a Remote Procedure Call (RPC) to invoke the
+corresponding Android code, and returns the data 
+to a sandboxed program. This defines a set of sensor API in 
+Repy's Python-like language, such as \path{get_location()}, 
+\path{get_accelerometer()}, \path{get_wifi()}, etc. 
+
 Figure~\ref{fig-getlocation} shows how \path{get_location()} 
 is defined as a sandbox function to get unfiltered location 
 information from a mobile device. 
 On line 7, \path{sensorlib.request_data()} is an RPC call 
 defined in the extended Repy sandbox, 
 %\path{sensor_socket} is the socket for the Repy code to communicate with the native code, 
-and the string \path{'startLocating'} is the name of the native Java method that tells the Android 
+and \path{startLocating} is the name of the native Java method that tells the Android 
 location manager to start to look up location information. Line 10 and 13 are similar RPC 
 calls that read location information from the Android location manager, and stops the location 
-lookup. Therefore, \path{get_location()} %is defined in the namespace of the sandbox kernel, it 
+lookup. \path{get_location()} thus %is defined in the namespace of the sandbox kernel, it 
 can be directly used by an experimenter in a sandboxed program if no blurring layer is in place.
 
 A full list of sensor API is documented at~\cite{sensor-api}. The set
@@ -76,7 +76,7 @@ device, as shown in Figure~\ref{fig-blur}.
 \begin{figure}
 \center{\includegraphics[width=\columnwidth]{figs/blur.pdf}}
 %\vspace*{-20pt}
-\caption{\small Sensibility Testbed blur policies. \yanyan{maybe replot this}
+\caption{\small Sensibility Testbed blur policies. \yanyan{maybe replot}
 \label{fig-blur}}
 \end{figure}
 
@@ -99,14 +99,15 @@ a period of time.
 %device, instead of her actual location. As a result, 
 For example, the sandbox returns a perturbed location that is less accurate, 
 %Furthermore, as Bob's IRB policy disallows collecting information about cell tower IDs, 
-blocks any access to cell IDs, 
+%blocks any access to cell IDs, 
 %by another policy. Similarly, other information
-blurs a WiFi SSID to a hashed string, and restricts the frequency to access an accelerometer or a
-gyroscope~\cite{michalevsky2014gyrophone} to prevent inferring passwords, and so on. 
-As shown in Figure~\ref{fig-blur}, different policies
-can be stacked together as a set of filters for different sensors, before a sandboxed program can
-access the sensor data. We call all the policies implemented by the sandbox a \textit{policy stack}, 
-and the implementation of each policy a \textit{blurring layer}.
+blurs a WiFi SSID to a hashed string, and restricts the frequency to access a
+gyroscope to prevent inferring passwords~\cite{michalevsky2014gyrophone}, and so on. 
+Each policy is a blurring layer, and different policies can be customized 
+by loading individual blurring layers in order, as a policy stack. 
+As shown in Figure~\ref{fig-blur}, each policy stack acts as a set 
+of filters for different sensors, before a sandboxed program can
+access the sensor data.
 
 %In the following, we describe how to implement each blurring layer, 
 %and use them to form a policy stack.
@@ -183,8 +184,8 @@ can potentially reveal device owner's private information. The
 verification in our case uses a contract. For each function that has a 
 mapping, the contract lists the number 
 and types of its arguments, the exceptions that can be raised 
-by the function, and the return type of the function\footnote{Since 
-Python is a dynamically typed language, it is useful to type check 
+by the function, and the return type of the function\footnote{\scriptsize 
+Since Python is a dynamically typed language, it is useful to type check 
 a function's arguments, exceptions, and return values.}.
 
 A contract is represented as a Python dictionary. As an example, if 

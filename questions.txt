@@ -1,0 +1,44 @@
+Things to consider adding, by topic:
+
+Evaluation
+
+—> battery power
+-do we have any mechanisms for conserving battery power during frequent collection
+-how about if a user hosts more than one collection experiment — how do we handle collecting data at different rates, how do we reuse measurements
+-suppose for a different use case an experimenter is interested in getting information about an environment through multiple devices in the same location. do we need to record sensor readings from all devices or could we perhaps share readings/distribute measurements between the devices
+
+—> performance
+-what is the overhead on the device
+
+—> accuracy
+-as discussed, we could compare the results of an algorithm on blurred data collected from the testbed vs more frequent collection. this is useful for showing that we collect a representative sample of the data. 
+-in the case that an IRB requires very infrequent data collection, the frequency (and hence accuracy) is beyond our control, so i think that we should show that the testbed still allows for a better scenario than traditionally (perhaps we can show something like the testbed allows for a more diverse and large set of subjects that wouldn’t have otherwise been possible, etc)
+
+—> what other experiments should we show?
+-is the data we have sufficient?
+
+—> usability
+-user survey on privacy
+-incentives to participants
+
+
+
+
+IRBs
+
+—> more detailed mention and focus on IRBs
+-also, more detailed analysis on how testbed’s IRB interacts with researcher’s IRB
+
+
+
+
+System Description
+
+—> keys
+-clarify which are for authentication and which are for identification
+
+—> device users
+-do we profile device users? For example, can we support requests of researchers for device owners in a certain location, profession, ethnicity, gender, etc.
+
+—> protecting the user’s device
+-we have little mention in comparison to protection of user’s privacy. are we just mostly referring the reader to the CCS’10 paper?

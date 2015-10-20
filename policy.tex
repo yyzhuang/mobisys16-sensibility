@@ -242,8 +242,8 @@ Therefore, the experimenter's program is forced to use all the
 new policies. An example blurring layer implementation is given in 
 Section~\ref{sec-precision-example}.  
 
-\subsubsection{Blurring Layer Instantiation}
-
+%\subsubsection{Blurring Layer Instantiation}
+\bigskip
 From start to finish, the entire process proceeds as follows. 
 The clearinghouse creates a list of access policies for an experimenter's
 experiment, according to the IRB policies specified by this 
@@ -254,17 +254,20 @@ from the clearinghouse, which includes all the blurring layers.
 %The kernel reads in the encasement library code and uses
 %the virtual namespace abstraction to execute the code with
 %the exported kernel functions. The encasement library
-The sandbox then uses its blurring layer creation call to instantiate 
+The sandbox then %uses its blurring layer creation call to 
+instantiates 
 the first blurring layer according to its contract, i.e., the function 
 mapping that contains the kernel's exported functions.
 %the security layer instantiation call, and the remaining
 %command-line arguments. 
-The newly instantiated blurring layer repeats this process using the 
+The newly instantiated blurring layer repeats this process 
+%using the 
 %encasement library's
-blurring layer creation call to instantiate the next
+%blurring layer creation call 
+to instantiate the next
 security layer with a potentially updated contract and function
 mapping. Eventually, the experimenter's program is instantiated
-in a separate security layer with the functions provided
+in a separate layer with the functions provided
 through the stack of blurring layers that preceded it.
 The experimenter's program will then be subject to all the 
 policies defined in the preceding layers, or the policy stack.
@@ -388,7 +391,7 @@ function to access a sensor more frequenly than the cap.
 \subsubsection{An Example Policy Implementation}\label{sec-rate-example}
 
 Since access regulation is a policy, it can also implemented as a blurring layer, 
-in a similar way as reducing the data precision (Section~\ref{sec-precision-example}).
+in a similar way as reducing the data precision.
 Recall that in Section~\ref{sec-irb-policy}, Bob's IRB policy requires that
 his experiment can get location updates every 10 minutes (600 seconds). 
 Therefore, the following blurring layer is automatically loaded along with 

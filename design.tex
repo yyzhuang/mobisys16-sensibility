@@ -45,7 +45,7 @@ experiments on mobile devices.
 \center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
 %\vspace*{-20pt}
 \caption{\small Sensibility Testbed architecture. \yanyan{need 
-to replot this diagram.}
+to replot.}
 \label{fig-arch}}
 \end{figure}
 
@@ -319,20 +319,6 @@ cellular network data updates every 10 minutes.
 %clearinghouse will codify into policies that are later enforced
 %on remote mobile devices (Section~\ref{sec-ch}).
 
-Note that Bob cannot request access to all sensors at any rate
-even if his IRB approves such a policy. The Sensibility Testbed's
-IRB allows a set of default policies to access sensors in a
-way that is low risk, \yanyan{cite}and for which access can be pre-approved with the
-researcher's local IRB. However, Sensibility Testbed does not
-provide unfettered access to all sensors. Access to sensors of
-higher risk, e.g., the policies that request restricted sensor data, 
-or at higher frequencies than our default policies, 
-needs to go through the Sensibility Testbed's IRB,
-in addition to the researcher's IRB. In most cases, we expect
-that a researcher need only go through their local IRB to get
-the sensor access they need for their experiment. After
-providing his IRB policies, Bob next can obtain an experiment
-account and request a number of devices from our clearinghouse.
 
 \subsubsection{Researcher Acquires Device(s) and Runs an
 Experiment}\label{sec-acquire-run}
@@ -384,3 +370,38 @@ access to cell IDs; for policy (3), the sandbox limits the rate
 of GPS location and cellular network queries from Bob's
 experiment to one in every 10 minutes.
 
+\subsection{IRB and Sensibility Testbed}
+
+In the domain of IRB, Alice and Bob are the participating subject, and 
+a researcher who conducts a research study on the subject, respectively.
+In order to obtain an IRB approval, Bob first has to fill out an experiment
+registration form \yanyan{cite url or show screenshot} at the 
+Sensibility clearinghouse, where
+we have a list of available sensors, and each of their required accuracy 
+and access frequency. Aftering filling out this form, Bob uses it
+to apply for IRB approval at his institution. His IRB may disagree with 
+Bob's experiment requirement. For example, Bob wants to access cell 
+IDs in cellular networks, but his IRB disallows such data access. Bob then
+revises to his experiment requirement, obtains his IRB approval, and
+submits the revised experiment registration form. Finally, the clearinghouse
+parses the registration form, and extracts each data accuracy and access 
+frequency approved by Bob's IRB, and supplies them as input parameters to
+the blurring layers that will be enforced at Alice's device. The details about
+how each policy is implemented will be introduced in 
+Section~\ref{sec-policy}.
+
+\textbf{Sensibility Testbed's fail-safe default policies.}
+Note that Bob cannot request access to all sensors at any rate
+even if his IRB approves such a policy. The Sensibility Testbed's
+own IRB allows a set of default policies to access sensors in a
+way that is low risk, \yanyan{cite}and for which access can be pre-approved with the
+researcher's local IRB. However, Sensibility Testbed does not
+provide unfettered access to all sensors. Access to sensors of
+higher risk, e.g., the policies that request restricted sensor data, 
+or at higher frequencies than our default policies, 
+needs to go through the Sensibility Testbed's IRB,
+in addition to the researcher's IRB. In most cases, we expect
+that a researcher need only go through their local IRB to get
+the sensor access they need for their experiment. After
+providing his IRB policies, Bob next can obtain an experiment
+account and request a number of devices from our clearinghouse.

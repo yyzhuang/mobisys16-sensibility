@@ -1,8 +1,14 @@
-\section{Evaluation of Sensibility Testbed}
+\section{Evaluation}
 
 In this section we evaluate the effectiveness of Sensibility Testbed's 
 privacy mechanisms, its usability as a mobile testbed, and its 
 performance.
+
+\todo{Q: how well the testbed protects privacy, and still allows experiments
+to function? A: \ref{sec-accurate} and \ref{sec-function}.}
+
+\todo{Q: how people feel if their privacy has been protected? are they willing
+to participate? A: \ref{sec-usability}}
 
 \todo{Q: how is the testbed being used? A: deployment experience: 
 number of people, projects, issues, hackathon. (\ref{sec-external})}
@@ -13,13 +19,33 @@ how many lines of code can one save (\ref{sec-ease})}
 
 \todo{Q: what's the overhead? A: overhead and battery (\ref{sec-benchmark})}
 
-\todo{Q: how well the testbed protects privacy, and still allows experiments
-to function? A: \ref{sec-accurate} and \ref{sec-function}.}
 
-\todo{Q: how people feel if their privacy has been protected? are they willing
-to participate? A: \ref{sec-usability}}
+\subsection{Privacy Protection with IRB Policies}
 
-\subsection{Deployment experience}\label{sec-deployment}
+\subsubsection{Data Accuracy}\label{sec-accurate}
+
+\yanyan{compare the results of an algorithm on blurred data 
+collected from the testbed vs more frequent collection. this is 
+useful for showing that we collect a representative sample of 
+the data (Seth's algorithm?)}
+
+\subsubsection{Experiment Functionality}\label{sec-function}
+
+\yanyan{with the privacy protection in place, is the data we 
+provide sufficient for experiments to function?}
+
+\todo{need to find a good use case.}
+
+
+\subsection{Usability}\label{sec-usability}
+
+\yanyan{user survey on privacy: show how people feel if their 
+privacy has been protected, whether device owners feel the 
+protection is enough.}
+
+\yanyan{incentives to participants}
+
+\subsection{Deployment Experience}\label{sec-deployment}
 
 
 \subsubsection{External Projects and Collaboration}\label{sec-external}
@@ -48,7 +74,6 @@ developed by the participants include a device network monitor:
 when the battery level of a device is low, WiFi or Bluetooth that 
 requires high power is turned off.
 
-
 \subsubsection{Ease of Use}\label{sec-ease}
 
 \yanyan{how much time a student spent doing some
@@ -65,30 +90,3 @@ and overhead compared to native.}
 \subsubsection{Measurement Overhead}
 
 \subsubsection{Battery Consumption}
-
-
-\subsection{Privacy Protection}
-
-
-\subsubsection{Data Accuracy}\label{sec-accurate}
-
-\yanyan{compare the results of an algorithm on blurred data 
-collected from the testbed vs more frequent collection. this is 
-useful for showing that we collect a representative sample of 
-the data (Seth's algorithm?)}
-
-\subsubsection{Experiment Functionality}\label{sec-function}
-
-\yanyan{with the privacy protection in place, is the data we 
-provide sufficient for experiments to function?}
-
-\todo{need to find a good use case.}
-
-
-\subsection{Usability}\label{sec-usability}
-
-\yanyan{user survey on privacy: show how people feel if their 
-privacy has been protected, whether device owners feel the 
-protection is enough.}
-
-\yanyan{incentives to participants}

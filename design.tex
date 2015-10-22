@@ -44,9 +44,7 @@ experiments on mobile devices.
 \begin{figure}
 \center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
 %\vspace*{-20pt}
-\caption{\small Sensibility Testbed architecture. \yanyan{need 
-to replot.}
-\label{fig-arch}}
+\caption{\small Sensibility Testbed architecture. \label{fig-arch}}
 \end{figure}
 
 Mobile devices
@@ -273,6 +271,12 @@ quality in major cities. As such, he needs location information
 of individual devices, their cellular service provider, network
 type (3G, 4G, LTE, etc.), and signal strength.
 
+Note that in Sensibility Testbed, there are two types of keys. A device
+owner has an \textit{identification key} to identify the app installed on a 
+device. An experimenter has a pair of public/private \textit{authentication 
+keys} to authenticate the experimenter with the clearinghouse and 
+the set of devices that he has access to.
+
 \subsubsection{Smartphone Owner Participates in the Testbed}
 \label{sec-owner-participate}
 
@@ -280,7 +284,8 @@ When Alice, a smartphone owner, decides to participate in
 Sensibility Testbed, she first downloads our Sensibility Testbed
 app~\cite{sensibility-app}. %which currently supports Android devices.
 This app contains a testbed key \path{key.sensibility} used for 
-device discovery. %the Repy sandbox (Section~\ref{sec-repy}), 
+device discovery (similar to a device owner's identification key). 
+%the Repy sandbox (Section~\ref{sec-repy}), 
 %and native Android code to handle user interaction, communicate 
 %with the clearinghouse, and so on. 
 Before installation, the app displays a
@@ -291,7 +296,7 @@ device. When the app is started, Alice's device can be
 discovered by the clearinghouse (Section~\ref{sec-acquire-run}). 
 To keep track of Alice's device, the
 clearinghouse uses a database that stores her device's unique
-cryptographic key, \path{key.alice}, generated during installation 
+identification key, \path{key.alice}, generated during installation 
 (Section~\ref{sec-acquire-run}). This key is not associated with Alice's or her
 device's identity, but only the app's installation on the device. If
 Alice uninstalls the Sensibility app, \path{key.alice} is
@@ -304,7 +309,9 @@ individual experiments.
 Policies}\label{sec-irb-policy}
 
 To run code on Sensibility Testbed, experimenter Bob provides a
-set of detailed IRB policies from his institution. The policies specify 
+set of detailed IRB policies from his institution. The process of how
+Bob obtains such policies is described in Section~\ref{sec-irb-policies}.
+The policies specify 
 what data can be accessed by a research experiment, at which 
 granularity or frequency such data can be accessed, how data 
 should be securely stored, and so on. \yanyan{cite register 
@@ -319,6 +326,9 @@ cellular network data updates every 10 minutes.
 %clearinghouse will codify into policies that are later enforced
 %on remote mobile devices (Section~\ref{sec-ch}).
 
+After submitting his IRB policies, Bob obtains an account at the
+clearinghouse, and his authentication keys. 
+%\path{bob.public} and \path{bob.private}.
 
 \subsubsection{Researcher Acquires Device(s) and Runs an
 Experiment}\label{sec-acquire-run}
@@ -336,7 +346,7 @@ key-value store, such as a DHT, that allows one to retrieve values
 associated with keys and to associate keys with values. 
 The clearinghouse periodically queries the lookup service to
 discover any new devices. Once Alice's device is discovered, the
-clearinghouse obtains its install key \path{key.alice} generated
+clearinghouse obtains its identification key \path{key.alice} generated
 during installation, and stores this key in a database. 
 
 %\yanyan{Albert thinks this is too much detail.}
@@ -370,7 +380,7 @@ access to cell IDs; for policy (3), the sandbox limits the rate
 of GPS location and cellular network queries from Bob's
 experiment to one in every 10 minutes.
 
-\subsection{IRB and Sensibility Testbed}
+\subsection{IRB and Sensibility Testbed}\label{sec-irb-policies}
 
 In the domain of IRB, Alice and Bob are the participating subject, and 
 a researcher who conducts a research study on the subject, respectively.
@@ -386,11 +396,13 @@ revises his experiment requirement, obtains his IRB approval, and
 submits the revised experiment registration form. Finally, the clearinghouse
 parses the registration form, extracts each data accuracy and access 
 frequency approved by Bob's IRB, and supplies them as input parameters to
-the blurring layers that will be instantiated at Alice's device. The details about
+the blurring layers that will be instantiated at Alice's device. The clearinghouse
+also has a default set of blurring layers for each sensor, each have the 
+sensor's accuracy and access frequency as parameters. The details about
 how each policy is implemented will be introduced in 
 Section~\ref{sec-policy}.
 
-\textbf{Sensibility Testbed's fail-safe default policies.}
+\textbf{Sensibility Testbed's default policies.}
 Note that Bob cannot request access to all sensors at any rate
 even if his IRB approves such a policy. The Sensibility Testbed's
 own IRB allows a set of default policies to access sensors in a

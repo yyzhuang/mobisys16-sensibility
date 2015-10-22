@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.0">
+<name>Example gpx, see https://wiki.openstreetmap.org/wiki/GPX</name>
+<wpt lat="48.08" lon="16.30">
+<ele>160</ele>
+<name>Mailman</name>
+</wpt>
+<trk><name>Example gpx</name><number>1</number><trkseg>
+
+<trkpt lat="48.087750099999994" lon="16.306175266666667"><ele>128</ele><time>2015-10-22T12:55:07Z</time></trkpt>
+<trkpt lat="48.08902198333333" lon="16.30529251666667"><ele>122</ele><time>2015-10-22T15:25:19Z</time></trkpt>
+<trkpt lat="48.09035465" lon="16.304813416666665"><ele>203</ele><time>2015-10-22T15:30:33Z</time></trkpt>
+<trkpt lat="48.09313995000001" lon="16.30810445"><ele>247</ele><time>2015-10-22T15:53:42Z</time></trkpt>
+<trkpt lat="48.09114305" lon="16.311137"><ele>211</ele><time>2015-10-22T15:58:57Z</time></trkpt>
+<trkpt lat="48.08867706666667" lon="16.312813466666668"><ele>207</ele><time>2015-10-22T16:04:05Z</time></trkpt>
+<trkpt lat="48.08690893333334" lon="16.307865783333334"><ele>213</ele><time>2015-10-22T16:09:13Z</time></trkpt>
+<trkpt lat="48.08689916666667" lon="16.302776533333333"><ele>213</ele><time>2015-10-22T16:14:31Z</time></trkpt>
+<trkpt lat="48.08855543333334" lon="16.305092333333334"><ele>207</ele><time>2015-10-22T16:22:19Z</time></trkpt>
+</trkseg></trk>
+</gpx>
+

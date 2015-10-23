@@ -89,29 +89,33 @@ and experiment manager.
 %experiment code from the device host system. 
 Instead of developing full-fledged Android apps, all 
 experiments in Sensibility Testbed are written in a language
-similar to Python, and run in a restricted %Python-based
+similar to Python, and run in a secure %Python-based
 sandbox called Repy (Restricted Python)\footnote{\scriptsize This is the 
 same security-reviewed sandbox~\cite{cappos2010retaining} used in
 our prior work, the Seattle testbed~\cite{seattle}. This sandbox
-mitigates the impact of bugs in experimenter code.}. 
-The sandbox is comprised of a small, self-contained  
-kernel as its trusted computing base (TCB), and places sensitive
-portions of libraries (such as networking and filesystem 
-functions, locking and threading functions, etc.) in 
-unprivileged, isolated components. Experiment code has a common 
-language interface~\cite{repyv2} to access resources on a device, 
-with full transparency. Vulnerabilities in a library can 
-only cause compromise in the library, and the experiment code 
-can at most gain capabilities granted to the library. Over the past 6 
-years, we have used the described sandbox as part of a 
-network research testbed~\cite{seattle}. Our experience has 
-shown that the risk of it being faulty is very low.
+mitigates the impact of bugs in experimenter code.}. The sandbox 
+is comprised of a small, self-contained kernel as its trusted 
+computing base (TCB), unprivileged libraries and experiment code. 
+Each system call in the TCB is strictly 
+sanitized to preserve consistent behavior across difference OSes, 
+and avoid uncommon corner cases that can be exploited. Since 
+the TCB is small (about 8,000 lines of code), it is less likely to have
+a kernel exploit than other more complex kernels.
+Experiment code uses the programming language 
+interface~\cite{repyv2} provided by the sandbox to access 
+resources on a device. Any vulnerability in an experiment can 
+at most cause compromise in the unprivileged portion of the sandbox, 
+and cannot escape the sandbox and perform malicious actions to 
+the device system. Over the past 6 years, we have used the 
+described sandbox as part of a network research 
+testbed~\cite{seattle}. There has been no report of security 
+breaches or the sandbox being faulty.
 
-\yanyan{need a transition from small TCB to interposing system calls.}
+In addition to security isolation,
 %The sandbox exposes a programming 
 %interface to experimenter programs to access 
 %resources on the device. 
-The sandbox provides performance isolation by
+the sandbox provides performance isolation by
 %by using OS hooks to monitor and control the amount of 
 %CPU and memory used by a sandboxed program. To restrict 
 %other resources, such as network and disk I/O, the sandbox 

@@ -93,16 +93,29 @@ similar to Python, and run in a restricted %Python-based
 sandbox called Repy (Restricted Python)\footnote{\scriptsize This is the 
 same security-reviewed sandbox~\cite{cappos2010retaining} used in
 our prior work, the Seattle testbed~\cite{seattle}. This sandbox
-mitigates the impact of bugs in experimenter code. It
-has been deployed on the Seattle testbed over the last 6 years.
-Our experience has shown that the risk of it being faulty is
-very low.}. The sandbox exposes a programming 
-interface~\cite{repyv2} to experimenter programs to access 
-resources on the device. It provides performance isolation.
-Repy uses OS hooks to monitor and control the amount of 
-CPU and memory used by a sandboxed program. To restrict 
-other resources, such as network and disk I/O, the sandbox 
-interposes on system calls that use these resources and 
+mitigates the impact of bugs in experimenter code.}. 
+The sandbox is comprised of a small, self-contained  
+kernel as its trusted computing base (TCB), and places sensitive
+portions of libraries (such as networking and filesystem 
+functions, locking and threading functions, etc.) in 
+unprivileged, isolated components. Experiment code has a common 
+language interface~\cite{repyv2} to access resources on a device, 
+with full transparency. Vulnerabilities in a library can 
+only cause compromise in the library, and the experiment code 
+can at most gain capabilities granted to the library. Over the past 6 
+years, we have used the described sandbox as part of a 
+network research testbed~\cite{seattle}. Our experience has 
+shown that the risk of it being faulty is very low.
+
+\yanyan{need a transition from small TCB to interposing system calls.}
+%The sandbox exposes a programming 
+%interface to experimenter programs to access 
+%resources on the device. 
+The sandbox provides performance isolation by
+%by using OS hooks to monitor and control the amount of 
+%CPU and memory used by a sandboxed program. To restrict 
+%other resources, such as network and disk I/O, the sandbox 
+interposing on system calls that use resources, such as network and disk I/O, and 
 prevents or delays the execution of these calls if they exceed 
 their configured quota. As a result, this sandbox limits 
 what a sandboxed program can do. For example, reading from and writing to the file system can
@@ -387,17 +400,21 @@ a researcher who conducts a research study on the subject, respectively.
 In order to obtain an IRB approval, Bob first has to fill out an experiment
 registration form \yanyan{cite url or show screenshot} at the 
 Sensibility clearinghouse, where
-we have a list of available sensors, and each of their required accuracy 
-and access frequency. Aftering filling out this form, Bob uses it
-to apply for IRB approval at his institution. His IRB may disagree with 
+there is a list of available sensors, and each of their required accuracy 
+and access frequency. Aftering filling out this form, Bob uses it as 
+a template form to submit and apply for IRB approval at his institution. 
+This form serves as a reference document, along with details about 
+Sensibility Testbed, to reduce Bob's burden. 
+
+After Bob's application is submitted, his IRB may disagree with 
 Bob's experiment requirement. For example, Bob wants to access cell 
 IDs in cellular networks, but his IRB disallows such data access. Bob then
 revises his experiment requirement, obtains his IRB approval, and
-submits the revised experiment registration form. Finally, the clearinghouse
+submits the revised experiment registration form to our clearinghouse. Finally, the clearinghouse
 parses the registration form, extracts each data accuracy and access 
 frequency approved by Bob's IRB, and supplies them as input parameters to
 the blurring layers that will be instantiated at Alice's device. The clearinghouse
-also has a default set of blurring layers for each sensor, each have the 
+has a default set of blurring layers for each sensor, each have the 
 sensor's accuracy and access frequency as parameters. The details about
 how each policy is implemented will be introduced in 
 Section~\ref{sec-policy}.

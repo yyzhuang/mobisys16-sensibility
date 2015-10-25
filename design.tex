@@ -87,17 +87,18 @@ and experiment manager.
 %sandbox on the end devices.
 %Experimenters' code executes in a sandbox that isolates the 
 %experiment code from the device host system. 
-Sensibility Testbed uses a sandbox that provides security isolation.
+Sensibility Testbed uses a sandbox called Repy (Restricted 
+Python)\footnote{\scriptsize This is the 
+same security-reviewed sandbox~\cite{cappos2010retaining} used in
+our prior work, the Seattle testbed~\cite{seattle}. This sandbox
+mitigates the impact of bugs in experimenter code.}, which 
+provides security isolation on mobile devices.
 %Instead of developing full-fledged Android apps, all 
 %experiments in Sensibility Testbed are written in a language
 %similar to Python, and run in a secure %Python-based
-This sandbox is called Repy (Restricted Python)\footnote{\scriptsize This is the 
-same security-reviewed sandbox~\cite{cappos2010retaining} used in
-our prior work, the Seattle testbed~\cite{seattle}. This sandbox
-mitigates the impact of bugs in experimenter code.}. It 
-has a small, self-contained kernel as its trusted 
+Repy has a small, self-contained kernel as its trusted 
 computing base (TCB). %unprivileged libraries and experiment code. 
-Each system call in the TCB is strictly 
+Every system call in the TCB is strictly 
 sanitized to preserve consistent behavior across difference OSes, 
 and avoid uncommon corner cases that can be exploited. 
 Furthermore, since the TCB is small (about 8,000 lines of code), it is 
@@ -105,13 +106,12 @@ less likely to have a kernel exploit than other more complex kernels.
 As a result, any vulnerability in an experiment 
 %can at most cause compromise in the unprivileged portion of the sandbox, 
 cannot escape the sandbox and perform malicious actions to 
-the device system. 
-Experiment code uses the programming language 
-interface~\cite{repyv2} provided by the sandbox to access 
-resources on a device. Over the past 6 years, we have used the 
-described sandbox as part of a network research 
-testbed~\cite{seattle}. There has been no report of security 
-breaches or the sandbox being faulty.
+the device system. The Repy sandbox also exposes a Python-like 
+programming language interface~\cite{repyv2} to experiment code 
+for accessing resources on a device. For more than six years, the
+sandbox has been used to run experiments as part of a network research 
+testbed~\cite{seattle}, and there has been no report of security 
+breaches or operational fault. 
 
 In addition to security isolation,
 %The sandbox exposes a programming 

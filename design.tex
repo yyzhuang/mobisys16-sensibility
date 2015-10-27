@@ -100,7 +100,7 @@ Repy has a small, self-contained kernel as its trusted
 computing base (TCB). %unprivileged libraries and experiment code. 
 Every system call in the TCB is strictly 
 sanitized to preserve consistent behavior across difference OSes, 
-and avoid uncommon corner cases that can be exploited. 
+and to avoid uncommon corner cases that can be exploited. 
 Furthermore, since the TCB is small (about 8,000 lines of code), it is 
 less likely to have a kernel exploit than other more complex kernels. 
 As a result, any vulnerability in an experiment 
@@ -121,10 +121,13 @@ the sandbox provides performance isolation by
 %by using OS hooks to monitor and control the amount of 
 %CPU and memory used by a sandboxed program. To restrict 
 %other resources, such as network and disk I/O, the sandbox 
-interposing on system calls that use resources, such as network and disk I/O, and 
-prevents or delays the execution of these calls if they exceed 
-their configured quota. As a result, this sandbox limits 
-what a sandboxed program can do. For example, reading from and writing to the file system can
+interposition on system calls~\cite{garfinkel2003traps} that 
+use resources, such as network and disk I/O, and preventing 
+or delaying the execution of these calls if they exceed 
+their configured quota. 
+%As a result, this sandbox limits 
+%what a sandboxed program can do. For example, 
+Reading from and writing to the file system can
 only occur in a per-experiment directory; sending and receiving
 data via the network interface cannot exceed a configured rate;
 CPU, memory and battery consumption cannot exceed a limit, etc.
@@ -135,11 +138,11 @@ and each sandbox is isolated from one another.
 
 To install the sandbox on a device, a device owner downloads 
 our Sensibility Testbed app from the Google Play Store \cite{sensibility-app}.
-The app displays a consent form, which the device onwer must 
-agree with before the installation. If the device owner gives his
+The app displays a consent form, which the device owner must 
+agree to before the installation. If the device owner gives his
 consent, the device will be installed with the Repy sandbox, the native Android code to 
 start or stop the sandbox, and an interface to communicate with the testbed 
-infrastructure, mainly the clearinghouse (described below). 
+infrastructure, particularly the clearinghouse (described below). 
 By agreeing to our general usage policy, device 
 owners of different ages, from different countries, with different
 background need only to opt in \textit{once} to our testbed as 
@@ -152,7 +155,7 @@ does not need to get consent from each subject for each individual
 experiment. The testbed thus reduces the burden from both the 
 device owners and experimenters. 
 
-However, the Repy sandbox does not include calls to access sensors. 
+However, the current Repy sandbox does not include calls to access sensors. 
 %To obtain the sensor data, we need to extend the sandbox. 
 The extended Repy sandbox that allows sensor access  
 will be described in Section~\ref{sec-repy-ext}.
@@ -165,7 +168,7 @@ data gathered from the device.
 %obfuscate GPS location such that it only identifies the center
 %of the city that the device is located in, rather than the exact
 %location. Using the same technique, 
-For example, the IP address of a device may be anonymized, 
+To illustrate, the IP address of a device may be anonymized, 
 the frequency to access GPS location can be constrained, and 
 access to camera can be disabled, and so on. 
 %Such privacy protection is a contribution of Sensibility Testbed, 

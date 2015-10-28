@@ -35,7 +35,7 @@ that can record phenomena about the physical world, such as the
 WiFi/cellular network, GPS location, movement acceleration, etc.}. 
 %Although these sensors provide convenience to device users, they 
 These sensors could expose sensitive information about the device 
-owner. For example, a smartphone's GPS locations,
+owner, e.g., a smartphone's GPS locations,
 WiFi connections, or Bluetooth pairing history can be highly
 personal. In particular, some seemingly benign apps can provide 
 companies or government agency access to ordinary 
@@ -44,8 +44,8 @@ a malicious party could potentially bypass a
 device's security protections and gain access to user
 privileges. We not only need to  protect the privacy
 of device owners so that the code cannot eavesdrop on phone
-conversations or infer passwords, but also ensure the security of a device
-from experiment code that might inadvertently damage 
+conversations or infer passwords, but also ensure that 
+experiment code can not inadvertently damage  
 %or maliciously hack into 
 the device.
 
@@ -122,9 +122,10 @@ library that can be included in Android apps.
 %and requires explicit user consent. 
 However, there is no guarantee that an 
 experiment will be compliant with the researcher's IRB policies.
-This constitutes significant overhead for an experiment 
-deployment, as different research groups have to repeat 
-the process of infrastructure setup, and policy implementation. The resulting 
+Ensuring compliance in this manner requires a huge commitment 
+of time and energy. Each research group has to repeat the process 
+of infrastructure setup, and policy implementation for each 
+experiment deployment. The resulting 
 experiment code, devices, and experiment setup are 
 difficult for external research groups to reuse.
 

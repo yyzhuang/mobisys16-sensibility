@@ -421,13 +421,31 @@ Section~\ref{sec-policy}.
 Note that Bob cannot request access to all sensors at any rate
 even if his IRB approves such a policy. The Sensibility Testbed's
 own IRB allows a set of default policies to access sensors in a
-way that is low risk, \yanyan{cite}and for which access can be pre-approved with the
-researcher's local IRB. However, Sensibility Testbed does not
-provide unfettered access to all sensors. Access to sensors of
-higher risk, e.g., the policies that request restricted sensor data, 
-or at higher frequencies than our default policies, 
-needs to go through the Sensibility Testbed's IRB,
-in addition to the researcher's IRB. In most cases, we expect
+way that is low risk, and for which access can be pre-approved with the
+researcher's local IRB. Only those sensors listed on our project 
+wiki page~\cite{sensor-api} are accessible to a researcher. 
+This list of sensors that Sensibility Testbed provides are of moderate 
+to low privacy risks, and the testbed further provides policy enforcement
+(Section~\ref{sec-policy}) to protect the moderately risky sensor data. Sensors 
+that are overly sensitive, such as camera and microphone, are not 
+exposed to experiment code. If a researcher intends to access 
+data that is highly sensitive, a different IRB procedure must be followed, 
+which is out of the scope of what the Sensibility Testbed currently 
+supports.
+
+%Depending on the experiment description provided by the 
+%researcher, the fields marked with a (*) are the ones that will be blurred.
+
+
+As a result, Sensibility Testbed does not
+provide unfettered access to all sensors. 
+%Access to sensors of
+%higher risk, e.g., the policies that request restricted sensor data, 
+%or at higher frequencies than our default policies, 
+%needs to go through the Sensibility Testbed's IRB,
+%in addition to the researcher's IRB. 
+The default policies serve as a common denominator to all 
+researchers' IRB policies. In most cases, we expect
 that a researcher need only go through their local IRB to get
 the sensor access they need for their experiment. After
 providing his IRB policies, Bob next can obtain an experiment

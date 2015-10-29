@@ -30,13 +30,16 @@ without compromising device owners' privacy or service functioning.
 A recent research study has shown that more than half of the 
 surveyed individuals had no problem in supplying imprecise 
 sensor data from their personal devices to protect their 
-privacy~\cite{fawaz2014location}. Experience also has shown 
-that imprecise information is sufficient for a large class of 
-services. For example, the US Federal Coomunications 
-Commission requires that instead of the exact location, the 
-emergency rescue and response teams are able to estimate the 911 
-wireless emergency caller's position with an accuracy of 125~m 
-(RMS). 
+privacy~\cite{fawaz2014location}. Researchers thus have proposed 
+substituting mocked~\cite{beresford2011mockdroid}, anonymized 
+or bogus~\cite{zhou2011taming} data in place of real data. Although
+the accuracy of the data is reduced, experience shows
+that the imprecise information is sufficient for a large class of 
+services. For example, the US Federal Communications Commission requires 
+that instead of the exact location, the emergency rescue and 
+response teams are able to estimate the 911 wireless emergency 
+caller's position with an accuracy of 125~m~\cite{gruteser2003anonymous, 
+reed1998overview}. 
 
 Based on these fact, restricting 
 the amount of data accessible, such as reducing the precision or 
@@ -53,9 +56,20 @@ IRB, also known as an independent ethics committee (IEC), ethical
 review board (ERB), or research ethics board (REB), is a committee 
 that has been formally designated to approve, monitor, and review 
 research involving humans~\cite{irb}. The IRB protocol assesses 
-the ethics of the research and its methods. 
+the ethics of the research and its methods. However, the current network 
+testbeds do not provide guarantee for IRB policy compliance.
+In the case of PhoneLab, it requires experimenters to 
+obtain IRB approval. However, it leaves it up to the experimenters 
+to comply with their IRB policies in their 
+experiments~\cite{nandugudi2013phonelab}. Similarly, 
+Mobilyzer~\cite{nikravesh2015mobilyzer} provides a measurement
+library that can be included in Android apps. 
+%and requires explicit user consent. 
+There is no guarantee that an 
+experiment will be compliant with the researcher's IRB policies.
 %promotes fully informed 
 %consent and voluntary participation by prospective subjects. 
+
 In Sensibility Testbed, IRB plays a central role in defining a set of policies
 appropriate for research at individual institutions. Experimenters
 first obtain an IRB approval at their institution. Then with experimenter's IRB

@@ -25,6 +25,22 @@
 \label{fig-getlocation}}
 \end{figure}
 
+In Sensibility Testbed, privacy policies are implemented as blurring layers, each layer acting as a 
+reference monitor in a sandbox~\cite{ref} that enforces an access 
+control policy over sensor access. Using the sandboxing 
+technique in our prior work~\cite{cappos2010retaining}, we can 
+interject code to implement privacy policies and control what 
+happens with the data gathered on the device. A sensor access 
+policy can (1) reduce 
+the precision of the raw sensor data returned from a device, such
+as returning the location of a nearest city rather than the device's exact location; (2) restrict 
+the frequency of accessing a sensor, such as the polling rate of 
+accelerometer, to avoid password inferring; and (3) disable  
+access to a certain sensor in sensitive situations, such as 
+turning off camera when a device is at residential or work areas.
+The last policy is our ongoing work. This paper mainly addresses
+the first two types of policies. 
+
 In Section~\ref{sec-repy}, we introduced the Repy sandbox briefly. 
 In this section, we describe how Repy is extended so that experiments
 can access smartphone sensors (Section~\ref{sec-repy-ext}), and 
@@ -109,6 +125,15 @@ As shown in Figure~\ref{fig-blur}, each policy stack acts as a set
 of filters for different sensors, before a sandboxed program can
 access the sensor data.
 
+In a policy stack, each blurring layer is an isolated and contained reference 
+monitor. A lower layer is the ancestor of 
+a higher layer. Each blurring layer is untrusted by its ancestor layers, 
+but is trusted by its descendant layers. Every layer inherits the policy 
+defined by its ancestor layer. The experiment program is on the top 
+of the policy stack, therefore it inherits all the policies defined by the
+lower layers. The lowest blurring layer with no ancestors is the 
+Sensibility Testbed's sandbox kernel, as shown in Figure~\ref{fig-blur}. 
+
 %In the following, we describe how to implement each blurring layer, 
 %and use them to form a policy stack.
 
@@ -124,14 +149,6 @@ access the sensor data.
 %isolated and contained reference monitors called blurring layers. They each
 %implement one IRB policy, and can 
 %be stacked together to form a policy stack. 
-In a policy stack, each blurring layer is an isolated and contained reference 
-monitor. A lower layer is the ancestor of 
-a higher layer. Each blurring layer is untrusted by its ancestor layers, 
-but is trusted by its descendant layers. Every layer inherits the policy 
-defined by its ancestor layer. The experiment program is on the top 
-of the policy stack, therefore it inherits all the policies defined by the
-lower layers. The lowest blurring layer with no ancestors is the 
-Sensibility Testbed's sandbox kernel, as shown in Figure~\ref{fig-blur}. 
 
 A policy is implemented by each blurring layer via a \textit{virtual 
 namespace} that provides a function mapping to substute raw 
@@ -194,7 +211,7 @@ a function's arguments, exceptions, and return values.}.
 
 A contract is represented as a Python dictionary in our sandbox. As an example, if 
 the blurring layer \path{foo} wanted to create a contract that would map
-\path{get_battery{}} and \path{restricted_get_accelerometer()} into 
+\path{get_battery()} and \path{restricted_get_accelerometer()} into 
 a new namespace, the contract would be: 
 
 \begin{Verbatim}
@@ -221,8 +238,9 @@ contract is the \path{foo.get_battery} function. Similarly, the
 target for the \path{get_accelerometer} in the contract is the 
 \path{foo.restricted_get_accelerometer}.
 
-Whenever a function is called, the verification process uses the 
-contract to perform type-checking. If the verification process 
+Whenever an experiment calls a function, such as \path{get_battery}
+or \path{get_accelerometer}, a verification process must perform 
+type-checking using the contract. If the verification process 
 detects a semantic violation, the entire experiment program is 
 terminated. This guarantees that to a sandboxed program, 
 the implemented policies do not change a function's behavior.
@@ -368,7 +386,7 @@ be drained faster if sensors are accessed
 with unnecessary frequency. The sandbox in Sensibility Testbed provides a second mechanism
 called \path{nanny} that mediates and restricts access frequency to sensors. 
 
-\subsubsection{Access Regulation}
+\subsubsection{Restricting Access Rate}
 
 \path{nanny} treats all sensors as \textit{resources}, and the function calls to 
 access the sensors as the \textit{usage} of resources. \path{nanny}'s control 
@@ -390,8 +408,8 @@ function to access a sensor more frequenly than the cap.
 
 \subsubsection{An Example Policy Implementation}\label{sec-rate-example}
 
-Since access regulation is a policy, it can also implemented as a blurring layer, 
-in a similar way as reducing the data precision.
+Since restricting access rate is a policy, it can also be implemented as a 
+blurring layer, in a similar way as reducing the data precision.
 Recall that in Section~\ref{sec-irb-policy}, Bob's IRB policy requires that
 his experiment can get location updates every 10 minutes (600 seconds). 
 Therefore, the following blurring layer is automatically loaded along with 
@@ -400,7 +418,7 @@ Bob's experiment code. In the following, we name this blurring layer
 
 \begin{Verbatim}
 1.  \textcolor{BrickRed}{# allow get_location call once per 600 seconds}
-2.  \textbf{resourcesdict = \{\textcolor{BrickRed}{'get_location'}: 1/600\}} 
+2.  \textbf{resourcesdict = \{\textcolor{BrickRed}{'get_location'}: 1.0/600\}} 
 3.
 4.  \textbf{nanny.start_resource_nanny(resourcesdict)}
 5.
@@ -446,9 +464,9 @@ with the policy implemented in this preceding blurring layer.\yanyan{but
 will the call to \path{get_location(}) still return city location in this case? 
 How to explain?}
 
-\smallskip
+\bigskip
 The mechanisms in this section are all transparent to the experimenters 
 and device owners, as the implemetation of policies is controlled by the 
 clearinghouse on behalf of the experimenters. An experimenter is aware 
-of a certain policy in place, but does not need to explicitly invoke such a 
-policy. 
+of certain policies in place, but does not need to implement or explicitly
+enforce such policies. 

@@ -16,23 +16,6 @@ and protect device owners' personal information
 
 \subsection{Overview}\label{sec-overview}
 
-In Sensibility Testbed, the data blurring 
-mechanism is implemented as blurring layers, each layer acting as a 
-reference monitor in a sandbox~\cite{ref} that enforces an access 
-control policy over sensor access. Using the sandboxing 
-technique in our prior work~\cite{cappos2010retaining}, we can 
-interject code to implement privacy policies and control what 
-happens with the data gathered on the device. A sensor access 
-policy can (1) reduce 
-the precision of the raw sensor data returned from a device, such
-as returning the location of a nearest city rather than the device's exact location; (2) restrict 
-the frequency of accessing a sensor, such as the polling rate of 
-accelerometer, to avoid password inferring; and (3) disable  
-access to a certain sensor in sensitive situations, such as 
-turning off camera when a device is at residential or work areas.
-The last policy is our ongoing work. This paper mainly addresses
-the first two types of policies. 
-
 %\subsubsection{Interacting Parties}\label{sec-parties}
 In Sensibility Testbed, there are three types of interacting
 parties, as shown in Figure~\ref{fig-arch}: mobile devices 
@@ -309,8 +292,8 @@ the set of devices that he has access to.
 When Alice, a smartphone owner, decides to participate in
 Sensibility Testbed, she first downloads our Sensibility Testbed
 app~\cite{sensibility-app}. %which currently supports Android devices.
-This app contains a testbed key \path{key.sensibility} used for 
-device discovery (similar to a device owner's identification key). 
+%This app contains a testbed key \path{key.sensibility} used for 
+%device discovery (similar to a device owner's identification key). 
 %the Repy sandbox (Section~\ref{sec-repy}), 
 %and native Android code to handle user interaction, communicate 
 %with the clearinghouse, and so on. 
@@ -363,17 +346,19 @@ Experiment}\label{sec-acquire-run}
 %access policies. Additionally, 
 To perform an experiment, the clearinghouse first needs to 
 acquire and assign devices to Bob's experiment account. 
-Recall that a testbed-specific key, \path{key.sensibility}, is distributed
-with the Sensibility Testbed app downloaded and installed by device
-owners (Section~\ref{sec-owner-participate}). When the app is started, 
-Alice's device contacts a lookup service to advertise itself to Sensibility 
-Testbed using \path{key.sensibility}. A lookup service is a distributed
-key-value store, such as a DHT, that allows one to retrieve values 
-associated with keys and to associate keys with values. 
-The clearinghouse periodically queries the lookup service to
+%Recall that a testbed-specific key, \path{key.sensibility}, is distributed
+%with the Sensibility Testbed app downloaded and installed by device
+%owners (Section~\ref{sec-owner-participate}). 
+When the app is started, Alice's device contacts a lookup service to 
+advertise itself to Sensibility Testbed. 
+%using \path{key.sensibility}. 
+A lookup service is a distributed key-value store, such as a DHT, that 
+allows one to retrieve values associated with keys and to associate 
+keys with values. The clearinghouse periodically queries the lookup service to
 discover any new devices. Once Alice's device is discovered, the
 clearinghouse obtains its identification key \path{key.alice} generated
-during installation, and stores this key in a database. 
+during installation (Section~\ref{sec-owner-participate}), and stores 
+this key. 
 
 %\yanyan{Albert thinks this is too much detail.}
 At this moment,  Bob has obtained an account with the clearinghouse 
@@ -382,12 +367,12 @@ At this moment,  Bob has obtained an account with the clearinghouse
 %private keys, \path{key.bob-pub} and \path{key.bob-priv}, by the
 %clearinghouse. 
 When Bob requests a device, and the clearinghouse
-happens to find that Alice's device is available, the
-clearinghouse first 
+happens to find that Alice's device is available, the clearinghouse then 
 %adds Bob's public key, \path{key.bob-pub}, to
 %the sandbox on Alice's device. This indicates that Bob is
 %authorized to use this sandbox on Alice's device, and 
-assigns Alice's device to Bob's experiment account, then instructs 
+assigns Alice's device to Bob's experiment account by placing Bob's
+authentication keys on Alice's device. It then instructs 
 the sandbox on Alice's device to add Bob's policies by preloading
 a set of blurring layer code.
 %Bob writes his experiment 

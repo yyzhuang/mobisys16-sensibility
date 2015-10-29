@@ -15,7 +15,7 @@ For example, to improve the quality of apps, developers must
 understand how the apps perform in diverse external or internal
 conditions~\cite{ravindranath2012appinsight}. Some platform
 APIs even change their behavior depending on the battery level
-of the device.
+of the device~\cite{battery}.
 %The research potential of personal devices has sparked a number 
 %of recent research initiatives.
 As a result, there has been significant interests in the network
@@ -67,7 +67,7 @@ groups are not able to test their hypothesis at a broad scale.
 %Even with participants recruited, researchers from different 
 %groups cannot test their hypothesis at a world-wide scale. 
 %or reuse each other's user base, experiment code, and infrastructure.
-In contrast, Sensibility Testbed 
+In contrast, Sensibility Testbed in this work
 %introduced in this work addresses many of these concerns by 
 %providing a secure, sandboxed environment 
 allows \textit{any} researchers to run experiment code on ordinary people's 
@@ -86,7 +86,7 @@ permissions~\cite{camp2015respecting}.
 Therefore, to preserve privacy, research institutions have established 
 institutional review boards (IRB) \cite{irb} and adopted formal 
 procedures for approving and monitoring research involving 
-human subjects. IRB provides researchers with guidelines about 
+human subjects. IRBs provide researchers with guidelines about 
 %Due to the different goals and unforeseen risks of each
 %individual project, the 
 subjects, such as who can be recruited (e.g., subjects
@@ -113,7 +113,7 @@ the burden on researchers to ensure every
 experiment is compliant with their individual IRB policies.
 %which can be different at each institution.
 %and implement experiments with different standards. 
-Ensuring compliance in this manner requires a huge commitment 
+This requires a huge commitment 
 of time and energy. Each research group has to repeat the process 
 of infrastructure setup, and policy implementation for each 
 experiment deployment. The resulting 
@@ -131,18 +131,23 @@ Internet-wide testbed that allows researchers to run code on ordinary
 people's smartphones. This testbed addresses both of the 
 aforementioned challenges.
 %   
-In contrast to all prior testbeds, Sensibility Testbed's
-infrastructure codifies experimenters' IRB policies and 
+In contrast to prior testbeds, Sensibility Testbed enforces IRB policies
+at end-user devices, on behalf of the researcher. The testbed's 
+default policies provides a common denominator to all researchers' 
+IRB policies. \yanyan{later mention: disable risky sensors by default}
+The default policies are also customizable, thus serving as a template 
+for researchers to parameterize their experiment. The testbed 
+infrastructure then codifies researchers' IRB policies and 
 implements these policies on end-user devices. Each 
 policy is enforced by a \textit{blurring layer} in a secure 
-sandbox. Different policies can be customized by loading
+sandbox. Different policies can be tailored for each experiment by loading
 individual blurring layers in order, as a \textit{policy stack}. 
 %Furthermore, the testbed's default set of policies provides a 
 %common denominator to all researchers' IRB policies. This 
 %provides the basic level of privacy protection. 
-Sensibility Testbed also allows
+Last but not least, Sensibility Testbed allows
 any device owner to participate as an anonymous volunteer,
-without putting the device at risk. It can also 
+without putting the device at risk. It can  
 maximize the reuse of experiment infrastructure, thus reducing 
 experimenters' recruitment and deployment burden. 
 %

@@ -1,12 +1,72 @@
 \section{Related Work}
 
-Several techniques for protecting the privacy of mobile users have been proposed in recent literature. One means for enforcing privacy is to employ a third-party anonymizing agent that acts as a proxy between the data source and the service using the anonymized data \cite{gruteser2003anonymous, mokbel2006new}. This technique has several drawbacks. First, this agent accesses all of the data before privacy preservation, so it has to be trusted by all users. Second, if the agent is compromised, the privacy of all users is also compromised. Finally, frequent readings need to be sent to the agent, since it needs access to all raw sensor data before it can apply privacy algorithms. This can result in an unnecessary bottleneck, as the service utilizing the data may only need access to very infrequent readings. Sensibility Testbed overcomes these drawbacks, since it performs its privacy preservation techniques on the device itself without the need for a third-party agent. The only data leaving the device is that which goes directly to the researcher. Peer-to-peer techniques also exist for privacy protection \cite{ghinita2007mobihide}, however they rely on participation of multiple users, which is not always possible. 
+Several techniques for protecting the privacy of mobile users have
+been proposed in recent literature. One means for enforcing privacy is
+to employ a third-party anonymizing agent that acts as a proxy between
+the data source and the service using the anonymized data
+\cite{gruteser2003anonymous, mokbel2006new}. This technique has
+several drawbacks. First, this agent accesses all of the data before
+privacy preservation, so it has to be trusted by all users. Second, if
+the agent is compromised, the privacy of all users is also
+compromised. Finally, frequent readings need to be sent to the agent,
+since it needs access to all raw sensor data before it can apply
+privacy algorithms. This can result in an unnecessary bottleneck, as
+the service utilizing the data may only need access to very infrequent
+readings. Sensibility Testbed overcomes these drawbacks, since it
+performs its privacy preservation techniques on the device itself
+without the need for a third-party agent. The only data leaving the
+device is that which goes directly to the researcher. Peer-to-peer
+techniques also exist for privacy protection
+\cite{ghinita2007mobihide}, however they rely on participation of
+multiple users, which is not always possible.
 
-Data blurring has been suggested in \cite{kapadia2008anonysense} for privacy preservation during context reporting. The authors demonstrate location and time blurring of reports, also known as spatial and temporal cloaking. \jill{can we say something about how we handle multiple sensors \& privacy to make this a strong argument? Need to think about this one a bit more}
+Data blurring has been suggested in \cite{kapadia2008anonysense} for
+privacy preservation during context reporting. The authors demonstrate
+location and time blurring of reports, also known as spatial and
+temporal cloaking. \jill{can we say something about how we handle
+multiple sensors \& privacy to make this a strong argument? Need to
+think about this one a bit more}
 
-There have also been many works dedicated to detecting privacy violation from apps on mobile devices \cite{chakraborty2014ipshield, enck2014taintdroid, holavanalli2013flow}. These approaches alert when sensitive data is exfiltrated from the device, either at runtime \cite{chakraborty2014ipshield, enck2014taintdroid} or install time \cite{holavanalli2013flow}. \jill{add more references here} Although these systems notify the user when there is a potential privacy breach, they leave the mitigation decision up to the user. Sensibility Testbed, on the other hand, protects the user directly from exfiltration of sensitive data without requiring manual intervention at a critical time.
+There have also been many works dedicated to detecting privacy
+violation from apps on mobile devices \cite{chakraborty2014ipshield,
+enck2014taintdroid, holavanalli2013flow}. These approaches alert when
+sensitive data is exfiltrated from the device, either at runtime
+\cite{chakraborty2014ipshield, enck2014taintdroid} or install time
+\cite{holavanalli2013flow}. \jill{add more references here} Although
+these systems notify the user when there is a potential privacy
+breach, they leave the mitigation decision up to the user. Sensibility
+Testbed, on the other hand, protects the user directly from
+exfiltration of sensitive data without requiring manual intervention
+at a critical time.
  
-% we can add this back in if we have room (about other issues experienced during mobile data collection) The wealth of data that can be offered from mobile device sensors has long been regarded as high value in the research community. Many previous works have addressed the challenges associated with collection of this data. \cite{kang2008seemon} focuses on energy efficiency during collection.
+% we can add this back in if we have room (about other issues
+%experienced during mobile data collection) The wealth of data that can
+%be offered from mobile device sensors has long been regarded as high
+%value in the research community. Many previous works have addressed
+%the challenges associated with collection of this data.
+%\cite{kang2008seemon} focuses on energy efficiency during collection.
 
 
-Some mobile data sets have been collected in order to provide researchers with more diverse data than they would typically have access to \cite{kiukkonen2010towards, wagner2014device}.  These data sets don't have the flexibility of dynamic collection, as offered by Sensibility Testbed, and quickly become out of date as new technologies develop. In addition, they typically don't enforce privacy of the user, since they simply require their subjects to sign consent forms, and often contain a limited amount of sensor data, if any at all. An important aspect of Sensibility Testbed is that it collects only as much data as is necessary for a researcher's experiment. In comparison to data sets that collect as much diverse and frequent data as possible from devices, our approach is much more scalable and usable, preserving battery and resource consumption. Furthermore, Sensibility Testbed makes tailored data collection easy for researchers by streamlining the implementation of IRB policies and broadening the pool of research subjects. This promotes researchers to use customized data collection on the most up-to-date technology and user behavior, without being forced to resort to outdated datasets. PhoneLab, \cite{nandugudi2013phonelab}, is a smartphone testbed for public experiment that was also developed for this purpose. However, it don't focus on security and privacy nor does it automate the IRB policy application process, which drastically reduces time and complexity for researchers.
+Some mobile data sets have been collected in order to provide
+researchers with more diverse data than they would typically have
+access to \cite{kiukkonen2010towards, wagner2014device}. These data
+sets do not have the flexibility of dynamic collection, as offered by
+Sensibility Testbed, and quickly become out of date as new
+technologies develop. In addition, they typically do not enforce
+privacy of the user, since they simply require their subjects to sign
+consent forms, and often contain a limited amount of sensor data, if
+any at all. An important aspect of Sensibility Testbed is that it
+collects only as much data as is necessary for a researcher's
+experiment. In comparison to data sets that collect as much diverse
+and frequent data as possible from devices, our approach is much more
+scalable and usable, preserving battery and resource consumption.
+Furthermore, Sensibility Testbed makes tailored data collection easy
+for researchers by streamlining the implementation of IRB policies and
+broadening the pool of research subjects. This promotes researchers to
+use customized data collection on the most up-to-date technology and
+user behavior, without being forced to resort to outdated datasets.
+PhoneLab, \cite{nandugudi2013phonelab}, is a smartphone testbed for
+public experiment that was also developed for this purpose. However,
+it does not focus on security and privacy nor does it automate the IRB
+policy application process, which drastically reduces time and
+complexity for researchers.

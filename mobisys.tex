@@ -64,6 +64,13 @@
   \newcommand{\todo}[1]{}
 \fi
 
+\usepackage{pifont} 
+\newcommand{\tickmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+\usepackage{etoolbox}
+\apptocmd{\thebibliography}{\setlength{\itemsep}{5pt}}{}{}
+
 \title{Reducing Mobile Experimentation Risks with \\Sensibility Testbed:
 Balancing Data Acquisition \\with Privacy Protection}
 

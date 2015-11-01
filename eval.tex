@@ -10,16 +10,77 @@ performance.
 
 \subsection{Sensibility Testbed's Privacy Policies}
 
-\todo{Q1: does ST protect privacy sufficiently? A: 
-we need to answer two sub-questions: 
+\begin{table}
+\scriptsize
+\centering
+\begin{tabular}{|l|l|c|c|c|}
+\hline
+\multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
+\multicolumn{3}{|c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
+& & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
 
-Q1.1: what privacy concerns do people have? A1.1: find in 
-the existing literature (past 5 years of MobiSys, MobiCom, 
-NSDI, etc.).
+EnCore~\cite{aditya2014encore}  & bluetooth & \tickmark &   &   \\\hline
 
-Q1.2: does ST address these concerns? A1.2: maybe use 
-a table: paper x, sensor(s), our policies.}
+\multirow{2}{*}{\cite{chen2014sensor}\textsuperscript{*}} & accelerometer 
+& \tickmark &   &  \\ \cline{2-5}
+& camera & & \tickmark & \\ \hline
 
+\multirow{5}{*}{PMP~\cite{agarwal2013protectmyprivacy}} & IMEI & & \tickmark & \\ \cline{2-5}
+& WiFi & \tickmark &   &  \\ \cline{2-5}
+& bluetooth & \tickmark &   & \\ \cline{2-5}
+& address book & & \tickmark & \\ \cline{2-5}
+& location & \tickmark &   &   \\\hline
+ 
+\multirow{4}{*}{CQue~\cite{parate2013leveraging}}  & location & \tickmark &  & \\\cline{2-5}
+& accelerometer & \tickmark &   &  \\ \cline{2-5}
+& gyroscope & \tickmark &   &  \\ \cline{2-5}
+& bluetooth & \tickmark &   &   \\\hline
+
+\multirow{2}{*}{MaskIt~\cite{gotz2012maskit}} & location & \tickmark &   & \\\cline{2-5}
+& cellular & \tickmark &   &   \\\hline
+
+\multirow{3}{*}{Jigsaw~\cite{lu2010jigsaw}} & accelerometer 
+& \tickmark &   &  \\ \cline{2-5}  
+& microphone  & & \tickmark & \\ \cline{2-5}
+& location & \tickmark &   &   \\\hline
+
+\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 17} & \multirow{2}{1cm}{\bf 
+13/17 (76.5\%)} & \multirow{2}{1cm}{\bf 4/17 (23.5\%)} & 
+\multirow{2}{1cm}{\bf 0/12 (0\%)} \\ & & & & \\\hline
+
+\multicolumn{5}{l}{\textsuperscript{*}\scriptsize Project 
+\cite{chen2014sensor} does not have a name.} \\
+
+\end{tabular}
+\caption{\small Sensibility Testbed's support for privacy and security policies. A default 
+policy is supported by Sensibility Testbed without extra effort. A specialized policy can 
+be supported by moderate effort. A policy is marked as N/A if it is not possible to provide
+support.\yanyan{Jigsaw is not really a privacy paper.}}
+\label{tab:policy}
+%\vspace{-10pt}
+\end{table}
+
+\todo{Q1: does ST protect privacy sufficiently?}
+
+
+\textbf{Privacy and security concerns.}
+In order to identify the current privacy and security concerns on mobile 
+devices, we surveyed X projects in the past 5 to 6 years. These projects, listed in Table~\ref{tab:policy},
+range from social network applications~\cite{aditya2014encore} to facial
+recognition algorithms~\cite{chen2014sensor}. Out of these projects, 
+Y of them proposed privacy protection about location information, Z of 
+them had concerns about wireless network such as WiFi and Bluetooth
+(connection/pairing history, MAC addresses, etc.), and M of them 
+considered motion sensors such as accelerometer and gyroscope are
+risky. 
+%\todo{Q1.1: what privacy concerns do people have? }
+
+\textbf{Are Sensibility Testbed's policies sufficient?}
+As shown in Table~\ref{tab:policy}.
+\todo{Q1.2: does ST address these concerns? A1.2: show
+  a handful of past experiments with a 90/10 rule -- 90\% of experiments
+  can be doone with virtually no mods, and the other 8\% we can write 
+  specialized policy for and 2\% it's too hard.}
 
 \subsection{Privacy Protection and Experiment Functionality}
 

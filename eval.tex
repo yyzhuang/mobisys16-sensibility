@@ -13,6 +13,9 @@ performance.
 \begin{table}
 \scriptsize
 \centering
+
+\bgroup
+\def\arraystretch{1.15}% % for table padding
 \begin{tabular}{|l|l|c|c|c|}
 \hline
 \multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
@@ -25,7 +28,7 @@ EnCore~\cite{aditya2014encore}  & bluetooth & \tickmark &   &   \\\hline
 & \tickmark &   &  \\ \cline{2-5}
 & camera & & \tickmark & \\ \hline
 
-\multirow{5}{*}{PMP~\cite{agarwal2013protectmyprivacy}} & IMEI & & \tickmark & \\ \cline{2-5}
+\multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & device ID & & \tickmark & \\ \cline{2-5}
 & WiFi & \tickmark &   &  \\ \cline{2-5}
 & bluetooth & \tickmark &   & \\ \cline{2-5}
 & address book & & \tickmark & \\ \cline{2-5}
@@ -44,14 +47,47 @@ EnCore~\cite{aditya2014encore}  & bluetooth & \tickmark &   &   \\\hline
 & microphone  & & \tickmark & \\ \cline{2-5}
 & location & \tickmark &   &   \\\hline
 
-\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 17} & \multirow{2}{1cm}{\bf 
-13/17 (76.5\%)} & \multirow{2}{1cm}{\bf 4/17 (23.5\%)} & 
-\multirow{2}{1cm}{\bf 0/12 (0\%)} \\ & & & & \\\hline
+Cach{\'e}~\cite{amini2011cache} & location & \tickmark &   &   \\\hline
 
-\multicolumn{5}{l}{\textsuperscript{*}\scriptsize Project 
-\cite{chen2014sensor} does not have a name.} \\
+\cite{jiang2012isolating}\textsuperscript{*} & cellular & \tickmark &   &   \\\hline
+
+\multirow{2}{*}{TapPrints~\cite{miluzzo2012tapprints}} & accelerometer 
+& \tickmark &   &  \\ \cline{2-5}  
+& gyroscope & \tickmark &   &  \\ \hline
+
+\multirow{4}{.8cm}{FindingMiMo \cite{shin2011findingmimo}} 
+& WiFi & \tickmark &   &  \\ \cline{2-5}
+& location & \tickmark &  & \\\cline{2-5}
+& accelerometer & \tickmark &   &  \\ \cline{2-5}
+& magnetometer & \tickmark &   &  \\ \hline
+
+ACCessory~\cite{owusu2012accessory} & accelerometer & \tickmark &   
+&  \\ \hline
+
+TouchLogger~\cite{cai2011touchlogger} & accelerometer & \tickmark &   
+&  \\ \hline
+
+\multirow{6}{*}{MockDroid~\cite{beresford2011mockdroid}} 
+& location & \tickmark &  & \\\cline{2-5}
+& Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
+& cellular & \tickmark &   &  \\ \cline{2-5}
+& address book & & \tickmark & \\ \cline{2-5}
+& device ID & & \tickmark & \\ \cline{2-5}
+& broadcast intent & \tickmark &   &  \\ \hline
+ 
+\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 33} & \multirow{2}{1cm}{\bf 
+27/33 (81.82\%)} & \multirow{2}{1cm}{\bf 6/33 (18.18\%)} & 
+\multirow{2}{1cm}{\bf 0/33 (0\%)} \\ & & & & \\\hline
+
+\multicolumn{5}{l}{\textsuperscript{*}\scriptsize Projects 
+\cite{chen2014sensor} and \cite{jiang2012isolating} do not have a project name.} \\
+
+\multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
+can be implemented by interposing socket calls.} \\
 
 \end{tabular}
+\egroup
+
 \caption{\small Sensibility Testbed's support for privacy and security policies. A default 
 policy is supported by Sensibility Testbed without extra effort. A specialized policy can 
 be supported by moderate effort. A policy is marked as N/A if it is not possible to provide

@@ -47,7 +47,53 @@ can access smartphone sensors (Section~\ref{sec-repy-ext}), and
 how to control the precision of sensor data (Section~\ref{sec-layer}), 
 and frequency of sensor access (Section~\ref{sec-nanny}).
 
-\subsection{Extended Sandbox}\label{sec-repy-ext}
+\subsection{Secure Sandbox}\label{sec-repy-ext}
+
+\subsubsection{Security and Performance Isolation}
+
+Repy has a small, self-contained kernel as its trusted 
+computing base (TCB). %unprivileged libraries and experiment code. 
+Every system call in the TCB is strictly 
+sanitized to preserve consistent behavior across difference OSes, 
+and to avoid uncommon corner cases that can be exploited. 
+Furthermore, since the TCB is small (about 8,000 lines of code), it is 
+less likely to have a kernel exploit than other more complex kernels. 
+As a result, any vulnerability in an experiment 
+%can at most cause compromise in the unprivileged portion of the sandbox, 
+cannot escape the sandbox and perform malicious actions to 
+the device system. The Repy sandbox also exposes a Python-like 
+programming interface~\cite{repyv2} to experiment code 
+for accessing resources on a device. 
+%another way of saying this:
+%Experiment code for accessing resources is contained by the 
+%Repy sandbox, using its Python-like programming language interface.
+For more than six years, the
+sandbox has been used to run experiments as part of a network research 
+testbed~\cite{seattle}, and there has been no report of security 
+breaches or operational fault. 
+
+In addition to security isolation,
+%The sandbox exposes a programming 
+%interface to experimenter programs to access 
+%resources on the device. 
+the sandbox provides performance isolation by
+%by using OS hooks to monitor and control the amount of 
+%CPU and memory used by a sandboxed program. To restrict 
+%other resources, such as network and disk I/O, the sandbox 
+interposition on system calls~\cite{garfinkel2003traps} that 
+use resources, such as network and disk I/O, and preventing 
+or delaying the execution of these calls if they exceed 
+their configured quota. 
+%As a result, this sandbox limits 
+%what a sandboxed program can do. For example, 
+Reading from and writing to the file system can
+only occur in a per-experiment directory; sending and receiving
+data via the network interface cannot exceed a configured rate;
+CPU, memory and battery consumption cannot exceed a limit, etc.
+Therefore, the sandbox isolates the experiment program from 
+the rest of the device. Due to this isolation, different experimenters
+can have access to different sandboxes on the same device,
+and each sandbox is isolated from one another.
 
 \subsubsection{Sensor Access from the Python Sandbox}
 

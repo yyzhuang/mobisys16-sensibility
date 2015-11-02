@@ -18,10 +18,10 @@ and protect device owners' personal information
 
 %\subsubsection{Interacting Parties}\label{sec-parties}
 In Sensibility Testbed, there are three types of interacting
-parties, as shown in Figure~\ref{fig-arch}: mobile devices 
+parties, as shown in Figure~\ref{fig-arch}: mobile \textit{devices} 
 owned by ordinary people, with our app installed; a 
-clearinghouse server that discovers and configures
-participating devices; and experimenters who want to run
+\textit{clearinghouse} server that discovers and configures
+participating devices; and \textit{experimenters} who want to run
 experiments on mobile devices. 
 
 \begin{figure}
@@ -44,9 +44,9 @@ researcher's IRB into data blurring layers that are enforced on
 mobile devices (Section~\ref{sec-policy}). Such a process can protect device
 owners' personal information. After obtaining remote sandboxes
 and having IRB policies in place, researchers can perform
-experiments on the devices using their credentials assigned by
-the clearinghouse. Researchers' code runs in a sandbox on any
-remote device that isolates the code from the rest of the device
+experiments on the devices directly, using their credentials assigned by
+the clearinghouse. Researchers' code runs in a sandbox 
+that isolates the code from the rest of the device
 host system (Section~\ref{sec-repy}). To control the execution of 
 code, the researcher uses a local machine to manage the 
 experiments via an experiment manager. This tool can deploy 
@@ -64,7 +64,7 @@ In this section, we describe the function of each component: the
 secure sandbox~\cite{cappos2010retaining}, clearinghouse~\cite{ch}, 
 and experiment manager.
 
-\subsubsection{Secure Sandbox}\label{sec-repy}
+\subsubsection{Device Software}\label{sec-repy}
 
 %In Sensibility Testbed, all experiments execute in a secure 
 %sandbox on the end devices.
@@ -75,55 +75,19 @@ Python)\footnote{\scriptsize This is the
 same security-reviewed sandbox~\cite{cappos2010retaining} used in
 our prior work, the Seattle testbed~\cite{seattle}. This sandbox
 mitigates the impact of bugs in experimenter code.}, which 
-provides security isolation on mobile devices.
+provides security isolation and performance isolation on mobile devices.
 %Instead of developing full-fledged Android apps, all 
 %experiments in Sensibility Testbed are written in a language
 %similar to Python, and run in a secure %Python-based
-Repy has a small, self-contained kernel as its trusted 
-computing base (TCB). %unprivileged libraries and experiment code. 
-Every system call in the TCB is strictly 
-sanitized to preserve consistent behavior across difference OSes, 
-and to avoid uncommon corner cases that can be exploited. 
-Furthermore, since the TCB is small (about 8,000 lines of code), it is 
-less likely to have a kernel exploit than other more complex kernels. 
-As a result, any vulnerability in an experiment 
-%can at most cause compromise in the unprivileged portion of the sandbox, 
-cannot escape the sandbox and perform malicious actions to 
-the device system. The Repy sandbox also exposes a Python-like 
-programming interface~\cite{repyv2} to experiment code 
-for accessing resources on a device. 
-%another way of saying this:
-%Experiment code for accessing resources is contained by the 
-%Repy sandbox, using its Python-like programming language interface.
-For more than six years, the
-sandbox has been used to run experiments as part of a network research 
-testbed~\cite{seattle}, and there has been no report of security 
-breaches or operational fault. 
+Experimenters use a Python-like programming interface~\cite{repyv2}
+to write experiment code, upload the code and execute it in the
+sandbox. The programming interface includes functions for networking, 
+file system, threading, locking, logging, and so on. To access sensors, 
+the sandbox also has a set of sensor functions~\cite{sensors}. The
+details about the implementation of the Repy sandbox are described 
+in Section~\ref{sec-repy-ext}.
 
-In addition to security isolation,
-%The sandbox exposes a programming 
-%interface to experimenter programs to access 
-%resources on the device. 
-the sandbox provides performance isolation by
-%by using OS hooks to monitor and control the amount of 
-%CPU and memory used by a sandboxed program. To restrict 
-%other resources, such as network and disk I/O, the sandbox 
-interposition on system calls~\cite{garfinkel2003traps} that 
-use resources, such as network and disk I/O, and preventing 
-or delaying the execution of these calls if they exceed 
-their configured quota. 
-%As a result, this sandbox limits 
-%what a sandboxed program can do. For example, 
-Reading from and writing to the file system can
-only occur in a per-experiment directory; sending and receiving
-data via the network interface cannot exceed a configured rate;
-CPU, memory and battery consumption cannot exceed a limit, etc.
-Therefore, the sandbox isolates the experiment program from 
-the rest of the device. Due to this isolation, different experimenters
-can have access to different sandboxes on the same device,
-and each sandbox is isolated from one another.
-
-To install the sandbox on a device, a device owner downloads 
+To install Repy and other software on a device, a device owner downloads 
 our Sensibility Testbed app from the Google Play Store \cite{sensibility-app}.
 The app displays a consent form, which the device owner must 
 agree to before the installation. If the device owner gives his
@@ -133,8 +97,8 @@ infrastructure, particularly the clearinghouse (described below).
 By agreeing to our general usage policy, device 
 owners of different ages, from different countries, with different
 background need only to opt in \textit{once} to our testbed as 
-volunteers (during the time of app installation). An experimenter 
-who wants to conduct a research experiment 
+volunteers (during the time of app installation). As a result, an 
+experimenter who wants to conduct a research experiment 
 %requests devices through our clearinghouse, which assigns 
 %them devices from a set of available resources. As a result, 
 %the researcher
@@ -142,12 +106,12 @@ does not need to get consent from each subject for each individual
 experiment. The testbed thus reduces the burden from both the 
 device owners and experimenters. 
 
-However, the current Repy sandbox does not include calls to access sensors. 
-%To obtain the sensor data, we need to extend the sandbox. 
-The extended Repy sandbox that allows sensor access  
-will be described in Section~\ref{sec-repy-ext}.
-More importantly, the extended sandbox allows us to change the 
-behavior of its Python-like programming interface, and control the 
+%However, the current Repy sandbox does not include calls to access sensors. 
+%%To obtain the sensor data, we need to extend the sandbox. 
+%The extended Repy sandbox that allows sensor access  
+%will be described in Section~\ref{sec-repy-ext}.
+More importantly, the Repy sandbox allows us to change the 
+behavior of its programming interface, and control the 
 data gathered from the device. 
 %For  an experiment
 %that involves GPS location, a privacy policy might restrict the

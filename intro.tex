@@ -6,16 +6,22 @@ life. These devices have become the dominant way that
 people interact with each other and with the physical world. Because 
 these devices are omnipresent, they could be of tremendous value to 
 the research community. Devices in a home network generate 
-unique traffic that can help providers improve the services to at-home 
-users~\cite{sundaresan2011broadband}.
+unique traffic that can help providers improve the services offered 
+to their customers~\cite{sundaresan2011broadband}.
 %Therefore, they have created increasing research opportunities. 
-Mobile devices also provide a platform for researchers to
-investigate how new applications can provide better performance.
-For example, to improve the quality of apps, developers must 
-understand how the apps perform in diverse external or internal
+%Mobile devices also provide a platform for researchers to
+%investigate how new applications can provide better performance.
+%For example, to improve the quality of apps, developers must 
+%understand how the apps perform in diverse external or internal
+%conditions~\cite{ravindranath2012appinsight}. 
+To improve the quality of applications, developers must understand 
+how they perform in diverse external or internal 
 conditions~\cite{ravindranath2012appinsight}. Some platform
 APIs even change their behavior depending on the battery level
-of the device~\cite{battery}.
+of the device~\cite{battery}, thus making it important to have 
+some way to monitor the change. Mobile devices 
+provide a valuable research platform to investigate how new 
+applications can improve performance for end users. 
 %The research potential of personal devices has sparked a number 
 %of recent research initiatives.
 As a result, there has been significant interests in the network
@@ -24,7 +30,7 @@ community to study mobile devices
 systems community to deploy new services and test research
 prototypes (e.g., Phonelab~\cite{phonelab, nandugudi2013phonelab}).  
 					
-However, there are two challenges to conducting research
+However, there are several challenges to conducting research
 on mobile devices. First, the privacy and security threats
 have increased dramatically over the years. The use of 
 smartphones and tablets has introduced a new class of threats, 
@@ -49,7 +55,7 @@ device's security protections and gain access to user privileges.
 %%or maliciously hack into 
 %the device.
 
-To lower potential security and privacy risks and to make the 
+To lower potential security and privacy risks as well as make  
 participant recruitment easier, many current testbeds choose to 
 select from an internal group, such as students and 
 colleagues~\cite{hao2013isleep, wang2012no, 
@@ -63,7 +69,7 @@ device. However, this does not solve the security and privacy issue.
 %and thus not representable of the general smart device users. 
 %The research results could potentially be biased.
 Furthermore, with such a usage model, researchers from different  
-groups are not able to test their hypothesis at a broad scale.
+groups are not able to test their hypothesis on a broad scale.
 %Even with participants recruited, researchers from different 
 %groups cannot test their hypothesis at a world-wide scale. 
 %or reuse each other's user base, experiment code, and infrastructure.
@@ -75,8 +81,6 @@ devices, and \textit{any} device owners can feel free to
 participate in research initiatives without worrying about the risk 
 to their personal devices.
 
-Another challenge for researchers is the tedious work
-of recruiting participants and ensuring their privacy. 
 Research has shown that device owners usually do not understand the 
 basics of privacy, or the implication of granting device 
 permissions~\cite{camp2015respecting}. 
@@ -107,6 +111,8 @@ to repeat it everytime he or she starts a new project.
 %current approaches to ensuring the research 
 %compliance with ethical standard is through IRB. However, 
 
+Therefore, another challenge for researchers is the tedious work
+of recruiting participants and ensuring their privacy according to IRB. 
 Since the present network testbeds do not yet have a systematic 
 way to protect device owners' privacy, they place 
 the burden on researchers to ensure every 
@@ -117,7 +123,7 @@ This requires a huge commitment
 of time and energy. Each research group has to repeat the process 
 of infrastructure setup, and policy implementation for each 
 experiment deployment. The resulting 
-experiment code, devices, and experiment setup are 
+experiment code, devices, and setup are 
 difficult for external research groups to reuse.
 
 
@@ -125,16 +131,16 @@ difficult for external research groups to reuse.
 %for researchers to reuse each other's user base, experiment code, 
 %and infrastructure. 
 
-In this work, we introduce a mobile testbed, 
+In this work, we introduce 
 Sensibility Testbed~\cite{sensibility, zhuang2015privacy}, a public, 
-Internet-wide testbed that allows researchers to run code on ordinary
-people's smartphones. This testbed addresses both of the 
+Internet-wide mobile testbed that allows researchers to run code on ordinary
+people's smartphones. This testbed addresses all of the 
 aforementioned challenges.
 %   
 In contrast to prior testbeds, Sensibility Testbed enforces IRB policies
 at end-user devices, on behalf of the researcher. The testbed's 
 default policies provides a common denominator to all researchers' 
-IRB policies. \yanyan{later mention: disable risky sensors by default}
+IRB policies. %\yanyan{later mention: disable risky sensors by default}
 The default policies are also customizable, thus serving as a template 
 for researchers to parameterize their experiment. The testbed 
 infrastructure then codifies researchers' IRB policies and 

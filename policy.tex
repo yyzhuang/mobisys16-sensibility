@@ -509,7 +509,9 @@ the following, we name this blurring layer \path{restrict_location}.
 
 Line 2 above defines a resource assignment table, \path{re- sourcesdict}, to track and update 
 the function call to \path{get_location()}. It restricts the frequency to 
-call \path{get_location()} to once per 600 seconds. Line 4 initializes \path{nanny} 
+call \path{get_location()} to once per 600 seconds (note that 
+600 seconds is filled in by Bob, and parsed by the clearinghouse as a blurring layer 
+parameter to \path{restrict_location}, as in Section~\ref{sec-ch}). Line 4 initializes \path{nanny} 
 with the resource assignment table, and line 6 -- 9 defines a 
 function called \path{restricted_get_location()} that restricts location updates. 
 The \path{tattle_quantity()} call on line 7 charges \textit{one usage} of \path{get_location()} 

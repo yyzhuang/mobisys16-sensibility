@@ -49,7 +49,13 @@ and the frequency of sensor access (Section~\ref{sec-nanny}).
 \subsection{Secure Sandbox}\label{sec-repy-ext}
 
 The Repy sandbox is an important part of device software 
-(Section~\ref{sec-repy}). This section described how Repy provides
+(Section~\ref{sec-repy}). The sandbox is the execution environment 
+of all experiment code. It isolates experimenters' program from one 
+another, and prevents experimenter code from harming the device 
+through its strong isolation techniques. More importantly, the sandbox
+provides a fexible system call interposition technique where the behavior 
+of system calls can be modified. This allows us to define and implement
+different data access policies. This section describes how Repy provides
 security isolation and performance isolation, as well as customizable
 sensor access policies.
 
@@ -142,7 +148,7 @@ device, as shown in Figure~\ref{fig-blur}.
 \begin{figure}
 \center{\includegraphics[width=\columnwidth]{figs/blur.pdf}}
 %\vspace*{-20pt}
-\caption{\small Sensibility Testbed blur policies. \yanyan{maybe replot}
+\caption{\small Policy stack demonstrating how Sensibility Testbed implements blur policies. \yanyan{maybe replot}
 \label{fig-blur}}
 \end{figure}
 
@@ -294,7 +300,7 @@ target for the \path{get_accelerometer} in the contract is the
 Whenever an experiment calls a function, such as \path{get_battery}
 or \path{get_accelerometer}, a verification process must perform 
 type-checking using the contract. If the verification process 
-detects a semantic violation, the entire experiment program is 
+detects a semantic violation, \yanyan{add an example} the entire experiment program is 
 terminated. This guarantees that to a sandboxed program, 
 the implemented policies do not change a function's semantics.
 %In addition to type checking, the verification function copies 
@@ -347,7 +353,7 @@ through the stack of blurring layers that preceded it.
 The experimenter's program will then be subject to all the 
 policies defined in the preceding layers, or the policy stack.
 
-\subsubsection{An Example Policy Implementation}
+\subsubsection{An Example of Policy Implementation}
 \label{sec-precision-example}
 
 %\subsubsection{Reducing Data Precision}
@@ -475,7 +481,7 @@ function to access a sensor more frequenly than the cap.
 %A function call 
 %request can be met only if the frequency is no greater than the cap. 
 
-\subsubsection{An Example Policy Implementation}\label{sec-rate-example}
+\subsubsection{An Example of Policy Implementation}\label{sec-rate-example}
 
 Since restricting access rate is a policy, it can also be implemented as a 
 blurring layer, in a similar way as reducing the data precision.

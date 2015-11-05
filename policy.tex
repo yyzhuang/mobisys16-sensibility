@@ -103,7 +103,8 @@ CPU, memory and battery consumption cannot exceed a limit, etc.
 Therefore, the sandbox isolates the experiment program from 
 the rest of the device. Due to this isolation, different experimenters
 can have access to different sandboxes on the same device,
-and each sandbox is isolated from one another.
+and each sandbox is isolated from one another so that experiments
+do not interfere with each other.
 
 \subsubsection{Sensor Access from the Python Sandbox}
 
@@ -123,7 +124,7 @@ Java in the native portion of the Sensibility Testbed app. The Repy
 sandbox then uses a Remote Procedure Call (RPC) to invoke the
 corresponding Java code, and returns the data 
 to a sandboxed Repy program. This defines a set of sensor API in 
-Repy's Python-like language, such as \path{get_location()}, 
+Repy's programming language, such as \path{get_location()}, 
 \path{get_accelerometer()}, \path{get_wifi()}, etc. 
 
 Figure~\ref{fig-getlocation} shows how \path{get_location()} 
@@ -186,7 +187,7 @@ defined by its ancestor layer. The lowest blurring layer with no ancestors is th
 Sensibility Testbed's sandbox kernel. The experiment program is on the top 
 of the policy stack, therefore it inherits all the policies defined by the
 lower layers, as shown in Figure~\ref{fig-blur}. 
-Therefore, each policy stack acts as a set 
+Each policy stack acts as a set 
 of filters for different sensors, before a sandboxed program can
 access the sensor data. Different stacks can be customized for 
 different IRB policies.
@@ -434,7 +435,7 @@ Similarly, because Bob's IRB policy disallows access to cell ID, another blurrin
 can substitute the \path{get_cellID()} call in the sandbox kernel with a function that
 returns \path{None}. This layer can be instantiated by \path{blur_to_city}
 as its descendant, or by any other layers. An arbitrary number of layers can 
-be stacked in order to implement an experimenter's policies.
+be stacked together to implement an experimenter's policies.
 
 As the experiment code uses the same function call as defined by the sandbox, 
 and only the blurring layers change the function's behavior, 
@@ -445,7 +446,7 @@ sandboxed programs in Sensibility Testbed.
 
 Reducing data precision partially protects a device owner's privacy. Frequent data 
 access can be another channel to snoop on personal information.
-For example, if sensor queries are made sufficiently frequent, they can be used
+If sensor queries are made sufficiently frequent, they can be used
 to track an individual's activity. The goal of reducing sensor access frequency 
 is to prevent an accumulation of identifiable information such as 
 location~\cite{gruteser2003anonymous}, wireless network identifiers, and even 
@@ -483,7 +484,7 @@ function to access a sensor more frequenly than the cap.
 
 \subsubsection{An Example of Policy Implementation}\label{sec-rate-example}
 
-Since restricting access rate is a policy, it can also be implemented as a 
+Restricting access rate can also be implemented as a 
 blurring layer, in a similar way as reducing the data precision.
 Recall that in Section~\ref{sec-scenario}, Bob's IRB policy requires that
 his experiment can get location updates every 10 minutes (600 seconds). 
@@ -539,8 +540,9 @@ in Section~\ref{sec-precision-example}), then
 \path{restricted_get_location()} will replace the \path{get_location()} call
 with the policy implemented in this preceding blurring layer. As a result, 
 the experiment code will get location updates once per 10 minutes, at
-the city level. This is because layers \path{blur_to_city} and 
-\path{restrict_location} are both used in the policy stack.
+the city level. 
+%This is because layers \path{blur_to_city} and 
+%\path{restrict_location} are both used in the policy stack.
 
 \bigskip
 The mechanisms in this section are all transparent to the experimenters 

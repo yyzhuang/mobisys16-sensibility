@@ -44,7 +44,7 @@ researcher's IRB.
 %into data blurring layers that are enforced on
 %mobile devices. Such a process can protect device
 %owners' personal information. 
-After obtaining remote devices through the clearinghouse, researchers can perform
+After obtaining remote devices, researchers can perform
 experiments on the devices directly, using their credentials assigned by
 the clearinghouse. Researchers' code runs in a sandbox 
 that isolates the code from the rest of the device
@@ -85,8 +85,8 @@ to write experiment code, upload the code and execute it in the
 sandbox. The programming interface includes functions for networking, 
 file system, threading, locking, logging, and so on. To access sensors, 
 the sandbox also has a set of sensor functions~\cite{sensors}. The
-details about the implementation of the Repy sandbox are described 
-in Section~\ref{sec-repy-ext}.
+details about the implementation of the Repy sandbox for mobile 
+devices are described in Section~\ref{sec-repy-ext}.
 
 To install Repy and other software on a device, a device owner downloads 
 our Sensibility Testbed app from the Google Play Store \cite{sensibility-app}.
@@ -158,10 +158,14 @@ In order to obtain an IRB approval, a researcher first fills out an experiment
 registration form \yanyan{cite url or show screenshot} at the 
 clearinghouse. The clearinghouse website shows 
 a list of available sensors, and each of their required accuracy 
-and access frequency. Aftering filling out this form, the researcher uses it as 
-a template to submit and apply for IRB approval at his or her institution. 
-This form serves as a reference document, along with details about 
-Sensibility Testbed,\yanyan{cite our docs} to reduce the researcher's burden. 
+and access frequency. Aftering filling out this form, the researcher 
+downloads the detailed information about Sensibility Testbed and 
+several relevant forms, such as 
+those addressing consent, terms of participation (for device owners) 
+and terms of usage (for the researcher), and so on. The researcher then uses 
+these forms as a template to complete the IRB registration with his institution.
+These forms serve as a set of reference documents 
+\yanyan{cite our docs} that will reduce the researcher's burden. 
 
 After the application is submitted, the researcher's IRB may disagree with 
 the initial experiment requirement. %For example, Bob wants to access cell 
@@ -170,11 +174,12 @@ The researcher then revises the experiment requirement, obtains IRB approval, an
 submits the revised experiment registration form to the clearinghouse. Finally, the clearinghouse
 parses the registration form, extracts each data accuracy and access 
 frequency approved by the researcher's IRB, and assigns an experiment 
-account to the researcher. Once the researcher requests 
-devices, the clearinghouse supplies the extracted data as input parameters to
-the blurring layers that will be instantiated on the requested devices. The clearinghouse
+account to the researcher. The clearinghouse
 has a default set of blurring layers for each sensor, each have the 
-sensor's accuracy and access frequency as parameters. The details about
+sensor's accuracy and access frequency as parameters. Once the researcher requests 
+devices, the clearinghouse supplies the extracted data from the 
+researcher's registration form as input parameters to
+the blurring layers that will be instantiated on the requested devices. The details about
 how each policy is implemented will be introduced in Section~\ref{sec-policy}.
 
 This Sensibility Testbed
@@ -187,11 +192,11 @@ the IRB at New York University (IRB \# 15-10751).}.
 
 \subsubsection{Experiment Manager}\label{sec-emt}
 
-To run code remotely on mobile devices, an experimenter uses an
-experiment manager from his local machine 
+To run code remotely on mobile devices, a researcher uses an
+experiment manager from his own computer 
 %which contains Bob's private key, \path{key.bob-priv}, 
 to access the sandboxes on the remote devices assigned by the clearinghouse. 
-This experiment manager is a light-weight command line 
+This experiment manager provides a light-weight command line 
 console~\cite{demo-kit} that allows direct access from the 
 experimenter's local machine to a set of remote devices. 
 The clearinghouse is not involved when the experimenter deploys 
@@ -245,13 +250,13 @@ In summary,
 %the IRB at New York University. \yanyan{might need a link to
 %your approval letter or ref number}}. 
 using Sensibility Testbed, device owners' privacy is protected
-from any inadvertent or malicious attempt, and experimenters 
+from any inadvertent or malicious attempt, and researchers 
 are able to go through a streamlined process of device 
 recruitment and experiment setup.
 
 %the device owners do not need to give consents 
 %multiple times, to each project of each researcher. 
-In the following, we present several use cases to
+In the following, we present several usage scenarios to
 demonstrate how device owners opt in as volunteers, and how
 researchers do experiments on devices without compromising device
 owners' privacy.
@@ -261,7 +266,7 @@ owners' privacy.
 To demonstrate how Sensibility Testbed's components interact with
 each other to assist experimenter's experimentation, this section will go
 through several scenarios. In these scenarios, a smartphone owner, Alice,
-participates in the testbed; an experimenter, Bob, runs code on
+participates in the testbed; a researcher, Bob, runs code on
 Sensibility Testbed using Alice's smartphone, among other
 devices discovered. Specifically, Bob wants to know the cellular service
 quality in major cities. As such, he needs location information
@@ -331,14 +336,15 @@ cellular network data updates every 10 minutes.
 %experiment description for these requirements, which the
 %clearinghouse will codify into policies that are later enforced
 %on remote mobile devices (Section~\ref{sec-ch}).
-Bob then uses this form, along with details about Sensibility Testbed, 
-to apply for IRB approval at his institution.
+Bob then uses this form, along with other forms downloaded 
+from the clearinghouse, to apply for IRB approval at his institution.
 
 After the application is submitted, Bob's IRB disagrees that his 
 experiment should access cell IDs in cellular networks, but approves 
-the rest. Bob then ubmits the revised experiment registration form
+the other policies. Bob then submits the revised experiment registration form
 and his IRB approval, and obtains an experiment account at the
-clearinghouse, and his authentication keys assigned by the 
+clearinghouse. Once his account is activated, Bob obtains his 
+authentication keys assigned by the 
 clearinghouse. These keys are to authenticate Bob with the 
 clearinghouse and the set of devices that he has access to.
 %\path{bob.public} and \path{bob.private}.
@@ -365,7 +371,7 @@ happens to find that Alice's device is available, the clearinghouse then
 %the sandbox on Alice's device. This indicates that Bob is
 %authorized to use this sandbox on Alice's device, and 
 assigns Alice's device to Bob's experiment account by placing Bob's
-authentication keys on Alice's device. It then instructs 
+public key on Alice's device. It then instructs 
 the sandbox on Alice's device to add Bob's policies by preloading
 a set of blurring layer code. At this point, Bob can access Alice's 
 device through the experiment manager, just like using \texttt{ssh}.
@@ -446,41 +452,47 @@ disabled by default (\xmark).}
 Note that Bob cannot request access to all sensors at any rate
 even if his IRB approves such a policy. The Sensibility Testbed's
 own IRB allows a set of default policies to access sensors in a
-way that is low risk, and for which access can be pre-approved with the
+way that is low to moderate risk, and for which access can be pre-approved with the
 researcher's local IRB. Only those sensors listed on our project 
 wiki page~\cite{sensor-api} are accessible to a researcher. 
-This list of sensors that Sensibility Testbed provides are of moderate 
-to low privacy risks, and the testbed further provides policy enforcement
+A summary of these sensors is listed in Table~\ref{tab:default}, 
+where each sensor is categorized as of low, moderate or high 
+privacy risk.
+
+The list of sensors that Sensibility Testbed provides are of moderate 
+to low privacy risks (marked by \tickmark), and the testbed further provides policy enforcement
 (Section~\ref{sec-policy}) to protect all the sensor data. Sensors 
 that are overly sensitive, such as camera and microphone, are not 
-exposed to experiment code. This is motivated by the Android system, 
-where permissions are categorized into different protection levels~\cite{level}, 
-Normal permissions are automatically granted to the apps when 
-asked, dangerous permissions are given based upon the user's consent.
-Therefore, we divide sensors into different risk levels, as shown 
-in Table~\ref{tab:default}. Sensors with low to moderate risk are 
-allowed and protected by IRB policies. Sensors of high risk are 
-disabled by default. 
-
-We categorize sensors into different risk levels by the consequences
-and difficulties of a potential attack. If a microphone is controlled by 
+exposed to experiment code (marked by \xmark). This is motivated by the Android system, 
+where permissions are categorized into different protection levels~\cite{level}:
+\textit{normal} permissions are automatically granted to the apps when 
+asked, \textit{dangerous} permissions are given based upon the 
+user's consent, and so on. Similar to the Android permission catergories, 
+%we divide sensors into different risk levels, as shown 
+%in Table~\ref{tab:default}. 
+%Sensors with low to moderate risk are 
+%allowed and protected by IRB policies. Sensors of high risk are 
+%disabled by default. 
+we categorize sensors into different risk levels by the consequences
+of a potential attack. If a microphone is controlled by 
 a malicious party, it can be used to intelligently choose the data of a 
 high value (e.g., credit card number, password) to record~\cite{zhang2015leave}. On the other 
 hand, in order to infer credit card number or password typed on a 
-smartphone, an sophisticated algorithm needs to constantly learn 
+smartphone using motion sensors, an sophisticated algorithm needs to 
+be installed on the device and constantly learns 
 the patterns of data generated by accelerometer or gyroscope. Therefore, 
-compare to motion sensors, a microphone is considered more risky.
+compare to motion sensors, a microphone is considered of higher risk.
 
-If a researcher intends to access  
-data that is highly sensitive, a different IRB procedure must be followed. 
+Although high-risk sensors are disabled, if a researcher intends to access  
+data that is highly sensitive, a different IRB procedure could be followed. 
 In this case, the research project has to go through the Sensibility 
 Testbed's IRB, in addition to the researcher's IRB. 
-\yanyan{how to say this? if we think this is ok, then we provide specially
+\yanyan{if we think this is ok, then we provide specially
 designed interface and policy?}
 %Depending on the experiment description provided by the 
 %researcher, the fields marked with a (*) are the ones that will be blurred.
-
-
+%
+%
 As a result, Sensibility Testbed does not
 provide unfettered access to all sensors. 
 %Access to sensors of

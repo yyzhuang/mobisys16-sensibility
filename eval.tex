@@ -76,19 +76,45 @@ TouchLogger~\cite{cai2011touchlogger} & Gyroscope & \tickmark &
 & Broadcast intent & \tickmark &   &  \\ \hline
 
 \multirow{6}{*}{Guardian \cite{zhang2015leave}} 
-&  Bluetooth & \tickmark &   & \\ \cline{2-5}
+& Bluetooth & \tickmark &   & \\ \cline{2-5}
 & Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
 & Microphone  & & \tickmark & \\ \cline{2-5}
 & Cellular & \tickmark &   &  \\ \cline{2-5}
 & Motion sensors & \tickmark &   &  \\ \cline{2-5}
 & CPU usage\textsuperscript{\ddag} & \tickmark & & \\\hline
+
+\cite{aviv2012practicality}\textsuperscript{*} & Accelerometer & \tickmark &   
+&  \\ \hline
+
+\multirow{2}{*}{\cite{cai2012practicality}\textsuperscript{*}} & Accelerometer 
+& \tickmark &  &  \\ \cline{2-5}
+& Gyroscope & \tickmark & &  \\ \hline
+
+AccelPrint~\cite{dey2014accelprint} & Accelerometer & \tickmark &   
+&  \\ \hline
+
+\multirow{8}{*}{\cite{bojinov2014mobile}\textsuperscript{*}} & Microphone  
+& & \tickmark & \\ \cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \cline{2-5}
+& Gyroscope & \tickmark & &  \\ \cline{2-5}
+& Magnetometer & \tickmark &   &  \\ \cline{2-5}
+& Ambient light & \tickmark &   &  \\ \cline{2-5}
+& Location (GPS) & \tickmark &   &  \\ \cline{2-5}
+& Touch screen & & & \xmark \\ \cline{2-5}
+& Camera & & \tickmark & \\ \hline
+
+Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope 
+& \tickmark & &  \\ \hline
+
  
-\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 39} & \multirow{2}{1cm}{\bf 
-32/39 (82.05\%)} & \multirow{2}{1cm}{\bf 7/39 (17.95\%)} & 
-\multirow{2}{1cm}{\bf 0/39 (0\%)} \\ & & & & \\\hline
+\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 52} & \multirow{2}{1cm}{\bf 
+42/52 (80.77\%)} & \multirow{2}{1cm}{\bf 9/52 (17.31\%)} & 
+\multirow{2}{1cm}{\bf 1/52 (1.92\%)} \\ & & & & \\\hline
+
 
 \multicolumn{5}{l}{\textsuperscript{*}\scriptsize Projects 
-\cite{chen2014sensor} and \cite{jiang2012isolating} do not have a project name.} \\
+\cite{bojinov2014mobile}, \cite{chen2014sensor}, \cite{jiang2012isolating}, \cite{aviv2012practicality} and
+\cite{cai2012practicality} do not have a project name.} \\
 
 \multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
 can be implemented by interposing socket calls.} \\
@@ -107,7 +133,7 @@ support.}
 %\vspace{-10pt}
 \end{table}
 
-\todo{Q1: does ST protect privacy sufficiently?}
+%\todo{Q1: does ST protect privacy sufficiently?}
 
 
 \textbf{Privacy and security concerns.}
@@ -130,26 +156,32 @@ default policies (specialized policies).
 
 In particular, prior work shows 
 that Android users' touch inputs can be revealed through a few attack 
-techniques like keyloggers. For example, a smartphone's accelerometer 
-and gyroscipe can disclose shift and rotation data when a user types 
-through a software keyboard. This can be informative enough 
+techniques like keyloggers and fingerprinting. For example, a smartphone's accelerometer 
+and gyroscope can disclose shift and rotation data when a user types 
+through a software keyboard. Imprecisions in sensor calibration can 
+result in a device-specific scaling and thus can be a reliable fingerprint 
+of the device. User generated data thus can be informative enough 
 for malware to infer the key the user enters~\cite{cai2011touchlogger, 
-owusu2012accessory}. The chance for these keyloggers to successfully 
-identify an input depends on their sampling rate. 
+owusu2012accessory}, or to identify individual devices~\cite{bojinov2014mobile, 
+dey2014accelprint}. Because these motion sensors are accessible 
+through JavaScript in a mobile web browser, without requesting any 
+permissions or notifying the device owner, these attack techniques are much 
+less detectable. The chance for these techniques to succeed
+depends on their sampling rate. 
 %Consider an Android 
 %user's average typing speed of 3 keys per second, when the sampling 
 %rate goes down to once per second, the best the adversary can do is 
 %just to identify 1 of these 3 keys. 
 Therefore, the policies to restrict the access rates to motion sensors 
-are effective if the allowed rate is lower than the best keylogger would 
-require to identify a key.
+are effective if, e.g., the allowed rate is lower than the best keylogger 
+would require to identify a key.
 
 Another line of attack is on location privacy. 
 
-\todo{Q1.2: does ST address these concerns? A1.2: show
-  a handful of past experiments with a 90/10 rule -- 90\% of experiments
-  can be doone with virtually no mods, and the other 8\% we can write 
-  specialized policy for and 2\% it's too hard.}
+%\todo{Q1.2: does ST address these concerns? A1.2: show
+%  a handful of past experiments with a 90/10 rule -- 90\% of experiments
+%  can be doone with virtually no mods, and the other 8\% we can write 
+%  specialized policy for and 2\% it's too hard.}
 
 \subsection{Privacy Protection and Experiment Functionality}
 

@@ -11,9 +11,21 @@ server~\cite{calc}. Sensor data from the accelerometer
 or gyroscope can be sufficient to infer the locations of touch-screen 
 taps, and thus infer a user's password~\cite{cai2011touchlogger}.
 Compromised apps can even let criminals break into an individual's 
-bank account~\cite{starbucks}. As a result, device owners 
-are aware that running apps on their smartphones can raise privacy 
-and security risks. 
+bank account~\cite{starbucks}. 
+%As a result, device owners 
+%are aware that running apps on their smartphones can raise privacy 
+%and security risks. 
+A major reason for the prevelant privacy breaches is that on many mobile 
+systems, such as Android, 
+only a sub-set of sensors like GPS and bluetooth are considered risky, 
+and their access is mediated~\cite{android-sec}. Other sensors 
+such as accelerometer, gyroscope, etc., 
+%are considered to be innocuous, 
+require no permission to access. Furthermore, %research shows that 
+device owners are often oblivious to the implications of granting access to
+a particular type of sensor or resource~\cite{felt2012android}. It is 
+therefore challenging to conduct research on end-user devices
+in compliance with ethical standards~\cite{zevenbergen2013ethical}.
 
 However, having access to data from the enormous number of smartphones 
 in use today could be tremendously valuable to the research 

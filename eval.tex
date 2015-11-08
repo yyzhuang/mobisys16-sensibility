@@ -134,10 +134,9 @@ PrivStats~\cite{popa2011privacy}
 & WiFi & \tickmark &   &  \\ \cline{2-5}
 & Cellular & \tickmark &   & \\ \hline
  
-\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 64} & \multirow{2}{1cm}{\bf 
-54/64 (84.38\%)} & \multirow{2}{1cm}{\bf 9/64 (14.06\%)} & 
-\multirow{2}{1cm}{\bf 1/64 (1.56\%)} \\ & & & & \\\hline
-
+\multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \cline{2-5}
+& Internet\textsuperscript{\dag} & \tickmark & & \\ \hline
 
 \multicolumn{5}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
 
@@ -160,24 +159,61 @@ support.}
 
 %\todo{Q1: does ST protect privacy sufficiently?}
 
+\begin{table}
+\scriptsize
+\centering
+
+\bgroup
+\def\arraystretch{1.15}% % for table padding
+\begin{tabular}{|l|l|c|c|c|}
+\hline
+\multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
+\multicolumn{3}{c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
+& & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
+
+Koi~\cite{guha2012koi} & Location & \tickmark &   &  \\ \hline
+
+Locaccino~\cite{toch2010empirical} & Location & \tickmark &   &  \\ \hline
+
+\multirow{2}{*}{Accomplice~\cite{han2012accomplice}} & Location & \tickmark &   &  \\ \cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \hline
+
+\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 71} & \multirow{2}{1cm}{\bf 
+61/71 (85.92\%)} & \multirow{2}{1cm}{\bf 9/71 (12.67\%)} & 
+\multirow{2}{1cm}{\bf 1/71 (1.41\%)} \\ & & & & \\\hline
+
+\end{tabular}
+\egroup
+
+\caption{\small Table~\ref{tab:policy} continued --- Sensibility Testbed's support 
+for privacy and security policies. }
+\label{tab:policy-continued}
+%\vspace{-10pt}
+\end{table}
+
 
 \textbf{Privacy and security concerns.}
 In order to identify the current privacy and security concerns on mobile 
-devices, we surveyed X projects in the past 5 to 6 years. These projects, listed in Table~\ref{tab:policy},
+devices, we surveyed X projects in the past ten years. These projects, listed in 
+Table~\ref{tab:policy} and \ref{tab:policy-continued},
 range from social network applications~\cite{aditya2014encore} to facial
 recognition algorithms~\cite{chen2014sensor}. Out of these projects, 
 Y of them proposed privacy protection about location information, Z of 
-them had concerns about wireless network such as WiFi and Bluetooth
-(connection/pairing history, MAC addresses, etc.), and M of them 
-considered motion sensors such as accelerometer and gyroscope are
-risky. 
+them considered motion sensors such as accelerometer and gyroscope 
+risky, and M had concerns about wireless network such as WiFi and Bluetooth
+(connection/pairing history, MAC addresses, etc.). As expected, location (mainly GPS)
+and motion sensors (mainly accelerometer) have the most privacy and security 
+concerns~\cite{chakraborty2014ipshield}.
 %\todo{Q1.1: what privacy concerns do people have? }
 
 \textbf{Are Sensibility Testbed's policies sufficient?}
-As shown in Table~\ref{tab:policy}, xx\% of the security and privacy
+As shown in Table~\ref{tab:policy} and \ref{tab:policy-continued}, xx\% of the security and privacy
 issues in prior projects can be addressed in Sensibility Testbed using
 default policies, and yy\% issues can be resolved by extending 
-default policies (specialized policies). 
+default policies (specialized policies). Only zz\% of them cannot
+be protected by the policies in Sensibility Testbed, \yanyan{I'm not sure 
+yet how to explain this. It's possible to implement touch screen, but
+I don't know what experiment would need this.}
 
 In particular, prior work shows 
 that Android users' touch inputs can be revealed through a few attack 
@@ -189,17 +225,19 @@ of the device. User generated data thus can be informative enough
 for malware to infer the key the user enters~\cite{cai2011touchlogger, 
 owusu2012accessory}, or to identify individual devices~\cite{bojinov2014mobile, 
 dey2014accelprint}. Because these motion sensors are accessible 
-through JavaScript in a mobile web browser, without requesting any 
+%through JavaScript in a mobile web browser, 
+without requesting any 
 permissions or notifying the device owner, these attack techniques are much 
-less detectable. The chance for these techniques to succeed
+less detectable. However, the chance for these techniques to succeed
 depends on their sampling rate. 
 %Consider an Android 
 %user's average typing speed of 3 keys per second, when the sampling 
 %rate goes down to once per second, the best the adversary can do is 
 %just to identify 1 of these 3 keys. 
 Therefore, the policies to restrict the access rates to motion sensors 
-are effective if, e.g., the allowed rate is lower than the best keylogger 
-would require to identify a key.
+are effective when the allowed rate is lower than the best keylogger 
+would require to identify a key, or the best tracker to fingerprint a device.
+Section~\ref{sec-experiment} shows such an example. 
 
 Another line of attack is on location privacy. 
 
@@ -208,7 +246,7 @@ Another line of attack is on location privacy.
 %  can be doone with virtually no mods, and the other 8\% we can write 
 %  specialized policy for and 2\% it's too hard.}
 
-\subsection{Privacy Protection and Experiment Functionality}
+\subsection{Privacy Protection and Experiment Functionality}\label{sec-experiment}
 
 \todo{Q2: is ST useful for answering research questions? A:
 compare the results of an algorithm with varying levels of 

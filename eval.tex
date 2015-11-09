@@ -310,12 +310,48 @@ devices.}
 
 \subsection{Microbenchmarks}\label{sec-benchmark}
 
-\todo{Q5: what's the overhead? A: CPU/memory overhead 
-and battery (\ref{sec-benchmark}).}
+We measured the overhead incurred by running blurring layers with 
+experiment code in Sensibility Testbed, to demonstrate that it is 
+feasible to protect sensor data privacy on end-user devices without 
+affecting user experience in terms of app responsiveness and battery life.
 
-\yanyan{briefly show how effective/efficient it collects data, 
-and overhead compared to native.}
+\subsubsection{Performance Overhead}
 
-\subsubsection{Measurement Overhead}
+\begin{table}
+\scriptsize
+\centering
+
+\bgroup
+\def\arraystretch{1.15}% % for table padding
+\begin{tabular}{|l|l|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\multirow{2}{*}{\bf Operations}} & 
+\multicolumn{3}{c|}{\bf Number of blurring layers} \\\cline{3-5}
+\multicolumn{2}{|c|}{} & {\bf 1} & {\bf 5} & {\bf 10} \\\hline
+
+\multicolumn{2}{|c|}{No-op} & 0.0072 $ms$ & 0.0101 $ms$ & 0.0154 $ms$ \\ 
+
+\multicolumn{2}{|c|}{Some-op} & 0.0675 $ms$ & 0.3469 $ms$  & 0.5749 $ms$ \\ \hline
+
+\multirow{2}{*}{\bf Overhead} & Total & 0.0604 $ms$ & 0.3368 $ms$  & 0.5595 $ms$ \\ \cline{2-5}
+
+& Per-layer & {\bf 0.0604 $ms$} & {\bf 0.0673 $ms$} & {\bf 0.0559 $ms$} \\ \hline
+
+\end{tabular}
+\egroup
+
+\caption{\small Performance overhead with varying number of blurring layers. }
+\label{tab:overhead}
+%\vspace{-10pt}
+\end{table}
+
+Table~\ref{tab:overhead} shows the overhead of using varying number of 
+blurring layers, i.e., policies, to protect sensor data. As shown in the table, 
+the total overhead is \textit{linear} across the various number of policies. 
+Moreover, the overhead per policy is \textit{constant}, round 0.06 $ms$. This 
+constant overhead is consistant in all cases.
 
 \subsubsection{Battery Consumption}
+
+\todo{Q5: what's the overhead? A: CPU/memory overhead 
+and battery (\ref{sec-benchmark}).}

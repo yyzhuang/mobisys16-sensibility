@@ -102,7 +102,7 @@ for layer_config in layer_configs:
           log("Running command", command, "\n")
           try:
             experimentlib.start_vessel(vesselhandle, userid, *command)
-          except NodeCommunicationError, e:
+          except experimentlib.NodeCommunicationError, e:
             # Oops, it probably was running already!
             # Continue in a bit, and make sure the user notices.
             log("*** Error running command,", repr(e), ", continuing in 10 seconds\n")

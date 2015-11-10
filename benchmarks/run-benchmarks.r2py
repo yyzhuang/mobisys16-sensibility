@@ -1,0 +1,116 @@
+usage = """
+run-benchmarks.r2py --- run benchmarks (duh!)
+
+Supply as command-line arguments
+* your user key name;
+* the node name and
+* node port, and
+* the vessel name.
+
+E.g., 
+run-benchmarks.r2py albert 11d5e2b57c74982cf7647ac6da0f4d8609454f26 1224 v3
+
+I expect that you `uploaddir`d the benchmark scripts to the vessel beforehand:
+
+https://github.com/aaaaalbert/benchmark_repy_v2
+
+(Use `uploaddir` to push the directory contents all at once.)
+"""
+
+experimentlib = dy_import_module("experimentlib.r2py")
+
+try:
+  user_key_name, node_name, node_port, vessel_name = callargs
+except (TypeError, ValueError):
+  log(usage)
+  exitall()
+
+
+# What tests to run, from expensive to cheap (as measured on my Mac)
+tests = ["mutarg", "immutarg", "excp", "noarg"]
+
+# Number of layers to splice in for an experiment run
+layer_configs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50]
+
+# Number of iterations to perform for a run
+iterations = [100,] # 1, 5, 10, 50, 100]
+
+
+
+def wait_for_program_to_finish(vesselhandle, userid, poll_interval=5, grace_period_on_stale=None):
+  """
+  Repeatedly poll the vessel status to see when the program is done, i.e. 
+  the vessel status is Fresh, Stopped, or Terminated.
+  `poll_interval` is the wait time between polling attempts.
+  If `grace_period_on_stale` is given, wait that many seconds when the 
+  vessel status is Stale, then return.
+  """
+  finished_statuses = [experimentlib.VESSEL_STATUS_FRESH, experimentlib.VESSEL_STATUS_TERMINATED, experimentlib.VESSEL_STATUS_STOPPED]
+
+  # Sleep right now in order to avoid races between starting the vessel 
+  # and updating the vessel status.
+  sleep(poll_interval)
+
+  while True:
+    current_vessel_status = experimentlib.get_vessel_status(vesselhandle, userid)
+    if current_vessel_status in finished_statuses:
+      break
+    elif grace_period_on_stale is not None and current_vessel_status == experimentlib.VESSEL_STATUS_STALE:
+      log("Stale. Bailing out.\n")
+      sleep(grace_period_on_stale)
+      break
+    else:
+      sleep(poll_interval)
+      log("Still wa-haiting....\n")
+
+
+
+log("Loading user keys\n")
+userid = experimentlib.create_identity_from_key_files(user_key_name + ".publickey", user_key_name + ".privatekey")
+
+# XXX Looking up nodes the user key controls, then filtering out the one 
+# XXX we want is a very roundabout solution, but we need the `vesseldict`
+# XXX set up properly for `experimentlib.r2py`'s functions to work
+log("Looking up nodes\n")
+nmhandles = experimentlib.lookup_node_locations_by_identity(userid)
+log(nmhandles, "\n")
+
+log("Browsing vessels\n")
+vesselhandles = []
+
+for nmhandle in nmhandles:
+  if nmhandle == node_name + ":" + node_port:
+    vesseldictlist = experimentlib.browse_node(nmhandle, userid)
+    for vesseldict in vesseldictlist:
+      if vesseldict["vesselhandle"].endswith(":" + vessel_name):
+        vesselhandles.append(vesseldict["vesselhandle"])
+
+# We have the desired vessel handle in our list now
+
+for layer_config in layer_configs:
+  for test in tests:
+    for iteration in iterations:
+      log("Running program", test, "with", layer_config, "layers for", iteration, "times.\n")
+      l = str(layer_config)
+      i = str(iteration)
+      seclayer_command = ("encasementlib.r2py", 
+          [test + "-seclayer-init.r2py", l, test + "-timediter.r2py", i])
+      handop_command = (test + "-handop.r2py", [l, i])
+      nocheck_command = (test + "-nocheck.r2py", [l, i])
+      for command in [seclayer_command, handop_command, nocheck_command]:
+        for vesselhandle in vesselhandles:
+          log("Running command", command, "\n")
+          try:
+            experimentlib.start_vessel(vesselhandle, userid, *command)
+          except NodeCommunicationError, e:
+            # Oops, it probably was running already!
+            # Continue in a bit, and make sure the user notices.
+            log("*** Error running command,", repr(e), ", continuing in 10 seconds\n")
+            sleep(10)
+        for vesselhandle in vesselhandles:
+          wait_for_program_to_finish(vesselhandle, userid, grace_period_on_stale=30)
+
+
+log("Log:\n", experimentlib.get_vessel_log(vesselhandle, userid), "\n")
+
+log("Done\n")

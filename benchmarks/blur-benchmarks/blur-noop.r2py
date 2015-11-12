@@ -1,0 +1,19 @@
+"""
+This is a no-op security layer used
+for micro-benchmarking.
+"""
+def secure_get_acceleration():
+  return get_acceleration()
+
+
+# Define this function
+CHILD_CONTEXT_DEF["get_acceleration"] = {"type":"func",
+                             "args":None,
+                             "return":list,
+                             "exceptions":None,
+                             "target":secure_get_acceleration
+                            }
+
+# Dispatch the next module
+secure_dispatch_module()
+

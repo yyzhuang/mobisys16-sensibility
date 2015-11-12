@@ -1,0 +1,25 @@
+"""
+Blur accelerometer readings to a settable amount of decimal digits.
+"""
+
+digits = 2
+
+def secure_get_acceleration():
+  x, y, z = get_acceleration()
+  # Argh, work around a crazy edge case
+  if x is None or y is None or z is None:
+    return [0., 0., 0.]
+  return [round(x, digits), round(y, digits), round(z, digits)]
+
+
+# Define this function
+CHILD_CONTEXT_DEF["get_acceleration"] = {"type":"func",
+                             "args":None,
+                             "return":list,
+                             "exceptions":"any",
+                             "target":secure_get_acceleration
+                            }
+
+# Dispatch the next module
+secure_dispatch_module()
+

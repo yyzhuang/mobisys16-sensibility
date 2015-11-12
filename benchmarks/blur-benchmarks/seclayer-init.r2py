@@ -1,0 +1,40 @@
+"""
+This is a no-op security layer used
+for micro-benchmarking.
+
+Provide a security layer filename and the number of layers as the callargs!
+"""
+
+which_layer = callargs.pop(0)
+num_layers = int(callargs.pop(0))
+
+log("Will use", num_layers, "of layer", which_layer, "\n")
+
+# Add this layer this number of times
+# This will cause us to stack this module
+# this many times
+for x in xrange(num_layers-1):
+  callargs.insert(0, which_layer)
+
+
+def secure_get_acceleration():
+  return get_acceleration()
+
+# Define this function
+CHILD_CONTEXT_DEF["get_acceleration"] = {"type":"func",
+                             "args":None,
+                             "return":list,
+                             "exceptions":"any",
+                             "target": secure_get_acceleration
+                            }
+
+# Pass the number of recursion layers so that the child can output it 
+# to the log (for evaluation purposes)
+CHILD_CONTEXT_DEF["recurse"] = {"type": "const", "target": num_layers} 
+
+# Also pass the seclayer name
+CHILD_CONTEXT_DEF["seclayer"] = {"type": "const", "target": which_layer} 
+
+# Dispatch the next module
+secure_dispatch_module()
+

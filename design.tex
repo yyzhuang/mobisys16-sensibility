@@ -8,10 +8,9 @@ This section describes the design of the Sensibility Testbed.
 We start with
 an overview of the testbed infrastructure (Section~\ref{sec-overview}), 
 and description of each testbed component 
-(Section~\ref{sec-component}), then finally discuss how all the 
-components work together to allow researchers to conduct experiments,
-and protect device owners' personal information 
-(Section~\ref{sec-scenario}).
+(Section~\ref{sec-component}), then finally discuss the default policies 
+of Sensibility Testbed that are used to protect device owners' personal 
+information (Section~\ref{sec-irb-policies}).
 
 
 \subsection{Overview}\label{sec-overview}
@@ -64,6 +63,14 @@ In this section, we describe the function of each component: the
 software running on a mobile device, the clearinghouse~\cite{ch}, 
 and experiment manager.
 
+To demonstrate how these components interact with each other, we assume 
+that a smartphone owner, Alice, participates in the testbed; a researcher, Bob, 
+runs code on Sensibility Testbed using Alice's smartphone, among other
+devices discovered. Specifically, Bob wants to know the cellular service
+quality in major cities. As such, he needs location information
+of individual devices, their cellular service provider, network
+type (3G, 4G, LTE, etc.), and signal strength.
+
 \subsubsection{Device Software}\label{sec-repy}
 
 %In Sensibility Testbed, all experiments execute in a secure 
@@ -81,31 +88,11 @@ provides security isolation and performance isolation on mobile devices.
 %similar to Python, and run in a secure %Python-based
 Experimenters use a Python-like programming interface~\cite{repyv2}
 to write experiment code, upload the code and execute it in the
-sandbox. The programming interface includes functions for networking, 
+sandbox on remote devices. The programming interface includes functions for networking, 
 file system access, threading, locking, logging, and so on. To access sensors, 
 the sandbox also has a set of sensor functions~\cite{sensors}. 
 Details about implementing the Repy sandbox for mobile 
 devices are described in Section~\ref{sec-repy-ext}.
-
-To install Repy and other software on a device, the owner downloads 
-our Sensibility Testbed app from the Google Play Store \cite{sensibility-app}.
-The app displays a consent form, \yanyan{cite link} containing the testbed's 
-general usage policy. The device owner reviews and must agree to this 
-policy before installation. If the device owner gives his
-consent, the device will be installed with the Repy sandbox, the native Android code to 
-start or stop the sandbox, and an interface to communicate with the testbed 
-infrastructure, particularly the clearinghouse (described below). 
-By agreeing to our general usage policy, device 
-owners of different ages, from different countries, with different
-background need only to opt into our testbed as 
-volunteers \textit{once}, at the time of app installation. As a result, an 
-experimenter who wants to conduct a research experiment 
-%requests devices through our clearinghouse, which assigns 
-%them devices from a set of available resources. As a result, 
-%the researcher
-does not need to get consent from each subject for each individual
-experiment. The testbed thus greatly simplifies the process for both the 
-device owners and experimenters. 
 
 %However, the current Repy sandbox does not include calls to access sensors. 
 %%To obtain the sensor data, we need to extend the sandbox. 
@@ -128,6 +115,36 @@ access to cameras can be disabled.
 The details of policy implementation are presented in 
 Section~\ref{sec-layer} and \ref{sec-nanny}.
 
+\textbf{Usage scenario 1: Smartphone owner volunteers as a testbed participant.}
+To install Repy and other software on a device, the owner Alice downloads 
+our Sensibility Testbed app from the Google Play Store~\cite{sensibility-app}.
+The app displays a consent form, \yanyan{cite link} containing the testbed's 
+general usage policy. Alice reviews and must agree to this 
+policy before installation. If Alice gives her consent, her device will be 
+installed with the Repy sandbox, the native Android code to 
+start or stop the sandbox, and an interface to communicate with the testbed 
+infrastructure (particularly the clearinghouse, described below). 
+By agreeing to our general usage policy, different device 
+owners of different ages, from different countries, with different
+background need only to opt into our testbed as 
+volunteers \textit{once}, at the time of app installation. As a result, an 
+experimenter like Bob who wants to conduct a research experiment 
+%requests devices through our clearinghouse, which assigns 
+%them devices from a set of available resources. As a result, 
+%the researcher
+does not need to get consent from each subject for each individual
+experiment. The testbed thus greatly simplifies the process for both the 
+device owners and experimenters. 
+
+Once the app is started, Alice's device can be
+discovered by the clearinghouse. Her device periodically contacts 
+a lookup service to advertise itself to Sensibility Testbed. 
+A lookup service is a distributed key-value store, such as a 
+distributed hash table (DHT)~\cite{dht}, that 
+allows one to retrieve values associated with keys and to associate 
+keys with values. Through the app interface, Alice may uninstall, or 
+choose to opt out of individual experiments.
+
 \subsubsection{Clearinghouse}\label{sec-ch}
 The clearinghouse~\cite{ch} is a testbed server that keeps 
 track of devices and mediates experimenter access to the 
@@ -138,6 +155,26 @@ them to a researcher's experiment account upon request.
 Its key role is to facilitate device sharing, 
 which relieves individual experimenters from repeatedly 
 recruiting devices for each experiment.
+
+Note that in Sensibility Testbed, there are two types of keys. A device
+owner has an \textit{identification key} to identify the app installed on a 
+device. An experimenter has a pair of public/private \textit{authentication 
+keys} to authenticate the experimenter with the clearinghouse and 
+the set of devices that he has access to.
+
+\textbf{Usage scenario 2: Clearinghouse tracks devices.}
+To keep track of Alice's device, the
+clearinghouse periodically queries the lookup service to
+discover any new devices. Once Alice's device is discovered, the
+clearinghouse obtains its \textit{identification key} \path{key.alice} generated
+during installation, and stores this key. 
+%clearinghouse uses a database that stores her device's unique
+%identification key, \path{key.alice}, generated during installation. 
+This key is not associated with Alice's or her
+device's identity, but only the app's installation on the device. If
+Alice uninstalls the Sensibility app, \path{key.alice} is
+deleted at the clearinghouse, which effectively unlinks
+her device from any metadata stored on the clearinghouse.
 
 %The clearinghouse
 %plays an intermediate role between the experimenter and 
@@ -153,35 +190,70 @@ recruiting devices for each experiment.
 %policies will be applied to restrict %the precision of sensor 
 %%data or the frequency to access 
 %sensor access. 
-In order to obtain an IRB approval, a researcher first fills out an experiment
+\textbf{Usage scenario 3: Researcher registers experiment and provides IRB policies.}
+To run code on Sensibility Testbed, researcher Bob first needs to 
+provide a set of detailed IRB policies from his institution. 
+%In order to obtain an IRB approval, a researcher first 
+To do this, Bob fills out an experiment
 registration form \yanyan{cite url or show screenshot} at the 
 clearinghouse. The clearinghouse registration page shows 
 a list of sensors accessible through our programming interface, and 
 each of their possible accuracy 
-and access frequency. Aftering filling out this form, the researcher 
-downloads the detailed information about Sensibility Testbed and 
+and access frequency. In this case, Bob specifies that 
+%what data can be accessed by a research experiment, at which 
+%granularity or frequency such data can be accessed, how data 
+%should be securely stored, and so on. \yanyan{cite register 
+%experiment website url.}
+his experiment can (1) read location information
+from devices at the granularity of a city, (2) read accurate
+cellular signal strength and network type, as well as
+%but not allow access to information about 
+cell IDs, and (3) get location and
+cellular network data updates every 10 minutes. 
+%Bob submits an
+%experiment description for these requirements, which the
+%clearinghouse will codify into policies that are later enforced
+%on remote mobile devices (Section~\ref{sec-ch}).
+%Bob then uses this form, along with other forms downloaded 
+%from the clearinghouse, to apply for IRB approval at his institution.
+%
+Aftering filling out this form, Bob downloads the experiment description 
+he provided, the detailed information about Sensibility Testbed and 
 several relevant forms, such as 
 those addressing consent, terms of participation (for device owners) 
-and terms of usage (for the researcher), and so on. The researcher then uses 
-these forms as a template to complete the IRB registration with his institution.
-These forms serve as a set of reference documents 
-\yanyan{cite our docs} to make it easier for the researcher to 
-file the necessary IRB paperwork with his institution.
+and terms of usage (for the researcher), and so on. \yanyan{cite our docs}  
+Bob then uses these forms as a template to complete the IRB registration 
+with his institution. These forms serve as a set of reference documents 
+to make it easier for researchers like Bob to 
+file the necessary IRB paperwork with their institutions.
 
-After the application is submitted, the researcher's IRB may disagree with 
-the initial experiment requirements. %For example, Bob wants to access cell 
+After the application is submitted, Bob's IRB may disagree with 
+his initial experiment requirements. For example, Bob's IRB disagrees 
+that his experiment should access cell IDs in cellular networks, but 
+approves the other policies. 
+%Bob wants to access cell 
 %IDs in cellular networks, but his IRB disallows such data access. Bob then
-In this case, the researcher will revise the experiment requirements, refile the paperwork, obtain IRB approval, and
-submit the revised experiment registration form to the clearinghouse. Finally, the clearinghouse
-parses the registration form, extracts each data accuracy and access 
-frequency approved by the researcher's IRB, and assigns an experiment 
-account to the researcher. The clearinghouse
-has a default set of blurring layers for accuracy and access frequency for each sensor. Once the researcher requests 
+In this case, Bob will revise the experiment requirements, refile the paperwork, 
+and obtain IRB approval. Bob then submits the revised experiment 
+registration form and his IRB approval to the clearinghouse.
+
+Finally, the clearinghouse
+parses Bob's registration form, extracts each data accuracy and access 
+frequency approved by Bob's IRB, and assigns an experiment 
+account to Bob. Once his account is activated, Bob obtains his 
+\textit{authentication keys} assigned by the 
+clearinghouse. These keys are to authenticate Bob with the 
+clearinghouse and the set of devices that he has access to.
+%\path{bob.public} and \path{bob.private}.
+Next, Bob can request a number of devices from the 
+clearinghouse (Section~\ref{sec-emt}). The clearinghouse has a default set of blurring layers 
+for accuracy and access frequency for each sensor. Once Bob requests 
 devices, the clearinghouse supplies the extracted data from the 
 researcher's registration form as input parameters to
 the blurring layers that will be instantiated on the requested devices. 
-As a result, the poicies are easily customizable. Details about
+The poicies are easily customizable. Details about
 how each policy is implemented will be introduced in Section~\ref{sec-policy}.
+
 
 This Sensibility Testbed
 clearinghouse protocol for research plays a central role in
@@ -190,6 +262,7 @@ and ensures the enforcement
 of privacy policies\footnote{\scriptsize The Sensibility Testbed Clearinghouse
 protocol for research with human subjects has been approved by
 the IRB at New York University (IRB \# 15-10751).}. 
+
 
 \subsubsection{Experiment Manager}\label{sec-emt}
 
@@ -200,12 +273,54 @@ to access the sandboxes on the remote devices assigned by the clearinghouse.
 This experiment manager provides a light-weight command line 
 console~\cite{demo-kit} that allows direct access from the 
 experimenter's local machine to a set of remote devices. 
-The clearinghouse has no involvement after the experimenter deploys 
+
+\textbf{Usage scenario 4: Researcher acquires device(s) and runs an experiment.}
+%\label{sec-acquire-run}
+%The above clearinghouse protocol ensures the enforcement of data
+%access policies. Additionally, 
+To perform an experiment, Bob needs some devices under his 
+experiment account. 
+%Recall that a testbed-specific key, \path{key.sensibility}, is distributed
+%with the Sensibility Testbed app downloaded and installed by device
+%owners (Section~\ref{sec-owner-participate}). 
+%
+%\yanyan{Albert thinks this is too much detail.}
+%At this moment,  Bob has obtained an account with the clearinghouse.
+%and is assigned a pair of public and 
+%private keys, \path{key.bob-pub} and \path{key.bob-priv}, by the
+%clearinghouse. 
+When Bob requests a device, the clearinghouse
+happens to find that Alice's device is available from the lookup service
+(usage scenario 2). The clearinghouse then 
+%adds Bob's public key, \path{key.bob-pub}, to
+%the sandbox on Alice's device. This indicates that Bob is
+%authorized to use this sandbox on Alice's device, and 
+assigns Alice's device to Bob's experiment account by placing Bob's
+public key on Alice's device. It then instructs 
+the sandbox on Alice's device to add Bob's policies by preloading
+a set of blurring layer code. At this point, Bob can access Alice's 
+device through the experiment manager, just like using \texttt{ssh}.
+%Bob writes his experiment 
+%code in the Python-like language supported by our secure sandbox.
+%The following is a snipet of code that gets location coordinates 
+%from a device:
+
+Next, Bob uploads his code to Alice's device and 
+runs his experiment. When he accesses the device through
+the experiment manager, the sandbox on Alice's device 
+applies the data access policies loaded by the clearinghouse: For 
+policy (1), the sandbox blurs the location
+information returned from Alice's phone down to the coordinates
+of the nearest city; for policy (2), the sandbox blocks the
+access to cell IDs; for policy (3), the sandbox limits the rate
+of GPS location and cellular network queries from Bob's
+experiment to one in every 10 minutes.
+
+The clearinghouse has no involvement after Bob deploys 
 his experiment and runs the code, and it does not store any
-data on the experimenter's behalf. After collecting the data he needs, the
-experimenter can use the experiment manager to download data from the remote devices. 
-Alternatively, the experimenter can set up his own server to store all 
-the data\footnote{\scriptsize
+data on Bob's behalf. After collecting the data he needs, Bob 
+can use the experiment manager to download data from the remote devices. 
+Alternatively, he can set up his own server to store all the data\footnote{\scriptsize
 If an experimenter stores data on his own server, he must use protective
 measures to ensure that the data sent from the mobile devices is
 properly encrypted, and the server storage cannot be tampered
@@ -215,10 +330,10 @@ clearinghouse. Following receipt of this data, the clearinghouse will instruct t
 accessible to the experimenter that all the sensor data collected should be
 sent to this server. The sandboxes on these devices will issue
 \texttt{HTTPS POST} using the server's certificate, and send encrypted
-data to the experimenter's server. After the data is collected, how to store
-the data securely is mandated by the experimenter's IRB.}, or use a data 
+data to the experimenter's server.}, or use a data 
 store service we provide (a service called Sensevis~\cite{sensevis}, 
-not shown in Figure~\ref{fig-arch}).
+not shown in Figure~\ref{fig-arch}). After the data is collected, how to store
+the data securely is mandated by Bob's IRB.
 
 \smallskip
 In summary, 
@@ -257,140 +372,13 @@ recruitment and experiment setup.
 
 %the device owners do not need to give consents 
 %multiple times, to each project of each researcher. 
-In the following, we present several usage scenarios to
-demonstrate how device owners opt in as volunteers, and how
-researchers do experiments on devices without compromising device
-owners' privacy.
+%In the following, we present several usage scenarios to
+%demonstrate how device owners opt in as volunteers, and how
+%researchers do experiments on devices without compromising device
+%owners' privacy.
 
-\subsection{Testbed Usage Scenarios}\label{sec-scenario}
-\yanyan{should we remove this section?}
-To demonstrate how Sensibility Testbed's components interact with
-each other to assist experimenter's experimentation, this section will go
-through several scenarios. In these scenarios, a smartphone owner, Alice,
-participates in the testbed; a researcher, Bob, runs code on
-Sensibility Testbed using Alice's smartphone, among other
-devices discovered. Specifically, Bob wants to know the cellular service
-quality in major cities. As such, he needs location information
-of individual devices, their cellular service provider, network
-type (3G, 4G, LTE, etc.), and signal strength.
+%\subsection{Testbed Usage Scenarios}\label{sec-scenario}
 
-Note that in Sensibility Testbed, there are two types of keys. A device
-owner has an \textit{identification key} to identify the app installed on a 
-device. An experimenter has a pair of public/private \textit{authentication 
-keys} to authenticate the experimenter with the clearinghouse and 
-the set of devices that he has access to.
-
-\textbf{Smartphone owner volunteers as a testbed participant.}
-%\label{sec-owner-participate}
-When Alice, a smartphone owner, decides to participate in
-Sensibility Testbed, she first downloads and installs our Sensibility Testbed
-app~\cite{sensibility-app}. %which currently supports Android devices.
-%This app contains a testbed key \path{key.sensibility} used for 
-%device discovery (similar to a device owner's identification key). 
-%the Repy sandbox (Section~\ref{sec-repy}), 
-%and native Android code to handle user interaction, communicate 
-%with the clearinghouse, and so on. 
-%Before installation, the app displays a
-%consent form to Alice. If Alice
-%agrees to the terms and policy, the app will be installed on her
-%device. 
-Once the app is started, Alice's device can be
-discovered by the clearinghouse. Her device periodically contacts 
-a lookup service to advertise itself to Sensibility Testbed. 
-A lookup service is a distributed key-value store, such as a 
-distributed hash table (DHT)~\cite{dht}, that 
-allows one to retrieve values associated with keys and to associate 
-keys with values. 
-
-To keep track of Alice's device, the
-clearinghouse periodically queries the lookup service to
-discover any new devices. Once Alice's device is discovered, the
-clearinghouse obtains its identification key \path{key.alice} generated
-during installation, and stores this key. 
-%clearinghouse uses a database that stores her device's unique
-%identification key, \path{key.alice}, generated during installation. 
-This key is not associated with Alice's or her
-device's identity, but only the app's installation on the device. If
-Alice uninstalls the Sensibility app, \path{key.alice} is
-deleted at the clearinghouse, which effectively unlinks
-her device from any metadata stored on the clearinghouse.
-Instead of uninstalling, Alice may also choose to opt out of
-individual experiments.
-
-\textbf{Researcher registers experiment and provides IRB policies.}
-%\label{sec-irb-policy}
-To run code on Sensibility Testbed, experimenter Bob provides a
-set of detailed IRB policies from his institution. The process of how
-Bob obtains such policies is described in Section~\ref{sec-ch}.
-Bob first fills out an experiment registration form and specifies that 
-%what data can be accessed by a research experiment, at which 
-%granularity or frequency such data can be accessed, how data 
-%should be securely stored, and so on. \yanyan{cite register 
-%experiment website url.}
-his experiment can (1) read location information
-from devices at the granularity of a city, (2) read accurate
-cellular signal strength and network type, as well as
-%but not allow access to information about 
-cell IDs, and (3) get location and
-cellular network data updates every 10 minutes. 
-%Bob submits an
-%experiment description for these requirements, which the
-%clearinghouse will codify into policies that are later enforced
-%on remote mobile devices (Section~\ref{sec-ch}).
-Bob then uses this form, along with other forms downloaded 
-from the clearinghouse, to apply for IRB approval at his institution.
-
-After the application is submitted, Bob's IRB disagrees that his 
-experiment should access cell IDs in cellular networks, but approves 
-the other policies. Bob then submits the revised experiment registration form
-and his IRB approval, and obtains an experiment account at the
-clearinghouse. Once his account is activated, Bob obtains his 
-authentication keys assigned by the 
-clearinghouse. These keys are to authenticate Bob with the 
-clearinghouse and the set of devices that he has access to.
-%\path{bob.public} and \path{bob.private}.
-Next, Bob can request a number of devices from the clearinghouse.
-
-\textbf{Researcher acquires device(s) and runs an experiment.}
-%\label{sec-acquire-run}
-%The above clearinghouse protocol ensures the enforcement of data
-%access policies. Additionally, 
-To perform an experiment, Bob needs some devices under his 
-experiment account. 
-%Recall that a testbed-specific key, \path{key.sensibility}, is distributed
-%with the Sensibility Testbed app downloaded and installed by device
-%owners (Section~\ref{sec-owner-participate}). 
-%
-%\yanyan{Albert thinks this is too much detail.}
-%At this moment,  Bob has obtained an account with the clearinghouse.
-%and is assigned a pair of public and 
-%private keys, \path{key.bob-pub} and \path{key.bob-priv}, by the
-%clearinghouse. 
-When Bob requests a device, and the clearinghouse
-happens to find that Alice's device is available, the clearinghouse then 
-%adds Bob's public key, \path{key.bob-pub}, to
-%the sandbox on Alice's device. This indicates that Bob is
-%authorized to use this sandbox on Alice's device, and 
-assigns Alice's device to Bob's experiment account by placing Bob's
-public key on Alice's device. It then instructs 
-the sandbox on Alice's device to add Bob's policies by preloading
-a set of blurring layer code. At this point, Bob can access Alice's 
-device through the experiment manager, just like using \texttt{ssh}.
-%Bob writes his experiment 
-%code in the Python-like language supported by our secure sandbox.
-%The following is a snipet of code that gets location coordinates 
-%from a device:
-
-Next, Bob uploads his code to Alice's device and 
-runs his experiment. When he accesses the device through
-the experiment manager, the sandbox on Alice's device 
-applies the data access policies loaded by the clearinghouse: For 
-policy (1), the sandbox blurs the location
-information returned from Alice's phone down to the coordinates
-of the nearest city; for policy (2), the sandbox blocks the
-access to cell IDs; for policy (3), the sandbox limits the rate
-of GPS location and cellular network queries from Bob's
-experiment to one in every 10 minutes.
 
 \subsection{Sensibility Testbed's Default Policies}\label{sec-irb-policies}
 
@@ -465,26 +453,30 @@ privacy risk.
 The list of sensors that Sensibility Testbed provides are of moderate 
 to low privacy risks (marked by \tickmark), and the testbed further provides policy enforcement
 (Section~\ref{sec-policy}) to protect all the sensor data. Sensors 
-such as cameras and microphones, that are deemed sensitive are not 
+such as cameras and microphones that are deemed sensitive are not 
 exposed to experiment code (marked by \xmark). This is motivated by the Android system, 
 where permissions are categorized into different protection levels~\cite{level}:
-\textit{normal} permissions are automatically granted to the apps when 
-asked, \textit{dangerous} permissions are given based upon the 
-user's consent, and so on. Similar to the Android permission categories, 
+\textit{normal} permissions are automatically granted to the apps, 
+\textit{dangerous} permissions are given based upon the 
+user's consent, and so on. Furthermore, 
 %we divide sensors into different risk levels, as shown 
 %in Table~\ref{tab:default}. 
 %Sensors with low to moderate risk are 
 %allowed and protected by IRB policies. Sensors of high risk are 
 %disabled by default. 
-we divide sensors into different risk levels by the consequences
-of a potential attack. If a microphone is controlled by 
+we divide sensors into different risk levels by the consequences and 
+difficulties of a potential attack. If a microphone is controlled by 
 a malicious party, it can be used to intelligently choose data of a 
 higher value (e.g., credit card number, password) to record~\cite{zhang2015leave}. On the other 
 hand, in order to infer credit card number or password typed on a 
 smartphone using motion sensors, an sophisticated algorithm needs to 
-be installed on the device and constantly learns 
-the patterns of data generated by accelerometer or gyroscope. Therefore, 
-compared to motion sensors, a microphone is considered of higher risk.
+be installed on the device and constantly learn about  
+the patterns of data generated by accelerometer or gyroscope. In contrast,
+using battery information alone is not sufficient to create a fingerprint 
+for each device. Different information and mutiple occurrence need to
+be pieced together~\cite{battery-priv}. Therefore, 
+compared to motion sensors, a microphone is considered of higher risk, 
+and battery is of lower risk than both the motion sensors and a microphone.
 
 Although high-risk sensors are disabled, if such access  is critical to the 
 study, a different IRB procedure could be followed. 
@@ -505,6 +497,5 @@ provide unfettered access to all sensors.
 %in addition to the researcher's IRB. 
 The default policies serve as a common denominator to all 
 researchers' IRB policies. In most cases, we expect
-that a researcher need only go through their local IRB to get
+that researchers need only go through their local IRB to get
 the sensor access they need for their experiment. 
-

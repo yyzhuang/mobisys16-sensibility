@@ -6,7 +6,7 @@ device security and personal privacy are genuinely at risk when a person
 uses a smartphone or tablet \cite{breach}. 
 %Apps can post tweets to a 
 %user's Twitter account without asking for permission~\cite{tweet}. 
-A calculator might send the user's location to an advertisement 
+A calculator app might send the user's location to an advertisement 
 server~\cite{calc}. Sensor data from the accelerometer 
 or gyroscope can be sufficient to infer the locations of touch-screen 
 taps, and thus infer a user's password~\cite{cai2011touchlogger}.
@@ -39,13 +39,13 @@ networks of sensors for traffic monitoring and accident
 prevention~\cite{mohan2008nericell, thiagarajan2009vtrack}. 
 For the research community, accessing this data depends on its 
 ability to provide strong protection to device owners from privacy 
-and security breaches.
+and security breaches. In this work, we try to address two issues. 
 
-%\textbf{Restricting accessible data.}
+\textbf{Data access restrictions.}
 %Despite these risks of using sensors, 
-However, studies have indicated that 
+Studies have indicated that 
 sensor data can be accessed without compromising device 
-owners' privacy or sacrificing too much service functioning.
+owners' privacy or sacrificing service functioning.
 A recent research study shows that more than half of the 
 surveyed individuals had no problem in supplying imprecise 
 sensor data from their personal devices~\cite{fawaz2014location}. 
@@ -54,23 +54,23 @@ functionality, as long as their privacy was protected. Those surveyed
 applications ranged from location-based search (e.g., Yelp), social 
 network apps, to gaming and weather forcasting apps. 
 Researchers thus have proposed 
-substituting mocked~\cite{beresford2011mockdroid}, anonymized 
-or bogus~\cite{zhou2011taming} data in place of real data. Although
-the accuracy of the data is reduced, experience has shown 
-that the imprecise information is sufficient for a large class of 
-services. The US Federal Communications Commission requires 
-emergency rescue and 
-response teams to be able to estimate a 911 wireless emergency 
-caller's position with an accuracy of 125~m~\cite{gruteser2003anonymous, 
-reed1998overview}. In other location-bases services such as maps, 
+substituting mocked~\cite{beresford2011mockdroid} or 
+anonymized~\cite{zhou2011taming} data in place of real data. 
+For example, in location-bases services such as maps, 
 restaurant guides, and bus schedules, end users can still use the 
 service even if a device only provides a discretized 
-location~\cite{amini2011cache, krumm2007inference}. 
-\yanyan{too many examples?}
+location~\cite{amini2011cache, krumm2007inference}. Therefore, 
+though the accuracy of the data is reduced, 
+the imprecise information is sufficient for a large class of services. 
+%The US Federal Communications Commission requires 
+%emergency rescue and 
+%response teams to be able to estimate a 911 wireless emergency 
+%caller's position with an accuracy of 125~m~\cite{gruteser2003anonymous, 
+%reed1998overview}. \yanyan{too many examples?}
 
 Based on these fact, restricting 
 the amount of data accessible, such as reducing the precision or 
-access frequency, can be a good privacy protection mechanism we can 
+access frequency, will be a good privacy protection mechanism we can 
 provide to end users. In this work, we coin the term \textit{data blurring}
 as our privacy protection mechanism. This mechanism is used in 
 conjunction with a researcher's IRB policies. 
@@ -78,7 +78,7 @@ conjunction with a researcher's IRB policies.
 %policy is codified as a blurring layer, and different policies are
 %customized by loading individual blurring layers in order.
 
-%\textbf{Institutional review board (IRB).}
+\textbf{IRB policies.}
 %On the other hand, research institutions have also designed a 
 %protocol based on the \textit{institutional review board (IRB)}, 
 %to assess the ethics of a researcher's project, and review its methods. 
@@ -118,3 +118,5 @@ together can be customized to cater to various institution's
 policies and regulations. Our goal is to facilitate the enforcement of 
 IRB policies on behalf of researchers, such that experiments 
 do not collect more data than needed to provide their functionalities.
+This will also relieve researchers from the tedious work of 
+recruiting participants and enforcing IRB policies.

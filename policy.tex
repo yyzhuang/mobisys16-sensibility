@@ -78,7 +78,7 @@ the rest of the device. Due to this isolation, different researchers
 can run experiments on different sandboxes on the same device, 
 without any interference between the experiments.
 
-\subsubsection{Sensor Access from the Python Sandbox}\lois (why not call it the Repy Sandbox as before?)
+\subsubsection{Sensor Access from the Python Sandbox}\lois{why not call it the Repy Sandbox as before?}
 
 %In the use cases in Section~\ref{sec-scenario}, when Alice starts 
 %the Sensibility Testbed app, the native code in the app initializes a
@@ -135,7 +135,7 @@ and \path{startLocating} is the name of the native Java method that tells the An
 location manager to start looking up location information. Lines 10 and 13 are similar RPC 
 calls that read location information from the Android location manager, and stops the location 
 lookup. The call \path{get_location()} thus %is defined in the namespace of the sandbox kernel, it 
-can be directly used in an experiment program. \lois(why is this important? And used how?)
+can be directly used in an experiment program. \lois{why is this important? And used how?}
 %if no blurring layer is in place.
 
 A full list of sensor API is documented at~\cite{sensor-api}. The set

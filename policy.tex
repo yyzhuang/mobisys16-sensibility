@@ -1,9 +1,9 @@
 \section{Enforcing Privacy Policies}\label{sec-policy}
 
-In Sensibility Testbed, privacy policies are implemented as blurring layers, each layer acting as a 
-reference monitor in a sandbox~\cite{ref} that enforces an access 
-control policy over sensor access. Using the sandboxing 
-technique in our prior work~\cite{cappos2010retaining}, we can 
+In Sensibility Testbed, privacy policies are implemented as blurring layers, with each layer acting as a 
+reference monitor in a sandbox~\cite{ref} to enforce an access 
+control policy over each sensor. Using the sandboxing 
+technique in our prior work~\cite{cappos2010retaining}, we are able to
 interject code to control the behavior of sandbox functions, or 
 system calls. A sensor access policy can (1) reduce 
 the precision of the raw sensor data returned from a device, such
@@ -17,19 +17,17 @@ how blurring layers allow for the execution of the first two types of policies.
 
 In Section~\ref{sec-repy}, we introduced the Repy sandbox briefly. 
 In this section, we describe how Repy is implemented
-(Section~\ref{sec-repy-ext}), and 
+(Section~\ref{sec-repy-ext}), 
 how to control the precision of sensor data (Section~\ref{sec-layer}), 
 and the frequency of sensor access (Section~\ref{sec-nanny}).
 
 \subsection{Secure Sandbox}\label{sec-repy-ext}
 
-The Repy sandbox is an important part of device software 
-(Section~\ref{sec-repy}). The sandbox is the execution environment 
-of all experiment code. It isolates experimenters' programs from one 
+The Repy sandbox is an important part of the device software 
+(Section~\ref{sec-repy}) as it is where the experiment code is executed. It isolates experimenters' programs from one 
 another, and prevents any of the code from harming the device 
 through its strong isolation techniques. More importantly, the sandbox
-provides a flexible system call interposition technique where system call behavior 
-can be modified. This allows us to define and implement
+provides a flexible system call interposition technique to modify system call behavior. This allows us to define and implement
 different data access policies. This section describes how Repy provides
 security isolation and performance isolation, as well as customizable
 sensor access policies.
@@ -54,7 +52,7 @@ through a Python-like programming interface~\cite{repyv2}.
 %Repy sandbox, using its Python-like programming language interface.
 This same sandbox design has been successfully running experiments 
 as part of a network research testbed~\cite{seattle} for more than six 
-years, with no report of operation faults or security breaches. 
+years, with no report of operational faults or security breaches. 
 
 In addition to security isolation,
 %The sandbox exposes a programming 
@@ -80,7 +78,7 @@ the rest of the device. Due to this isolation, different researchers
 can run experiments on different sandboxes on the same device, 
 without any interference between the experiments.
 
-\subsubsection{Sensor Access from the Python Sandbox}
+\subsubsection{Sensor Access from the Python Sandbox}\lois (why not call it the Repy Sandbox as before?)
 
 %In the use cases in Section~\ref{sec-scenario}, when Alice starts 
 %the Sensibility Testbed app, the native code in the app initializes a
@@ -119,7 +117,7 @@ without any interference between the experiments.
 
 To allow experiment code to access sensors, such as 
 GPS, WiFi, Bluetooth, accelerometer, and cellular network, the Repy sandbox
-need access to native Android code. We first implemented a set of sensor functions using
+needs access to native Android code. We first implemented a set of sensor functions using
 Java in the native portion of the Sensibility Testbed app. The Repy 
 sandbox then uses a Remote Procedure Call (RPC) to invoke the
 corresponding Java code in Python, and returns the data 
@@ -128,7 +126,7 @@ Repy's own programming language, such as \path{get_location()},
 \path{get_accelerometer()}, \path{get_wifi()}, etc. 
 
 Figure~\ref{fig-getlocation} shows how \path{get_location()} 
-is defined as a sandbox function to get unfiltered location 
+is defined as a sandbox function which receives unfiltered location 
 information from a mobile device. 
 On line 7, \path{sensorlib.request_data()} is an RPC call 
 defined in Repy, 
@@ -137,7 +135,7 @@ and \path{startLocating} is the name of the native Java method that tells the An
 location manager to start looking up location information. Lines 10 and 13 are similar RPC 
 calls that read location information from the Android location manager, and stops the location 
 lookup. The call \path{get_location()} thus %is defined in the namespace of the sandbox kernel, it 
-can be directly used in an experiment program. 
+can be directly used in an experiment program. \lois(why is this important? And used how?)
 %if no blurring layer is in place.
 
 A full list of sensor API is documented at~\cite{sensor-api}. The set
@@ -326,7 +324,7 @@ Section~\ref{sec-precision-example}.
 
 %\subsubsection{Reducing Data Precision}
 
-Below is an an example of the implementation of a location blurring layer. 
+Below is an example of the implementation of a location blurring layer. 
 When experimenter Bob requests a device, the clearinghouse recognizes that all the location data
 he collects must be substituted with a blurred location that only identifies the nearest city.
 %rather than the exact location of the device. 
@@ -411,11 +409,11 @@ sandboxed programs in Sensibility Testbed.
 
 \subsection{Nanny: Restricting Data Access Frequency}\label{sec-nanny}
 
-Reducing data precision partially protects a device owner's privacy. Frequent data 
+Reducing data precision partially protects a device owner's privacy. However, frequent data 
 access can be another channel to snoop on personal information.
-If sensor queries are made sufficiently frequent, they can be used
+If sensor queries are made on a sufficiently frequent basis, they can be used
 to track an individual's activity. The goal of reducing sensor access frequency 
-is to prevent an accumulation of identifiable information such as 
+is to prevent an accumulation of identifiable information, such as 
 location~\cite{gruteser2003anonymous}, wireless network identifiers, and even 
 accelerometer data (the 
 details about how frequent a certain sensor can be accessed to avoid such an 
@@ -437,8 +435,8 @@ When an
 %Utilization is controlled over one or more periods, where
 experiment program's use of a resource is above a given threshold, 
 \path{nanny} pauses the 
-program for as long as required to bound it below the
-threshold, on average. Therefore, if an experiment program attempts to 
+program for as long as required to bound it, on average, below the
+threshold. Therefore, if an experiment program attempts to 
 use a resource at a rate faster than is allowed by a policy, the function 
 call is blocked until sufficient time has passed. 
 
@@ -452,7 +450,7 @@ function to access a sensor more frequenly than the cap.
 \subsubsection{An Example of Policy Implementation}\label{sec-rate-example}
 
 Restricting access rate can also be implemented as a 
-blurring layer, in a similar way as reducing the data precision.
+blurring layer, in a similar way as reducing data precision.
 Recall that in Section~\ref{sec-component}, Bob's IRB policy requires that
 his experiment can get location updates every 10 minutes (600 seconds). 
 Therefore, the following blurring layer is automatically loaded along with 
@@ -486,7 +484,7 @@ the function call to \path{get_location()}. It restricts the frequency to
 call \path{get_location()} to once per 600 seconds (note that 
 600 seconds is filled in by Bob, and parsed by the clearinghouse as a blurring layer 
 parameter to \path{restrict_location}, as in Section~\ref{sec-ch}). Line 4 initializes \path{nanny} 
-with the resource assignment table, and line 6 -- 9 defines a 
+with the resource assignment table, and lines 6 - 9 defines a 
 function called \path{restricted_get_location()} that restricts location updates. 
 The \path{tattle_quantity()} call on line 7 charges \textit{one usage} of \path{get_location()} 
 call. It tells \path{nanny} that in \path{restricted_get_location()}, 
@@ -496,7 +494,7 @@ next time this experiment program
 will be paused for 600 seconds before it can call \path{get_location()} again,
 as defined by \path{resourcesdict}.
 
-The contract on line 11 -- 17 defines that the target
+The contract on line 11 - 17 defines that the target
 for \path{get_location()} is \path{restricted_get_location()}. If 
 \path{restrict_location} is the first descendant of the sandbox kernel, then
 \path{restricted_get_location()} will replace the \path{get_location()}
@@ -514,15 +512,15 @@ the city level.
 \bigskip
 %\subsubsection{Blurring Layer Instantiation}
 %\bigskip
-From a researcher specifies IRB policies to running experiment code, 
-the process proceeds as follows. 
+From a researcher's specified IRB policies to running experiment code, 
+the process goes as follows. 
 The clearinghouse creates a list of access policies for a researcher's
 experiment, according to the specified IRB policies. The sandbox 
 on a mobile device, under the control of
 this experimenter, obtains a list of command-line arguments 
 from the clearinghouse, which includes all the blurring layers
 and parameters for each layer (Section~\ref{sec-ch}). The pre-set blurring layers determine
-the type of required, such as accelerometer access rate, and the 
+the type of data required, such as accelerometer access rate, and the 
 IRB parameters customize the specific policy, such as accessing
 an accelerometer at a rate of 50 times/second. 
 %the first of which must be the encasement library.

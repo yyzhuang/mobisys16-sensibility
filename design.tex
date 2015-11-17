@@ -69,7 +69,8 @@ runs code on Sensibility Testbed using Alice's smartphone, discovered among othe
 devices. Specifically, Bob wants to know the cellular service
 quality in major cities. As such, he needs location information
 of individual devices, their cellular service provider, network
-type (3G, 4G, LTE, etc.), and signal strength. A usage scenario, illustrating how the components operate follows each description.
+type (3G, 4G, LTE, etc.), and signal strength. A usage scenario, i
+llustrating how the components operate, follows each description.
 
 \subsubsection{Device Software}\label{sec-repy}
 
@@ -115,9 +116,9 @@ access to cameras can be disabled.
 The details of policy implementation are presented in 
 Section~\ref{sec-layer} and \ref{sec-nanny}.
 
-\textbf{Usage Scenario 1: Smartphone owner volunteers as a testbed participant.}
-Alice downloads 
-our Sensibility Testbed app from the Google Play Store~\cite{sensibility-app}, which installs Repy and other software on her phone.
+\textbf{Usage scenario 1: Smartphone owner volunteers as a testbed participant.}
+Alice downloads the Sensibility Testbed app from the Google Play 
+Store~\cite{sensibility-app}, which will install Repy and other software on her phone.
 The app displays a consent form, \yanyan{cite link} containing the testbed's 
 general usage policy. Alice must review and must agree to this 
 policy before installation. If Alice gives her consent, her device will be 
@@ -126,23 +127,42 @@ start or stop the sandbox, and an interface to communicate with the testbed
 infrastructure (particularly the clearinghouse, described below). 
 By agreeing to our general usage policy, any device 
 owner, regardless of age, country, or background, need only to opt into our testbed as a
-volunteer \textit{once}, at the time of app installation. As a result, an 
-researcher like Bob who wants to conduct an experiment 
-%requests devices through our clearinghouse, which assigns 
-%them devices from a set of available resources. As a result, 
-%the researcher
-does not need to get consent from each subject for each individual
-experiment. \lois{is the previous sentence needed? I don't think so} The testbed thus greatly simplifies the process for both the 
+volunteer \textit{once}, at the time of app installation. 
+%As a result, an 
+%researcher like Bob who wants to conduct an experiment 
+%%requests devices through our clearinghouse, which assigns 
+%%them devices from a set of available resources. As a result, 
+%%the researcher
+%does not need to get consent from each subject for each individual
+%experiment. \lois{is the previous sentence needed? I don't think so} 
+The testbed thus greatly simplifies the process for both the 
 device owners and experimenters. 
 
+\yanyan{is this better be placed in scenario 2?}
 Once the app is started, Alice's device can be
 discovered by the clearinghouse. Her device periodically contacts 
 a lookup service to advertise itself to Sensibility Testbed. 
 A lookup service is a distributed key-value store, such as a 
 distributed hash table (DHT)~\cite{dht}, that 
 allows one to retrieve values associated with keys and to associate 
-keys with values. \lois{previous sentence is unclear} Through the app interface, Alice may uninstall, or 
-choose to opt out of individual experiments. \lois{how? I have not seen this explained yet and I think its critical to discuss this}
+keys with values. In this case, when Alice's app is started, it uses
+an \textit{identification key}, \path{key.alice} (see usage scenario 2 
+below) and associates this key with Alice's device IP address and 
+port number. The app stores this key-value entry in the lookup service. 
+When the clearinghouse knows Alice's key, it can retrieve Alice's 
+IP:port by looking up her key, \path{key.alice}, through 
+the lookup service. With IP:port, the clearinghouse can then
+communicate with Alice's device over the network.
+\yanyan{a question for Justin: I think the device first puts key.sensibility 
+in the lookup service. is this key's value key.alice? so when the 
+clearinghouse looks up key.sensibility, it finds out key.alice; and then
+it uses key.alice to lookup IP:port. But is it necessary to go into such detail?}
+
+The app interface also displays a list of experiment running
+on Alice's device, and their policies. Therefore, 
+through the app interface, Alice may uninstall, or 
+choose to opt out of individual experiments. 
+%\lois{how? I have not seen this explained yet and I think its critical to discuss this}
 
 \subsubsection{Clearinghouse}\label{sec-ch}
 The clearinghouse~\cite{ch} is a testbed server that keeps 
@@ -157,9 +177,13 @@ recruiting devices for each experiment.
 
 Note that in Sensibility Testbed, there are two types of keys. A device
 owner has an \textit{identification key} to identify the app installed on a 
-device. An experimenter has a pair of public/private \textit{authentication 
+device. This key is mostly used by a lookup service (see usage scenario 
+1 above). An experimenter has a pair of public/private \textit{authentication 
 keys} to authenticate the experimenter with the clearinghouse and 
-the set of devices that he has access to.\lois(have you introduced the idea of keys yet? If not, I think this needs to be explained.)
+the set of devices that he has access to. This pair of keys are mostly 
+used by the clearinghouse and experiment manager.
+
+%\lois{have you introduced the idea of keys yet? If not, I think this needs to be explained.}
 
 \textbf{Usage scenario 2: Clearinghouse tracks devices.}
 To keep track of Alice's device, the
@@ -197,8 +221,9 @@ To do this, Bob fills out an experiment
 registration form \yanyan{cite url or show screenshot} at the 
 clearinghouse. The clearinghouse registration page shows 
 a list of sensors accessible through our programming interface, and 
-each of their possible accuracy 
-and access frequency limits. \lois{I think I already asked this, but is it literally just the sensors that the page shows, and not the devices containing the sensors that are shown? It's a small point, but I think it has to be clarified} In this case, Bob specifies that 
+each of their possible accuracy and access frequency limits. 
+%\lois{I think I already asked this, but is it literally just the sensors that the page shows, and not the devices containing the sensors that are shown? It's a small point, but I think it has to be clarified} 
+In this case, Bob specifies that 
 %what data can be accessed by a research experiment, at which 
 %granularity or frequency such data can be accessed, how data 
 %should be securely stored, and so on. \yanyan{cite register 
@@ -219,7 +244,7 @@ cellular network data updates every 10 minutes.
 After filling out this form, Bob downloads the experiment description 
 he provided, the detailed information about Sensibility Testbed and 
 several relevant forms, such as 
-those addressing consent, terms of participation (for device owners) 
+those addressing consent, terms of participation (for device owners),  
 terms of usage (for the researcher), and so on. \yanyan{cite our docs}  
 Bob then uses these forms as a template to complete the IRB registration 
 with his institution. These forms serve as a set of reference documents 
@@ -429,8 +454,8 @@ SMS (send/receive messages, delete messages) & & & \xmark \\ \hline
 
 \caption{\small Sensibility Testbed's default policies for sensors. LR/MR/HR
 stands for low/moderate/high risk, respectively. Access is only allowed to sensors that have low to 
-moderate risks. (\tickmark). Sensors that are highly risky are 
-disabled by default (\xmark).}
+moderate risks (marked by \tickmark). Sensors that are highly risky are 
+disabled by default (marked by \xmark).}
 \label{tab:default}
 %\vspace{-10pt}
 \end{table}

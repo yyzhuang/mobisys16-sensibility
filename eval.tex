@@ -319,48 +319,51 @@ contract checks for both mutable and immutable data types~\cite{muta}
 for arguments and return values. When the number of layers is below 10, 
 the runtime is slightly increased from 10$^{-5} s$ to 10$^{-4} s$. Although
 the runtime overhead is higher with more layers, as Table~\ref{tab:policy} 
-and \ref{tab:policy-continued} show, no project needs more than 10
+and \ref{tab:policy-continued} show, most projects need less than 10
 policies. 
 
-As shown in the figure, the total runtime 
-overhead is \textit{linear} with an increasing number of layers/policies.
-Though not shown in the figure, the overhead per policy is 
-\textit{constant}, round 0.06 $ms$. This constant overhead is consistant in all 
-cases. Therefore, the runtime overhead will not affect conducting an 
+
+\begin{table}
+\scriptsize
+\centering
+
+\bgroup
+\def\arraystretch{1.15}% % for table padding
+\begin{tabular}{|l|l|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\multirow{2}{*}{\bf Operations}} & 
+\multicolumn{4}{c|}{\bf Number of blurring layers} \\\cline{3-6}
+\multicolumn{2}{|c|}{} & {\bf 3} & {\bf 10} & {\bf 50} & {\bf 100}\\\hline
+
+\multicolumn{2}{|c|}{No layer (baseline)} & \multicolumn{4}{c|}{6.276 $ms$} \\\hline
+
+\multirow{2}{*}{No-op} & Total & 6.654 $ms$ & 7.756 $ms$ & 12.75 $ms$ & 18.94 $ms$ \\ 
+& Per-layer & 0.1259 $ms$ & 0.1479 $ms$ & 0.1295 $ms$ & 0.1266 $ms$ \\\hline
+
+\multirow{2}{*}{Round-up} & Total & 6.907 $ms$ & 7.991 $ms$  & 13.86 $ms$ & 20.64 $ms$ \\ 
+& Per-layer & 0.2104 $ms$ & 0.1715 $ms$ & 0.1518 $ms$ & 0.1436 $ms$ \\\hline
+
+\end{tabular}
+\egroup
+
+\caption{\small Runtime overhead with varying number of blurring layers. }
+\label{tab:overhead}
+%\vspace{-10pt}
+\end{table}
+
+Table~\ref{tab:overhead} shows the total runtime overhead when an experiment
+calls \path{get_accelerometer()}, without any blurring layer (no layer), with blurring 
+layers but without verifying the runtime behavior (no-op), and with blurring layers
+that verifies the runtime behavior and rounds up accelerometer to two decimal 
+points (round-up). As shown in the table, the total runtime is \textit{linear} with an 
+increasing number of layers/policies. The overhead per policy is almost
+constant, with no-op round 0.12 - 0.14 $ms$ and round-up 0.14 - 0.21 $ms$. 
+Therefore, the runtime overhead will not affect conducting an 
 experiment or user experience.
 
 
-%\begin{table}
-%\scriptsize
-%\centering
-%
-%\bgroup
-%\def\arraystretch{1.15}% % for table padding
-%\begin{tabular}{|l|l|c|c|c|}
-%\hline
-%\multicolumn{2}{|c|}{\multirow{2}{*}{\bf Operations}} & 
-%\multicolumn{3}{c|}{\bf Number of blurring layers} \\\cline{3-5}
-%\multicolumn{2}{|c|}{} & {\bf 1} & {\bf 5} & {\bf 10} \\\hline
-%
-%\multicolumn{2}{|c|}{No-op} & 0.0072 $ms$ & 0.0101 $ms$ & 0.0154 $ms$ \\ 
-%
-%\multicolumn{2}{|c|}{Some-op} & 0.0675 $ms$ & 0.3469 $ms$  & 0.5749 $ms$ \\ \hline
-%
-%\multirow{2}{*}{\bf Overhead} & Total & 0.0604 $ms$ & 0.3368 $ms$  & 0.5595 $ms$ \\ \cline{2-5}
-%
-%& Per-layer & {\bf 0.0604 $ms$} & {\bf 0.0673 $ms$} & {\bf 0.0559 $ms$} \\ \hline
-%
-%\end{tabular}
-%\egroup
-%
-%\caption{\small Performance overhead with varying number of blurring layers. }
-%\label{tab:overhead}
-%%\vspace{-10pt}
-%\end{table}
-
-
-\textbf{CPU and memory overhead.}
-\todo{what's the CPU/memory overhead?}
+%\textbf{CPU and memory overhead.}
+%\todo{what's the CPU/memory overhead?}
 
 \subsection{Deployment Experience}\label{sec-deployment}
 

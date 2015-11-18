@@ -136,10 +136,9 @@ and \path{startLocating} is the name of the native Java method that tells the An
 location manager to start looking up location information. Lines 10 and 13 are similar RPC 
 calls that read location information from the Android location manager, and stops the location 
 lookup. The call \path{get_location()} thus %is defined in the namespace of the sandbox kernel, it 
-can be directly used in an experiment program. Compared to native Android 
-code, this makes an experiment much easier to write.
-%\lois{why is this important? And used how?}
-%if no blurring layer is in place.
+can be directly used in an experiment program, and can 
+accomplish in one line of Python code that would otherwise require several dozen 
+lines of Java code. Thus it makes writing an experiment program quicker and more convenient.
 
 A full list of sensor API is documented at~\cite{sensor-api}. The set
 of sensors range from battery, Bluetooth, and cellular, to location, WiFi, 

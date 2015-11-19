@@ -5,8 +5,8 @@ been proposed in recent literature. One means for enforcing privacy is
 to employ a third-party anonymizing agent that acts as a proxy between
 the data source and the service using the anonymized data
 \cite{gruteser2003anonymous, mokbel2006new}. This technique has
-several drawbacks. First, this agent accesses all of the data before
-privacy preservation, so it has to be trusted by all users. Second, if
+several drawbacks. First, the data is accessible to the agent before it is anonymized, 
+so the agent must be trusted to handle the unfiltered data. Second, if
 the agent is compromised, the privacy of all users is also
 compromised. Finally, frequent readings need to be sent to the agent,
 since it needs access to all raw sensor data before it can apply
@@ -15,10 +15,12 @@ the service utilizing the data may only need access to very infrequent
 readings. Sensibility Testbed overcomes these drawbacks, since it
 performs its privacy preservation techniques on the device itself
 without the need for a third-party agent. The only data leaving the
-device is that which goes directly to the researcher. Peer-to-peer
-techniques also exist for privacy protection
-\cite{ghinita2007mobihide}, however they rely on participation of
-multiple users, which is not always possible.
+device is that which goes directly to the researcher. Peer to peer techniques 
+can also be employed as a method to protect privacy \cite{ghinita2007mobihide}. In this case, 
+at least k peers participate to ensure k anonymity. When a user wants 
+to be k-anonymous, he finds k - 1 peers to form a group with him and then 
+cloaks his exact location into a spatial region covering this group. This technique relies 
+on participation of multiple users, which is not always possible.
 
 Data blurring has been suggested in \cite{kapadia2008anonysense} for
 privacy preservation during context reporting. The authors demonstrate

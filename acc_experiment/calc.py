@@ -21,7 +21,8 @@ with open('acclogdown.txt') as f:
     zdown.append(float(z))
 
 if len(zup) != len(zdown):
-  print "something went wrong..."
+  print "zup and zdown should have the same size..."
+  raise
 
 sz = []
 oz = []

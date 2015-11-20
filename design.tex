@@ -21,7 +21,46 @@ parties, as shown in Figure~\ref{fig-arch}: mobile \textit{devices}
 owned by ordinary people, with our app installed; a 
 \textit{clearinghouse} server that discovers and configures
 participating devices; and \textit{experimenters} who want to run
-experiments on mobile devices. 
+experiments on mobile devices. Sensibility Testbed provides 
+a set of software components on each of these interacting
+parties.
+
+\subsubsection{Testbed Architecture}
+
+\textbf{Shared access to device resources.} 
+Since the hardware resources are limited on mobile devices, it is 
+not possible to dedicate an entire device to an experiment. Therefore, 
+Sensibility Testbed allows sharing of a device among several 
+experiments. It uses a sandbox to isolate researchers' code from 
+one another through its performance isolation technique. The sandbox 
+also prevents experiment code from inadvertently harming the device
+via security isolation. Additionally, there is other software that allows
+the device to communicate with the rest of the testbed. They form the
+\textit{device software} that will be introduced in Section~\ref{sec-repy}.
+
+\textbf{Allocating device resources.}
+In order for researchers to gain access to devices, there needs to be a 
+trusted intermediary for acquiring and managing device resources.
+Sensibility Testbed uses a server called \textit{clearinghouse} to allow researchers to 
+register accounts for each experiment, and share access to a common 
+pool of devices. Without a clearinghouse, each researcher would 
+need to individually recruit devices to participate in their experiment. 
+The clearinghouse can also allocate resources and mediate 
+data access according to policies defined by a researcher's IRB. It 
+achieves this by enforcing policies at the remote sandboxes. The 
+clearinghouse thus facilitates device sharing and policy enforcement, 
+as will be described in Section~\ref{sec-ch}.
+
+\textbf{Supporting remote experimentation.} 
+In a distributed testbed a researcher needs to manage experiments 
+on remote devices from a local machine, like in many other 
+testbeds~\cite{hibler2008large, peterson2006experiences}. Sensibility 
+Testbed uses a tool called \textit{experiment manager} so that a 
+researcher can use it to control their experiment remotely. Such a tool 
+executes on a researcher's local computer, and provides access to 
+hardware resources on mobile devices using the researcher's testbed 
+credentials (assigned by the clearinghouse). This tool will be introduced
+in Section~\ref{sec-emt}.
 
 \begin{figure}
 \center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
@@ -29,14 +68,14 @@ experiments on mobile devices.
 \caption{\small Sensibility Testbed architecture. \label{fig-arch}}
 \end{figure}
 
-This section addresses how these parties interact to
-enable safe experimentation on mobile devices. First, 
-a researcher needs to provide his institute's 
-IRB policies for accessing devices to the clearinghouse 
-server (Section~\ref{sec-ch}). \yanyan{need a screenshot} 
+\subsubsection{Testbed Operation}
+
+To conduct an experiment on Sensibility Testbed, a researcher first 
+needs to provide his institute's IRB policies for accessing devices to 
+the clearinghouse server. \yanyan{need a screenshot} 
 %These policies restrict what and how data can be accessed by the 
 %researcher. 
-The clearinghouse server helps the researcher acquire and manage
+The clearinghouse server helps the researcher acquire 
 devices, and codifies the policies specified by the
 researcher's IRB. 
 %into data blurring layers that are enforced on
@@ -44,13 +83,28 @@ researcher's IRB.
 %owners' personal information. 
 After obtaining remote devices, researchers can perform
 experiments directly on the devices, using the credentials assigned by
-the clearinghouse. Researchers' code runs in a sandbox 
-that isolates the code from the rest of the device
-host system (Section~\ref{sec-repy}). To control the execution of 
-code, the researcher uses his own desktop or laptop computer to manage the 
-experiments via an experiment manager. This tool can deploy 
-and run experiments in sandboxes on remote devices that are 
-acquired through the clearinghouse (Section~\ref{sec-emt}).
+the clearinghouse. 
+%Researchers' code runs in a sandbox that isolates the code from the 
+%rest of the device host system. 
+To control the execution of code, the researcher uses his own 
+desktop or laptop computer to manage the 
+experiments via the experiment manager. It deploys 
+and runs experiments in sandboxes on remote devices that are 
+acquired through the clearinghouse.
+
+Device owners participate in Sensibility Testbed by installing our
+app from the app store. The app informs the owner about the testbed's
+general usage policy, which the owner must give consent to before
+participating.  Once any researcher uses the device, the 
+app displays a list of experiments and each experiment's policies. 
+The device owner can opt out of an individual experiment using the
+app's user interface. At any time, the device owners may also choose 
+to opt out of the testbed by uninstalling the app.
+
+\smallskip
+The following section describes the three components in more detail, and 
+addresses how these parties interact to enable safe experimentation on 
+mobile devices. 
 
 %\subsubsection{Enforcing IRB Approved Policies}
 
@@ -69,8 +123,8 @@ runs code on Sensibility Testbed using Alice's smartphone, discovered among othe
 devices. Specifically, Bob wants to know the cellular service
 quality in major cities. As such, he needs location information
 of individual devices, their cellular service provider, network
-type (3G, 4G, LTE, etc.), and signal strength. A usage scenario, i
-llustrating how the components operate, follows each description.
+type (3G, 4G, LTE, etc.), and signal strength. A usage scenario, 
+illustrating how the components operate, follows each description.
 
 \subsubsection{Device Software}\label{sec-repy}
 

@@ -8,8 +8,8 @@ This section describes the design of the Sensibility Testbed.
 We start with
 an overview of the testbed infrastructure (Section~\ref{sec-overview}), 
 and a description of each testbed component 
-(Section~\ref{sec-component}), then finally describe the testbed operations 
-(Section~\ref{sec-ops}).
+(Section~\ref{sec-component}), then finally describe the testbed in 
+operation (Section~\ref{sec-ops}).
 
 
 \subsection{Overview}\label{sec-overview}
@@ -35,8 +35,8 @@ one another through its performance isolation technique. The sandbox
 also prevents experiment code from inadvertently harming the device
 via security isolation. Additionally, there is other software that allows
 the device to communicate with the rest of the testbed. They form the
-\textit{device software} (Section~\ref{sec-repy}), though only the 
-sandbox is shown in Figure~\ref{fig-arch}.
+\textit{device software} (Section~\ref{sec-repy}, though only the 
+sandbox is shown in Figure~\ref{fig-arch}).
 
 \textbf{Allocating device resources.}
 In order for researchers to gain access to devices, there needs to be a 
@@ -56,7 +56,7 @@ In a distributed testbed a researcher needs to manage experiments
 on remote devices directly from a local machine, like in many other 
 testbeds~\cite{hibler2008large, peterson2006experiences}. Sensibility 
 Testbed uses a tool called \textit{experiment manager} so that a 
-researcher can use it to control his experiments remotely. Such a tool 
+researcher can control his experiments remotely. Such a tool 
 executes on a researcher's local computer, and provides access to 
 hardware resources on mobile devices using the researcher's testbed 
 credentials (assigned by the clearinghouse). This tool will be introduced
@@ -89,8 +89,8 @@ In this section, we describe the function of each component.
 %sandbox on the end devices.
 %Experimenters' code executes in a sandbox that isolates the 
 %experiment code from the device host system. 
-There are three software components on the devices in Sensibility 
-Testbed. The most important one is a sandbox called Repy (Restricted 
+The device software in Sensibility Testbed is divided into three parts. 
+The most important one is a sandbox called Repy (Restricted 
 Python)\footnote{\scriptsize This is the 
 same security-reviewed sandbox~\cite{cappos2010retaining} used in
 our prior work, the Seattle testbed~\cite{seattle}. This sandbox
@@ -99,7 +99,7 @@ provides security isolation and performance isolation on mobile devices.
 %Instead of developing full-fledged Android apps, all 
 %experiments in Sensibility Testbed are written in a language
 %similar to Python, and run in a secure %Python-based
-Experimenters use a Python-like programming interface~\cite{repyv2}
+Researchers use a Python-like programming interface~\cite{repyv2}
 to write experiment code, upload the code and execute it in the
 sandbox on remote devices. The programming interface includes functions for networking, 
 file system access, threading, locking, logging, and so on. To access sensors, 
@@ -128,14 +128,15 @@ access to cameras can be disabled.
 The details of policy implementation are presented in 
 Section~\ref{sec-layer} and \ref{sec-nanny}.
 
-The second device software component is a resource manager. It 
-manages a researcher's access to the sandboxes on a device. The 
+The second part of the device software is a resource manager. It 
+manages a researcher's access to the sandboxes on a device, and
+starts/stops the sandbox on behalf of the researcher. The 
 resource manager controls which researchers 
 can access a sandbox, and communicates with the clearinghouse
 and experiment manager. If multiple researchers have access to 
 the same device, the resource manager splits the resources in 
-the original sandbox among the researchers, and partition the 
-original sandbox into several smaller ones. In order for the clearinghouse
+the sandbox among the researchers, and partition the 
+sandbox into several smaller ones. In order for the clearinghouse
 or researcher's experiment manager to discover the sandbox on a 
 device, the resource manager also announces the existance of the 
 sandbox using a lookup service. An example is given in 
@@ -145,28 +146,37 @@ Finally, a device manager allows device owners to manage the
 software running on their devices, such as installing and removing 
 the device software, starting and stopping the software, etc. It also
 provides a user interface for device owners to opt out of any 
-experiment (Section~\ref{sec-ops}).
+experiment.
 
 \subsubsection{Clearinghouse}\label{sec-ch}
-The clearinghouse~\cite{ch} is a testbed server that keeps 
-track of devices and grants researchers access to the 
-available devices. 
+The clearinghouse~\cite{ch} is a testbed server that has two 
+responsibilities: first, to keep track of devices and grants 
+researchers access to the available devices; and second, 
+to set up IRB policies to be enforced at remote device sandboxes.
 %It allows experimenters to register accounts and share 
 %access to a common pool of devices.
 To conduct an experiment, researchers sign up for experiment 
 accounts at the clearinghouse, where they also specify their IRB 
 policies. When an account is approved, the researcher is assigned 
 a pair of public/private \textit{authentication keys} by the 
-clearinghouse, to authenticate him with the clearinghouse. This
+clearinghouse, to authenticate himself with the clearinghouse. This
 researcher can then sign into his account and request a 
 number of sandboxes for his experiment. The clearinghouse 
 looks up available sandboxes by querying the lookup service. 
 Once a sandbox is discovered, the clearinghouse stores the 
-sandbox's \textit{identification key}, and assigns it to the researcher's 
-experiment account. At the same time, the clearinghouse also
-sets up IRB policies to be enforced at those device sandboxes. 
+sandbox's meta information, 
+%\textit{identification key}, 
+and assigns it to the researcher's experiment account. 
 
-This Sensibility Testbed clearinghouse 
+Before the researcher can conduct an experiment, the clearinghouse
+instructs the sandboxes assigned to this researcher to add the IRB 
+policies specified during registration. The clearinghouse does so 
+by communicating with the resource managers on those devices, which 
+control the code executed in the sanboxes. The resource manager 
+applies the policies to the sandbox, so that the experiment code 
+is subject to the policies. This way, 
+experiments are executed without requiring the researcher to enforce 
+the IRB policies. This Sensibility Testbed clearinghouse 
 protocol for research with device owners has been approved by
 the IRB at New York University (IRB \# 15-10751). An example 
 of this protocol in operation is also given in Section~\ref{sec-ops}.
@@ -189,14 +199,15 @@ of this protocol in operation is also given in Section~\ref{sec-ops}.
 The last component in the testbed is an experiment manager, which a 
 researcher can download to his own computer and use to run code through 
 %which contains Bob's private key, \path{key.bob-priv}, 
-the sandboxes on the remote devices assigned by the clearinghouse. 
+the sandboxes on the remote devices. 
 To authenticate himself with the remote sandbox, the researcher uses 
 his public/private key pairs to establish a secure connection from his
 computer to the remote devices. The researcher then uses the
 experiment manager as a light-weight command line 
 console~\cite{demo-kit} to directly access the remote devices, upload 
 experiment code written in the Repy programming interface, and
-start or stop the execution of the experiment. 
+communicate with the resource manager on the device to start 
+or stop the execution of the experiment. 
 
 The clearinghouse has no involvement after the researcher deploys 
 his experiment and runs the code, and it does not store any
@@ -219,7 +230,8 @@ the data will be mandated by the researcher's IRB.
 
 \subsection{Testbed Operation}\label{sec-ops}
 
-To demonstrate how these components interact with each other, we assume 
+To demonstrate how the components in Section~\ref{sec-component} 
+interact with each other, we assume 
 that a smartphone owner, Alice, participates in the testbed; a researcher, Bob, 
 runs code on Sensibility Testbed using Alice's smartphone, discovered among other
 devices. Specifically, Bob wants to know the cellular service
@@ -234,10 +246,10 @@ in a consent form, which she must review and give consent to before
 participating. By agreeing to our general usage policy, any device 
 owner, regardless of age, country, or background, need only to opt into our testbed as a
 volunteer \textit{once}, at the time of app installation. The testbed thus greatly simplifies the process for both the 
-device owners and experimenters. Once any researcher uses the device, the 
+device owners and researchers. Once any researcher uses the device, the 
 app displays a list of experiments and each experiment's policies. 
 Alice can opt out of an individual experiment using the
-app's user interface. At any time, she may also choose 
+app's user interface, which is part of the device manager. At any time, she may also choose 
 to opt out of the testbed by uninstalling the app.
 
 To conduct an experiment on Sensibility Testbed, Bob first 
@@ -251,15 +263,15 @@ the policies specified by the researcher's IRB.
 %mobile devices. Such a process can protect device
 %owners' personal information. 
 After obtaining remote devices, Bob can perform
-experiments directly on the devices, using the credentials assigned by
-the clearinghouse. 
+experiments directly on the devices through the experiment manager, 
+using the credentials assigned by the clearinghouse. 
 %Researchers' code runs in a sandbox that isolates the code from the 
 %rest of the device host system. 
-To control the execution of code, Bob uses his own 
-desktop or laptop computer to manage the 
-experiments via the experiment manager. It deploys 
-and runs experiments in sandboxes on remote devices that are 
-acquired through the clearinghouse.
+%To control the execution of code, Bob uses his own 
+%desktop or laptop computer to manage the 
+%experiments via the experiment manager. It deploys 
+%and runs experiments in sandboxes on remote devices that are 
+%acquired through the clearinghouse.
 
 %\textbf{Usage scenario 1: Smartphone owner volunteers as a testbed participant.}
 %Alice downloads the Sensibility Testbed app from the Google Play 
@@ -283,18 +295,21 @@ acquired through the clearinghouse.
 %The testbed thus greatly simplifies the process for both the 
 %device owners and experimenters. 
 
-Two usage scenarios further illustrating how the components operate, 
-are given as follows.
+Two usage scenarios further illustrating how the clearinghouse 
+protocol in operation, are given below.
+
+\smallskip
 
 \textbf{Usage scenario 1: Clearinghouse tracks devices.}
-Once the app is started, Alice's device can be
-discovered by the clearinghouse. Her device periodically contacts 
-a lookup service to advertise itself to the testbed. 
+Once the app is started, Alice's device can be discovered by 
+the clearinghouse. The resource manager in her app periodically contacts 
+a lookup service to advertise the device sandbox to the testbed. 
 A lookup service is a distributed key-value store, such as a 
 distributed hash table (DHT)~\cite{dht}, that allows one to associate 
 keys with values and retrieve values associated with keys. In this case, 
-Alice's app uses an \textit{identification key}, \path{key.alice} and 
-associates this key with Alice's device IP address and port number, by 
+Alice's resource manager uses an \textit{identification key}, \path{key.alice}, 
+generated during the app installation, and associates this key 
+with Alice's device IP address and port number by 
 storing this key-value entry in the lookup service. This key is not 
 associated with Alice or her device's identity, but only with the app's 
 installation on the device. 
@@ -317,14 +332,13 @@ it uses key.alice to lookup IP:port. But is it necessary to go into such detail?
 To keep track of Alice's device, the
 clearinghouse periodically queries the lookup service to
 discover any new devices. Once Alice's device is discovered, the
-clearinghouse obtains \path{key.alice} generated during the app 
-installation. 
+clearinghouse obtains \path{key.alice}, and thus
 %clearinghouse uses a database that stores her device's unique
 %identification key, \path{key.alice}, generated during installation. 
-The clearinghouse can retrieve Alice's  IP address and port number by 
+can retrieve Alice's  IP address and port number by 
 looking up her key in the lookup service. This allows the clearinghouse
 to communicate with Alice's device over the network.
-If Alice uninstalls the Sensibility app, 
+If Alice uninstalls the Sensibility Testbed app, 
 \path{key.alice} is deleted at the clearinghouse, which effectively unlinks
 her device from any metadata stored on the clearinghouse.
 
@@ -342,13 +356,15 @@ her device from any metadata stored on the clearinghouse.
 %policies will be applied to restrict %the precision of sensor 
 %%data or the frequency to access 
 %sensor access. 
+
+\smallskip
+
 \textbf{Usage scenario 2: Researcher registers experiment and provides IRB policies.}
 To run code on Sensibility Testbed, researcher Bob first 
 %needs to provide a set of detailed IRB policies from his institution. 
 %In order to obtain an IRB approval, a researcher first 
 %To do this, Bob 
-fills out an experiment
-registration form \yanyan{cite url or show screenshot} at the 
+fills out an experiment registration form at the 
 clearinghouse. The clearinghouse registration page shows 
 a list of sensors accessible through our programming interface, and 
 each of their possible accuracy and access frequency limits. 
@@ -387,24 +403,37 @@ that his experiment should access cell IDs in cellular networks, but
 approves the other policies. 
 %Bob wants to access cell 
 %IDs in cellular networks, but his IRB disallows such data access. Bob then
-In this case, Bob will revise the experiment requirements, refile the paperwork, 
-and obtain IRB approval. Bob then submits the revised experiment 
+In this case, Bob will revise the experiment registration form, refile the paperwork, 
+and obtain IRB approval. Bob then submits the revised  
 registration form and his IRB approval to the clearinghouse.
 
 Finally, the clearinghouse
 parses Bob's registration form, extracts each data accuracy and access 
-frequency limits approved by Bob's IRB, and assigns an experiment 
+frequency limits approved by Bob's IRB policies (to blur an exact location 
+to a city center, disallow access to cell IDs, and allow cellular network and 
+location query once every 10 minutes), and assigns an experiment 
 account to Bob. Once his account is activated, 
 %Bob obtains his \textit{authentication keys} assigned by the 
 %clearinghouse. These keys are to authenticate Bob with the 
 %clearinghouse and the set of devices to which he has access.
 %\path{bob.public} and \path{bob.private}. Next, 
-Bob obtains his publicprivate key pair, and can request a number of devices from the 
-clearinghouse (Section~\ref{sec-ch}). The clearinghouse has a default set of blurring layers 
-for accuracy and access frequency levels for each sensor. Once Bob requests 
-devices, the clearinghouse supplies the extracted data from the 
-researcher's registration form as input parameters to
-the blurring layers that will be instantiated on the requested devices. 
+Bob obtains his public/private key pair, and can request a number of devices from the 
+clearinghouse (Section~\ref{sec-ch}). The clearinghouse then looks up
+available devices like in usage scenario 1. If the clearinghouse 
+discovers that Alice's device is available from the lookup service, it
+assigns Alice's device to Bob's experiment account by placing Bob's
+public key in Alice's sandbox. At this point, Bob can access Alice's 
+device through the experiment manager, just like using \texttt{ssh}.
+
+The clearinghouse has a default set of blurring layers 
+for accuracy and access frequency levels for each sensor. 
+The clearinghouse first instructs 
+the sandbox on Alice's device to add Bob's policies by preloading
+a set of blurring layer code. It then supplies the extracted data from 
+Bob's registration form as input parameters to the blurring layers. 
+%that will be instantiated on Alice's device. 
+When Bob runs his experiment, the policies are transparently applied
+to the experiment code. 
 The policies are easily customizable. Details about
 how each policy is implemented will be introduced in Section~\ref{sec-policy}.
 
@@ -422,16 +451,16 @@ how each policy is implemented will be introduced in Section~\ref{sec-policy}.
 %and is assigned a pair of public and 
 %private keys, \path{key.bob-pub} and \path{key.bob-priv}, by the
 %clearinghouse. 
-If the clearinghouse finds that Alice's device is available from the 
-lookup service, it
-%adds Bob's public key, \path{key.bob-pub}, to
-%the sandbox on Alice's device. This indicates that Bob is
-%authorized to use this sandbox on Alice's device, and 
-assigns Alice's device to Bob's experiment account by placing Bob's
-public key on Alice's device. It then instructs 
-the sandbox on Alice's device to add Bob's policies by preloading
-a set of blurring layer code. At this point, Bob can access Alice's 
-device through the experiment manager, just like using \texttt{ssh}.
+%If the clearinghouse finds that Alice's device is available from the 
+%lookup service, it
+%%adds Bob's public key, \path{key.bob-pub}, to
+%%the sandbox on Alice's device. This indicates that Bob is
+%%authorized to use this sandbox on Alice's device, and 
+%assigns Alice's device to Bob's experiment account by placing Bob's
+%public key on Alice's device. It then instructs 
+%the sandbox on Alice's device to add Bob's policies by preloading
+%a set of blurring layer code. At this point, Bob can access Alice's 
+%device through the experiment manager, just like using \texttt{ssh}.
 %Bob writes his experiment 
 %code in the Python-like language supported by our secure sandbox.
 %The following is a snipet of code that gets location coordinates 

@@ -91,15 +91,16 @@ that has been formally designated to approve, monitor, and review
 research involving human subjects~\cite{irb}. Although many current network 
 testbeds require that researchers obtain IRB approval before conducting
 an experiment on the testbed, these platforms do not provide a guarantee 
-for IRB policy compliance. In the case of PhoneLab, 
+for IRB policy compliance, and 
+%In the case of PhoneLab, 
 %it requires experimenters to obtain IRB approval. However, 
 it leaves it up to the experimenters to comply with their IRB policies in their 
-experiments~\cite{nandugudi2013phonelab}. Similarly, 
-Mobilyzer~\cite{nikravesh2015mobilyzer} provides a measurement
-library that can be included in Android apps. 
+experiments~\cite{nandugudi2013phonelab, nikravesh2015mobilyzer}. 
+%Similarly, Mobilyzer~\cite{nikravesh2015mobilyzer} provides a 
+%measurement library that can be included in Android apps. 
 %and requires explicit user consent. 
-There is no guarantee that an 
-experiment will be compliant with the researcher's IRB policies.
+Therefore, there is no guarantee that an 
+experiment will be compliant with a researcher's IRB policies.
 %promotes fully informed 
 %consent and voluntary participation by prospective subjects. 
 
@@ -116,7 +117,7 @@ a set of blurring layers. Each layer implements an IRB policy by substituting
 approximate data in place of explicit, raw sensor data to the experiment code. Different layers 
 together can be customized to cater to various institution's 
 policies and regulations. Our goal is to facilitate the enforcement of 
-IRB policies on behalf of researchers, such that experiments 
+IRB policies on behalf of researchers, and that experiments 
 do not collect more data than needed to provide their functionalities.
 This will also relieve researchers from the tedious work of 
 recruiting participants and enforcing IRB policies.
@@ -177,7 +178,7 @@ disabled by default (marked by \xmark).}
 \end{table}
 
 \textbf{Sensibility Testbed's default policies.} %\label{sec-irb-policies}
-Although Sensibility Testbed codifies IRB policies, 
+Though Sensibility Testbed codifies IRB policies, 
 a researcher cannot request complete access to all sensors 
 even if his IRB approves such a policy. The Sensibility Testbed's
 own IRB designates a set of default policies to access sensors in a

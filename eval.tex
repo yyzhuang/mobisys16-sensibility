@@ -307,7 +307,7 @@ Black points show the execution time with the runtime behavior verified.
 \label{fig-time}}
 \end{figure}
 
-\textbf{Runtime overhead.}
+%\textbf{Runtime overhead.}
 Figure~\ref{fig-time} shows the runtime overhead of using varying number of 
 blurring layers, i.e., policies, to protect sensor data. The experiment code 
 uses calls \path{get_battery()} in the Repy sandbox. Each point in the 
@@ -322,6 +322,22 @@ the runtime overhead is higher with more layers, as Table~\ref{tab:policy}
 and \ref{tab:policy-continued} show, most projects need less than 10
 policies. 
 
+Table~\ref{tab:overhead}(a) shows the total runtime overhead when an experiment
+calls \path{get_accelerometer()}, without any blurring layer (no layer), with blurring 
+layers but without verifying the runtime behavior (no-op), and with blurring layers
+that verifies the runtime behavior and rounds up accelerometer to two decimal 
+points (round-up). As shown in the table, the total runtime is \textit{linear} with an 
+increasing number of layers/policies. The overhead per policy is almost
+constant, with no-op round 0.12 - 0.14 $ms$ and round-up 0.14 - 0.21 $ms$. 
+Therefore, the runtime overhead will not affect conducting an 
+experiment or user experience.
+
+Table~\ref{tab:overhead}(b) shows the memory overhead without any blurring layer 
+(no layer), and with blurring layers that verifies the runtime behavior and rounds up 
+decimal points (round-up). As the results show, the memory overhead is almost
+constant, around 0.48 - 0.55 $MB$, until the number of blurring layers reaches 100. 
+\yanyan{is there an explanation?} Nevertheless, the overhead never exceeded 1 
+$MB$ in all cases. 
 
 \begin{table}
 \scriptsize
@@ -329,6 +345,7 @@ policies.
 
 \bgroup
 \def\arraystretch{1.15}% % for table padding
+
 \begin{tabular}{|l|l|c|c|c|c|}
 \hline
 \multicolumn{2}{|c|}{\multirow{2}{*}{\bf Operations}} & 
@@ -341,25 +358,37 @@ policies.
 & Per-layer & 0.1259 $ms$ & 0.1479 $ms$ & 0.1295 $ms$ & 0.1266 $ms$ \\\hline
 
 \multirow{2}{*}{Round-up} & Total & 6.907 $ms$ & 7.991 $ms$  & 13.86 $ms$ & 20.64 $ms$ \\ 
-& Per-layer & 0.2104 $ms$ & 0.1715 $ms$ & 0.1518 $ms$ & 0.1436 $ms$ \\\hline
+& Per-layer & 0.2104 $ms$ & 0.1715 $ms$ & 0.1518 $ms$ & 0.1436 $ms$ \\\hline 
+\multicolumn{6}{c}{\vspace{-0.1cm}}\\
 
+\multicolumn{6}{c}{\small (a) Runtime overhead.} \\
+\end{tabular}\\\vspace{0.25cm}
+%\end{subtable}
+
+
+\begin{tabular}{|l|l|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\multirow{2}{*}{\bf Operations}} & 
+\multicolumn{4}{c|}{\bf Number of blurring layers} \\\cline{3-6}
+\multicolumn{2}{|c|}{} & {\bf 3} & {\bf 10} & {\bf 50} & {\bf 100}\\\hline
+
+\multicolumn{2}{|c|}{No layer (baseline)} & \multicolumn{4}{c|}{6.246 $MB$} \\\hline
+
+\multicolumn{2}{|c|}{Round-up} & 6.742 $MB$ & 6.801 $MB$ & 6.727 $MB$ & 7.230 $MB$ \\\hline
+
+\multicolumn{2}{|c|}{Overhead} & 0.492 $MB$ & 0.555 $MB$ & 0.480 $MB$ & 0.984 $MB$ \\\hline
+\multicolumn{6}{c}{\vspace{-0.1cm}}\\
+
+\multicolumn{6}{c}{\small (b) Memory overhead.} \\
 \end{tabular}
+%\end{subtable}
+
 \egroup
 
-\caption{\small Runtime overhead with varying number of blurring layers. }
+\caption{\small Overhead with varying number of blurring layers. }
 \label{tab:overhead}
 %\vspace{-10pt}
 \end{table}
-
-Table~\ref{tab:overhead} shows the total runtime overhead when an experiment
-calls \path{get_accelerometer()}, without any blurring layer (no layer), with blurring 
-layers but without verifying the runtime behavior (no-op), and with blurring layers
-that verifies the runtime behavior and rounds up accelerometer to two decimal 
-points (round-up). As shown in the table, the total runtime is \textit{linear} with an 
-increasing number of layers/policies. The overhead per policy is almost
-constant, with no-op round 0.12 - 0.14 $ms$ and round-up 0.14 - 0.21 $ms$. 
-Therefore, the runtime overhead will not affect conducting an 
-experiment or user experience.
 
 
 %\textbf{CPU and memory overhead.}

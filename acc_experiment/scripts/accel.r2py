@@ -1,21 +1,22 @@
 """
-An accelerometer benchmark script for you!
+An accelerometer script for you!
 
-First, `uploaddir` its containing directory to your device.
-Then, typically,
+First, `uploaddir` its containing directory (scripts) to your device.
+Then, place your phone with its screen facing up (ie, the ceiling), and do:
 
-you@target !> start dylink.r2py encasementlib.r2py sensor_layer.r2py seclayer-init.r2py YOUR_SECURITY_LAYER.r2py NUMBER_OF_LAYERS_TO_STACK accel-foo.r2py
-
-(like start dylink.r2py encasementlib.r2py sensor_layer.r2py seclayer-init.r2py blur-round.r2py 50 accel-foo.r2py)
+you@target !> start dylink.r2py encasementlib.r2py sensor_layer.r2py accel.r2py up.txt
 
 * dylink gives you dy_import_module if you need it,
 * encasementlib adds non-bypasseable security layers,
 * sensor_layer adds sensor calls to the RepyV2 API,
-* seclayer-init initializes the security layer,
-* YOUR_SECURITY_LAYER is your security layer, e.g. blur-noop.r2py
-* NUMBER_OF_LAYERS_TO_STACK defines how many "interim" layers of calls 
-  there will be for the sensor call you override, and
-* accel-foo is this humble program.
+* accel is this humble program.
+* up.txt is the log file that your data will be saved to.
+
+After this is done, place your phone upside down (with your phone's screen facing the desk), and do:
+
+you@target !> start dylink.r2py encasementlib.r2py sensor_layer.r2py accel.r2py down.txt
+
+Then in seash, download the two files up.txt, down.txt, and email them to Yanyan (yyzh@cs.ubc.ca). 
 """
 
 librepyfile = dy_import_module("librepyfile.r2py")

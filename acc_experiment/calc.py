@@ -16,8 +16,10 @@ def getz(file):
       line = re.sub('[[]', '', line)
       line = re.sub('[]]', '', line).rstrip()
       x, y, z = line.split(",")
-      #zvalue.append(float(z))
-      zvalue.append(float(z) * math.cos(random.expovariate(random.random())))
+      #val = float(z) * abs(math.cos(random.expovariate(random.random())))
+      val = float(z) * abs(math.cos(random.uniform(0, math.pi/2)))
+      print z, val
+      zvalue.append(val)
   return zvalue
 
 def savedata(file, data):
@@ -38,8 +40,8 @@ for i in xrange(len(zup)):
  sz.append((zup[i] - zdown[i])/(2*g)) 
  oz.append((zup[i] + zdown[i])/2) 
 
-savedata(directory + '-sz-rand.txt', sz)
-savedata(directory + '-oz-rand.txt', oz)
+#savedata(directory + '-sz-rand.txt', sz)
+#savedata(directory + '-oz-rand.txt', oz)
 
 print numpy.mean(sz)
 print numpy.median(sz)

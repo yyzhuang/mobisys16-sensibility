@@ -1,0 +1,93 @@
+Running program: noarg-nocheck-memory.r2py
+Arguments: ['100']
+========================================
+No Check Memory RSS: 6549504 Bytes
+========================================
+Running program: noarg-nocheck-memory.r2py
+Arguments: ['10']
+========================================
+No Check Memory RSS: 6549504 Bytes
+========================================
+Running program: noarg-nocheck-memory.r2py
+Arguments: ['50']
+========================================
+No Check Memory RSS: 6549504 Bytes
+========================================
+Running program: noarg-nocheck-memory.r2py
+Arguments: ['5']
+========================================
+No Check Memory RSS: 6549504 Bytes
+========================================
+Running program: noarg-nocheck-memory.r2py
+Arguments: ['4']
+========================================
+No Check Memory RSS: 6549504 Bytes
+========================================
+Running program: noarg-nocheck-memory.r2py
+Arguments: ['3']
+========================================
+No Check Memory RSS: 6549504 Bytes
+========================================
+Running program: noarg-nocheck-memory.r2py
+Arguments: ['2']
+========================================
+No Check Memory RSS: 6549504 Bytes
+========================================
+Running program: noarg-nocheck-memory.r2py
+Arguments: ['1']
+========================================
+No Check Memory RSS: 6549504 Bytes
+
+
+
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '100', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7581696 Bytes
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '50', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7053312 Bytes
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '10', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7131136 Bytes
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '10', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7131136 Bytes
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '5', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7081984 Bytes
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '4', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7069696 Bytes
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '3', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7065600 Bytes
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '2', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7069696 Bytes
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '1', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7065600 Bytes
+========================================
+Running program: encasementlib.r2py
+Arguments: ['noarg-seclayer-init.r2py', '0', 'noarg-seclayer-memory.r2py']
+========================================
+Encasement Memory RSS: 7057408 Bytes
+

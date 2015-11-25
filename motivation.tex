@@ -1,49 +1,91 @@
-\section{Motivation}\label{sec-motivation}
+\section{Motivation and Background}\label{sec-motivation}
 
-%\textbf{Privacy and security risks.}
-Due to recent privacy breaches and security break-ins to mobile systems, 
-device security and personal privacy are genuinely at risk when a person 
-uses a smartphone or tablet \cite{breach}. 
-%Apps can post tweets to a 
-%user's Twitter account without asking for permission~\cite{tweet}. 
-A calculator app might send the user's location to an advertisement 
-server~\cite{calc}. Sensor data from the accelerometer 
-or gyroscope can be sufficient to infer the locations of touch-screen 
-taps, and thus infer a user's password~\cite{cai2011touchlogger}.
-Compromised apps can even let criminals break into an individual's 
-bank account~\cite{starbucks}. 
-%As a result, device owners 
-%are aware that running apps on their smartphones can raise privacy 
-%and security risks. 
-A major reason for the prevelant privacy breaches is that on many mobile 
-systems, such as Android, 
-only a sub-set of sensors like GPS and bluetooth are considered risky, 
-and their access is mediated~\cite{android-sec}. Other sensors 
-such as accelerometer, gyroscope, etc., 
-%are considered to be innocuous, 
-require no permission to access. Furthermore, %research shows that 
-device owners are often oblivious to the implications of granting access to
-a particular type of sensor or resource~\cite{felt2012android}. It is 
-therefore challenging to conduct research on end-user devices
-in compliance with ethical standards~\cite{zevenbergen2013ethical}.
+In this section, we present some background information that 
+served as the building blocks of the  design and deployment of 
+Sensibility Testbed. First, we offer the motivations behind its 
+development: the desire to balance the benefits of such research 
+with the very real privacy risks that could potentially occur if a 
+device owner allows access to his/her device. Next, we look at 
+one solution to the problem: the collecting of proximate versions 
+of data through the use of blurring layers. Third, we talk about 
+the traditional role of IRB in research involving human subjects 
+and how Sensibility Testbed can ensure these protections extend 
+to data accessed remotely. Lastly, we look at Sensibility Testbed's 
+sensor default policies, which automatically closes off access to 
+sensors which have the highest risk for violating the privacy of 
+device owners.
 
-However, having access to data from the enormous number of smartphones 
-in use today could be tremendously valuable to the research 
-community. As these devices belong to ordinary people, conducting
-research on these devices does not incur high maintenance costs. 
-Accelerometers on end-user devices could detect vibrations within 
-the frequency and intensity range of seismic waves, and assist 
-distributed earthquake detection~\cite{faulkner2011next}. GPS, 
-WiFi, and cellular triangulation can be employed in distributed 
-networks of sensors for traffic monitoring and accident 
-prevention~\cite{mohan2008nericell, thiagarajan2009vtrack}. 
-For the research community, accessing this data depends on its 
-ability to provide strong protection to device owners from privacy 
-and security breaches. In this work, we try to address two issues. 
 
-\textbf{Data access restrictions.}
+\textbf{Motivation: overcoming the risks of accessing sensor data.}
+Having access to data from the enormous number of smartphones 
+in use today could be tremendously valuable to the research community. 
+The sheer numbers of these devices, coupled with the fact that research 
+on these devices do not incur high maintenance costs, makes their 
+potential as information gathering instruments almost limitless. 
+
+%Due to recent privacy breaches and security break-ins to mobile systems, 
+%device security and personal privacy are genuinely at risk when a person 
+%uses a smartphone or tablet \cite{breach}. 
+%%Apps can post tweets to a 
+%%user's Twitter account without asking for permission~\cite{tweet}. 
+%A calculator app might send the user's location to an advertisement 
+%server~\cite{calc}. Sensor data from the accelerometer 
+%or gyroscope can be sufficient to infer the locations of touch-screen 
+%taps, and thus infer a user's password~\cite{cai2011touchlogger}.
+%Compromised apps can even let criminals break into an individual's 
+%bank account~\cite{starbucks}. 
+%%As a result, device owners 
+%%are aware that running apps on their smartphones can raise privacy 
+%%and security risks. 
+%A major reason for the prevelant privacy breaches is that on many mobile 
+%systems, such as Android, 
+%only a sub-set of sensors like GPS and bluetooth are considered risky, 
+%and their access is mediated~\cite{android-sec}. Other sensors 
+%such as accelerometer, gyroscope, etc., 
+%%are considered to be innocuous, 
+%require no permission to access. Furthermore, %research shows that 
+%device owners are often oblivious to the implications of granting access to
+%a particular type of sensor or resource~\cite{felt2012android}. It is 
+%therefore challenging to conduct research on end-user devices
+%in compliance with ethical standards~\cite{zevenbergen2013ethical}.
+
+%However, having access to data from the enormous number of smartphones 
+%in use today could be tremendously valuable to the research 
+%community. As these devices belong to ordinary people, conducting
+%research on these devices does not incur high maintenance costs. 
+%Accelerometers on end-user devices could detect vibrations within 
+%the frequency and intensity range of seismic waves, and assist 
+%distributed earthquake detection~\cite{faulkner2011next}. GPS, 
+%WiFi, and cellular triangulation can be employed in distributed 
+%networks of sensors for traffic monitoring and accident 
+%prevention~\cite{mohan2008nericell, thiagarajan2009vtrack}. 
+%For the research community, accessing this data depends on its 
+%ability to provide strong protection to device owners from privacy 
+%and security breaches. In this work, we try to address two issues. 
+
+However, for the research community, accessing this data depends on its 
+ability to provide strong protection to device owners from privacy and 
+security breaches. In seeking solutions to this problem, we started with a 
+few key ideas. The first is that device owners themselves may not fully 
+understand the implications of granting access to a particular type of 
+sensor or resource~\cite{felt2012android}. It is therefore challenging to 
+conduct research on end-user devices in compliance with ethical standards, 
+without some type of organized approach to enforcing those 
+standards~\cite{zevenbergen2013ethical}. In addition, a major reason for 
+the prevalent privacy breaches on many mobile systems, such as Android and iOS, 
+is that only a sub-set of sensors like GPS and bluetooth are considered risky, 	
+and therefore have their access mediated~\cite{android-sec}. Other sensors 
+such as accelerometer, gyroscope, etc., require no permission to access, 
+thus leaving them open to attack. Therefore, with Sensibility Testbed, 
+both the inclusion of IRB restrictions (discussed later in this section), and 
+the need to restrict or limit access to a wider range of sensors were both 
+incorporated into the design.	
+
+\textbf{Restricted data access and privacy protection.}
 %Despite these risks of using sensors, 
-Studies have indicated that 
+Another concept important to our design is that generalized data that 
+does not directly violate the privacy of the device owner can still be 
+valuable. Studies have indicated that 
 sensor data can be accessed without compromising device 
 owners' privacy or sacrificing service functioning.
 A recent research study shows that more than half of the 
@@ -52,7 +94,7 @@ sensor data from their personal devices~\cite{fawaz2014location}.
 Most participants could accommodate some inevitable loss of application 
 functionality, as long as their privacy was protected. Those surveyed
 applications ranged from location-based search (e.g., Yelp), social 
-network apps, to gaming and weather forcasting apps. 
+network apps, to gaming and weather forecasting apps. 
 Researchers thus have proposed 
 substituting mocked~\cite{beresford2011mockdroid} or 
 anonymized~\cite{zhou2011taming} data in place of real data. 
@@ -68,34 +110,44 @@ the imprecise information is sufficient for a large class of services.
 %caller's position with an accuracy of 125~m~\cite{gruteser2003anonymous, 
 %reed1998overview}. \yanyan{too many examples?}
 
-Based on these fact, restricting 
+Based on these facts, we decided that restricting 
 the amount of data accessible, such as reducing the precision or 
-access frequency, will be a good privacy protection mechanism we can 
+access frequency, offered an effective privacy protection mechanism to 
 provide to end users. In this work, we coin the term \textit{data blurring}
-as our privacy protection mechanism. This mechanism is used in 
-conjunction with a researcher's IRB policies. 
+as our privacy protection mechanism. This concept, explained in detail in
+Section~\ref{sec-policy}, automatically limits the amount of detailed 
+information the device sensors will relay to the person running the 
+experiment.
 %where each data access
 %policy is codified as a blurring layer, and different policies are
 %customized by loading individual blurring layers in order.
 
-\textbf{IRB policies.}
+\textbf{IRB policies: guiding ethical behavior.}
 %On the other hand, research institutions have also designed a 
 %protocol based on the \textit{institutional review board (IRB)}, 
 %to assess the ethics of a researcher's project, and review its methods. 
-Another issue we sought to address with Sensibility Testbed is to 
-relieve the individual researcher of the need to manually enforce 
-the restrictions set by his or her institution's IRB.
-IRB, also known as an independent ethics committee (IEC), ethical 
-review board (ERB), or research ethics board (REB), is a committee 
-that has been formally designated to approve, monitor, and review 
-research involving human subjects~\cite{irb}. Although many current network 
+Institutional Review Board serve as the ethical watch dogs for college, 
+universities, government agencies, and other research institutions. 
+It is the job of these boards, also known as an independent ethics committee 
+(IEC), ethical review board (ERB), or research ethics board (REB), 
+to approve, monitor, and review research involving human 
+subjects~\cite{irb}. These groups require all researchers working under 
+their aegis to submit the protocols of their studies with an aim to 
+protecting not only the physical and mental well-being of subjects, 
+but also to protect any information about these individuals generated 
+over the course of the study. Since privacy protection of collected data 
+become a bit more difficult when dealing with remote subjects, another 
+issue we sought to address with Sensibility Testbed is to relieve the 
+individual researcher of the need to manually enforce the restrictions 
+set by his or her institution's IRB. Sensibility Testbed automates, and 
+therefore ensures adoption of these policies. Although many current network 
 testbeds require that researchers obtain IRB approval before conducting
 an experiment on the testbed, these platforms do not provide a guarantee 
-for IRB policy compliance, and 
+for IRB policy compliance~\cite{nandugudi2013phonelab, nikravesh2015mobilyzer}.
 %In the case of PhoneLab, 
 %it requires experimenters to obtain IRB approval. However, 
-it leaves it up to the experimenters to comply with their IRB policies in their 
-experiments~\cite{nandugudi2013phonelab, nikravesh2015mobilyzer}. 
+%it leaves it up to the experimenters to comply with their IRB policies in their 
+%experiments~\cite{nandugudi2013phonelab, nikravesh2015mobilyzer}. 
 %Similarly, Mobilyzer~\cite{nikravesh2015mobilyzer} provides a 
 %measurement library that can be included in Android apps. 
 %and requires explicit user consent. 
@@ -104,23 +156,29 @@ experiment will be compliant with a researcher's IRB policies.
 %promotes fully informed 
 %consent and voluntary participation by prospective subjects. 
 
-Sensibility Testbed takes any researcher's IRB policies, and codifies 
-them to restrict sensor access on an end-user's device to 
-an institution's set access levels. 
+Sensibility Testbed takes any researcher's IRB policies, codifies them, and 
+uses the aforementioned blurring layers to restrict sensor access on an 
+end-user's device to an institution's set access levels, making compliance 
+automatic. 
 %IRB plays a central role in defining the policies
 %appropriate for research at individual institutions. Experimenters
 %first obtain an IRB approval at their institution. Then with these IRB
 %policies, Sensibility Testbed, as an intermediate, codifies the data access 
 %regulations and enforces them at the end-user mobile devices. 
-This is achieved through restricting data access  via
-a set of blurring layers. Each layer implements an IRB policy by substituting 
-approximate data in place of explicit, raw sensor data to the experiment code. Different layers 
-together can be customized to cater to various institution's 
-policies and regulations. Our goal is to facilitate the enforcement of 
-IRB policies on behalf of researchers, and that experiments 
-do not collect more data than needed to provide their functionalities.
-This will also relieve researchers from the tedious work of 
-recruiting participants and enforcing IRB policies.
+%This is achieved through restricting data access  via
+%a set of blurring layers. Each layer implements an IRB policy by substituting 
+%approximate data in place of explicit, raw sensor data to the experiment code. Different layers 
+Each blurring layer implements an IRB policy by substituting approximate 
+data in place of explicit, raw sensor data to the experiment code, and different 
+layers together can be customized to cater to various institution's 
+policies and regulations. As a result, experiments do not collect more 
+data than needed to provide their functionalities.
+
+%Our goal is to facilitate the enforcement of 
+%IRB policies on behalf of researchers, and that experiments 
+%do not collect more data than needed to provide their functionalities.
+%This will also relieve researchers from the tedious work of 
+%recruiting participants and enforcing IRB policies.
 
 %In the domain of IRB, Alice and Bob are the participating subject, and 
 %a researcher who conducts a research study on the subject, respectively.
@@ -178,20 +236,22 @@ disabled by default (marked by \xmark).}
 \end{table}
 
 \textbf{Sensibility Testbed's default policies.} %\label{sec-irb-policies}
-Though Sensibility Testbed codifies IRB policies, 
-a researcher cannot request complete access to all sensors 
-even if his IRB approves such a policy. The Sensibility Testbed's
-own IRB designates a set of default policies to access sensors in a
-way that is low to moderate risk. 
+The last unique concept Sensibility Testbed leveraged to ensure 
+protection of end-user security and privacy protection is that all sensors 
+are not alike. As mentioned at the beginning of this section, failure to 
+recognize the vulnerability of certain sensors was a key reason for privacy 
+breaches. In designing Sensibility Testbed, default policies were set as 
+to what types of sensors could be accessed. Even if an IRB happened 
+to approve such a policy, there are certain sensors that the testbed's
+own IRB designates as off-limits due to the high risk associated with 
+potential breaches. 
 %and for which access can be pre-approved with the
 %researcher's local IRB. 
 Only those sensors listed on our project 
 wiki page~\cite{sensor-api} are accessible to a researcher. 
 A summary of these sensors is listed in Table~\ref{tab:default}, 
-where each sensor is categorized as low, moderate or high 
-privacy risk.
-
-The list of sensors that Sensibility Testbed provides are all of moderate 
+with each one categorized as low, moderate or high 
+privacy risk. The list of sensors that Sensibility Testbed provides are all of moderate 
 to low privacy risks (marked by \tickmark), and the testbed further provides policy enforcement
 (Section~\ref{sec-policy}) to protect all the sensor data. Sensors 
 such as cameras and microphones that are deemed sensitive are not 
@@ -226,6 +286,7 @@ In this case, the research project has to go through the Sensibility
 Testbed's IRB, in addition to the researcher's IRB. 
 \yanyan{if we think this is ok, then we provide specially
 designed interface and policy?} \lois{following up on Yanyan's comment--If the Testbed's IRB says this expanded access is permissable, are the device owner's notified and can they opt out of this study? Otherwise, that would be a direct violation of the privacy protection you claim to give them}
+\lois{I did not touch these last two paragraphs because I still don't know about  the opt-out policy for individuals if this permission is given}
 %Depending on the experiment description provided by the 
 %researcher, the fields marked with a (*) are the ones that will be blurred.
 %

@@ -1,5 +1,35 @@
 \section{Practical Challenges and Limitations}\label{sec-limitation}
 
+Below we discuss potential deficiencies of Sensibility Testbed 
+that should be kept in mind when designing experiments to run on it, 
+and consider various challenges we met while building the system.
+
+\subsection{Limitations}\label{subsec-limitations}
+In Sensibility Testbed, experimenter code runs inside a sandbox, and 
+can access sensors only through privacy-preserving blur layers. 
+In contrast to a native Android research app, this starkly curtails 
+the experiment's access to the Android device. For example, Sensibility 
+Testbed does not provide a way to interact with the device owner 
+through unsolicited on-screen messages or notifications that a native 
+app could send\footnote{Interactivity still is possible if the user 
+chooses to make the first move: An experiment may serve a web page on 
+the local device through the web browser, and interact with the user 
+as a ``web app''.}. 
+
+On similar terms, Sensibility Testbed limits access to other parts 
+of the Android API. For example, there is no way for an experiment to 
+signal that it wants to handle \texttt{Intent}s of any sort, e.g. 
+act as an MP3 player whenever the device owner wants to open a file 
+of this type.
+
+It should be noted that the operations in the above examples 
+could well be added to the sandbox API -- there is no technical 
+obstacle for this. Rather, it was our fundamental security design 
+choice for Sensibility Testbed to not allow these.
+
+
+\subsection{Challenges}\label{subsec-challenges}
+
 \begin{itemize}
   \item It's not given that a testbed that runs non-interactive 
 experiments is the right answer to ``How can we scale out 
@@ -16,6 +46,6 @@ collect enough data to make use of temporal autocorrelation; secure enough.
   \item Granularity of user interaction is on opt-in / opt-out 
 level. No way currently for users to add own blur, cf. Sensorium 
 which does have this.
-  \item You have to learn the platform first.
+  \item You have to learn the platform first. Deviates from Android programming, e.g. "sensor calls".
 \end{itemize}
 

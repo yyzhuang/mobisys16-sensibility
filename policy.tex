@@ -9,21 +9,13 @@ system calls. A sensor access policy can (1) reduce
 the precision of the raw sensor data returned from a device, such
 as returning the location of a nearest city rather than the device's exact location; (2) restrict 
 the frequency of access to a sensor, such as the polling rate of a gyroscope or
-<<<<<<< HEAD
-a accelerometer, to avoid password interference~\cite{michalevsky2014gyrophone}; and (3) disable  
-access to a certain sensor in sensitive situations, such as 
-turning off a camera when a device is in a residential or work area.
-Implementation of the last policy is still ongoing, so this paper will mainly address
-how blurring levels allow for the execution of the first two types of policies. 
-=======
 an accelerometer, to avoid password interference~\cite{michalevsky2014gyrophone}; and (3) disable  
 access to a certain sensor in sensitive situations, such as 
 turning off a camera when a device is in a residential or work area.
 Implementation of the last policy is still ongoing, so this paper will mainly address
 how blurring layers allow for the execution of the first two types of policies. 
->>>>>>> yyzhuang/master
 
-In Section~\ref{sec-repy}, we introduced the Repy sandbox briefly. 
+In last section, we introduced the Repy sandbox briefly. 
 In this section, we describe how Repy is implemented
 (Section~\ref{sec-repy-ext}), 
 how to control the precision of sensor data (Section~\ref{sec-layer}), 
@@ -31,7 +23,6 @@ and the frequency of sensor access (Section~\ref{sec-nanny}).
 
 \subsection{Secure Sandbox}\label{sec-repy-ext}
 
-<<<<<<< HEAD
 The Repy sandbox is an important part of device software 
 (Section~\ref{sec-repy}). The sandbox is the execution environment 
 of all experiment code. It isolates experimenters' programs from one 
@@ -39,13 +30,6 @@ another, and prevents any of the code from harming the device
 through its strong isolation techniques. More importantly, the sandbox
 provides a flexible system call interposition technique where system call behavior 
 can be modified. This allows us to define and implement
-=======
-The Repy sandbox is an important part of the device software 
-(Section~\ref{sec-repy}) as it is where the experiment code is executed. It isolates experimenters' programs from one 
-another, and prevents any of the code from harming the device 
-through its strong isolation techniques. More importantly, the sandbox
-provides a flexible system call interposition technique to modify system call behavior. This allows us to define and implement
->>>>>>> yyzhuang/master
 different data access policies. This section describes how Repy provides
 security isolation and performance isolation, as well as customizable
 sensor access policies.
@@ -62,25 +46,24 @@ less likely to have a kernel exploit than other more complex kernels.
 As a result, any vulnerability in an experiment 
 %can at most cause compromise in the unprivileged portion of the sandbox, 
 cannot escape the sandbox and perform malicious actions to 
-the device system. The Repy sandbox exposes its system calls for accessing resources on a device
-<<<<<<< HEAD
-through a Python-like programming interface~\cite{repyv2} isolating experiment code from the kernel. 
+the device system. The Repy sandbox exposes its system calls for 
+accessing resources on a device through a Python-like programming 
+interface~\cite{repyv2} isolating experiment code from the kernel. 
 %another way of saying this:
 %Experiment code for accessing resources is contained by the 
 %Repy sandbox, using its Python-like programming language interface.
 This same sandbox design has been successfully running experiments as part of a network research 
-testbed for more than six years, without significant operation faults or security breaches.
- ~\cite{seattle}. \yanyan{Justin thinks this statement is weak.} \lois(I don't know if this answers his concerns since the meaning is essentially the same)
-=======
-through a Python-like programming interface~\cite{repyv2}. 
-%to experiment code for accessing resources on a device. 
-%another way of saying this:
-%Experiment code for accessing resources is contained by the 
-%Repy sandbox, using its Python-like programming language interface.
-This same sandbox design has been successfully running experiments 
-as part of a network research testbed~\cite{seattle} for more than six 
-years, with no report of operational faults or security breaches. 
->>>>>>> yyzhuang/master
+testbed for more than six years, without significant operation faults or security breaches~\cite{seattle}. \yanyan{Justin thinks this statement is weak.} \lois{I don't know if this answers his concerns since the meaning is essentially the same}
+%=======
+%through a Python-like programming interface~\cite{repyv2}. 
+%%to experiment code for accessing resources on a device. 
+%%another way of saying this:
+%%Experiment code for accessing resources is contained by the 
+%%Repy sandbox, using its Python-like programming language interface.
+%This same sandbox design has been successfully running experiments 
+%as part of a network research testbed~\cite{seattle} for more than six 
+%years, with no report of operational faults or security breaches. 
+%>>>>>>> yyzhuang/master
 
 In addition to security isolation,
 %The sandbox exposes a programming 
@@ -96,26 +79,15 @@ or delaying the execution of these calls if they exceed
 their configured quota. 
 %As a result, this sandbox limits 
 %what a sandboxed program can do. For example, 
-<<<<<<< HEAD
-This isolation means the sandbox can set access limits. For example, reading from and writing to the file system can
-only occur in a per-experiment directory, sending and receiving
-data via the network interface cannot exceed a configured rate, and 
-CPU, memory and battery consumption cannot exceed a set level.
-Therefore, the sandbox isolates the experiment program from 
-the rest of the device. Due to this isolation, different researchers can run experiments on 
-different sandboxes on the same device, without any interference between the studies.
-
-=======
-This isolation allows the sandbox to set access limits. For example, 
+This isolation means the sandbox can set access limits. For example, 
 reading from and writing to the file system can
 only occur in a per-experiment directory, sending and receiving
-data via the network interface cannot exceed a configured rate, and
+data via the network interface cannot exceed a configured rate, and 
 CPU, memory and battery consumption cannot exceed a set level.
 Therefore, the sandbox isolates the experiment program from 
 the rest of the device. Due to this isolation, different researchers 
 can run experiments on different sandboxes on the same device, 
 without any interference between the experiments.
->>>>>>> yyzhuang/master
 
 \subsubsection{Sensor Access from the Repy Sandbox}
 %\lois{why not call it the Repy Sandbox as before?}
@@ -129,16 +101,17 @@ without any interference between the experiments.
 %files, send data through the network, etc., from Alice's device. 
 %As in Section~\ref{sec-repy}, the Repy sandbox does not include 
 %calls to access sensors. But 
-<<<<<<< HEAD
-To allow an experimenter's code to access sensors, such as 
-GPS, WiFi, Bluetooth, accelerometer, and cellular network, we  
-need access to native Android code. \lois(I think I already asked this, but does this only run on Android devices? If so, I think that needs to be mentioned. Also, when you say "we need access to Android code, who is "we?" The researchers? The user? Repy management?) We first implemented a set of sensor functions using 
-Java in the native portion of the Sensibility Testbed app \lois(Again, who implemented the sensors? And are you referring to the design initially done that is now in the oast? Or the actions taken by a user now) The Repy 
+To allow a researcher's code to access sensors, such as 
+GPS, WiFi, Bluetooth, accelerometer, and cellular network, the Repy  
+sandbox needs access to native Android code. \lois{I think I already 
+asked this, but does this only run on Android devices? If so, I think 
+that needs to be mentioned.} We first implemented a set of sensor 
+functions using Java native code. \lois{Again, who implemented the sensors? And are you referring to the design initially done that is now in the oast? Or the actions taken by a user now} The Repy 
 sandbox then uses a Remote Procedure Call (RPC) to invoke the
-corresponding Java code, and returns the data 
+corresponding Java code in Python, and returns the data 
 to a sandboxed Repy program. This defines a set of sensor APIs in 
 Repy's programming language, such as \path{get_location()}, 
-=======
+\path{get_accelerometer()}, \path{get_wifi()}, etc. 
 
 \begin{figure}
 \begin{Verbatim}
@@ -165,17 +138,6 @@ Repy's programming language, such as \path{get_location()},
 \label{fig-getlocation}}
 \end{figure}
 
-To allow experiment code to access sensors, such as 
-GPS, WiFi, Bluetooth, accelerometer, and cellular network, the Repy sandbox
-needs access to native Android code. We first implemented a set of sensor functions using
-Java in the native portion of the Sensibility Testbed app. The Repy 
-sandbox then uses a Remote Procedure Call (RPC) to invoke the
-corresponding Java code in Python, and returns the data 
-to a sandboxed Repy program. This defines a set of sensor interfaces in 
-Repy's own programming language, such as \path{get_location()}, 
->>>>>>> yyzhuang/master
-\path{get_accelerometer()}, \path{get_wifi()}, etc. 
-
 Figure~\ref{fig-getlocation} shows how \path{get_location()} 
 is defined as a sandbox function which receives unfiltered location 
 information from a mobile device. 
@@ -185,15 +147,10 @@ defined in Repy,
 and \path{startLocating} is the name of the native Java method that tells the Android 
 location manager to start looking up location information. Lines 10 and 13 are similar RPC 
 calls that read location information from the Android location manager, and stops the location 
-<<<<<<< HEAD
-lookup. The command \path{get_location()} thus %is defined in the namespace of the sandbox kernel, it 
-can be directly used by an experimenter in an experiment program if no blurring layer is in place.
-=======
 lookup. The call \path{get_location()} thus %is defined in the namespace of the sandbox kernel, it 
 can be directly used in an experiment program, and can 
 accomplish in one line of Python code that would otherwise require several dozen 
 lines of Java code. Thus it makes writing an experiment program quicker and more convenient.
->>>>>>> yyzhuang/master
 
 A full list of sensor API is documented at~\cite{sensor-api}. The set
 of sensors range from battery, Bluetooth, and cellular, to location, WiFi, 
@@ -239,16 +196,6 @@ by loading individual blurring layers in order, as a policy stack.
 By design, a lower layer in the stack is the ancestor of 
 a higher layer. Each blurring layer is untrusted by its ancestor layers, 
 but is trusted by its descendant layers. In addition, every layer in the stack inherits the policy 
-<<<<<<< HEAD
-defined by its ancestor layer. The lowest blurring layer with no ancestors is the 
-Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
-of the policy stack, thereby inheriting all the policies defined by the
-lower layers, as shown in Figure~\ref{fig-blur}. 
-Each policy stack acts as a set 
-of filters for different sensors through which a call must pass before a sandboxed program can
-access the sensor data. Different stacks can be customized for 
-different IRB policies.
-=======
 defined by its ancestor layers. The lowest blurring layer with no ancestors is the 
 Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
 of the policy stack, thereby inheriting all the policies defined by the
@@ -257,7 +204,6 @@ Each policy stack acts as a set of filters for different sensors, through
 which a call must pass before a sandboxed program can
 access the sensor data. 
 %Different stacks can be customized for different IRB policies.
->>>>>>> yyzhuang/master
 
 
 %In the following, we describe how to implement each blurring layer, 
@@ -322,15 +268,6 @@ In this case, layer \path{bar} would not be able to access
 %The encasement library copies all objects that are passed
 %between security layers.
 %
-<<<<<<< HEAD
-Each function call that can be sent by descendant blurring
-layers needs to have its arguments return value, and 
-other runtime behavior verified. This concept is similar to system call filtering
-mechanisms~\cite{acharya2000mapbox, fraser2000hardening} 
-that mediate access to a sensitive function interface. In our case, 
-the functions are calls to smartphone sensors that 
-can potentially reveal a device owner's private information. Our 
-=======
 Each function that can be called by descendant blurring
 layers needs to have its arguments, return value, and 
 other runtime behavior verified. This concept is similar to system call filtering
@@ -338,13 +275,12 @@ mechanisms~\cite{acharya2000mapbox, fraser2000hardening}
 that mediate access to a sensitive function interface. In our case, 
 the functions are the calls to smartphone sensors that 
 can potentially reveal a device owner's private information. Our
->>>>>>> yyzhuang/master
 verification process uses a contract. For each function that has a 
 mapping, the contract lists the number 
 and types of its arguments, the exceptions that can be raised 
 by the function, and the return type of the function\footnote{\scriptsize 
 Since Python is a dynamically-typed language, it is useful to type check 
-a function's arguments, exceptions, and return values.
+a function's arguments, exceptions, and return values.}
 
 A contract is represented as a Python dictionary in Repy. As an example, if 
 the blurring layer \path{foo} wanted to create a contract that would map
@@ -393,64 +329,52 @@ enforces a given policy. All descendant layers (layers loaded
 after this layer) will have access to the version of the function 
 that enforces this new policy. The final blurring layer starts the 
 experiment program with the appropriate set of functions. 
-<<<<<<< HEAD
-Therefore, the experimenter's program is forced to use all the 
-new policies. An example of blurring layer implementation is given in 
-Section~\ref{sec-precision-example}.  
-
+%
 %\subsubsection{Blurring Layer Instantiation}
-\bigskip
-From start to finish, the entire process proceeds as follows. 
-The clearinghouse creates a list of access policies for a researcher's
-experiment, according to the specified IRB policies. The sandbox on a mobile device, under the control of
-this experimenter, obtains a list of command-line arguments 
-from the clearinghouse, which includes all the blurring layers
-and parameters for each layer. The pre-set blurring layer determine
-the type of policy required, such as accelerometer access rate, and the 
-IRB parameters customize the specific policy, such as accessing
-an accelerometer at a rate of 50 times/second. 
-%the first of which must be the encasement library.
-%The kernel reads in the encasement library code and uses
-%the virtual namespace abstraction to execute the code with
-%the exported kernel functions. The encasement library
-The sandbox then %uses its blurring layer creation call to 
-instantiates 
-the first blurring layer according to its contract, i.e., the function 
-mapping that contains the kernel's exported functions.
-%the security layer instantiation call, and the remaining
-%command-line arguments. 
-The newly instantiated blurring layer repeats this process 
-%using the 
-%encasement library's
-%blurring layer creation call 
-to instantiate the next
-security layer with a potentially updated contract and function
-mapping. Eventually, the experimenter's program is instantiated
-in a separate layer with the functions provided
-through the stack of blurring layers that preceded it.
-The experimenter's program will then be subject to all the 
-policies defined in the preceding layers, or the policy stack.
-
-=======
+%\smallskip
+%From start to finish, the entire process proceeds as follows. 
+%The clearinghouse creates a list of access policies for a researcher's
+%experiment, according to the specified IRB policies. The sandbox on a mobile device, under the control of
+%this experimenter, obtains a list of command-line arguments 
+%from the clearinghouse, which includes all the blurring layers
+%and parameters for each layer. The pre-set blurring layer determine
+%the type of policy required, such as accelerometer access rate, and the 
+%IRB parameters customize the specific policy, such as accessing
+%an accelerometer at a rate of 50 times/second. 
+%%the first of which must be the encasement library.
+%%The kernel reads in the encasement library code and uses
+%%the virtual namespace abstraction to execute the code with
+%%the exported kernel functions. The encasement library
+%The sandbox then %uses its blurring layer creation call to 
+%instantiates 
+%the first blurring layer according to its contract, i.e., the function 
+%mapping that contains the kernel's exported functions.
+%%the security layer instantiation call, and the remaining
+%%command-line arguments. 
+%The newly instantiated blurring layer repeats this process 
+%%using the 
+%%encasement library's
+%%blurring layer creation call 
+%to instantiate the next
+%security layer with a potentially updated contract and function
+%mapping. Eventually, the experimenter's program is instantiated
+%in a separate layer with the functions provided
+%through the stack of blurring layers that preceded it.
+%The experimenter's program will then be subject to all the 
+%policies defined in the preceding layers, or the policy stack.
+%
 Therefore, the experimenter's program is ensured to use all the 
 new policies. An example of blurring layer implementation is given in 
 Section~\ref{sec-precision-example}.  
 
->>>>>>> yyzhuang/master
 \subsubsection{An Example of Policy Implementation}
 \label{sec-precision-example}
 
 %\subsubsection{Reducing Data Precision}
 
-<<<<<<< HEAD
-Below is an an example of the implementation of a location blurring layer. 
-When experimenter Bob requests a device, the clearinghouse recognizes that all the location data he 
-collects must be substituted with a blurred location that only identifies the nearest city.
-=======
 Below is an example of the implementation of a location blurring layer. 
-When experimenter Bob requests a device, the clearinghouse recognizes that all the location data
+When researcher Bob requests a device, the clearinghouse recognizes that all the location data
 he collects must be substituted with a blurred location that only identifies the nearest city.
->>>>>>> yyzhuang/master
 %rather than the exact location of the device. 
 Therefore, the following blurring layer is
 automatically loaded, along with Bob's experiment code, to map 
@@ -533,19 +457,11 @@ sandboxed programs in Sensibility Testbed.
 
 \subsection{Nanny: Restricting Data Access Frequency}\label{sec-nanny}
 
-<<<<<<< HEAD
-Reducing data precision partially protects a device owner's privacy. However, frequent access to device sensor data 
-can be another channel to snoop on personal information.
-If sensor queries are made on a sufficiently frequent basis, they can be used
-to track an individual's activities. The goal of reducing sensor access frequency 
-is to prevent an accumulation of identifiable information about an individual, such as 
-=======
 Reducing data precision partially protects a device owner's privacy. However, frequent data 
 access can be another channel to snoop on personal information.
 If sensor queries are made on a sufficiently frequent basis, they can be used
 to track an individual's activity. The goal of reducing sensor access frequency 
 is to prevent an accumulation of identifiable information, such as 
->>>>>>> yyzhuang/master
 location~\cite{gruteser2003anonymous}, wireless network identifiers, and even 
 accelerometer data. (Note that specific
 details as to how frequently a certain sensor can be accessed without risking such an 
@@ -567,11 +483,7 @@ When an
 %Utilization is controlled over one or more periods, where
 experiment program's use of a resource is above a given threshold, 
 \path{nanny} pauses the 
-<<<<<<< HEAD
-program for as long as required to, on average, return the rate to below the
-=======
 program for as long as required to bound it, on average, below the
->>>>>>> yyzhuang/master
 threshold. Therefore, if an experiment program attempts to 
 use a resource at a rate faster than is allowed by a policy, the function 
 call is blocked until sufficient time has passed to average out the overall access rate. 

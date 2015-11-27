@@ -1,22 +1,22 @@
 \section{Practical Challenges and Limitations}\label{sec-limitation}
 
-Below we discuss potential deficiencies of Sensibility Testbed 
+Below we discuss potential deficiencies of \sysname 
 that should be kept in mind when designing experiments to run on it, 
 and consider various challenges we met while building the system.
 
 \subsection{Limitations}\label{subsec-limitations}
-In Sensibility Testbed, experimenter code runs inside a sandbox, and 
+In \sysname, experimenter code runs inside a sandbox, and 
 can access sensors only through privacy-preserving blur layers. 
 In contrast to a native Android research app, this starkly curtails 
-the experiment's access to the Android device. For example, Sensibility 
-Testbed does not provide a way to interact with the device owner 
+the experiment's access to the Android device. For example, \sysname 
+does not provide a way to interact with the device owner 
 through unsolicited on-screen messages or notifications that a native 
 app could send\footnote{Interactivity still is possible if the device 
 owner chooses to make the first move: An experiment may serve a web 
 page on the local device through the web browser, and interact with 
 the device owner as a ``web app''.}. 
 
-On similar terms, Sensibility Testbed limits access to other parts 
+On similar terms, \sysname limits access to other parts 
 of the Android API. For example, there is no way for an experiment to 
 signal that it wants to handle \texttt{Intent}s of any sort, e.g. 
 act as an MP3 player whenever the device owner wants to open a file 
@@ -30,7 +30,7 @@ Do you think we should explain the concept of Intents more?}
 It should be noted that the operations in the above examples 
 could well be added to the sandbox API -- there is no technical 
 obstacle for this. Rather, it was our fundamental security design 
-choice for Sensibility Testbed to not allow these.
+choice for \sysname to not allow these.
 
 
 \subsection{Challenges}\label{subsec-challenges}
@@ -38,20 +38,20 @@ choice for Sensibility Testbed to not allow these.
 In addition to the limitations discussed above, further questions 
 arise from currently existing challenges. We hope to be able to 
 answer these questions as we gain more practical experience with 
-Sensibility Testbed.  
+\sysname.
 We approach questions of use, usefulness, technical design, and
 general architecture, in this order.
 
 
 \textbf{Use.}~
 From the perspective of a researcher designing an experiment to 
-run on Sensibility Testbed, there is a certain learning phase 
+run on \sysname, there is a certain learning phase 
 to go through in order to familiarize with the test and deployment 
 tools, the sandbox API, operational aspects of a distributed system, 
 and so on. Since the sandbox uses a different programming language 
 than Android usually does, and the patterns to access sensor values 
 are different as well, no previous experience with Android is required 
-to program for Sensibility Testbed. Indeed, from our experience in 
+to program for \sysname. Indeed, from our experience in 
 educational contexts, an experimenter who brings along any programming 
 knowledge will quickly learn how to use the sandbox, while specific 
 Android experience does not necessarily provide an advantage.
@@ -61,7 +61,7 @@ Android experience does not necessarily provide an advantage.
 
 
 \textbf{Usefulness.}~
-Sensibility Testbed's current feature set probably makes it most 
+\sysname's current feature set probably makes it most 
 useful as a passive, distributed, large-scale sensor network. 
 It does not map well to interactive crowd sensing, crowd sourcing, 
 and (geo) tagging tasks, for studies looking at personal data stored 
@@ -70,7 +70,7 @@ phone book),
 % Cf. https://en.wikipedia.org/wiki/Six_degrees_of_separation
 or introspection into the Android OS (which, e.g., PhoneLab provides). 
 In short, we expect other approaches to remain valid and interesting 
-besides Sensibility Testbed, but hope that its scale and distribution 
+besides \sysname, but hope that its scale and distribution 
 are attractive properties nevertheless.
 
 \albert{Could add questions regarding scale, too:
@@ -79,10 +79,10 @@ are attractive properties nevertheless.
 do it''.}
 
 Another interesting aspect we hope to be able to understand better as 
-we open Sensibility Testbed to the public is what motivates device 
+we open \sysname to the public is what motivates device 
 owners to altruistically ``donate'' resources to researchers. 
 We hypothesize that altruism is an incenctive, especially since 
-Sensibility Testbed currently provides no native (GUI-based, 
+\sysname currently provides no native (GUI-based, 
 notification) way for experiments to interface with the device 
 owner. We note that there are projects that keep records of 
 resource donations (like a high-score table), let contributors form 
@@ -100,7 +100,7 @@ the high-score table.
 
 
 \textbf{Technical challenges.}~
-Sensibility Testbed is designed to minimize the privacy repercussions 
+\sysname is designed to minimize the privacy repercussions 
 of smartphone research by blurring the sensor values that experiment 
 code sees. For this, we provide blur layers that transform the sensor 
 values, round them or otherwise limit their accuracy, replace them by 
@@ -113,20 +113,45 @@ Still, this does not guarantee that the existing blurring layers and
 configurations will always be able to address adequately all possible 
 privacy concerns. Also, bugs in the sandbox or blur code might 
 expose the device owner's privacy.  
-To meet these objections, Sensibility Testbed includes a software 
+To meet these objections, \sysname includes a software 
 updater copmponent so that we can fix any security issues and 
 improve the coverage provided by the blur layers.
 
+\albert{Another possible point is that interface-compatble, 
+transpartent, drop-in blur functions might confuse more than 
+they are useful, because there is no clear indication of the 
+accuracy and rate that you get (cf. Leon's student's presentation 
+on 2015-11-15). This is more criticism of drop-in blur rather than 
+blur as such.}
 
-\begin{itemize}
-  \item Are blur layers the right way to solve the problem? E.g., 
+Choosing and parametrizing blur layers also is a usability 
+challenge we currently try to solve. As laid out in \S\ref{...}, 
+researchers request access to sensors (at certain accuracy levels 
+and rates) through their IRB, and \sysname provides technical means 
+to instantiate blurring layers that meet the approved specifications. 
+For the device owner, intervention is currently limited to a binary 
+choice, opt-in or opt-out. This provides a streamlined yet little 
+expressive way for device owners to decide on participation in an 
+experiment. In prior work \cite{sensorium}, we did evaluate 
+finer-grained sensor access settings, but found it difficult to 
+balance expressiveness (in terms of when and how accurately which 
+sensor or group of sensors may be accessed) and usability (i.e., 
+the number and description of user interface widgets that enable 
+the device owner to express their desired policy).
+We feel that expressiveness is great for concerned device owners 
+that want to make informed decisions, and the sandbox and blurring 
+architecture allows for additional, prioritized policies to be 
+instantiated before the researcher's IRB's and \sysname's defaults. 
+However, we need to understand better whether our existing interface 
+satisfies the device owners.
+
+\textbf{Architectural challenges.}~
+Are blur layers the right way to solve the problem? E.g., 
 collect enough data to make use of temporal autocorrelation; secure enough.
-  \item Granularity of user interaction is on opt-in / opt-out 
-level. No way currently for users to add own blur, cf. Sensorium 
-which does have this.
-  \item Are IRBs the right way to solve the problem? E.g., 
+
+Are IRBs the right way to solve the problem? E.g., 
 rogue researchers that deliberately obfuscate what they will 
 do with sensor readings, so as to breach privacy. E.g., 
 ignorant IRBs that greenlight everything and put the burden on 
 our default IRB (????).
-\end{itemize}
+

@@ -11,16 +11,21 @@ In contrast to a native Android research app, this starkly curtails
 the experiment's access to the Android device. For example, Sensibility 
 Testbed does not provide a way to interact with the device owner 
 through unsolicited on-screen messages or notifications that a native 
-app could send\footnote{Interactivity still is possible if the user 
-chooses to make the first move: An experiment may serve a web page on 
-the local device through the web browser, and interact with the user 
-as a ``web app''.}. 
+app could send\footnote{Interactivity still is possible if the device 
+owner chooses to make the first move: An experiment may serve a web 
+page on the local device through the web browser, and interact with 
+the device owner as a ``web app''.}. 
 
 On similar terms, Sensibility Testbed limits access to other parts 
 of the Android API. For example, there is no way for an experiment to 
 signal that it wants to handle \texttt{Intent}s of any sort, e.g. 
 act as an MP3 player whenever the device owner wants to open a file 
-of this type.
+of this type, or handle phone calls, etc.
+\albert{Playing back audio files, handling calls and text messages etc. 
+are examples of things implemented via Intents in Android, see 
+\url{https://en.wikipedia.org/wiki/Intent_%28Android%29} and 
+\url{https://developer.android.com/reference/android/content/Intent.html}. 
+Do you think we should explain the concept of Intents more?}
 
 It should be noted that the operations in the above examples 
 could well be added to the sandbox API -- there is no technical 
@@ -48,4 +53,3 @@ level. No way currently for users to add own blur, cf. Sensorium
 which does have this.
   \item You have to learn the platform first. Deviates from Android programming, e.g. "sensor calls".
 \end{itemize}
-

@@ -61,7 +61,22 @@ Android experience does not necessarily provide an advantage.
 
 
 \textbf{Usefulness.}~
-\albert{Experimenter: ``What is it good for if I can't X with it?''}
+Sensibility Testbed's current feature set probably makes it most 
+useful as a passive, distributed, large-scale sensor network. 
+It does not map well to interactive crowd sensing, crowd sourcing, 
+and (geo) tagging tasks, for studies looking at personal data stored 
+on the phone (such as performing research using the device owner's 
+phone book),
+% Cf. https://en.wikipedia.org/wiki/Six_degrees_of_separation
+or introspection into the Android OS (which, e.g., PhoneLab provides). 
+In short, we expect other approaches to remain valid and interesting 
+besides Sensibility Testbed, but hope that its scale and distribution 
+are attractive properties nevertheless.
+
+\albert{Could add questions regarding scale, too:
+``Is S.T. a meaningful way to scale out smartphone research?'',
+``Shall we scale it out at all, or let Google / the mobile operators 
+do it''.}
 
 Another interesting aspect we hope to be able to understand better as 
 we open Sensibility Testbed to the public is what motivates device 
@@ -84,12 +99,26 @@ direct benefit from interactivity, nor a form of publicity like
 the high-score table.
 
 
+\textbf{Technical challenges.}~
+Sensibility Testbed is designed to minimize the privacy repercussions 
+of smartphone research by blurring the sensor values that experiment 
+code sees. For this, we provide blur layers that transform the sensor 
+values, round them or otherwise limit their accuracy, replace them by 
+random data, limit the access rate, and so on (see \S\ref{...}). 
+In \S\ref{...} we show that blurring is a meaningful strategy to 
+counterbalance a researcher's desire for sensor access and a device 
+owner's desire for privacy, and that our implementation of blurring 
+can express complex interrelations between sensor values and accuracies. 
+Still, this does not guarantee that the existing blurring layers and 
+configurations will always be able to address adequately all possible 
+privacy concerns. Also, bugs in the sandbox or blur code might 
+expose the device owner's privacy.  
+To meet these objections, Sensibility Testbed includes a software 
+updater copmponent so that we can fix any security issues and 
+improve the coverage provided by the blur layers.
+
+
 \begin{itemize}
-  \item Researchers could require interactivity, privacy-invasive 
-sensor access, and other things that don't map well to S.T.
-  \item It's not given that a testbed that runs non-interactive 
-experiments is the right answer to ``How can we scale out 
-smartphone research'', ``Shall we scale it out at all'', etc.
   \item Are blur layers the right way to solve the problem? E.g., 
 collect enough data to make use of temporal autocorrelation; secure enough.
   \item Granularity of user interaction is on opt-in / opt-out 

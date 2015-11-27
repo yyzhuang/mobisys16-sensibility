@@ -23,7 +23,7 @@ act as an MP3 player whenever the device owner wants to open a file
 of this type, or handle phone calls, etc.
 \albert{Playing back audio files, handling calls and text messages etc. 
 are examples of things implemented via Intents in Android, see 
-\url{https://en.wikipedia.org/wiki/Intent_%28Android%29} and 
+\url{https://en.wikipedia.org/wiki/Intent\_\%28Android\%29} and 
 \url{https://developer.android.com/reference/android/content/Intent.html}. 
 Do you think we should explain the concept of Intents more?}
 
@@ -35,21 +35,69 @@ choice for Sensibility Testbed to not allow these.
 
 \subsection{Challenges}\label{subsec-challenges}
 
+In addition to the limitations discussed above, further questions 
+arise from currently existing challenges. We hope to be able to 
+answer these questions as we gain more practical experience with 
+Sensibility Testbed.  
+We approach questions of use, usefulness, technical design, and
+general architecture, in this order.
+
+
+\textbf{Use.}~
+From the perspective of a researcher designing an experiment to 
+run on Sensibility Testbed, there is a certain learning phase 
+to go through in order to familiarize with the test and deployment 
+tools, the sandbox API, operational aspects of a distributed system, 
+and so on. Since the sandbox uses a different programming language 
+than Android usually does, and the patterns to access sensor values 
+are different as well, no previous experience with Android is required 
+to program for Sensibility Testbed. Indeed, from our experience in 
+educational contexts, an experimenter who brings along any programming 
+knowledge will quickly learn how to use the sandbox, while specific 
+Android experience does not necessarily provide an advantage.
+% Also, the sandbox API is small, and stays away from unconventional 
+% or OS-specific patterns, so it is easy to learn even for the
+% uninitiated.
+
+
+\textbf{Usefulness.}~
+\albert{Experimenter: ``What is it good for if I can't X with it?''}
+
+Another interesting aspect we hope to be able to understand better as 
+we open Sensibility Testbed to the public is what motivates device 
+owners to altruistically ``donate'' resources to researchers. 
+We hypothesize that altruism is an incenctive, especially since 
+Sensibility Testbed currently provides no native (GUI-based, 
+notification) way for experiments to interface with the device 
+owner. We note that there are projects that keep records of 
+resource donations (like a high-score table), let contributors form 
+teams, and so on\footnote{See OpenWLANMap for a concrete example, \url{http://www.openwlanmap.org/owlmapatandroid.php?lang=}}.
+% With due thanks to Karl Karpfen for pointing out the project!
+This rewards contributors with some form of acknowledgment and 
+publicity.
+Other projects appear to have utilized ipure altruism to great effect.
+For example, \textit{that ol' SIGCOMM ``middleboxes''} paper 
+\cite{it} claims \textit{tons of} installs from the Android app 
+store, suggesting that there exists a sizable population of device 
+owners that will install an app that gives them neither an obvious, 
+direct benefit from interactivity, nor a form of publicity like 
+the high-score table.
+
+
 \begin{itemize}
+  \item Researchers could require interactivity, privacy-invasive 
+sensor access, and other things that don't map well to S.T.
   \item It's not given that a testbed that runs non-interactive 
 experiments is the right answer to ``How can we scale out 
 smartphone research'', ``Shall we scale it out at all'', etc.
-  \item Researchers could require interactivity, privacy-invasive 
-sensor access, and other things that don't map well to S.T.
-  \item Are IRBs the right way to solve the problem? E.g., 
-rogue researchers that deliberately obfuscate what they will 
-do with sensor readings, so as to breach privacy. E.g., 
-ignorant IRBs that greenlight everything and put the burden on 
-our default IRB (????).
   \item Are blur layers the right way to solve the problem? E.g., 
 collect enough data to make use of temporal autocorrelation; secure enough.
   \item Granularity of user interaction is on opt-in / opt-out 
 level. No way currently for users to add own blur, cf. Sensorium 
 which does have this.
-  \item You have to learn the platform first. Deviates from Android programming, e.g. "sensor calls".
+  \item Are IRBs the right way to solve the problem? E.g., 
+rogue researchers that deliberately obfuscate what they will 
+do with sensor readings, so as to breach privacy. E.g., 
+ignorant IRBs that greenlight everything and put the burden on 
+our default IRB (????).
 \end{itemize}

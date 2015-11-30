@@ -11,24 +11,20 @@ In contrast to a native app (in our case, an Android app), this starkly curtails
 the experiment's access to the mobile device. For example, \sysname 
 does not provide a way to interact with the device owner 
 through unsolicited on-screen messages or notifications that a native 
-app could send\footnote{\scriptsize Interactivity still is possible if the device 
-owner chooses to make the first move: An experiment may serve a web 
+app could send\footnote{\scriptsize Interactivity is still possible. 
+An experiment may serve a web 
 page on the local device through the web browser, and interact with 
-the device owner as a ``web app''.\yanyan{what does it mean to make
-the first move?}}. 
+the device owner as a web app.}. 
 
 Similarly, \sysname limits access to other parts 
 of the native API. For example, there is no way for an experiment to 
-signal that it wants to handle an \texttt{Intent}, e.g. 
-act as an MP3 player whenever the device owner wants to open a file 
-of this type, or handle phone calls, etc.\yanyan{Why would a device 
-owner want to open a file using testbed code? Can't they use the Android
-built-in player? Do you mean a researcher
-wants to open an MP3 file on device owner's device?}
-\albert{Playing back audio files, handling calls and text messages etc. 
-are examples of things implemented via Intents in Android, see 
-\url{https://en.wikipedia.org/wiki/Intent\_\%28Android\%29} and 
-\url{https://developer.android.com/reference/android/content/Intent.html}. 
+signal that it wants to handle an \texttt{Intent}~\cite{intent}, e.g. 
+act as an MP3 player to open a file of this type, or handle phone calls, 
+etc.~\cite{intent-dev}.
+\albert{%Playing back audio files, handling calls and text messages etc. 
+%are examples of things implemented via Intents in Android, see 
+%\url{https://en.wikipedia.org/wiki/Intent\_\%28Android\%29} and 
+%\url{https://developer.android.com/reference/android/content/Intent.html}. 
 Do you think we should explain the concept of Intents more?}
 
 Note that the operations above 
@@ -92,10 +88,9 @@ resource donations (like a high-score table), let contributors form
 teams, and so on~\cite{OpenWLANMap}.
 % With due thanks to Karl Karpfen for pointing out the project!
 This rewards contributors with some form of acknowledgment and 
-publicity.
-Other projects appear to have utilized pure altruism to great effect.
-For example, \textit{that ol' SIGCOMM ``middleboxes''} paper 
-\cite{it} \yanyan{what is this paper?} claims \textit{tons of} installs from the Android app 
+publicity. Other projects appear to have utilized pure altruism to 
+great effect. For example, the authors of~\cite{wang2011untold} 
+claims hundreds of installs from the Android app 
 store, suggesting that there exists a sizable population of device 
 owners that will install an app that gives them neither an obvious, 
 direct benefit from interactivity, nor a form of publicity like 
@@ -118,7 +113,7 @@ privacy concerns. Also, bugs in the sandbox or blur code might
 expose the device owner's privacy.  
 To meet these objections, \sysname includes a software 
 updater so that we can fix any security issues and 
-improve the coverage provided by the blurring layers.\yanyan{cite software updater url.}
+improve the coverage provided by the blurring layers.
 
 \albert{Another possible point is that interface-compatble, 
 transpartent, drop-in blur functions might confuse more than 

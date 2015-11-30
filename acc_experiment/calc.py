@@ -25,12 +25,14 @@ def truncate(f, n):
         result = result + '0'  # otherwise, truncate(3.141592, 0) will return 3., not 3.0
     return float(result)
 
+
 def gettruncz(file):
   zvalue = []
   with open(file) as f:
     for line in f:
       z = getz(line)
-      val = truncate(z, 0)
+      #val = truncate(z, 0)
+      val = z
       #print z, val
       zvalue.append(val)
   return zvalue
@@ -42,7 +44,7 @@ def getrandomz(file):
     for line in f:
       z = getz(line)
       #val = float(z) * abs(math.cos(random.expovariate(random.random())))
-      val = z * abs(math.cos(random.uniform(0, math.pi/2)))
+      val = z * abs(math.cos(random.uniform(0, math.pi/6)))
       print z, val
       zvalue.append(val)
   return zvalue
@@ -53,8 +55,8 @@ def savedata(file, data):
   f.write(str(data)) 
   f.close()
     
-zup = gettruncz(directory + '/up.txt')
-zdown = gettruncz(directory + '/down.txt')
+zup = getrandomz(directory + '/up.txt')
+zdown = getrandomz(directory + '/down.txt')
 
 if len(zup) != len(zdown):
   print "zup and zdown should have the same size..."
@@ -66,8 +68,8 @@ for i in xrange(len(zup)):
  sz.append((zup[i] - zdown[i])/(2*g)) 
  oz.append((zup[i] + zdown[i])/2) 
 
-savedata(directory + '/sz-trunc.txt', sz)
-savedata(directory + '/oz-trunc.txt', oz)
+savedata(directory + '/sz-rand30.txt', sz)
+savedata(directory + '/oz-rand30.txt', oz)
 
 print numpy.mean(sz)
 print numpy.median(sz)

@@ -14,6 +14,7 @@ def plotfig(csvfile):
   for subdir in glob.glob("./*"):
     if os.path.isdir(subdir) and subdir != "./scripts":  
       # "./scripts" does not store data
+      print subdir
       devicenum += 1  
 
       for datafile in glob.glob(subdir + '/' + csvfile): 
@@ -27,14 +28,14 @@ def plotfig(csvfile):
         oz = data['oz']
         plt.errorbar(np.mean(sz), np.mean(oz), xerr=np.std(sz), yerr=np.std(oz), 
                      linestyle='None', marker=marker, markersize=10, color=color)
-        print np.mean(sz), np.mean(oz), marker, color
+        print np.mean(sz), np.mean(oz), np.std(sz), np.std(oz), marker, color
 
-  #plt.xlim([0.97, 1.06])   
-  #plt.ylim([-0.4, 0.801])
+  plt.xlim([0.98, 1.055])   
+  plt.ylim([-0.501, 0.901])
   plt.xlabel('Sz')
   plt.ylabel('Oz')
   plt.show()
   
 
-plotfig("sz-oz-trunc.csv")
-#plotfig("sz-oz.csv")
+plotfig("sz-oz.csv")
+#plotfig("sz-oz-rand10.csv")

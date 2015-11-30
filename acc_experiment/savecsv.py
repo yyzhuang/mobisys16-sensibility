@@ -29,12 +29,12 @@ def savecsv(x, y, filename):
 for subdir in glob.glob("./*"):
   if os.path.isdir(subdir) and subdir != "./scripts":  
     # "./scripts" does not store data
-    #sz = savedata(subdir, '/sz.txt')
-    #oz = savedata(subdir, '/oz.txt')
-    #savecsv(sz, oz, subdir + '/sz-oz.csv')
+    sz = savedata(subdir, '/sz-rand20.txt')
+    oz = savedata(subdir, '/oz-rand20.txt')
+    savecsv(sz, oz, subdir + '/sz-oz-rand20.csv')
 
-    sz = savedata(subdir, '/sz-trunc.txt')
-    oz = savedata(subdir, '/oz-trunc.txt')
-    savecsv(sz, oz, subdir + '/sz-oz-trunc.csv')
+    sz = savedata(subdir, '/sz-rand30.txt')
+    oz = savedata(subdir, '/oz-rand30.txt')
+    savecsv(sz, oz, subdir + '/sz-oz-rand30.csv')
 
 

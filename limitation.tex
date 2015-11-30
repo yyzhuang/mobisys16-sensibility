@@ -1,1 +1,158 @@
 \section{Practical Challenges and Limitations}\label{sec-limitation}
+
+Below we discuss the limitations of \sysname 
+when designing experiments to run on the testbed, 
+and consider various challenges we met while building the system.
+
+\subsection{Limitations}\label{subsec-limitations}
+In \sysname, experiment code runs in a sandbox, and 
+can access sensors only through privacy-preserving blur layers. 
+In contrast to a native app (in our case, an Android app), this starkly curtails 
+the experiment's access to the mobile device. For example, \sysname 
+does not provide a way to interact with the device owner 
+through unsolicited on-screen messages or notifications that a native 
+app could send\footnote{\scriptsize Interactivity is still possible. 
+An experiment may serve a web 
+page on the local device through the web browser, and interact with 
+the device owner as a web app.}. 
+
+Similarly, \sysname limits access to other parts 
+of the native API. For example, there is no way for an experiment to 
+signal that it wants to handle an \texttt{Intent}~\cite{intent}, e.g. 
+act as an MP3 player to open a file of this type, or handle phone calls, 
+etc.~\cite{intent-dev}.
+\albert{%Playing back audio files, handling calls and text messages etc. 
+%are examples of things implemented via Intents in Android, see 
+%\url{https://en.wikipedia.org/wiki/Intent\_\%28Android\%29} and 
+%\url{https://developer.android.com/reference/android/content/Intent.html}. 
+Do you think we should explain the concept of Intents more?}
+
+Note that the operations above 
+could well be added to the sandbox API -- there is no technical 
+obstacle for this. Rather, it was our fundamental security design 
+choice for \sysname to not allow these.
+
+
+\subsection{Challenges}\label{subsec-challenges}
+
+We discuss the existing challenges of building \sysname. We hope to 
+resolve these challenges as we gain more practical experience with 
+\sysname.
+We approach questions of use, usefulness, technical design, and
+general architecture.
+
+
+\textbf{Use.}~\yanyan{This doesn't sound like a challenge?}
+From the perspective of a researcher designing an experiment to 
+run on \sysname, there is a certain learning phase 
+to go through in order to familiarize with the test and deployment 
+tools, the sandbox API, operational aspects of a distributed system, 
+and so on. Since the sandbox uses a different programming language 
+than Android usually does, and the patterns to access sensor values 
+are different as well, no previous experience with Android is required 
+to program for \sysname. Indeed, from our experience in 
+educational contexts, an experimenter who brings along any programming 
+knowledge will quickly learn how to use the sandbox, while specific 
+Android experience does not necessarily provide an advantage.
+% Also, the sandbox API is small, and stays away from unconventional 
+% or OS-specific patterns, so it is easy to learn even for the
+% uninitiated.
+
+
+\textbf{Usefulness.}~
+\sysname's current feature set makes it most 
+useful as a passive, distributed, large-scale sensor network. 
+It does not map well to interactive crowd sensing, crowd sourcing, 
+and (geo) tagging tasks, for studies looking at personal data stored 
+on the phone (such as performing research using the device owner's 
+phone book),
+% Cf. https://en.wikipedia.org/wiki/Six_degrees_of_separation
+or introspection into the Android OS (which, e.g., PhoneLab provides). 
+In short, we expect other approaches to remain valid and interesting 
+besides \sysname, but hope that its scale and distribution 
+are attractive properties nevertheless.
+
+\albert{Could add questions regarding scale, too:
+``Is S.T. a meaningful way to scale out smartphone research?'',
+``Shall we scale it out at all, or let Google / the mobile operators 
+do it''.}
+
+Another interesting aspect we hope to understand better as 
+we open \sysname to the public is what motivates device 
+owners to altruistically ``donate'' resources to researchers. 
+We hypothesize that altruism is an incenctive, especially since 
+\sysname currently provides no native (GUI-based, 
+notification) way for experiments to interface with the device 
+owner. We note that there are projects that keep records of 
+resource donations (like a high-score table), let contributors form 
+teams, and so on~\cite{OpenWLANMap}.
+% With due thanks to Karl Karpfen for pointing out the project!
+This rewards contributors with some form of acknowledgment and 
+publicity. Other projects appear to have utilized pure altruism to 
+great effect. For example, the authors of~\cite{wang2011untold} 
+claims hundreds of installs from the Android app 
+store, suggesting that there exists a sizable population of device 
+owners that will install an app that gives them neither an obvious, 
+direct benefit from interactivity, nor a form of publicity like 
+the high-score table.
+
+
+\textbf{Technical challenges.}~
+\sysname is designed to minimize the privacy repercussions 
+of smartphone research by blurring the sensor values that experiment 
+code sees. For this, we provide blurring layers that transform the sensor 
+values, round them or otherwise limit their accuracy, replace them by 
+random data, limit the access rate, and so on (Section~\ref{sec-policy}). 
+In Section~\ref{sec-eval} we show that blurring is a meaningful strategy to 
+counterbalance a researcher's desire for sensor access and a device 
+owner's desire for privacy, and that our implementation of blurring 
+can express complex interrelations between sensor values and accuracies. 
+However, this does not guarantee that the existing blurring layers and 
+configurations will always be able to address adequately all possible 
+privacy concerns. Also, bugs in the sandbox or blur code might 
+expose the device owner's privacy.  
+To meet these objections, \sysname includes a software 
+updater so that we can fix any security issues and 
+improve the coverage provided by the blurring layers.
+
+\albert{Another possible point is that interface-compatble, 
+transpartent, drop-in blur functions might confuse more than 
+they are useful, because there is no clear indication of the 
+accuracy and rate that you get (cf. Leon's student's presentation 
+on 2015-11-15). This is more criticism of drop-in blur rather than 
+blur as such.}
+
+Choosing and parametrizing blurring layers also is a usability 
+challenge we currently try to resolve. As in Section~\ref{sec-design}, 
+researchers request access to sensors at certain accuracy levels 
+and rates through their IRB, and \sysname provides technical means 
+to instantiate blurring layers that meet the approved specifications. 
+For the device owner, intervention is currently limited to a binary 
+choice, opt-in or opt-out. This provides a streamlined yet little 
+expressive way for device owners to decide on participation in an 
+experiment. In our prior work~\cite{sensorium, rafetseder2013sensorium}, 
+we evaluated finer-grained sensor access settings, but found it difficult to 
+balance expressiveness (when and how accurately which 
+sensor or group of sensors may be accessed) and usability (i.e., 
+the number and description of user interface widgets that enable 
+the device owner to express their desired policy).
+Expressiveness is great for concerned device owners 
+that want to make informed decisions, and the sandbox and blurring 
+architecture allows for additional, prioritized policies to be 
+instantiated before the researcher's IRB's and \sysname's defaults. 
+However, we need to understand better whether our existing interface 
+satisfies the device owners.
+
+
+\textbf{Architectural challenges.}~
+Are blurring layers the right way to solve the problem? E.g., 
+collect enough data to make use of temporal autocorrelation; secure enough.
+Also, deviow's sign away their rights with app installation anyway, 
+don't they? Why bother with blur then?
+
+Are IRBs the right way to solve the problem? E.g., 
+rogue researchers that deliberately obfuscate what they will 
+do with sensor readings, so as to breach privacy. E.g., 
+ignorant IRBs that greenlight everything and put the burden on 
+our default IRB (????).
+

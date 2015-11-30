@@ -216,7 +216,7 @@ Testbed, a \tickmark\ is marked in the default column. These sensors belong to
 low to moderate risk, as defined in Table~\ref{tab:default}. Similarly, if the
 sensors are of high risk, a \tickmark\ is marked in the specialized column. 
 This means that a different IRB procedure could be followed to extend 
-default policies (Section~\ref{sec-irb-policies}). If a sensor cannot be 
+default policies (Section~\ref{sec-motivation}). If a sensor cannot be 
 supported by a default or specialized policy, a \xmark\ is marked in the 
 N/A column. 
 
@@ -281,6 +281,106 @@ by Justin.}
 
 \yanyan{with the privacy protection in place, is the data we 
 provide sufficient for experiments to function?}
+
+Research has shown that using sensors on a modern smartphone, such as 
+a speaker~\cite{das2014poster}, microphone~\cite{clarkson2012breaking} 
+or accelerometer~\cite{bojinov2014mobile, dey2014accelprint}, one can 
+build a robust device fingerprint that is independent of the software state
+and survives a hard reset. The more recent accelerometer based fingerprinting
+is particular interesting because an accelerometer is accessible in mobile apps
+without requesting any permissions from the device owner. Specifically, the 
+technique in~\cite{bojinov2014mobile} is based on the device-specific errors in 
+accelerometer calibration, which result in unique scaling and translation of 
+the measured values. In this section, we show that by using data blurring in 
+\sysname, it is possible to prevent such fingerprinting, while producing data that
+is still sufficient for benign experiments to function. 
+
+
+\begin{figure*}
+\centering
+\begin{subfigure}[b]{.25\textwidth}
+  \centering
+  \includegraphics[width=\textwidth, trim={.9cm .5cm 1.8cm 1.3cm},clip]{figs/sz-oz.pdf}
+  \caption{Data without blurring.}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}[b]{.25\textwidth}
+  \centering
+  \includegraphics[width=\textwidth, trim={.9cm .5cm 1.8cm 1.3cm},clip]{figs/sz-oz-rand10.pdf}
+  \caption{$[0, 10^{\circ}]$ rotation.}
+  \label{fig:sub2}
+\end{subfigure}%
+\begin{subfigure}[b]{.25\textwidth}
+  \centering
+  \includegraphics[width=\textwidth, trim={.9cm .5cm 1.8cm 1.3cm},clip]{figs/sz-oz-rand20.pdf}
+  \caption{$[0, 20^{\circ}]$ rotation.}
+  \label{fig:sub3}
+\end{subfigure}%
+\begin{subfigure}[b]{.25\textwidth}
+  \centering
+  \includegraphics[width=\textwidth, trim={.9cm .5cm 1.8cm 1.3cm},clip]{figs/sz-oz-rand30.pdf}
+  \caption{$[0, 30^{\circ}]$ rotation.}
+  \label{fig:sub3}
+\end{subfigure}%
+
+\caption{\small Accelerometer fingerprinting without blurring, and with different levels of 
+blurring that partially randomize the accelerometer data. Each device's $S_z$-$O_z$
+pair is represented by the median and standard deviation of $10,000$ data samples.
+\yanyan{it's better to draw a scatter plot with the result of a clustering alg overlaid on it.}}
+
+\label{fig:fingerprinting}
+\end{figure*}
+
+\textbf{Background on accelerometer calibration.}
+An accelerometer measures the acceleration force to a device along three 
+physical axes. However, during the manufacturing and assmebly process, 
+imperfections or variations are introduced for each individual hardware 
+instance, resulting in biases in the sampled data that are unique to a specific
+accelerometer~\cite{doscher1998accelerometer}. The value of a measurement
+by an accelerometer, denoted by $v_m$, can be approximated as a linear 
+funciton of its true value, denoted by $v_t$, as $v_m=v_tS+O$. $S$ and $O$
+are the sensitivity and offset of the accelerometer, respectively. If an 
+accelerometer has no calibration bias, then $S=1$ and $O=0$. Note that
+this linear bias is an approximation of the real bias. In practice, $S$ and $O$
+manifest randomness.
+
+\textbf{Estimating biases along one axis.}
+Like in~\cite{bojinov2014mobile}, we take advantage of the Earth's gravity
+$g$, and analyze the biases along the $Z$-axis, $S_z$ and $O_z$. To 
+estimate two unknows, $S_z$ and $O_z$, we need two measurements: an
+accelerometer's measurement value along the $Z$-axis when the device is 
+facing up ($z_m^+$) and facing down ($z_m^-$). Therefore, we have
+
+\begin{equation}\label{eq:fxy}
+\left\{
+    \begin{array}{c}
+      S_z = (z_m^+ - z_m^-)/2g \\
+      O_z = (z_m^+ + z_m^-)/2
+    \end{array}
+  \right..
+\end{equation}
+
+The authors of~\cite{bojinov2014mobile} showed that this method 
+produces very satisfactory results in a range of settings even 
+if the surface on which the phone lies is not perfectly level.
+
+\textbf{Data blurring and fingerprinting.}
+We carried out an accelerometer fingerprinting experiment on a group
+of X Android devices, with $10,000$ measurement samples from each.
+Figure~\ref{fig:fingerprinting}(a) shows the estimated $S_z$ and $O_z$
+based on unfiltered accelerometer data. The fingerprinting method is
+very effective. Among the X devices, only one pair is near-collision. In
+Figure~\ref{fig:fingerprinting}(b)-(d), we apply a blurring layer to the 
+accelerometer that rotates the device by a small angle $\theta$. In 
+Figure~\ref{fig:fingerprinting}(b), $\theta$ is a random variable that is
+uniformly distributed between $0$ and $10^{\circ}$. Similarly, $\theta$
+in Figure~\ref{fig:fingerprinting}(c) and (d) is uniformly distributed 
+between $0$ and $20/30^{\circ}$. As shown, the more we rotate the 
+device, the less distinct the estimation of $S_z$ and $O_z$ are for each 
+device. The results in Figure~\ref{fig:fingerprinting}(c) are almost 
+undistinguishable. Therefore, using data blurring in \sysname, we are able 
+to prevent fingerprinting and keep the anonymity of mobile devices in such 
+a case.
 
 %\subsection{Usability}\label{sec-usability}
 %

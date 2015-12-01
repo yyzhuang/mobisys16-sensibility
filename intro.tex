@@ -27,9 +27,7 @@ remotely assess how much life is left in the battery of a device can
 help platform APIs deliver better service to its
 customers~\cite{battery}.
 
-Given all the above, one would think researchers would be rushing to
-take advantage of this largely under-used data source. But, while
-there have been a few high-profile initiatives within the network
+But, while there have been a few high-profile initiatives within the network
 community to study mobile devices(e.g.,
 Mobilyzer~\cite{nikravesh2015mobilyzer}), and in the systems community
 to deploy new services and test research prototypes (e.g.,
@@ -38,42 +36,45 @@ remain largely underused because of two interrelated problems. The
 first is the very real risk such studies pose to the privacy of the
 device owner, and the other is the difficulties researchers have
 securing access to devices, and using any data gathered in a
-responsible and ethical manner.
+responsible and ethical manner. These issues can be summarized as follows:
 					
-To begin with, privacy and security threats to mobile devices have
+For device owners, privacy and security threats to mobile devices have
 increased dramatically over the years as potential attackers also seek
 to take advantage of the rich functionality and user experience that
 sensors\footnote{\scriptsize In this work, we broadly define sensors
 as the hardware components that can record phenomena about the
 physical world, such as the WiFi/cellular network, GPS location,
 movement acceleration, etc.} on smartphones and tablets can provide.
-The data acquired through a smartphone's GPS locations,WiFi
-connections, or Bluetooth pairing history can be highly personal,
-exposing sensitive information, such as where a person lives or shops,
-or what sites they visit online e.g., apersonal
-\cite{han2012accomplice}. Some seemingly benign apps \lois{Yanyan-apps SUCH
-AS what?} can provide companies or government agencies access to
-ordinary people's daily activities~\cite{AngryBirds}. Furthermore, a
-malicious party could potentially bypass a device's security
-protections and gain access to user privileges. As a result of such
-threats, many device users, including those who might otherwise enjoy
-participating in studies, are reluctant to volunteer.
 
-Attempting to recruit subjects from a limited pool of willing
-volunteers would be enough to steer most researchers away from using
-smart devices. However, their efforts are further complicated by the
-need to abide by a strict set of guidelines for collecting data to
-preserve the privacy of their human subjects.. For decades,
-universities, government agencies, and private organizations have
-employed groups known as Institutional Review Boards (IRBs) that
+\begin{enumerate}
+\item Data acquired through a smartphone's GPS locations,WiFi
+connections, or Bluetooth pairing history can be highly personal,
+exposing sensitive information, such as where a person lives or shops\cite{han2012accomplice}.
+
+\item  Even seemingly benign applications, such as popular online games downloaded to mobile devices, can
+ "leak" data, such as the model number and screen size of the phone, or worse the age, gender, or location of the user. 
+
+\item Running experiment code poses a real risk to the operation of the device itself, through potential exposure to bugs or other 
+vulnerabilities. It can also seriously interfere with battery life, if the device is accessed too often.
+\end{enumerate}
+
+For potential testbed user, the challenges are equally formidable:
+\begin{itemize}
+\item Potential experimenters are under the governance of Institutional Review Boards (IRBs) that
 review all experimental protocols involving human subjects in advance,
 and set a strict set of procedures that any researcher working under
-the aegis of the institution is required to abide by, including
-careful control over the collection and storage of data. These
-procedures are expected to be followed as carefully when collecting
-data remotely as they are when working with human subjects face to
-face. It falls on the researcher to enforce these policies, and the
+the aegis of the institution is required to abide by. These includes
+careful control over the collection and storage of data to ensure the privacy of subjects is preserved.
+
+\item  It falls on the researcher to enforce these policies, and the
 process must be repeated every time he or she starts a new project.
+
+\item The experimenter must also recruit owners willing to volunteer their devices for testing, a process that can be very time-consuming.
+
+\item Experimental set-ups and results can not easily be shared with other researchers, so each research group has to repeat the process
+of infrastructure setup, and policy implementation for
+each experimental deployment.
+\end{enumerate}
 
 To address some of these concerns, experimental testbeds such as
 PhoneLab, have
@@ -86,15 +87,10 @@ the recruitment and privacy issues by choosing to select participants
 from an internal group, such as faculty working with their students
 and colleagues~\cite{hao2013isleep, wang2012no, wang2013sensing}. But,
 such controlled candidate selections fall short for a few reasons.
-First, it is still left to the researcher to ensure the privacy of the
+First, it does not relieve the burden on the researcher to ensure the privacy of the
 device owner and to enforce any IRB policies, since the present
 network testbeds do not yet have a systematic way to protect device
-owners' privacy. Another problem is that research groups can not
-easily share data or replicate the work of other groups on these
-testbeds. In addition, each research group has to repeat the process
-of recruitment, infrastructure setup, and policy implementation for
-each experimental deployment. The resulting experiment code, devices,
-and setup are difficult for external research groups to reuse. Plus,
+owners' privacy. Plus,
 there is limited protection for the security of device owners. Since
 research has shown that device owners usually do not understand the
 basics of privacy, or the implication of granting device
@@ -112,34 +108,34 @@ ethical standards of the research
 institution~\cite{zevenbergen2013ethical}.
 The new testbed makes experiment prototyping faster, the remote
 control and management of devices easier, and the running of
-experiment code more secure in a number of ways. First, it provides
-better protection against invasion of privacy by carefully controlling
+experiment code more secure in a number of ways.
+
+\begin{enumerate}
+\item  it provides better protection against invasion of privacy by carefully controlling
 access to device sensors. The testbed employs a stringent set of
 default policies as to which sensors can be accessed, and these
 policies are customizable, thus serving as a template for researchers
-to parameterize their experiment. Beyond that, the testbed
-infrastructure can codify each researchers' IRB policies, and can
+to parameterize their experiment
+
+\item   the testbed infrastructure can codify each researchers' IRB policies, and can
 directly and automatically implement these policies on end-user
-devices. Through the use of \textit{blurring layers} in a secure
+devices. 
+
+\item  Through the use of \textit{blurring layers} in a secure
 sandbox, Sensibility Testbed can limit documentation of his/her exact
 location to the nearest city, and can regulate the amount of times
-over the course of the day that the sensors can be accessed. The
-testbed employs a number of components that contribute to its ability
-to safely run experiment code remotely on smart devices. It employs a
-Repy Sandbox, which provides both security and performance isolation,
-through a flexible system call interposition that can modify system
-call access. This ensures that experiment code can not harm the
+over the course of the day that the sensors can be accessed.
+
+\item The testbed employs a Repy Sandbox, which provides both security and performance isolation,
+through a flexible system call interposition that ensures experiment code can not harm the
 devices of volunteers, or generate data that could be invasive to
 their privacy.
 
-Lastly, the enrollment process for volunteer device owners is as
+\item  The enrollment process for volunteer device owners is as
 simple as a one-time download and install of an app. The testbed thus
 builds and maintains a pool of willing volunteers for researchers to
-choose from, eliminating the time-consuming process of recruitment. It
-can also maximize the reuse of experiment infrastructure. Device
-owners need to volunteer only once, when they download the app, can
-opt out at any point, and can choose not to participate in individual
-experiments.
+choose from, eliminating the time-consuming process of recruitment.
+\end{enumerate}
 
 The contributions of this work are as follows:
 
@@ -151,14 +147,12 @@ administrative challenges faced potential researchers.
 
 \item We introduce Sensibility Testbed as a flexible and secure platform for
 conducting experiments on Android devices that addresses many of the
-concerns above.
+concerns above, including automatically obtaining and enforcing institution-mandated IRB policies.
 
-\item We describe the unique features of Sensibility Testbed, which include
-the use of a secure sandbox that provides both security and
-performance isolation, and controlled sensor access through the
+\item We describe the unique features of Sensibility Testbed, which includes controlled sensor access through the
 development of blurring layers.
 
-\item We evaluate the Sensibility Testbed, evaluate its effectiveness in
+\item We evaluate the Sensibility Testbed's effectiveness in
 protecting device owners' privacy and found that nearly 86\% of
 security and privacy issues present in previous tests on the use of
 mobile devices were addressed by the new system.

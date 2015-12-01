@@ -34,49 +34,88 @@ deployment experience in Section~\ref{sec-deployment}.
 & & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
 
 EnCore~\cite{aditya2014encore}  & Bluetooth & \tickmark &   &   \\\hline
+% attack: associating Bluetooth MAC address with device
+% solution: use Bluetooth 4.0's native support for randomized MAC address
 
 \multirow{2}{*}{\cite{chen2014sensor}\textsuperscript{*}} & Accelerometer 
 & \tickmark &   &  \\ \cline{2-5}
 & Camera & & \tickmark & \\ \hline
+% attack: 2D photo/video attack (use other's photo/video as input to facial recognition) 
+% and virtual camera attack (using a virtual cam to modify videos)
+% solution: (1) use accelerometer to infer the orientation of front camera, 
+% (2) user shaking the phone, and separate the data of shaking video and
+% shaking accelerometer to ensure a real 3D face
 
 \multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & Device ID & & \tickmark & \\ \cline{2-5}
 & WiFi & \tickmark &   &  \\ \cline{2-5}
 & Bluetooth & \tickmark &   & \\ \cline{2-5}
 & Address book & & \tickmark & \\ \cline{2-5}
 & Location & \tickmark &   &   \\\hline
+% attack: general privacy issues
+% solution: substitute anonymized data in place by crowd sourced recommendations
  
 \multirow{4}{*}{CQue~\cite{parate2013leveraging}}  & Location & \tickmark &  & \\\cline{2-5}
 & Accelerometer & \tickmark &   &  \\ \cline{2-5}
 & Gyroscope & \tickmark &   &  \\ \cline{2-5}
 & Bluetooth & \tickmark &   &   \\\hline
+% attack: this paper tries to infer individual behavior by fusing a bunch of sensors 
+% and provide insights into privacy leakage (use issue what-if queries to explore
+% the leakage if certain sensor data is revealed to apps)
+% solution: detection and fusion of sensors (math)
 
-\multirow{2}{*}{MaskIt~\cite{gotz2012maskit}} & Location & \tickmark &   & \\\cline{2-5}
-& Cellular & \tickmark &   &   \\\hline
+\multirow{3}{*}{MaskIt~\cite{gotz2012maskit}} & Location & \tickmark &   & \\\cline{2-5}
+& Cellular & \tickmark &   &   \\ \cline{2-5}
+& Bluetooth & \tickmark &   &   \\\hline
+% attack: temperal correlations (heading towards hospital means the person will
+% be at the hospital)
+% solution: filter a user context stream that provably preserves privacy (a privacy 
+% check deciding whether to release or suppress the current user context). privacy 
+% is defined with respect to a set of sensitive contexts specified by the user
+% sec 7.1 described data (location, cellular, bluetooth)
 
 \multirow{3}{*}{Jigsaw~\cite{lu2010jigsaw}} & Accelerometer 
 & \tickmark &   &  \\ \cline{2-5}  
 & Microphone  & & \tickmark & \\ \cline{2-5}
 & Location & \tickmark &   &   \\\hline
+% attack: robustness to position change and energy drain
+% solution: throttles the depth and sophistication of sensing when data is low quality
 
 Cach{\'e}~\cite{amini2011cache} & Location & \tickmark &   &   \\\hline
+% attack: location privacy
+% solution: caching locaiton content in advance. retrieve content locally
+% when it is needed. this is like approximate location with a zipcode/city
 
 \cite{jiang2012isolating}\textsuperscript{*} & Cellular & \tickmark &   &   \\\hline
+% attack: voice related fraud (dial a number without the user knowing it)
+% solution: detect voice-related fraud activities using call records, 
+% use voice calls from domestic callers to foreign recipients and 
+% a Markov Clustering based method for isolating dominant fraud 
+% activities from international calls
 
 \multirow{2}{*}{TapPrints~\cite{miluzzo2012tapprints}} & Accelerometer 
 & \tickmark &   &  \\ \cline{2-5}  
 & Gyroscope & \tickmark &   &  \\ \hline
+% attack: monitor user inputs like keyboard and icons
+% solution: this is an attack paper, showing it's possible to infer location
+% of taps using motion sensor + machine learning
 
 \multirow{4}{.8cm}{FindingMiMo \cite{shin2011findingmimo}} 
 & WiFi & \tickmark &   &  \\ \cline{2-5}
 & Location & \tickmark &  & \\\cline{2-5}
 & Accelerometer & \tickmark &   &  \\ \cline{2-5}
 & Magnetometer & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 ACCessory~\cite{owusu2012accessory} & Accelerometer & \tickmark &   
 &  \\ \hline
+% attack: 
+% solution:
 
 TouchLogger~\cite{cai2011touchlogger} & Gyroscope & \tickmark &   
 &  \\ \hline
+% attack: 
+% solution:
 
 \multirow{6}{*}{MockDroid~\cite{beresford2011mockdroid}} 
 & Location & \tickmark &  & \\\cline{2-5}
@@ -85,6 +124,8 @@ TouchLogger~\cite{cai2011touchlogger} & Gyroscope & \tickmark &
 & Address book & & \tickmark & \\ \cline{2-5}
 & Device ID & & \tickmark & \\ \cline{2-5}
 & Broadcast intent & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 \multirow{6}{*}{Guardian \cite{zhang2015leave}} 
 & Bluetooth & \tickmark &   & \\ \cline{2-5}
@@ -93,16 +134,24 @@ TouchLogger~\cite{cai2011touchlogger} & Gyroscope & \tickmark &
 & Cellular & \tickmark &   &  \\ \cline{2-5}
 & Motion sensors & \tickmark &   &  \\ \cline{2-5}
 & CPU usage\textsuperscript{\ddag} & \tickmark & & \\\hline
+% attack: 
+% solution:
 
 \cite{aviv2012practicality}\textsuperscript{*} & Accelerometer & \tickmark &   
 &  \\ \hline
+% attack: 
+% solution:
 
 \multirow{2}{*}{\cite{cai2012practicality}\textsuperscript{*}} & Accelerometer 
 & \tickmark &  &  \\ \cline{2-5}
 & Gyroscope & \tickmark & &  \\ \hline
+% attack: 
+% solution:
 
 AccelPrint~\cite{dey2014accelprint} & Accelerometer & \tickmark &   
 &  \\ \hline
+% attack: 
+% solution:
 
 \multirow{8}{*}{\cite{bojinov2014mobile}\textsuperscript{*}} & Microphone  
 & & \tickmark & \\ \cline{2-5}
@@ -113,30 +162,48 @@ AccelPrint~\cite{dey2014accelprint} & Accelerometer & \tickmark &
 & Location (GPS) & \tickmark &   &  \\ \cline{2-5}
 & Touch screen & & & \xmark \\ \cline{2-5}
 & Camera & & \tickmark & \\ \hline
+% attack: 
+% solution:
 
 Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope 
 & \tickmark & &  \\ \hline
+% attack: 
+% solution:
 
 \cite{shokri2011quantifying}\textsuperscript{*}
 & Location & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 \cite{polakis2015s}\textsuperscript{*}
 & Location & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 AnonySense~\cite{kapadia2008anonysense} 
 & Location & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 \cite{liu2015good}\textsuperscript{*} 
 & Accelerometer & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 LP-Guardian~\cite{fawaz2014location} 
 & Location & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 \cite{bordenabe2014optimal}\textsuperscript{*}
 & Location & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 PrivStats~\cite{popa2011privacy}
 & Location & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 \multirow{5}{*}{ipShield~\cite{chakraborty2014ipshield}} 
 & Location (GPS) & \tickmark &   &  \\ \cline{2-5}
@@ -144,10 +211,14 @@ PrivStats~\cite{popa2011privacy}
 & Gyroscope & \tickmark & &  \\ \cline{2-5}
 & WiFi & \tickmark &   &  \\ \cline{2-5}
 & Cellular & \tickmark &   & \\ \hline
+% attack: 
+% solution:
  
 \multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
 & Accelerometer & \tickmark &   &  \\ \cline{2-5}
 & Internet\textsuperscript{\dag} & \tickmark & & \\ \hline
+% attack: 
+% solution:
 
 \multicolumn{5}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
 
@@ -183,15 +254,21 @@ to provide support.}
 & & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
 
 Koi~\cite{guha2012koi} & Location & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 Locaccino~\cite{toch2010empirical} & Location & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
 \multirow{2}{*}{Accomplice~\cite{han2012accomplice}} & Location & \tickmark &   &  \\ \cline{2-5}
 & Accelerometer & \tickmark &   &  \\ \hline
+% attack: 
+% solution:
 
-\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 71} & \multirow{2}{1cm}{\bf 
-61/71 (85.92\%)} & \multirow{2}{1cm}{\bf 9/71 (12.67\%)} & 
-\multirow{2}{1cm}{\bf 1/71 (1.41\%)} \\ & & & & \\\hline
+\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 72} & \multirow{2}{1cm}{\bf 
+62/72 (86.11\%)} & \multirow{2}{1cm}{\bf 9/72 (12.5\%)} & 
+\multirow{2}{1cm}{\bf 1/72 (1.39\%)} \\ & & & & \\\hline
 
 \end{tabular}
 \egroup

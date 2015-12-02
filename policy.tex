@@ -1,4 +1,4 @@
-\section{Enforcing Privacy Policies}\label{sec-policy}
+\section{Implementation}\label{sec-policy}
 
 In Sensibility Testbed, privacy policies are implemented as blurring layers, with each layer acting as a 
 reference monitor in a sandbox~\cite{ref} to enforce an access 
@@ -23,71 +23,7 @@ and the frequency of sensor access (Section~\ref{sec-nanny}).
 
 \subsection{Secure Sandbox}\label{sec-repy-ext}
 
-The Repy sandbox is an important part of device software 
-(Section~\ref{sec-repy}). The sandbox is the execution environment 
-of all experiment code. It isolates experimenters' programs from one 
-another, and prevents any of the code from harming the device 
-through its strong isolation techniques. More importantly, the sandbox
-provides a flexible system call interposition technique where system call behavior 
-can be modified. This allows us to define and implement
-different data access policies. This section describes how Repy provides
-security isolation and performance isolation, as well as customizable
-sensor access policies.
 
-\subsubsection{Security and Performance Isolation}
-
-Repy, or Restricted Python, has a small, self-contained kernel as its trusted 
-computing base (TCB). %unprivileged libraries and experiment code. 
-Every system call in the TCB is strictly 
-sanitized to preserve consistent behavior across different OSes, 
-and to avoid uncommon corner cases that can be exploited. 
-Furthermore, since the TCB is small (about 8,000 lines of code), it is 
-less likely to have a kernel exploit than other more complex kernels. 
-As a result, any vulnerability in an experiment 
-%can at most cause compromise in the unprivileged portion of the sandbox, 
-cannot escape the sandbox and perform malicious actions to 
-the device system. The Repy sandbox exposes its system calls for 
-accessing resources on a device through a Python-like programming 
-interface~\cite{repyv2} isolating experiment code from the kernel. 
-%another way of saying this:
-%Experiment code for accessing resources is contained by the 
-%Repy sandbox, using its Python-like programming language interface.
-This same sandbox design has been successfully running experiments as part of a network research 
-testbed for more than six years, without significant operation faults or security breaches~\cite{seattle}. \yanyan{Justin thinks this statement is weak.} \lois{I don't know if this answers his concerns since the meaning is essentially the same}
-%=======
-%through a Python-like programming interface~\cite{repyv2}. 
-%%to experiment code for accessing resources on a device. 
-%%another way of saying this:
-%%Experiment code for accessing resources is contained by the 
-%%Repy sandbox, using its Python-like programming language interface.
-%This same sandbox design has been successfully running experiments 
-%as part of a network research testbed~\cite{seattle} for more than six 
-%years, with no report of operational faults or security breaches. 
-%>>>>>>> yyzhuang/master
-
-In addition to security isolation,
-%The sandbox exposes a programming 
-%interface to experimenter programs to access 
-%resources on the device. 
-the sandbox provides performance isolation by
-%by using OS hooks to monitor and control the amount of 
-%CPU and memory used by a sandboxed program. To restrict 
-%other resources, such as network and disk I/O, the sandbox 
-interposition on system calls~\cite{garfinkel2003traps} that 
-use resources, such as network and disk I/O, and preventing 
-or delaying the execution of these calls if they exceed 
-their configured quota. 
-%As a result, this sandbox limits 
-%what a sandboxed program can do. For example, 
-This isolation means the sandbox can set access limits. For example, 
-reading from and writing to the file system can
-only occur in a per-experiment directory, sending and receiving
-data via the network interface cannot exceed a configured rate, and 
-CPU, memory and battery consumption cannot exceed a set level.
-Therefore, the sandbox isolates the experiment program from 
-the rest of the device. Due to this isolation, different researchers 
-can run experiments on different sandboxes on the same device, 
-without any interference between the experiments.
 
 \subsubsection{Sensor Access from the Repy Sandbox}
 %\lois{why not call it the Repy Sandbox as before?}
@@ -159,55 +95,7 @@ As such, the original Repy interface and the added sensor API together
 provide the complete \textit{OS level} sandbox kernel on a mobile 
 device, as shown in Figure~\ref{fig-blur}.
 
-\begin{figure}
-\center{\includegraphics[width=\columnwidth]{figs/blur.pdf}}
-%\vspace*{-20pt}
-\caption{\small Policy stack demonstrating how Sensibility Testbed implements blur policies. \yanyan{maybe replot}
-\label{fig-blur}}
-\end{figure}
 
-\subsubsection{Policy Stack}
-The sandbox kernel determines how IRB policies are implemented by affecting system calls. It can
-interpose on a call and modify the data returned, or control the frequency with which a call can be made over
-a period of time. 
-%Different policies implemented can be stacked in tandem to 
-%control different sensor accesses, like in Figure~\ref{fig-blur}.
-%As mentioned above, Bob provided his IRB policies through our clearinghouse.
-%Before Bob runs his experiment, the clearinghouse loads the access policies and instructs the sandbox on Alice's device to
-%restrict sensor access accordingly. 
-%
-%Using the \path{get_location()} call as an example, 
-%when Bob's code requests location data from Alice's device, the Repy sandbox first
-%invokes the location-related Android code. 
-%%(line 10 in Figure~\ref{fig-getlocation}). 
-%When the location data is returned, according to Bob's IRB policy
-%indicates that the returned location coordinates should be blurred to the nearest city to Alice's
-%device, instead of her actual location. As a result, 
-%For example, the sandbox returns a perturbed location that is less accurate, 
-%%Furthermore, as Bob's IRB policy disallows collecting information about cell tower IDs, 
-%%blocks any access to cell IDs, 
-%%by another policy. Similarly, other information
-%blurs a WiFi SSID to a hashed string, and restricts the frequency to access a
-%gyroscope to prevent inferring passwords~\cite{michalevsky2014gyrophone}, and so on. 
-Each policy is a blurring layer, which acts as an isolated and 
-contained reference monitor. Different policies can be customized 
-by loading individual blurring layers in order, as a policy stack. 
-
-By design, a lower layer in the stack is the ancestor of 
-a higher layer. Each blurring layer is untrusted by its ancestor layers, 
-but is trusted by its descendant layers. In addition, every layer in the stack inherits the policy 
-defined by its ancestor layers. The lowest blurring layer with no ancestors is the 
-Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
-of the policy stack, thereby inheriting all the policies defined by the
-lower layers, as shown in Figure~\ref{fig-blur}. 
-Each policy stack acts as a set of filters for different sensors, through 
-which a call must pass before a sandboxed program can
-access the sensor data. 
-%Different stacks can be customized for different IRB policies.
-
-
-%In the following, we describe how to implement each blurring layer, 
-%and use them to form a policy stack.
 
 \subsection{Blurring Layers: Reducing Data Precision}\label{sec-layer}
 

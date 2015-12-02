@@ -1,0 +1,42 @@
+\section{Example Scenario}\label{sec-detailed}
+Here we are going to put the detailed walkthrough. Putting this text here for now.
+
+
+From a researcher's specified IRB policies to running experiment code, 
+the process goes as follows. 
+The clearinghouse creates a list of access policies for a researcher's
+experiment, according to the specified IRB policies. The sandbox 
+on a mobile device, under the control of
+this experimenter, obtains a list of command-line arguments 
+from the clearinghouse, which includes all the blurring layers
+and parameters for each layer (Section~\ref{sec-ch}). The pre-set blurring layers determine
+the type of data required, such as accelerometer access rate, and the 
+IRB parameters customize the specific policy, such as accessing
+an accelerometer at a rate of 50 times/second. 
+%the first of which must be the encasement library.
+%The kernel reads in the encasement library code and uses
+%the virtual namespace abstraction to execute the code with
+%the exported kernel functions. The encasement library
+The sandbox then %uses its blurring layer creation call to 
+instantiates 
+the first blurring layer according to its contract, i.e., the function 
+mapping that contains the kernel's exported functions.
+%the security layer instantiation call, and the remaining
+%command-line arguments. 
+The newly instantiated blurring layer repeats this process 
+%using the 
+%encasement library's
+%blurring layer creation call 
+to instantiate the next
+security layer with a potentially updated contract and function
+mapping. Eventually, the experimenter's program is instantiated
+in a separate layer with the functions provided
+through the stack of blurring layers that preceded it.
+The experimenter's program will then be subject to all the 
+policies defined in the preceding layers, or the policy stack.
+
+The mechanisms in this section are all transparent to the experimenters 
+and device owners, as the implementation of policies is controlled by the 
+clearinghouse on behalf of the experimenters. An experimenter is aware 
+of certain policies in place, but does not need to implement or explicitly
+enforce such policies. 

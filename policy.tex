@@ -343,43 +343,11 @@ and only the blurring layers change the function's behavior, thus
 the policy enforcement is transparent to all the experimenters who run 
 sandboxed programs in Sensibility Testbed.
 
+
+
+
 \subsection{Nanny: Restricting Data Access Frequency}\label{sec-nanny}
 
-Reducing data precision partially protects a device owner's privacy. However, frequent data 
-access can be another channel to snoop on personal information.
-If sensor queries are made on a sufficiently frequent basis, they can be used
-to track an individual's activity. The goal of reducing sensor access frequency 
-is to prevent an accumulation of identifiable information, such as 
-location~\cite{gruteser2003anonymous}, wireless network identifiers, and even 
-accelerometer data. (Note that specific
-details as to how frequently a certain sensor can be accessed without risking such an 
-invasion is out of the scope of this work). 
-Furthermore, the battery power of a device can 
-be drained faster if sensors are accessed
-with unnecessary frequency. Therefore, restricting the data access rate 
-mandates that experiments collect data only as often as is necessary. 
-To achieve this, the Repy sandbox provides a second mechanism
-called \path{nanny} that mediates and restricts access frequency to sensors. 
-
-\subsubsection{Restricting Access Rate}
-
-\path{nanny} treats all sensors as \textit{resources}, and the function calls to 
-access the sensors as the \textit{usage} of resources. 
-%\path{nanny}'s control 
-%mechanism for a resource is to limit the \textit{rate} of its usage. For example, 
-When an 
-%Utilization is controlled over one or more periods, where
-experiment program's use of a resource is above a given threshold, 
-\path{nanny} pauses the 
-program for as long as required to bound it, on average, below the
-threshold. Therefore, if an experiment program attempts to 
-use a resource at a rate faster than is allowed by a policy, the function 
-call is blocked until sufficient time has passed to average out the overall access rate. 
-
-To monitor and control the usage of resources, \path{nanny} keeps a 
-table of resource assignments that tracks and updates requests and releases. 
-Once resource caps are set, an experiment program can never call a 
-function to access a sensor more frequently than the cap. 
 %A function call 
 %request can be met only if the frequency is no greater than the cap. 
 

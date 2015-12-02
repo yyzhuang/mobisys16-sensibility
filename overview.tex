@@ -1,5 +1,10 @@
 \section{Overview of Sensibility Testbed}\label{sec-overview}
-Here we are going to put the overview and high-level walkthrough. (I'm putting the old Section 3.3 here for now. )
+%Here we are going to put the overview and high-level walkthrough. 
+%(I'm putting the old Section 3.3 here for now. )
+The design of \sysname is guided by three design principles. In this 
+section, we describe these principles and the resulting testbed 
+components. We also show the testbed operation via two usage 
+scenarios.
 
 \subsection{Design Principles}\label{sec-overview}
 
@@ -53,14 +58,12 @@ credentials (assigned by the clearinghouse). This tool will be introduced
 in Section~\ref{sec-emt}.
 
 \smallskip
-The following sections describe the three components in more detail, and 
-addresses how these parties interact to enable safe experimentation on 
-mobile devices. 
+The following section describes %the three components in more detail, and 
+%addresses 
+how these parties interact to enable safe experimentation on mobile devices. 
 
 
-\subsection{high-level walkthough}
-change name of section
-
+\subsection{Testbed Operation}
 
 
 The basic operation of Sensibility Testbed involves two separate 
@@ -135,7 +138,8 @@ type (3G, 4G, LTE, etc.), and signal strength.
 Once the app is started, Alice's device can be discovered by 
 the clearinghouse. The resource manager in her app periodically contacts 
 a lookup service to advertise the device sandbox to the rest of the testbed, 
-such as the clearinghouse or experiment manager. 
+such as the clearinghouse or experiment manager. \yanyan{resource 
+manager and lookup service have not been introduced yet.}
 A lookup service is a distributed key-value store, such as a 
 distributed hash table (DHT)~\cite{dht}, that allows one to associate 
 keys with values and retrieve values associated with keys. In this case, 
@@ -171,11 +175,12 @@ looking up her key in the lookup service. This allows the clearinghouse
 to communicate with Alice's device over the network.
 If Alice uninstalls the Sensibility Testbed app, 
 \path{key.alice} is deleted at the clearinghouse, which effectively unlinks
-her device from any metadata stored on the clearinghouse.
+her device from any metadata stored on the clearinghouse. The key
+will also be removed from the lookup service after a period of inactivity.
 An experiment manager controlled by a researcher can lookup
 available device installs in a similar way. Instead of finding all devices
 available to the testbed, the experiment manager will only be able to 
-lookup devices assigned to the researcher. 
+lookup devices assigned to the researcher by the clearinghouse.
 
 %The clearinghouse
 %plays an intermediate role between the experimenter and 
@@ -199,7 +204,7 @@ lookup devices assigned to the researcher.
 %To do this, Bob 
 fills out an experiment registration form at the 
 clearinghouse. The clearinghouse registration page shows 
-a list of sensors accessible through our programming interface, and 
+a list of sensors accessible to testbed users, and 
 each of their possible accuracy and access frequency limits. 
 %\lois{I think I already asked this, but is it literally just the sensors that the page shows, and not the devices containing the sensors that are shown? It's a small point, but I think it has to be clarified} 
 In this particular case, Bob specifies that 

@@ -1,7 +1,6 @@
 \section{Motivation and Background}\label{sec-motivation}
 
-In this section, we present some background information that 
-served as the building blocks of the  design and deployment of 
+In this section, we present some background information on factors that shaped the design and deployment of 
 Sensibility Testbed. First, we offer the motivations behind its 
 development: the desire to balance the benefits of such research 
 with the very real privacy risks that could potentially occur if a 
@@ -9,19 +8,17 @@ device owner allows access to his/her device. Next, we look at
 one solution to the problem: the collecting of proximate versions 
 of data through the use of blurring layers. Third, we talk about 
 the traditional role of IRB in research involving human subjects 
-and how Sensibility Testbed can ensure these protections extend 
-to data accessed remotely. Lastly, we look at Sensibility Testbed's 
+and to data accessed remotely. Lastly, we look at Sensibility Testbed's 
 default policies, which automatically closes off access to 
 sensors which have the highest risk for violating the privacy of 
 device owners.
 
-
-\textbf{Motivation: overcoming the risks of accessing sensor data.}
+\textbf{Motivation: the potential and the risks of accessing sensor data.}
 Having access to data from the enormous number of smartphones 
-in use today could be tremendously valuable to the research community. 
-The sheer numbers of these devices, coupled with the fact that research 
-on these devices do not incur high maintenance costs, makes their 
-potential as information gathering instruments almost limitless. 
+in use today could be tremendously valuable to researchers in a number of fields, ranging from health and fitness to the social sciences. One study suggested that collecting sensor-based data is vastly superior to the use of surveys, which can suffer from incomplete content, biases, and a lack of continuity. Because survey-based studies also are "fixed in time," there is no way to monitor behavior over extended periods of time. Its also a research 
+method that does not incur high maintenance costs. 
+
+Unfortunately, its a research method that is "expensive" in other ways, primarily time. Recruitment of volunteers is time-consuming and often frustrating. There are a number of reasons why this recruitment is so difficult. One is that there is no easy method to build a pool of willing device owners, so it needs to be re-done every time a new experiment is proposed. There are complications due to institutional policies on work with human subjects (discussed later in this section) that effects who can be recruited and under what conditions. An individual recruiting on her own is likely to end up with a more homogenous set of subjects, drawn either from one locality or interest group. But, mostly there is a very real threat of damage to a volunteer's device, or invasion of his/her privacy. Volunteers face a significant risk if they offer their device to a researcher.
 
 %Due to recent privacy breaches and security break-ins to mobile systems, 
 %device security and personal privacy are genuinely at risk when a person 
@@ -63,10 +60,8 @@ potential as information gathering instruments almost limitless.
 %ability to provide strong protection to device owners from privacy 
 %and security breaches. In this work, we try to address two issues. 
 
-However, for the research community, accessing this data depends on its 
-ability to provide strong protection to device owners from privacy and 
-security breaches. In seeking solutions to this problem, we started with a 
-few key ideas. The first is that device owners themselves may not fully 
+Solutions to the security problem have been difficult to identify in part, because the threat is not broadly recognized by device owners and product manufacturers alike.
+Device owners may not fully 
 understand the implications of granting access to a particular type of 
 sensor or resource~\cite{felt2012android}. It is therefore challenging to 
 conduct research on end-user devices in compliance with ethical standards, 
@@ -76,72 +71,56 @@ the prevalent privacy breaches on many mobile systems, such as Android and iOS,
 is that only a sub-set of sensors like GPS and bluetooth are considered risky, 	
 and therefore have their access mediated~\cite{android-sec}. Other sensors 
 such as accelerometer, gyroscope, etc., require no permission to access, 
-thus leaving them open to attack. Therefore, with Sensibility Testbed, 
-both the inclusion of IRB restrictions (discussed later in this section), and 
-the need to restrict or limit access to a wider range of sensors were both 
-incorporated into the design.	
+thus leaving them open to attack. So, a first step to expanding the use of sensors on mobile devices is to design solutions that address the security needs of device owners and the practical needs of potential researchers.
 
-\textbf{Restricted data access and privacy protection.}
+\textbf{Restricted data access as privacy protection.}
 %Despite these risks of using sensors, 
-Another concept important to our design is that generalized data that 
-does not directly violate the privacy of the device owner can still be 
-valuable. Studies have indicated that 
+How specific does data need to be in order to be useful? Studies have indicated that 
 sensor data can be accessed without compromising device 
-owners' privacy or sacrificing service functioning.
-A recent research study shows that more than half of the 
+owners' privacy or sacrificing service functioning if that data is generalized. Such data, that substitutes approximate location
+does not directly violate the privacy of the device owner, but can still provide valuable information to the researcher conducting the study.
+For this reason, researchers thus have proposed 
+substituting mocked~\cite{beresford2011mockdroid} or 
+anonymized~\cite{zhou2011taming} data in place of real data. 
+For example, in location-based services such as maps, 
+restaurant guides, and bus schedules, end users can still use the 
+service even if a device only provides a discretized 
+location~\cite{amini2011cache, krumm2007inference}. The use of generalized data could also encourage more volunteer participation.  Recent research shows that more than half of the 
 surveyed individuals had no problem in supplying imprecise 
 sensor data from their personal devices~\cite{fawaz2014location}. 
 Most participants could accommodate some inevitable loss of application 
 functionality, as long as their privacy was protected. Those surveyed
 applications ranged from location-based search (e.g., Yelp), social 
 network apps, to gaming and weather forecasting apps. 
-Researchers thus have proposed 
-substituting mocked~\cite{beresford2011mockdroid} or 
-anonymized~\cite{zhou2011taming} data in place of real data. 
-For example, in location-based services such as maps, 
-restaurant guides, and bus schedules, end users can still use the 
-service even if a device only provides a discretized 
-location~\cite{amini2011cache, krumm2007inference}. Therefore, 
-though the accuracy of the data is reduced, 
-the imprecise information is sufficient for a large class of services. 
+the imprecise information is sufficient for a large class of services. \lois{these two sentences have to be clarified. How does one survey an application? And, why would participants be willing to a loss of functionality?}
 %The US Federal Communications Commission requires 
 %emergency rescue and 
 %response teams to be able to estimate a 911 wireless emergency 
 %caller's position with an accuracy of 125~m~\cite{gruteser2003anonymous, 
 %reed1998overview}. \yanyan{too many examples?}
 
-Based on these facts, we decided that restricting 
+Based on these facts, restricting 
 the amount of data accessible, such as reducing the precision or 
-access frequency, offered an effective privacy protection mechanism to 
+access frequency, offer an effective privacy protection mechanism to 
 provide to end users. In this work, we coin the term \textit{data blurring}
-as our privacy protection mechanism. This concept, explained in detail in
-Section~\ref{sec-policy}, automatically limits the amount of detailed 
-information the device sensors will relay to the person running the 
-experiment.
-%where each data access
-%policy is codified as a blurring layer, and different policies are
-%customized by loading individual blurring layers in order.
-
+as one privacy protection mechanism. However, to achieve data blurring easily and reliably to 
+ensure experiments do not collect more 
+data than needed to provide their functionalities requires a way to automatically substitute approximate data in place of explicit raw data.
 
 \textbf{IRB policies: guiding ethical behavior.}
 %On the other hand, research institutions have also designed a 
 %protocol based on the \textit{institutional review board (IRB)}, 
 %to assess the ethics of a researcher's project, and review its methods. 
-Institutional Review Board serve as the ethical watch dogs for college, 
+As mentioned earlier in this section, every researcher's work will be guided by an Institutional Review Board, an internal group that serves as the ethical watch dogs for colleges, 
 universities, government agencies, and other research institutions. 
 It is the job of these boards, also known as an independent ethics committee 
 (IEC), ethical review board (ERB), or research ethics board (REB), 
 to approve, monitor, and review research involving human 
-subjects~\cite{irb}. These groups require all researchers working under 
-their aegis to submit the protocols of their studies with an aim to 
-protecting not only the physical and mental well-being of subjects, 
+subjects~\cite{irb}. While a commitment to ethical treatment of humans who submit to experiments has always been part of the professional codes of most scientists, IRBs did not become ubiquitous in research facilities until the latter part of the 20th century.  Partly provoked by atrocities committed by the Nazis in the name of scientific experiments in the Second World War II, and partly inspired by directives from the medical community, including Declaration of Helsinki established In 1964 by the World Medical Association, research institutions formally acknowledged the need to protect human subjects in any research setting. Today, IRBs require all researchers working under 
+their aegis to submit the protocols of their studies in advance, with an aim to 
+protect not only the physical and mental well-being of subjects, 
 but also to protect any information about these individuals generated 
-over the course of the study. Since privacy protection of collected data 
-become a bit more difficult when dealing with remote subjects, another 
-issue we sought to address with Sensibility Testbed is to relieve the 
-individual researcher of the need to manually enforce the restrictions 
-set by his or her institution's IRB. Sensibility Testbed automates, and 
-therefore ensures adoption of these policies. Although many current network 
+over the course of the study. However, enforcement of these policies becomes significantly harder when dealing with remote subjects. Although many current network 
 testbeds require that researchers obtain IRB approval before conducting
 an experiment on the testbed, these platforms do not provide a guarantee 
 for IRB policy compliance~\cite{nandugudi2013phonelab, nikravesh2015mobilyzer}.
@@ -153,14 +132,10 @@ for IRB policy compliance~\cite{nandugudi2013phonelab, nikravesh2015mobilyzer}.
 %measurement library that can be included in Android apps. 
 %and requires explicit user consent. 
 Therefore, there is no guarantee that an 
-experiment will be compliant with a researcher's IRB policies.
+experiment will be compliant with a researcher's IRB policies. 
 %promotes fully informed 
 %consent and voluntary participation by prospective subjects. 
 
-Sensibility Testbed takes any researcher's IRB policies, codifies them, and 
-uses the aforementioned blurring layers to restrict sensor access on an 
-end-user's device to an institution's set access levels, making compliance 
-automatic. 
 %IRB plays a central role in defining the policies
 %appropriate for research at individual institutions. Experimenters
 %first obtain an IRB approval at their institution. Then with these IRB
@@ -169,11 +144,7 @@ automatic.
 %This is achieved through restricting data access  via
 %a set of blurring layers. Each layer implements an IRB policy by substituting 
 %approximate data in place of explicit, raw sensor data to the experiment code. Different layers 
-Each blurring layer implements an IRB policy by substituting approximate 
-data in place of explicit, raw sensor data to the experiment code, and different 
-layers together can be customized to cater to various institution's 
-policies and regulations. As a result, experiments do not collect more 
-data than needed to provide their functionalities.
+
 
 %Our goal is to facilitate the enforcement of 
 %IRB policies on behalf of researchers, and that experiments 

@@ -1,15 +1,4 @@
-\section{Sensibility Testbed Design}\label{sec-design}
-
-This section describes the design of the Sensibility Testbed. 
-%On one hand, Sensibility Testbed manages how device owners make their
-%devices accessible to the research community. On the other hand,
-%it offers technical resources to researchers that allow them to
-%securely collect data from remote mobile devices. 
-We start with an overview of the principles behind the design of 
-the testbed infrastructure (Section~\ref{sec-overview}), 
-followed by a detailed description of each testbed component 
-(Section~\ref{sec-component}). Lastly, we describe the testbed in operation.
- (Section~\ref{sec-ops}).
+\section{Sensibility Testbed Architecture}\label{sec-design}
 
 \begin{figure}
 \center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
@@ -17,73 +6,12 @@ followed by a detailed description of each testbed component
 \caption{\small Sensibility Testbed architecture. \label{fig-arch}}
 \end{figure}
 
-\subsection{Overview: Design Principles}\label{sec-overview}
-
-%\subsubsection{Interacting Parties}\label{sec-parties}
-The operation of Sensibility Testbed  involves three types of interacting
-parties, as shown in Figure~\ref{fig-arch}: mobile \textit{devices} 
-owned by ordinary people, with our app installed; a 
-\textit{clearinghouse} server that discovers and configures
-participating devices; and \textit{experimenters} who want to run
-experiments on mobile devices. The interaction between these three 
-components, sa illustrated in Figure~\ref{fig-arch}, is designed to 
-support three fundamental design principles.
-%\subsubsection{Testbed Architecture}
-
-\textbf{Shared access to device resources.} 
-Since hardware resources are limited on mobile devices, it is 
-not possible to dedicate an entire device to an experiment. Therefore, 
-Sensibility Testbed allows several experiments to share one device. It 
-uses a sandbox to isolate one researcher's code from 
- another, through its performance isolation technique. The sandbox 
-also prevents experiment code from inadvertently harming the device
-via security isolation. Other software within the device controls a
-researcher's access to a sandbox, allows the device 
-owner to opt in or out of the testbed, and allows the device
-to communicate with the rest of the testbed. Together, they form the
-\textit{device software} (Section~\ref{sec-repy}, though only the 
-sandbox is shown in Figure~\ref{fig-arch}).
-
-\textbf{A centralized way of allocating devices and mediating data access.}
-Sensibility Testbed is designed to provide both enhanced security and 
-more efficient management of experimental setup, so another principle 
-for the design was a central component that could serve as a a trusted 
-intermediary for acquiring and managing device resources. Both tasks 
-are delegated to  a server called \textit{clearinghouse}~\cite{ch}. The 
-clearinghouse allows researchers to 
-register accounts for each experiment, and share access to a common 
-pool of devices, freeing them from the need to individually recruit participants. 
-The clearinghouse can also allocate resources and mediate 
-data access according to policies defined by a researcher's IRB. The 
-clearinghouse thus facilitates device sharing and policy enforcement 
-(Section~\ref{sec-ch}).
-
-\textbf{Local support for remote experimentation.} 
-The last design principle was to allow researchers to manage their 
-experiments on remote devices from a local machine, as is offered 
-by other testbeds~\cite{hibler2008large, peterson2006experiences}. Sensibility 
-Testbed addresses this need by using a tool called \textit{experiment 
-manager}. The experiment manager and provides access to 
-hardware resources on mobile devices using the researcher's testbed 
-credentials (assigned by the clearinghouse). This tool will be introduced
-in Section~\ref{sec-emt}.
-
-\smallskip
-The following sections describe the three components in more detail, and 
-addresses how these parties interact to enable safe experimentation on 
-mobile devices. 
-
-
-\subsection{Testbed Architecture}\label{sec-component}
-
 The Sensibility Testbed architecture's three main components are critical 
 to its operation. In this section, we discuss each of these components in 
 greater detail, describing their functions and introducing several key 
-techniques that make the testbed's enhanced security possible. The security 
-aspects mentioned here will be discussed in much greater detail in 
-Section~\ref{sec-policy}.
+techniques that make the testbed's enhanced security possible. 
 
-\subsubsection{Device Software}\label{sec-repy}
+\subsection{Device Software}\label{sec-repy}
 
 %In Sensibility Testbed, all experiments execute in a secure 
 %sandbox on the end devices.
@@ -159,7 +87,7 @@ owner has the freedom to choose what experiments will be allowed
 to run on the phone or tablet.
 
 
-\subsubsection{Clearinghouse}\label{sec-ch}
+\subsection{Clearinghouse}\label{sec-ch}
 The clearinghouse~\cite{ch} is a testbed server that has two 
 responsibilities. First, it keeps track of devices and grants 
 researchers access to available devices; and second, it
@@ -216,7 +144,7 @@ of this protocol in operation is also given in Section~\ref{sec-ops}.
 %\lois{have you introduced the idea of keys yet? If not, I think this needs to be explained.}
 
 
-\subsubsection{Experiment Manager}\label{sec-emt}
+\subsection{Experiment Manager}\label{sec-emt}
 
 The last component in the testbed is an experiment manager, which a 
 researcher can download to his own computer and use to run code through 

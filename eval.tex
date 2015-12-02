@@ -29,7 +29,7 @@ deployment experience in Section~\ref{sec-deployment}.
 \def\arraystretch{1.15}% % for table padding
 \begin{tabular}{|l|l|c|c|c|}
 \hline
-\multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
+\multirow{2}{.75cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
 \multicolumn{3}{c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
 & & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
 
@@ -181,48 +181,72 @@ AccelPrint~\cite{dey2014accelprint} & Accelerometer & \tickmark &
 & Location (GPS) & \tickmark &   &  \\ \cline{2-5}
 & Touch screen & & & \xmark \\ \cline{2-5}
 & Camera & & \tickmark & \\ \hline
-% attack: 
-% solution:
+% attack: use microphone and accelerometer to fingerprint devices
+% solution: this is a fingerprinting paper. it measures sensor's 
+% imperfection. though not evaluated, 
+% they showed in Tab 1 that gyroscope, magnetometer, etc. all 
+% have biases and imperfection that can be used for fingerprinting.
 
 Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope 
 & \tickmark & &  \\ \hline
-% attack: 
-% solution:
+% attack: use gyroscope to record voice
+% solution: this is an attack paper
 
 \cite{shokri2011quantifying}\textsuperscript{*}
 & Location & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+% attack: tracking and localization attacks
+% solution: a generic theoretical framework for modeling and evaluating
+% location privacy, lots of stats. tracking and localization attacks are 
+% modeled as statistical inferernce problems, and metric to evaluate 
+% location privacy is an adversary's expected error.
 
-\cite{polakis2015s}\textsuperscript{*}
+Where's Wally \cite{polakis2015s}%\textsuperscript{*}
 & Location & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+% attack: tracking and localization attacks
+% solution: many apps use location proximity (notify who is nearby, at 
+% what distance). the paper theoretically model the problem of locating
+% users as a search problem, and device optimal algorithm to realize
+% those attacks
 
-AnonySense~\cite{kapadia2008anonysense} 
-& Location & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+\multirow{3}{*}{AnonySense~\cite{kapadia2008anonysense}} 
+& Location & \tickmark &   &  \\ \cline{2-5}
+& \multirow{2}{1.8cm}{Network interface addresses} & 
+\multirow{2}{*}{\tickmark} &   &  \\
+& & & &\\ \hline
+% attack: localization attacks
+% solution: partition the area of the user into tessellation, and report 
+% the tile number instead of real location of the user. also changes
+% IP and MAC addresses
 
-\cite{liu2015good}\textsuperscript{*} 
-& Accelerometer & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+\multirow{2}{*}{\cite{liu2015good}\textsuperscript{*}}
+& Accelerometer & \tickmark &   &  \\ \cline{2-5}
+& Microphone  & & \tickmark & \\ \hline 
+% attack: use accelerometer on smart watches to monitor inputs (more
+% challenging than accelerometer on smartphones)
+% solution: this is an attack paper. microphone is used to help 
+% accelerometer during the detection
 
 LP-Guardian~\cite{fawaz2014location} 
 & Location & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+% attack: tracking, profiling, and identification threats
+% solution:  anonymize location in the background and let user to choose 
+% appropriate anonymization strategy for foreground location access; 
+% feed app with the location granularity necessary to serve the user; 
+% for apps that require constant monitoring, replace the real location
+% with dummy ones that belong to a synthetic route
 
 \cite{bordenabe2014optimal}\textsuperscript{*}
 & Location & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+% attack: localization attacks
+% solution: optimizing the trade-off between geo-indistinguishability 
+% and quality of service. 
 
 PrivStats~\cite{popa2011privacy}
 & Location & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+% attack: localization attacks
+% solution: compute aggregate statistics over location data. achieves 
+% both strong guarantees of location privacy and protection against 
+% cheating clients.
 
 \multirow{5}{*}{ipShield~\cite{chakraborty2014ipshield}} 
 & Location (GPS) & \tickmark &   &  \\ \cline{2-5}
@@ -230,19 +254,11 @@ PrivStats~\cite{popa2011privacy}
 & Gyroscope & \tickmark & &  \\ \cline{2-5}
 & WiFi & \tickmark &   &  \\ \cline{2-5}
 & Cellular & \tickmark &   & \\ \hline
-% attack: 
-% solution:
- 
-\multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Internet\textsuperscript{\dag} & \tickmark & & \\ \hline
-% attack: 
-% solution:
+% attack: general privacy attacks
+% solution: allow users to specify privacy preferences, auto-generates
+% privacy actions on sensors (supression, allow, add noise, etc). 
 
 \multicolumn{5}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
-
-\multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
-can be implemented by interposing socket calls.} \\
 
 \multicolumn{5}{l}{\textsuperscript{\ddag}\scriptsize CPU usage can be obtained
 through reading the files in \path{/proc/stat}.} \\
@@ -272,27 +288,50 @@ to provide support.}
 \multicolumn{3}{c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
 & & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
 
+\multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \cline{2-5}
+& Internet\textsuperscript{\dag} & \tickmark & & \\ \hline
+% attack: general privacy attacks
+% solution: labels (taints) data from privacy-sensitive sources and
+% transitively applies labels as sensitive data propagates
+% through program variables, files, and interprocess messages.
+% (maybe this is not the best example)
+
 Koi~\cite{guha2012koi} & Location & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+% attack: location tracking
+% solution: apps set location based triggers, and have them fired
+% based on location updates. eg, instead of location lookup, it does
+% location matching: when the phone is in a grocery store, it notifies
+% the app that set this locaiton trigger
+
+Cloaking~\cite{gruteser2003anonymous} & Location & \tickmark &   &  \\ \hline
+% attack: location tracking
+% solution: adjust the resolution of location information along spatial or 
+% temperal dimensions to meet the specified anonymity constraints
 
 Locaccino~\cite{toch2010empirical} & Location & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+% attack: location tracking
+% solution: survey showed that users are more comfortable sharing their
+% location when they are at places visited by a large and diverse set of people
 
 \multirow{2}{*}{Accomplice~\cite{han2012accomplice}} & Location & \tickmark &   &  \\ \cline{2-5}
 & Accelerometer & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+% attack: location tracking using accelerometer
+% solution: this is an attack paper. accelerometer can be used to track location
 
 \multirow{2}{*}{TapLogger~\cite{xu2012taplogger}} & Gyroscope & \tickmark &   &  \\ \cline{2-5}
 & Accelerometer & \tickmark &   &  \\ \hline
-% attack: 
-% solution:
+% attack: accelerometer and gyroscope can be extracted to monitor inputs
+% solution: this is an attack paper, showing it's possible to infer 
+% input using accelerometer and gyroscope. Tab 1 in the paper shows
+% "useful" sensor rate is 25 to 95Hz.
 
-\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 74} & \multirow{2}{1cm}{\bf 
-63/74 (85.14\%)} & \multirow{2}{1cm}{\bf 10/74 (13.51\%)} & 
-\multirow{2}{1cm}{\bf 1/74 (1.35\%)} \\ & & & & \\\hline
+\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 77} & \multirow{2}{1cm}{\bf 
+65/77 (84.42\%)} & \multirow{2}{1cm}{\bf 11/77 (14.29\%)} & 
+\multirow{2}{1cm}{\bf 1/76 (1.29\%)} \\ & & & & \\\hline
+
+\multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
+can be implemented by interposing socket calls.} \\
 
 \end{tabular}
 \egroup

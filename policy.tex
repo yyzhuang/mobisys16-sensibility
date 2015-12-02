@@ -1,31 +1,15 @@
 \section{Implementation}\label{sec-policy}
-
-In Sensibility Testbed, privacy policies are implemented as blurring layers, with each layer acting as a 
-reference monitor in a sandbox~\cite{ref} to enforce an access 
-control policy over each sensor. Using the sandboxing 
-technique in our prior work~\cite{cappos2010retaining}, we are able to
-interject code to control the behavior of sandbox functions, or 
-system calls. A sensor access policy can (1) reduce 
-the precision of the raw sensor data returned from a device, such
-as returning the location of a nearest city rather than the device's exact location; (2) restrict 
-the frequency of access to a sensor, such as the polling rate of a gyroscope or
-an accelerometer, to avoid password interference~\cite{michalevsky2014gyrophone}; and (3) disable  
-access to a certain sensor in sensitive situations, such as 
-turning off a camera when a device is in a residential or work area.
-Implementation of the last policy is still ongoing, so this paper will mainly address
-how blurring layers allow for the execution of the first two types of policies. 
-
+\jill{can we add more implementation details in this section about other components in addition to Repy?}
 In last section, we introduced the Repy sandbox briefly. 
-In this section, we describe how Repy is implemented
-(Section~\ref{sec-repy-ext}), 
-how to control the precision of sensor data (Section~\ref{sec-layer}), 
+In this section, we describe how to control the precision of sensor data (Section~\ref{sec-layer}) 
 and the frequency of sensor access (Section~\ref{sec-nanny}).
 
-\subsection{Secure Sandbox}\label{sec-repy-ext}
+\subsection{Sensor Access from the Repy Sandbox}
 
 
 
-\subsubsection{Sensor Access from the Repy Sandbox}
+
+
 %\lois{why not call it the Repy Sandbox as before?}
 
 %In the use cases in Section~\ref{sec-scenario}, when Alice starts 
@@ -97,7 +81,7 @@ device, as shown in Figure~\ref{fig-blur}.
 
 
 
-\subsection{Blurring Layers: Reducing Data Precision}\label{sec-layer}
+\subsection{Reducing Data Precision}\label{sec-layer}
 
 %\yanyan{TODO: replace all security layers with blurring layers. fix the line wrapping.}
 %The Sensibility Testbed uses an extended version of the Repy sandbox, whose 
@@ -255,6 +239,7 @@ Therefore, the experimenter's program is ensured to use all the
 new policies. An example of blurring layer implementation is given in 
 Section~\ref{sec-precision-example}.  
 
+
 \subsubsection{An Example of Policy Implementation}
 \label{sec-precision-example}
 
@@ -346,7 +331,7 @@ sandboxed programs in Sensibility Testbed.
 
 
 
-\subsection{Nanny: Restricting Data Access Frequency}\label{sec-nanny}
+\subsection{Restricting Data Access Frequency}\label{sec-nanny}
 
 %A function call 
 %request can be met only if the frequency is no greater than the cap. 
@@ -416,41 +401,3 @@ the city level.
 \bigskip
 %\subsubsection{Blurring Layer Instantiation}
 %\bigskip
-From a researcher's specified IRB policies to running experiment code, 
-the process goes as follows. 
-The clearinghouse creates a list of access policies for a researcher's
-experiment, according to the specified IRB policies. The sandbox 
-on a mobile device, under the control of
-this experimenter, obtains a list of command-line arguments 
-from the clearinghouse, which includes all the blurring layers
-and parameters for each layer (Section~\ref{sec-ch}). The pre-set blurring layers determine
-the type of data required, such as accelerometer access rate, and the 
-IRB parameters customize the specific policy, such as accessing
-an accelerometer at a rate of 50 times/second. 
-%the first of which must be the encasement library.
-%The kernel reads in the encasement library code and uses
-%the virtual namespace abstraction to execute the code with
-%the exported kernel functions. The encasement library
-The sandbox then %uses its blurring layer creation call to 
-instantiates 
-the first blurring layer according to its contract, i.e., the function 
-mapping that contains the kernel's exported functions.
-%the security layer instantiation call, and the remaining
-%command-line arguments. 
-The newly instantiated blurring layer repeats this process 
-%using the 
-%encasement library's
-%blurring layer creation call 
-to instantiate the next
-security layer with a potentially updated contract and function
-mapping. Eventually, the experimenter's program is instantiated
-in a separate layer with the functions provided
-through the stack of blurring layers that preceded it.
-The experimenter's program will then be subject to all the 
-policies defined in the preceding layers, or the policy stack.
-
-The mechanisms in this section are all transparent to the experimenters 
-and device owners, as the implementation of policies is controlled by the 
-clearinghouse on behalf of the experimenters. An experimenter is aware 
-of certain policies in place, but does not need to implement or explicitly
-enforce such policies. 

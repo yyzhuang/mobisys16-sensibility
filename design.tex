@@ -135,9 +135,27 @@ without any interference between the experiments.
 \end{figure}
 
 \textbf{Policy Stack}
-The sandbox kernel determines how IRB policies are implemented by affecting system calls. It can
-interpose on a call and modify the data returned, or control the frequency with which a call can be made over
-a period of time. 
+In Sensibility Testbed, privacy policies are implemented as blurring layers, with each layer acting as a 
+reference monitor in the sandbox~\cite{ref} to enforce an access 
+control policy over each sensor. Using the sandboxing 
+technique in our prior work~\cite{cappos2010retaining}, we are able to
+interject code to control the behavior of sandbox functions, or 
+system calls. A sensor access policy can (1) reduce 
+the precision of the raw sensor data returned from a device, such
+as returning the location of a nearest city rather than the device's exact location, and (2) restrict 
+the frequency of access to a sensor, such as the polling rate of a gyroscope or
+an accelerometer, to avoid password interference~\cite{michalevsky2014gyrophone}.
+
+%and (3) disable  
+%access to a certain sensor in sensitive situations, such as 
+%turning off a camera when a device is in a residential or work area.
+%Implementation of the last policy is still ongoing, so this paper will mainly address
+%how blurring layers allow for the execution of the first two types of policies. 
+
+%The sandbox kernel determines how IRB policies are implemented by affecting system calls. It can
+%interpose on a call and modify the data returned, or control the frequency with which a call can be made over
+%a period of time. 
+
 %Different policies implemented can be stacked in tandem to 
 %control different sensor accesses, like in Figure~\ref{fig-blur}.
 %As mentioned above, Bob provided his IRB policies through our clearinghouse.
@@ -160,7 +178,6 @@ a period of time.
 Each policy is a blurring layer, which acts as an isolated and 
 contained reference monitor. Different policies can be customized 
 by loading individual blurring layers in order, as a policy stack. 
-
 By design, a lower layer in the stack is the ancestor of 
 a higher layer. Each blurring layer is untrusted by its ancestor layers, 
 but is trusted by its descendant layers. \jill{can we reword this paragraph to make it more clear?} In addition, every layer in the stack inherits the policy 
@@ -177,7 +194,8 @@ access the sensor data.
 %In the following, we describe how to implement each blurring layer, 
 %and use them to form a policy stack.
 
-\textbf{Restricting Data Access Frequency}
+\textbf{Data Precision and Data Access Frequency}
+\jill{here let's put in a paragraph here about data precision}
 Reducing data precision partially protects a device owner's privacy. However, frequent data 
 access can be another channel to snoop on personal information.
 If sensor queries are made on a sufficiently frequent basis, they can be used

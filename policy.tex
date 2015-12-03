@@ -1,9 +1,10 @@
 \section{Implementation}\label{sec-policy}
-\jill{can we add more implementation details in this section about other components in addition to Repy?}
+%\jill{can we add more implementation details in this section about other components in addition to Repy?}
 In last section, we introduced the Repy sandbox briefly. 
 In this section, we describe how to control the precision of sensor data (Section~\ref{sec-layer}) 
 and the frequency of sensor access (Section~\ref{sec-nanny}).
 
+\begin{comment}
 \subsection{Sensor Access from the Repy Sandbox}
 
 
@@ -80,9 +81,11 @@ As such, the original Repy interface and the added sensor API together
 provide the complete \textit{OS level} sandbox kernel on a mobile 
 device, as shown in Figure~\ref{fig-blur}.
 
+\end{comment}
 
+\subsection{Policy Enforcement}
 
-\subsection{Reducing Data Precision}\label{sec-layer}
+\subsubsection{Reducing Data Precision}\label{sec-layer}
 
 %\yanyan{TODO: replace all security layers with blurring layers. fix the line wrapping.}
 %The Sensibility Testbed uses an extended version of the Repy sandbox, whose 
@@ -105,8 +108,7 @@ a function mapping of \path{get_location()} still returns location data),
 every blurring layer uses a \textit{contract} to verify the interface 
 semantics between the blurring layers.
 
-\subsubsection{Virtual Namespace}
-
+\textbf{Virtual namespace.}
 The virtual namespace of each blurring layer executes the code in descendant 
 layers with the corresponding layer's function mapping. By our convention, 
 the virtual namespace of a blurring layer does not contain functions from the 
@@ -131,8 +133,8 @@ to \path{foo.get_battery} via the name \path{get_battery}, and to
 In this case, layer \path{bar} would not be able to access 
 \path{foo.get_accelerometer}.
 
-\subsubsection{Contract}
-
+\textbf{Contract.}
+%
 %The virtual namespace is useful for loading
 %code dynamically, but does not provide adequate security for
 %use as an isolation boundary. The encasement library in the 
@@ -238,9 +240,10 @@ experiment program with the appropriate set of functions.
 %
 Therefore, the experimenter's program is ensured to use all the 
 new policies. An example of blurring layer implementation is given in 
-Section~\ref{sec-precision-example}.  
+%Section~\ref{sec-precision-example}.  
+\yanyan{our TR.}
 
-
+\begin{comment}
 \subsubsection{An Example of Policy Implementation}
 \label{sec-precision-example}
 
@@ -329,14 +332,51 @@ and only the blurring layers change the function's behavior, thus
 the policy enforcement is transparent to all the experimenters who run 
 sandboxed programs in Sensibility Testbed.
 
+\end{comment}
 
 
-
-\subsection{Restricting Data Access Frequency}\label{sec-nanny}
+\subsubsection{Restricting Data Access Frequency}\label{sec-nanny}
 
 %A function call 
 %request can be met only if the frequency is no greater than the cap. 
+%\textbf{Data precision and data access frequency.}
+%\yanyan{I feel this may better be placed in implementation section.}
+Reducing data precision partially protects a device owner's privacy. However, frequent data 
+access can be another channel to snoop on personal information.
+If sensor queries are made on a sufficiently frequent basis, they can be used
+to track an individual's activity. The goal of reducing sensor access frequency 
+is to prevent an accumulation of identifiable information, such as 
+location~\cite{gruteser2003anonymous}, wireless network identifiers, and even 
+accelerometer data. (Note that specific
+details as to how frequently a certain sensor can be accessed without risking such an 
+invasion is out of the scope of this work). 
+Furthermore, the battery power of a device can 
+be drained faster if sensors are accessed
+with unnecessary frequency. Therefore, restricting the data access rate 
+mandates that experiments collect data only as often as is necessary. 
+To achieve this, the Repy sandbox provides a second mechanism
+called \path{nanny} that mediates and restricts access frequency to sensors. 
 
+\path{nanny} treats all sensors as \textit{resources}, and the function calls to 
+access the sensors as the \textit{usage} of resources. 
+%\path{nanny}'s control 
+%mechanism for a resource is to limit the \textit{rate} of its usage. For example, 
+When an 
+%Utilization is controlled over one or more periods, where
+experiment program's use of a resource is above a given threshold, 
+\path{nanny} pauses the 
+program for as long as required to bound it, on average, below the
+threshold. Therefore, if an experiment program attempts to 
+use a resource at a rate faster than is allowed by a policy, the function 
+call is blocked until sufficient time has passed to average out the overall access rate. 
+To monitor and control the usage of resources, \path{nanny} keeps a 
+table of resource assignments that tracks and updates requests and releases. 
+Once resource caps are set, an experiment program can never call a 
+function to access a sensor more frequently than the cap. 
+
+An example implementation is given in \yanyan{our TR.}
+
+\begin{comment}
 \subsubsection{An Example of Policy Implementation}\label{sec-rate-example}
 
 Restricting access rate can also be implemented as a 
@@ -402,3 +442,13 @@ the city level.
 \bigskip
 %\subsubsection{Blurring Layer Instantiation}
 %\bigskip
+\end{comment}
+
+\subsection{Resource Manager and Device Manager}
+\yanyan{Albert, please add}
+
+\subsection{Clearinghouse}
+\yanyan{Albert, please add}
+
+\subsection{Experiment Manager}
+\yanyan{Albert, please add}

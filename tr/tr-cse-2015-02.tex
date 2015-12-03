@@ -1,0 +1,110 @@
+\documentclass[10pt]{article}
+%\usepackage{url}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{times}
+\usepackage{amssymb}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\rmdefault}{ptm}
+
+%\usepackage[compact]{titlesec}
+
+\usepackage{graphicx}
+%\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage{stfloats}
+\usepackage{listings}
+\usepackage{xspace}
+
+\renewcommand{\baselinestretch}{0.90}
+
+\usepackage{fancyvrb}
+\usepackage{fixltx2e}
+\fvset{framesep=2mm,fontsize=\scriptsize,framerule=.1mm,numbersep=1mm,commandchars=\\\{\}}
+\usepackage[usenames,dvipsnames]{color}
+
+\newenvironment{packed_enum}{
+\begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+\newenvironment{packed_item}{
+\begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+
+\newcommand{\eg}{\hbox{\em e.g.}}
+\newcommand{\ie}{\hbox{\em i.e.}}
+\newcommand{\cf}{\hbox{\em cf. }}
+\newcommand{\etal}{\hbox{\em et al.}}
+\newcommand{\etc}{\hbox{\em etc.}}
+
+\newcommand{\sysname}{Sensibility Testbed\xspace}
+
+\newif\ifrev
+%%%%%%%%%%%%%%%%%%
+% COMMENT OUT NEXT LINE TO HIDE TODOs
+\revtrue
+%%%%%%%%%%%%%%%%%%
+
+\ifrev
+  \newcommand{\yanyan}[1]{{\color{blue} [Yanyan: #1]}}
+  \newcommand{\cappos}[1]{{\color{red} [Justin: #1]}}
+  \newcommand{\albert}[1]{{\color{magenta} [Albert: #1]}}
+  \newcommand{\jill}[1]{{\color{Thistle} [Jill: #1]}}
+  \newcommand{\lois}[1]{{\color{Peach} [Lois: #1]}}
+  \newcommand{\todo}[1]{{\color{red} [TODO: #1]}}
+\else
+  \newcommand{\yanyan}[1]{}
+  \newcommand{\cappos}[1]{}
+  \newcommand{\albert}[1]{}
+  \newcommand{\todo}[1]{}
+\fi
+
+\usepackage{pifont} 
+\newcommand{\tickmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+\usepackage{etoolbox}
+\apptocmd{\thebibliography}{\setlength{\itemsep}{5pt}}{}{}
+
+% enumerate, etc's margin
+%\usepackage{parskip}
+%\addtolength{\parskip}{\baselineskip}
+\usepackage[neverdecrease]{paralist}
+\setdefaultleftmargin{0cm}{}{}{}{}{}
+
+\title{Sensibility Testbed Implementation Details\thanks{This document provides supplementary materials for~\cite{sensibility-submission}.}}
+
+
+\author{Yanyan Zhuang$^{\dag, \ddag}$ \qquad Albert Rafetseder$^{\dag}$ \\
+Jill Jermyn$^{\triangledown}$ \qquad Justin Cappos$^{\dag}$\\
+$^{\dag}$New York University \qquad $^{\triangledown}$Columbia University\\
+$^{\ddag}$University of British Columbia}
+
+\date{}
+
+\begin{document}
+
+%\smallskip
+
+\maketitle
+\setcounter{page}{1}
+
+\tableofcontents
+\newpage
+
+\input{sensor}
+
+\input{policy-impl}
+
+\input{limitation}
+
+{\scriptsize \bibliographystyle{abbrv} \bibliography{bibdata}} 
+
+\end{document} 

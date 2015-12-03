@@ -1,0 +1,386 @@
+\section{Policy Implementation}
+
+\subsection{Policy Stack}
+In Sensibility Testbed, privacy policies are implemented as blurring layers, with each layer acting as a 
+reference monitor in the sandbox~\cite{ref} to enforce an access 
+control policy over each sensor. Using the sandboxing 
+technique in our prior work~\cite{cappos2010retaining}, we are able to
+interject code to control the behavior of sandbox functions, or 
+system calls. A sensor access policy can (1) reduce 
+the precision of the raw sensor data returned from a device, such
+as returning the location of a nearest city rather than the device's exact location, and (2) restrict 
+the frequency of access to a sensor, such as the polling rate of a gyroscope or
+an accelerometer, to avoid password interference~\cite{michalevsky2014gyrophone}.
+
+Each policy is a blurring layer, which defines either of the above
+two categories of policies. Different sets of policies can be customized 
+according to the regulations set by IRB, through loading 
+individual blurring layers in order, as a policy stack. In each stack, 
+a lower layer is the ancestor of a higher layer. Every layer inherits 
+the policy defined by its ancestor layers, with the exception of the lowest layer. 
+%Each blurring layer is untrusted by its ancestor layers, 
+%but is trusted by its descendant layers. \yanyan{maybe cut this.}
+The lowest blurring layer with no ancestors is the 
+Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
+of the policy stack, thereby inheriting all the policies defined by the
+lower layers, as shown in Figure~\ref{fig-blur}. 
+Each policy stack acts as a set of filters for different sensors, through 
+which a call must pass before a sandboxed program can
+access the sensor data. 
+
+We next introduce how the two categories of policies are implemented in Repy.
+
+\subsection{Reducing Data Precision}\label{sec-layer}
+
+%\yanyan{TODO: replace all security layers with blurring layers. fix the line wrapping.}
+%The Sensibility Testbed uses an extended version of the Repy sandbox, whose 
+%security mechanism is described in our prior work by Cappos, {\it et 
+%al}~\cite{cappos2010retaining}. This section briefly explains this sandboxing 
+%technique, and how it is used in Sensibility Testbed.
+
+%In Sensibility Testbed, we construct a researcher's IRB policies as a set of 
+%isolated and contained reference monitors called blurring layers. They each
+%implement one IRB policy, and can 
+%be stacked together to form a policy stack. 
+
+Policies are implemented by each blurring layer via a \textit{virtual 
+namespace} that provides function mapping to substitute raw 
+data access with restricted data access. 
+%and the boundary between two blurring layers is monitored by an 
+%\textit{encasement library} that verifies interface semantics at runtime. 
+To ensure the runtime behavior of each function mapping (for example, 
+a function mapping of \path{get_location()} still returns location data), 
+every blurring layer uses a \textit{contract} to verify the interface 
+semantics between the blurring layers.
+
+\subsubsection{Virtual Namespace and Contract}
+
+\textbf{Virtual namespace.}
+The virtual namespace of each blurring layer executes the code in descendant 
+layers with the corresponding layer's function mapping. By our convention, 
+the virtual namespace of a blurring layer does not contain functions from the 
+sandbox kernel or the namespace of its parent layer, unless explicitly 
+specified by the mapping. \yanyan{why is this statement needed?}
+For example, if a layer \path{foo} with 
+functions \path{get_battery()}, \path{get_accelerometer()}, and 
+\path{restricted_get_accelerometer()} were to instantiate a descendant 
+layer \path{bar} with a function mapping 
+
+\begin{Verbatim}
+\{
+\textcolor{BrickRed}{'get_battery'}: get_battery, 
+\textcolor{BrickRed}{'get_accelerometer'}: restricted_get_accelerometer
+\}
+\end{Verbatim}
+then the module \path{bar} would have access
+to \path{foo.get_battery} via the name \path{get_battery}, and to
+\path{foo.restricted_get_accelerometer} via the name 
+\path{get_accelerometer}. That is, the function on the left of the colon \texttt{:}
+\textit{replaces} the function on the right via the virtual namespace. 
+In this case, layer \path{bar} would not be able to access 
+\path{foo.get_accelerometer}.
+
+\textbf{Contract.}
+%
+%The virtual namespace is useful for loading
+%code dynamically, but does not provide adequate security for
+%use as an isolation boundary. The encasement library in the 
+%Repy sandbox provides isolation between virtual namespaces. 
+%Security layers do not share objects or functions.
+%The encasement library copies all objects that are passed
+%between security layers.
+%
+Each function that can be called by descendant blurring
+layers needs to have its arguments, return value, and 
+other runtime behavior verified. This concept is similar to system call filtering
+mechanisms~\cite{acharya2000mapbox, fraser2000hardening} 
+that mediate access to a sensitive function interface. In our case, 
+the functions are the calls to smartphone sensors that 
+can potentially reveal a device owner's private information. Our
+verification process uses a contract. For each function that has a 
+mapping, the contract lists the number 
+and types of its arguments, the exceptions that can be raised 
+by the function, and the return type of the function\footnote{\scriptsize 
+Since Python is a dynamically-typed language, it is useful to type check 
+a function's arguments, exceptions, and return values.}.
+
+A contract is represented as a Python dictionary in Repy. As an example, if 
+the blurring layer \path{foo} wanted to create a contract that would map
+\path{get_battery()} and \path{restricted_get_accelerometer()} into 
+a new namespace, the contract would be: 
+
+\begin{Verbatim}
+\{\textcolor{BrickRed}{'get_battery'}: \{
+  \textcolor{BrickRed}{'type'}: \textcolor{BrickRed}{'func'},
+  \textcolor{BrickRed}{'args'}: \textcolor{Purple}{None}, 
+  \textcolor{BrickRed}{'exceptions'}: (\textcolor{Purple}{BatteryNotFoundError}), 
+  \textcolor{BrickRed}{'return'}: dict,
+  \textcolor{BrickRed}{'target'}: get_battery
+  \}, 
+\textcolor{BrickRed}{'get_accelerometer'}: \{
+  \textcolor{BrickRed}{'type'}: \textcolor{BrickRed}{'func'},
+  \textcolor{BrickRed}{'args'}: str, 
+  \textcolor{BrickRed}{'exceptions'}: (\textcolor{Purple}{ValueError}), 
+  \textcolor{BrickRed}{'return'}: list,
+  \textcolor{BrickRed}{'target'}: restricted_get_accelerometer
+  \}
+\}
+\end{Verbatim} 
+
+Note that the symbols in the contract come from \path{foo}'s 
+namespace. Thus the target for the \path{get_battery} in the 
+contract is the \path{foo.get_battery} function. Similarly, the 
+target for the \path{get_accelerometer} in the contract is the 
+\path{foo.restricted_get_accelerometer}.
+
+Whenever an experiment calls a function, such as \path{get_battery}
+or \path{get_accelerometer}, a verification process must perform 
+type-checking using the contract. If the verification process 
+detects a semantic violation, \yanyan{add an example} the entire experiment program is 
+terminated. This guarantees that to a sandboxed program, 
+the implemented policies do not change a function's semantics.
+%In addition to type checking, the verification function copies 
+%arguments and return values of mutable types to prevent 
+%time-of-check-to-time-of-use bugs. Since mutable types are 
+%copied, the caller cannot cause a race condition by modifying objects.
+
+
+Each blurring layer provides a contract to instantiate the 
+next blurring layer by substituting a version of the function that 
+enforces a given policy. All descendant layers (layers loaded 
+after this layer) will have access to the version of the function 
+that enforces this new policy. The final blurring layer starts the 
+experiment program with the appropriate set of functions. 
+%
+%\subsubsection{Blurring Layer Instantiation}
+%\smallskip
+%From start to finish, the entire process proceeds as follows. 
+%The clearinghouse creates a list of access policies for a researcher's
+%experiment, according to the specified IRB policies. The sandbox on a mobile device, under the control of
+%this experimenter, obtains a list of command-line arguments 
+%from the clearinghouse, which includes all the blurring layers
+%and parameters for each layer. The pre-set blurring layer determine
+%the type of policy required, such as accelerometer access rate, and the 
+%IRB parameters customize the specific policy, such as accessing
+%an accelerometer at a rate of 50 times/second. 
+%%the first of which must be the encasement library.
+%%The kernel reads in the encasement library code and uses
+%%the virtual namespace abstraction to execute the code with
+%%the exported kernel functions. The encasement library
+%The sandbox then %uses its blurring layer creation call to 
+%instantiates 
+%the first blurring layer according to its contract, i.e., the function 
+%mapping that contains the kernel's exported functions.
+%%the security layer instantiation call, and the remaining
+%%command-line arguments. 
+%The newly instantiated blurring layer repeats this process 
+%%using the 
+%%encasement library's
+%%blurring layer creation call 
+%to instantiate the next
+%security layer with a potentially updated contract and function
+%mapping. Eventually, the experimenter's program is instantiated
+%in a separate layer with the functions provided
+%through the stack of blurring layers that preceded it.
+%The experimenter's program will then be subject to all the 
+%policies defined in the preceding layers, or the policy stack.
+%
+Therefore, the experimenter's program is ensured to use all the 
+new policies. An example of blurring layer implementation is given in 
+Section~\ref{sec-precision-example}.  
+
+
+\subsubsection{An Example of Policy Implementation}
+\label{sec-precision-example}
+
+%\subsubsection{Reducing Data Precision}
+
+Below is an example of the implementation of a location blurring layer. 
+When researcher Bob requests a device, the clearinghouse recognizes that all the location data
+he collects must be substituted with a blurred location that only identifies the nearest city.
+%rather than the exact location of the device. 
+Therefore, the following blurring layer is
+automatically loaded, along with Bob's experiment code, to map 
+the \path{get_location()} call in Figure~\ref{fig-getlocation} to a version 
+that implements such a policy. \yanyan{load code or load policy text? how
+to translate policy text to code?}In the following, we name this
+blurring layer \path{blur_to_city}, and assume it is the first descendant
+of the sandbox kernel.
+
+\begin{Verbatim}
+1. \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{get_city_location}}():
+2.   \textcolor{BrickRed}{"""}
+3.   \textcolor{BrickRed}{This function replaces the exact coordinates of} 
+4.   \textcolor{BrickRed}{the Android device with the coordinates for the } 
+5.   \textcolor{BrickRed}{geographic center of the nearest city.}
+6.   \textcolor{BrickRed}{"""}
+7.
+8.   location = get_location()
+9.
+10.  closest_city = find_closest_city(location[\textcolor{BrickRed}{"latitude"}],
+11.    location[\textcolor{BrickRed}{"longitude"}])
+12.
+13.  location[\textcolor{BrickRed}{"latitude"}] = closest_city[\textcolor{BrickRed}{"latitude"}]
+14.  location[\textcolor{BrickRed}{"longitude"}] = closest_city[\textcolor{BrickRed}{"longitude"}]
+15.
+16.  \textcolor{Purple}{return} location
+17.
+18. \textcolor{BrickRed}{# Substitute get_location with get_city_location.}
+19. \textbf{CHILD_CONTEXT_DEF[\textcolor{BrickRed}{"get_location"}] = \{}
+20.    \textbf{\textcolor{BrickRed}{"type"}: \textcolor{BrickRed}{"func"},}
+21.    \textbf{\textcolor{BrickRed}{"args"}: \textcolor{Purple}{None},}
+22.    \textbf{\textcolor{BrickRed}{"return"}: \textcolor{Purple}{dict},}
+23.    \textbf{\textcolor{BrickRed}{"exceptions"}: \textcolor{BrickRed}{"any"},}
+24.    \textbf{\textcolor{BrickRed}{"target"}: get_city_location,}
+25. \textbf{\}}
+26.
+27. \textbf{secure_dispatch_module()}
+\end{Verbatim}
+
+
+Line 1 -- 16 defines a new function named \path{get_city_location()} which returns 
+the nearest city to the device. On line 10 -- 11, the function \path{find_closest_city()}
+uses a quadtree-like algorithm~\cite{gruteser2003anonymous} that subdivides 
+the area around the device until the area contains at least a city.
+This algorithm can be applied similarly if a policy requires location 
+precision at the state/province or country level.
+%in \path{blur_to_city}'s namespace that is outside the sandbox kernel. 
+Lines 19 -- 25 defines a contract for \path{get_city_location()}. 
+%and stores it in a global dictionary \path{CHILD_CONTEXT_DEF}. 
+In this contract, 
+%the target for the sandbox kernel function 
+%\path{get_location()} (line 19) is \path{get_city_location()} (line 24).
+%This means that 
+\path{get_city_location()} will substitute \path{get_location()} defined 
+in the Repy sandbox kernel.
+%On Line 19, \path{CHILD_CONTEXT_DEF} indicates that this data structure is to replace the
+%Repy library function \path{get_location()}. 
+Line 20 - 23 define the function's type, arguments,
+return values, and any potential exceptions for runtime verification. 
+%Line 24 indicates that Repy library function
+%\path{get_location()} will be replaced by \path{get_city_location()} defined in line 1 - 16, once
+%this blurring layer is in effect, which means the blurring layer is enforced via running along a
+%sandboxed program. Finally, in order for this blurring layer to take effect, we need to call
+Finally, \path{secure_dispatch_module()} on line 27 instantiates this
+\path{blur_to_city} layer, when running along with the sandbox kernel. 
+\yanyan{or does it instantiate experiment code?}As a result, 
+whenever Bob's experiment code calls \path{get_location()}, 
+the \path{blur_to_city} layer replaces it with \path{get_city_location()}. 
+
+Similarly, because Bob's IRB policy disallows access to cell ID, another blurring layer 
+can substitute the \path{get_cellID()} call in the sandbox kernel with a function that
+returns \path{None}. This layer can be instantiated by \path{blur_to_city}
+as its descendant, or by any other layer. An arbitrary number of layers can 
+be stacked together to implement an experimenter's policies.
+%
+All experiment code uses the same function call defined by the sandbox, 
+and only the blurring layers change the function's behavior, thus 
+the policy enforcement is transparent to all the experimenters who run 
+sandboxed programs in Sensibility Testbed.
+
+
+
+
+\subsection{Restricting Data Access Frequency}\label{sec-nanny}
+
+\subsubsection{\texttt{nanny}}
+
+Reducing data precision partially protects a device owner's privacy. However, frequent data 
+access can be another channel to snoop on personal information.
+If sensor queries are made on a sufficiently frequent basis, they can be used
+to track an individual's activity. The goal of reducing sensor access frequency 
+is to prevent an accumulation of identifiable information, such as 
+location~\cite{gruteser2003anonymous}, wireless network identifiers, and even 
+accelerometer data. (Note that specific
+details as to how frequently a certain sensor can be accessed without risking such an 
+invasion is out of the scope of this work). 
+Furthermore, the battery power of a device can 
+be drained faster if sensors are accessed
+with unnecessary frequency. Therefore, restricting the data access rate 
+mandates that experiments collect data only as often as is necessary. 
+To achieve this, the Repy sandbox provides a second mechanism
+called \path{nanny} that mediates and restricts access frequency to sensors. 
+
+\path{nanny} treats all sensors as \textit{resources}, and the function calls to 
+access the sensors as the \textit{usage} of resources. 
+%\path{nanny}'s control 
+%mechanism for a resource is to limit the \textit{rate} of its usage. For example, 
+When an 
+%Utilization is controlled over one or more periods, where
+experiment program's use of a resource is above a given threshold, 
+\path{nanny} pauses the 
+program for as long as required to bound it, on average, below the
+threshold. Therefore, if an experiment program attempts to 
+use a resource at a rate faster than is allowed by a policy, the function 
+call is blocked until sufficient time has passed to average out the overall access rate. 
+To monitor and control the usage of resources, \path{nanny} keeps a 
+table of resource assignments that tracks and updates requests and releases. 
+Once resource caps are set, an experiment program can never call a 
+function to access a sensor more frequently than the cap. 
+
+%A function call 
+%request can be met only if the frequency is no greater than the cap. 
+
+\subsubsection{An Example of Policy Implementation}\label{sec-rate-example}
+
+Restricting access rate can also be implemented as a 
+blurring layer, in a similar way as reducing data precision.
+Recall that in the Alice/Bob use scenario (Testbed Operation 
+in~\cite{sensibility-submission}), Bob's IRB policy requires that
+his experiment can get location updates every 10 minutes (600 seconds). 
+Therefore, the following blurring layer is automatically loaded along with 
+Bob's experiment code (likely as a descendant of another layer). In 
+the following, we name this blurring layer \path{restrict_location}.
+
+\begin{Verbatim}
+1.  \textcolor{BrickRed}{# allow get_location call once per 600 seconds}
+2.  \textbf{resourcesdict = \{\textcolor{BrickRed}{'get_location'}: 1.0/600\}} 
+3.
+4.  \textbf{nanny.start_resource_nanny(resourcesdict)}
+5.
+6.  \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{restricted_get_location}}():
+7.    \textbf{nanny.tattle_quantity(\textcolor{BrickRed}{'get_location'}, 1)}
+8.    location_data = get_location()
+9.    return location_data
+10.
+11. CHILD_CONTEXT_DEF[\textcolor{BrickRed}{"get_location"}] = \{
+12.   \textcolor{BrickRed}{"type"}: \textcolor{BrickRed}{"func"},
+13.   \textcolor{BrickRed}{"args"}: \textcolor{Purple}{None},
+14.   \textcolor{BrickRed}{"return"}: \textcolor{Purple}{dict},
+15.   \textcolor{BrickRed}{"exceptions"}: \textcolor{BrickRed}{"any"},
+16.   \textcolor{BrickRed}{"target"}:  restricted_get_location,
+17. \}
+18. 
+19. secure_dispatch_module()
+\end{Verbatim}
+
+Line 2 above defines a resource assignment table, \path{re- sourcesdict}, to track and update 
+the function call to \path{get_location()}. It restricts the frequency to 
+call \path{get_location()} to once per 600 seconds (note that 
+600 seconds is filled in by Bob, and parsed by the clearinghouse as a blurring layer 
+parameter to \path{restrict_location}). Line 4 initializes \path{nanny} 
+with the resource assignment table, and lines 6 - 9 define a 
+function called \path{restricted_get_location()} that restricts location updates. 
+The \path{tattle_quantity()} call on line 7 charges \textit{one usage} of \path{get_location()} 
+call. It tells \path{nanny} that in \path{restricted_get_location()}, 
+\path{get_location()} (line 8) will be called exactly once. The
+next time this experiment program 
+%calls \path{get_location()} again, the program 
+will be paused for 600 seconds before it can call \path{get_location()} again,
+as defined by \path{resourcesdict}.
+
+The contract on line 11 - 17 defines that the target
+for \path{get_location()} is \path{restricted_get_location()}. If 
+\path{restrict_location} is the first descendant of the sandbox kernel, then
+\path{restricted_get_location()} will replace the \path{get_location()}
+in the sandbox virtual namespace. If there is a preceding blurring layer 
+before \path{restrict_location} that already updated its 
+function mapping for \path{get_location()} (like \path{blur_to_city}  
+in Section~\ref{sec-precision-example}), then
+\path{restricted_get_location()} will replace the \path{get_location()} call
+with the policy implemented in this preceding blurring layer. In this case, 
+the experiment code will get location updates once per 10 minutes, at
+the city level. 
+%This is because layers \path{blur_to_city} and 
+%\path{restrict_location} are both used in the policy stack.
+

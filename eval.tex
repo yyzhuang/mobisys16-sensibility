@@ -634,25 +634,48 @@ $MB$ in all cases.
 %\textbf{CPU and memory overhead.}
 %\todo{what's the CPU/memory overhead?}
 
-\subsection{Deployment Experience}\label{sec-deployment}
+\subsection{Experience Using Sensibility}\label{sec-deployment}
 
 %\todo{Q3: how is the testbed being used? A: deployment experience: 
 %number of people, projects, issues, hackathon.}
 
 %\subsubsection{External Projects and Collaboration}\label{sec-external}
 
-Sensibility Testbed has been adopted by projects such as 
-Open3G~\cite{open3g} that investigates on cellular technologies 
-and coverage, a vehicle data collection project~\cite{reininger2015first} 
-that monitors vehicle traffic patterns. The experience from the 
-project developers was positive, and they identified cases where our 
-instructions for use were unclear. Despite these clarification issues, in 
-the case of Open3G, the developer reported that writing the code to
-get cellular information took about an hour and they have used our
-testbed since 2012. We are currently in discussions with other 
-researchers about integrating Sensibility Testbed into their research
-projects, such as monitoring construction safety.
+Our early prototype of Sensibility has been used by dozens of researchers.
+This has come in two forms: researchers performing extended practical
+deployments and researchers experimenting with Sensibility Testbed at a 
+hack-a-thon.  As our IRB was recently approved, the experiments to date have 
+focused on the usability of Sensibility Testbed as a platform for 
+experimenters.
+As a result, this section primarily answers the question: How easy is it to
+use Sensibility Testbed?
 
+{\bf Research deployment.}  Sensibility Testbed has been used by 
+several research projects where the researchers installed Sensibility
+Testbed on their own devices and then conducted an experiment.  
+A research group in Austria created the Open3G~\cite{open3g} project to
+investigate cellular technology coverage in Vienna.  The researchers
+who created this project estimated that the effort to write the code to
+collect the sensor data took about an hour.
+
+Sensibility Testbed was also used by a high school student as part of 
+a vehicle data collection project~\cite{reininger2015first}.  The student
+connected their phone to the OBD2 port in their car and used Sensibility
+Testbed to capture data.  The student then drove around the greater
+New York area and used this information to derive information about driving
+habits and patterns. 
+
+%The experience from the 
+%project developers was positive, and they identified cases where our 
+%instructions for use were unclear. Despite these clarification issues, in 
+%the case of Open3G, 
+%the developer reported that writing the code to
+%get cellular information took about an hour and they have used our
+%testbed since 2012. We are currently in discussions with other 
+%researchers about integrating Sensibility Testbed into their research
+%projects, such as monitoring construction safety.
+
+{\bf Hack-a-thons.}  In the past two years, we have hosted 
 In 2014, we hosted a Hack-a-thon styled, one-day workshop co-located with 
 the IEEE Sensors Applications Symposium (SAS) \cite{sas}. About twenty 
 workshop participants with various backgrounds worked in teams 
@@ -665,11 +688,7 @@ developed by the participants include a device network monitor:
 when the battery level of a device is low, WiFi or Bluetooth that 
 requires high power is turned off.
 
-\textbf{Ease of use.}
 %\label{sec-ease}
-\todo{Q4: how easy is it to use the testbed? A: ease of use: 
-compared to common measurement app (Android), 
-how many lines of code can one save.}
 
 \yanyan{how much time a student spent doing some
 measurements (like Thomas's motion detection alg).}
@@ -677,3 +696,16 @@ measurements (like Thomas's motion detection alg).}
 \yanyan{compare to other projects,  developers can save
 thousands of lines of code, and reuse the same set of 
 devices.}
+
+
+\subsection{Experience Implementing Policies}\label{sec-implementing-policies}
+
+Experiments are not the only thing that needs to be implemented in Sensibility
+Testbed.  It is important that security policies can be implemented for 
+Sensibility Testbed.
+
+
+\cappos{Add content about Richard, Sara, and my experience with security
+policies in the classroom.}
+
+

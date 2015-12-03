@@ -190,7 +190,7 @@ access the sensor data.
 %and use them to form a policy stack.
 
 \textbf{Data precision and data access frequency.}
-\jill{here let's put in a paragraph here about data precision}
+\yanyan{I feel this may better be placed in implementation section.}
 Reducing data precision partially protects a device owner's privacy. However, frequent data 
 access can be another channel to snoop on personal information.
 If sensor queries are made on a sufficiently frequent basis, they can be used
@@ -238,7 +238,7 @@ into several smaller ones. In order for the clearinghouse or a
 researcher's experiment manager to discover the sandbox on a 
 device, the resource manager also contacts a lookup service that 
 announces the existence of the available devices. An example is 
-given in \jill{add section later}
+given in Section~\ref{sec-case1}.
 
 \subsubsection{Device Manager} The last part of the device software is a device manager that 
 allows device owners to manage the software running on their 
@@ -283,7 +283,7 @@ data on the researcher's behalf.
 This Sensibility Testbed clearinghouse 
 protocol for research with device owners has been approved by
 the IRB at New York University (IRB \# 15-10751). An example 
-of this protocol in operation is also given in \jill{add section later}
+of this protocol in operation is given in Section~\ref{sec-case2}.
 
 %However, it can direct the release of data to a server designated by the 
 %researcher. To do so, the experimenter must register
@@ -311,7 +311,7 @@ of this protocol in operation is also given in \jill{add section later}
 \subsection{Experiment Manager}\label{sec-emt}
 
 The last component in the testbed is an experiment manager, which a 
-researcher can download to his own computer and use to run code through 
+researcher can download to his own computer and use to run code in 
 %which contains Bob's private key, \path{key.bob-priv}, 
 the sandboxes on the remote devices. 
 The researcher uses the experiment manager as a light-weight command line 

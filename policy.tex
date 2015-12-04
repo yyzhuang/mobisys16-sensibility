@@ -446,11 +446,45 @@ the city level.
 %\bigskip
 \end{comment}
 
+
+
 \subsection{Resource Manager and Device Manager}
-\yanyan{Albert, please add}
+The \sysname resource and device managers are implemented as Python 
+programs that are set up and configured as the \sysname Android app 
+is installed. As with the sandbox, both components are based on our 
+prior work in Seattle Testbed, but are specifically customized to 
+the Android OS. For instance, starting the app at boot time of the 
+device is implemented by registering a \texttt{BroadcastIntent} handler 
+for \texttt{ACTION_BOOT_COMPLETED}. Also, permanent storage needs 
+special treatment, as the media on which a \sysname install lives 
+might be unmounted and ejected from the device at any time.
+The resource manager furthermore includes code to dynamically 
+traverse NAT gateways and firewalls (both which are commonly found 
+on Internet connections over WiFi), so that it remains contactable 
+even if the device does not currently possess a public IP address.
+
 
 \subsection{Clearinghouse}
-\yanyan{Albert, please add}
+\albert{I don't know if any of this is interesting at all.}
+
+\sysname's clearinghouse is hosted on a web server operated by the 
+authors. \albert{...trying to indicate that ``you, dear reader'' needn't worry about that aspect...}
+
+It is implemented on top of the Django web framework. 
+Django uses Python as its runtime (as does our sandbox), so it is 
+straightforward for the clearinghouse to reuse the same libraries for 
+cryptography, node announcement and lookup, and sandbox control as the 
+other parts of the system.
+
+
 
 \subsection{Experiment Manager}
-\yanyan{Albert, please add}
+
+This component is required to run on experimenter's machines so that 
+they can interface with the sandboxes they can control. The experiment 
+manager, including assorted Repy libraries to support the development of 
+experiments, is available in packaged form \cite{demo-kit}, and runs 
+on all operating systems and platforms supported by Python 2. 
+To accommodate for the reality of today's networks, the experiment 
+manager supports contacting resource managers on devices 
+inside WiFi networks (or behind NAT gateways and firewalls in general).

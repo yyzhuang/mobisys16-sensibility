@@ -155,8 +155,9 @@ mapping, the contract lists the number
 and types of its arguments, the exceptions that can be raised 
 by the function, and the return type of the function\footnote{\scriptsize 
 Since Python is a dynamically-typed language, it is useful to type check 
-a function's arguments, exceptions, and return values.}
+a function's arguments, exceptions, and return values.}.
 
+\begin{comment}
 A contract is represented as a Python dictionary in Repy. As an example, if 
 the blurring layer \path{foo} wanted to create a contract that would map
 \path{get_battery()} and \path{restricted_get_accelerometer()} into 
@@ -185,6 +186,7 @@ namespace. Thus the target for the \path{get_battery} in the
 contract is the \path{foo.get_battery} function. Similarly, the 
 target for the \path{get_accelerometer} in the contract is the 
 \path{foo.restricted_get_accelerometer}.
+\end{comment}
 
 Whenever an experiment calls a function, such as \path{get_battery}
 or \path{get_accelerometer}, a verification process must perform 
@@ -241,7 +243,7 @@ experiment program with the appropriate set of functions.
 Therefore, the experimenter's program is ensured to use all the 
 new policies. An example of blurring layer implementation is given in 
 %Section~\ref{sec-precision-example}.  
-\yanyan{our TR.}
+our technical report~\cite{zhuangTR15}. 
 
 \begin{comment}
 \subsubsection{An Example of Policy Implementation}
@@ -374,7 +376,7 @@ table of resource assignments that tracks and updates requests and releases.
 Once resource caps are set, an experiment program can never call a 
 function to access a sensor more frequently than the cap. 
 
-An example implementation is given in \yanyan{our TR.}
+An example implementation is given in technical report~\cite{zhuangTR15}.
 
 \begin{comment}
 \subsubsection{An Example of Policy Implementation}\label{sec-rate-example}

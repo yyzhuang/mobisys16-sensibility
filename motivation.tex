@@ -1,12 +1,14 @@
 \section{Motivation and Background}\label{sec-motivation}
 
-In this section, we present some background information on factors that shaped the design and deployment of 
+In this section, we present some background information on 
+factors that shaped the design and deployment of 
 Sensibility Testbed. First, we offer the motivations behind its 
-development: the desire to balance the benefits of such research 
-with the very real privacy risks that could potentially occur if a 
-device owner allows access to his/her device. Next, we look at 
-one solution to the problem: the collecting of proximate versions 
-of data through the use of blurring layers. Third, we talk about 
+development. 
+%the desire to balance the benefits of such research 
+%with the very real privacy risks that could potentially occur if a 
+%device owner allows access to his/her device. 
+Next, we look at one solution to the problem: collecting proximate 
+data in place of real data. Third, we talk about 
 the traditional role of IRB in research involving human subjects 
 and to data accessed remotely. Lastly, we look at Sensibility Testbed's 
 default policies, which automatically closes off access to 
@@ -15,10 +17,28 @@ device owners.
 
 \textbf{Motivation: the potential and the risks of accessing sensor data.}
 Having access to data from the enormous number of smartphones 
-in use today could be tremendously valuable to researchers in a number of fields, ranging from health and fitness to the social sciences. One study suggested that collecting sensor-based data is vastly superior to the use of surveys, which can suffer from incomplete content, biases, and a lack of continuity. Because survey-based studies also are "fixed in time," there is no way to monitor behavior over extended periods of time. Its also a research 
-method that does not incur high maintenance costs. 
-
-Unfortunately, its a research method that is "expensive" in other ways, primarily time. Recruitment of volunteers is time-consuming and often frustrating. There are a number of reasons why this recruitment is so difficult. One is that there is no easy method to build a pool of willing device owners, so it needs to be re-done every time a new experiment is proposed. There are complications due to institutional policies on work with human subjects (discussed later in this section) that effects who can be recruited and under what conditions. An individual recruiting on her own is likely to end up with a more homogenous set of subjects, drawn either from one locality or interest group. But, mostly there is a very real threat of damage to a volunteer's device, or invasion of his/her privacy. Volunteers face a significant risk if they offer their device to a researcher.
+in use today could be tremendously valuable to researchers in a 
+number of fields, ranging from health and fitness to the social sciences. 
+%One study suggested that collecting sensor-based data is vastly 
+%superior to the use of surveys, which can suffer from incomplete 
+%content, biases, and a lack of continuity. Because survey-based 
+%studies also are "fixed in time," there is no way to monitor behavior 
+%over extended periods of time. 
+It is also a research method that does not incur high maintenance costs. 
+Unfortunately, it is a research method that is "expensive" in other ways, 
+primarily time. Recruitment of volunteers is time-consuming and often 
+frustrating. %There are a number of reasons why this recruitment is so 
+%difficult. One is that 
+First, there is no easy method to build a pool of willing device owners, 
+so it needs to be re-done every time a new experiment is proposed. 
+Second, there are complications due to institutional policies on work 
+with human subjects (discussed later in this section) that effects who 
+can be recruited and under what conditions. An individual recruiting 
+on her own is likely to end up with a more homogenous set of subjects, 
+drawn either from one locality or interest group. Last but not least, there 
+is a very real threat of damage to a participant's device, and invasion 
+of the participant's privacy. Participants face a significant risk if 
+they offer their device to a researcher.
 
 %Due to recent privacy breaches and security break-ins to mobile systems, 
 %device security and personal privacy are genuinely at risk when a person 
@@ -60,39 +80,45 @@ Unfortunately, its a research method that is "expensive" in other ways, primaril
 %ability to provide strong protection to device owners from privacy 
 %and security breaches. In this work, we try to address two issues. 
 
-Solutions to the security problem have been difficult to identify in part, because the threat is not broadly recognized by device owners and product manufacturers alike.
-Device owners may not fully 
+Solutions to the privacy and security problem have been difficult to 
+identify, in part because the threat is not broadly recognized by device 
+owners. Device owners may not fully 
 understand the implications of granting access to a particular type of 
 sensor or resource~\cite{felt2012android}. It is therefore challenging to 
 conduct research on end-user devices in compliance with ethical standards, 
-without some type of organized approach to enforcing those 
-standards~\cite{zevenbergen2013ethical}. In addition, a major reason for 
-the prevalent privacy breaches on many mobile systems, such as Android and iOS, 
+without an organized approach to enforcing those 
+standards~\cite{zevenbergen2013ethical}. Another reason for 
+the prevalent privacy breaches on many mobile systems %such as Android and iOS, 
 is that only a sub-set of sensors like GPS and bluetooth are considered risky, 	
-and therefore have their access mediated~\cite{android-sec}. Other sensors 
+and have their access mediated~\cite{android-sec}. Other sensors 
 such as accelerometer, gyroscope, etc., require no permission to access, 
-thus leaving them open to attack. So, a first step to expanding the use of sensors on mobile devices is to design solutions that address the security needs of device owners and the practical needs of potential researchers.
+thus leaving them open to attack. A first step to expanding the use of sensors on mobile devices is to design solutions that address the security needs of device owners and the practical needs of potential researchers.
 
 \textbf{Restricted data access as privacy protection.}
 %Despite these risks of using sensors, 
 How specific does data need to be in order to be useful? Studies have indicated that 
 sensor data can be accessed without compromising device 
-owners' privacy or sacrificing service functioning if that data is generalized. Such data, that substitutes approximate location
-does not directly violate the privacy of the device owner, but can still provide valuable information to the researcher conducting the study.
-For this reason, researchers thus have proposed 
+owners' privacy or sacrificing service functioning if that data is generalized. 
+Such data, that substitutes approximate location does not 
+directly violate the privacy of the device owner, but still provides 
+valuable information to the researcher conducting the study.
+For this reason, researchers have proposed 
 substituting mocked~\cite{beresford2011mockdroid} or 
 anonymized~\cite{zhou2011taming} data in place of real data. 
 For example, in location-based services such as maps, 
 restaurant guides, and bus schedules, end users can still use the 
 service even if a device only provides a discretized 
-location~\cite{amini2011cache, krumm2007inference}. The use of generalized data could also encourage more volunteer participation.  Recent research shows that more than half of the 
+location~\cite{amini2011cache, krumm2007inference}. The use of 
+generalized data could also encourage more volunteer participation. 
+Recent research shows that more than half of the 
 surveyed individuals had no problem in supplying imprecise 
 sensor data from their personal devices~\cite{fawaz2014location}. 
-Most participants could accommodate some inevitable loss of application 
-functionality, as long as their privacy was protected. Those surveyed
-applications ranged from location-based search (e.g., Yelp), social 
+Most participants could accommodate some reduced application 
+functionality, as long as their privacy was protected. Those 
+applications included in the survey
+ranged from location-based search (e.g., Yelp), social 
 network apps, to gaming and weather forecasting apps. 
-the imprecise information is sufficient for a large class of services. \lois{these two sentences have to be clarified. How does one survey an application? And, why would participants be willing to a loss of functionality?}
+%the imprecise information is sufficient for a large class of services. \lois{these two sentences have to be clarified. How does one survey an application? And, why would participants be willing to a loss of functionality?}
 %The US Federal Communications Commission requires 
 %emergency rescue and 
 %response teams to be able to estimate a 911 wireless emergency 
@@ -104,17 +130,20 @@ the amount of data accessible, such as reducing the precision or
 access frequency, offer an effective privacy protection mechanism to 
 provide to end users. In this work, we coin the term \textit{data blurring}
 as one privacy protection mechanism. However, to achieve data blurring easily and reliably to 
-ensure experiments do not collect more 
-data than needed to provide their functionalities requires a way to automatically substitute approximate data in place of explicit raw data.
+ensure experiments do not collect more data than needed to provide 
+their functionalities requires a way to automatically substitute approximate 
+data in place of explicit raw data.
 
 \textbf{IRB policies: guiding ethical behavior.}
 %On the other hand, research institutions have also designed a 
 %protocol based on the \textit{institutional review board (IRB)}, 
 %to assess the ethics of a researcher's project, and review its methods. 
-As mentioned earlier in this section, every researcher's work will be guided by an Institutional Review Board, an internal group that serves as the ethical watch dogs for colleges, 
-universities, government agencies, and other research institutions. 
-It is the job of these boards, also known as an independent ethics committee 
-(IEC), ethical review board (ERB), or research ethics board (REB), 
+As mentioned earlier, every researcher's work will be guided by an 
+Institutional Review Board\footnote{\scriptsize Also known as an 
+independent ethics committee (IEC), ethical review board (ERB), 
+or research ethics board (REB).}, an internal group that serves as 
+the ethical watch dogs for colleges, universities, government agencies, 
+and other research institutions. It is the job of these boards, 
 to approve, monitor, and review research involving human 
 subjects~\cite{irb}. While a commitment to ethical treatment of humans who submit to experiments has always been part of the professional codes of most scientists, IRBs did not become ubiquitous in research facilities until the latter part of the 20th century.  Partly provoked by atrocities committed by the Nazis in the name of scientific experiments in the Second World War II, and partly inspired by directives from the medical community, including Declaration of Helsinki established In 1964 by the World Medical Association, research institutions formally acknowledged the need to protect human subjects in any research setting. Today, IRBs require all researchers working under 
 their aegis to submit the protocols of their studies in advance, with an aim to 
@@ -208,6 +237,7 @@ disabled by default (marked by \xmark).}
 \end{table}
 
 \textbf{Sensibility Testbed's default policies.} %\label{sec-irb-policies}
+\yanyan{this may fit well with design principles.}
 The last unique concept Sensibility Testbed leveraged to ensure 
 protection of end-user security and privacy protection is that all sensors 
 are not alike. As mentioned earlier, failure to 

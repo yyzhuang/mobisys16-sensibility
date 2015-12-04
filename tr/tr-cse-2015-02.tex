@@ -1,11 +1,10 @@
-\documentclass{sig-alternate-10pt}
-%\input{nsfformat.sty}
-
+\documentclass[10pt]{article}
 %\usepackage{url}
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \usepackage{wrapfig}
 \usepackage{multirow}
 \usepackage{times}
+\usepackage{amssymb}
 \renewcommand{\sfdefault}{phv}
 \renewcommand{\rmdefault}{ptm}
 
@@ -17,7 +16,6 @@
 \usepackage{stfloats}
 \usepackage{listings}
 \usepackage{xspace}
-\usepackage{comment}
 
 \renewcommand{\baselinestretch}{0.90}
 
@@ -81,34 +79,14 @@
 \usepackage[neverdecrease]{paralist}
 \setdefaultleftmargin{0cm}{}{}{}{}{}
 
-\title{Reducing Mobile Experimentation Risks with \\Sensibility Testbed:
-Balancing Data Acquisition \\with Privacy Protection}
+\title{Sensibility Testbed Implementation Details\thanks{This document provides supplementary materials for~\cite{sensibility-submission}.}}
 
 
-\author{Yanyan Zhuang$^{\dag, \ddag}$ \and Albert Rafetseder$^{\dag}$ \and Jill Jermyn$^*$ 
-\and Justin Cappos$^{\dag}$\\
-\and$^{\dag}$New York University \and $^{\ddag}$University of British Columbia \and $^*$Columbia University}
+\author{Yanyan Zhuang$^{\dag, \ddag}$ \qquad Albert Rafetseder$^{\dag}$ \\
+Jill Jermyn$^{\triangledown}$ \qquad Justin Cappos$^{\dag}$\\
+$^{\dag}$New York University \qquad $^{\triangledown}$Columbia University\\
+$^{\ddag}$University of British Columbia}
 
-%\email{\small\tt \{doliveir, jnavarro, femilian\}@bowdoin}
-
-% \and \small\tt{crandall@cs.unm.edu}}
-
-
-
-%\begin{tabular}{cccc}
-%        \multicolumn{1}{c}{Daniela Oliveira} &
-%        \multicolumn{1}{c}{Jedidiah Crandall} &
-%        \multicolumn{1}{c}{Jesus Navarro}  &
-%         \multicolumn{1}{c}{Felix Emiliano}   \\ [.5ex] 
-%        \multicolumn{2}{c}{Bowdoin College} &
-%        \multicolumn{2}{c}{University of New Mexico } \\ [.5ex] 
-%        \multicolumn{2}{c}{{\small\tt \{doliveir, jnavarro, femilian\}@bowdoin.edu}} &
-%        \multicolumn{2}{c}{{\small\tt crandall@bowdoin.edu }} &
-%\end{tabular}
-
-
-
-%}
 \date{}
 
 \begin{document}
@@ -118,34 +96,14 @@ Balancing Data Acquisition \\with Privacy Protection}
 \maketitle
 \setcounter{page}{1}
 
-%\begin{quote}
-%``The world is so full of a number of things'' - that it can be extremely, even hopelessly, confusing. \emph{George Smith, 1945}
+\tableofcontents
+\newpage
 
-%\end{quote}
+\input{sensor}
 
-%\smallskip
-
-\input{abstract}
-
-\input{intro}
-
-\input{motivation}
-
-\input{overview}
-
-\input{design}
-
-\input{policy}
-
-\input{detailed}
-
-\input{eval}
+\input{policy-impl}
 
 \input{limitation}
-
-\input{related}
-
-\input{conclusion}
 
 {\scriptsize \bibliographystyle{abbrv} \bibliography{bibdata}} 
 

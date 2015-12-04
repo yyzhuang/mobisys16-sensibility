@@ -1,91 +1,36 @@
-\section{Implementation}\label{sec-policy}
-%\jill{can we add more implementation details in this section about other components in addition to Repy?}
-In last section, we introduced the Repy sandbox briefly. 
-In this section, we describe how to control the precision of sensor data (Section~\ref{sec-layer}) 
-and the frequency of sensor access (Section~\ref{sec-nanny}).
+\section{Policy Implementation}
 
-\begin{comment}
-\subsection{Sensor Access from the Repy Sandbox}
+\subsection{Policy Stack}
+In Sensibility Testbed, privacy policies are implemented as blurring layers, with each layer acting as a 
+reference monitor in the sandbox~\cite{ref} to enforce an access 
+control policy over each sensor. Using the sandboxing 
+technique in our prior work~\cite{cappos2010retaining}, we are able to
+interject code to control the behavior of sandbox functions, or 
+system calls. A sensor access policy can (1) reduce 
+the precision of the raw sensor data returned from a device, such
+as returning the location of a nearest city rather than the device's exact location, and (2) restrict 
+the frequency of access to a sensor, such as the polling rate of a gyroscope or
+an accelerometer, to avoid password interference~\cite{michalevsky2014gyrophone}.
 
+Each policy is a blurring layer, which defines either of the above
+two categories of policies. Different sets of policies can be customized 
+according to the regulations set by IRB, through loading 
+individual blurring layers in order, as a policy stack. In each stack, 
+a lower layer is the ancestor of a higher layer. Every layer inherits 
+the policy defined by its ancestor layers, with the exception of the lowest layer. 
+%Each blurring layer is untrusted by its ancestor layers, 
+%but is trusted by its descendant layers. \yanyan{maybe cut this.}
+The lowest blurring layer with no ancestors is the 
+Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
+of the policy stack, thereby inheriting all the policies defined by the
+lower layers, as shown in Figure~\ref{fig-blur}. 
+Each policy stack acts as a set of filters for different sensors, through 
+which a call must pass before a sandboxed program can
+access the sensor data. 
 
+We next introduce how the two categories of policies are implemented in Repy.
 
-\yanyan{this subsection is too detailed. maybe put in a TR, except the
-last paragraph.}
-
-%\lois{why not call it the Repy Sandbox as before?}
-
-%In the use cases in Section~\ref{sec-scenario}, when Alice starts 
-%the Sensibility Testbed app, the native code in the app initializes a
-%Python interpreter, launches the Repy sandbox, and starts the 
-%communication between the device and the clearinghouse. The 
-%sandbox's API provides calls to file system, networking, 
-%threading functions, and so on. Therefore, Bob's code can read 
-%files, send data through the network, etc., from Alice's device. 
-%As in Section~\ref{sec-repy}, the Repy sandbox does not include 
-%calls to access sensors. But 
-To allow a researcher's code to access sensors, such as 
-GPS, WiFi, Bluetooth, accelerometer, and cellular network, the Repy  
-sandbox needs access to native Android code. \lois{I think I already 
-asked this, but does this only run on Android devices? If so, I think 
-that needs to be mentioned.} We first implemented a set of sensor 
-functions using Java native code. \lois{Again, who implemented the sensors? And are you referring to the design initially done that is now in the oast? Or the actions taken by a user now} The Repy 
-sandbox then uses a Remote Procedure Call (RPC) to invoke the
-corresponding Java code in Python, and returns the data 
-to a sandboxed Repy program. This defines a set of sensor APIs in 
-Repy's programming language, such as \path{get_location()}, 
-\path{get_accelerometer()}, \path{get_wifi()}, etc. 
-
-\begin{figure}
-\begin{Verbatim}
-1. \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{get_location}}():
-2.   \textcolor{BrickRed}{"""}
-3.   \textcolor{BrickRed}{Get raw location data from GPS, network or passive.}
-4.   \textcolor{BrickRed}{"""}
-5. 
-6.   \textcolor{BrickRed}{# start the locating process} 
-7.   sensorlib.request_data(\textcolor{BrickRed}{'startLocating'})
-8.
-9.   \textcolor{BrickRed}{# try to read current location}
-10.  location = sensorlib.request_data(\textcolor{BrickRed}{'readLocation'})
-11.
-12.  \textcolor{BrickRed}{# stop the locating process} 
-13.  sensorlib.request_data(\textcolor{BrickRed}{'stopLocating'})
-14.
-15.  \textcolor{Purple}{if not} location:
-16.    \textcolor{Purple}{raise} LocationNotFoundException    
-17.  
-18.  \textcolor{Purple}{return} location
-\end{Verbatim}
-\caption{\small Sandbox implementation of \texttt{get\_location()}. 
-\label{fig-getlocation}}
-\end{figure}
-
-Figure~\ref{fig-getlocation} shows how \path{get_location()} 
-is defined as a sandbox function which receives unfiltered location 
-information from a mobile device. 
-On line 7, \path{sensorlib.request_data()} is an RPC call 
-defined in Repy, 
-%\path{sensor_socket} is the socket for the Repy code to communicate with the native code, 
-and \path{startLocating} is the name of the native Java method that tells the Android 
-location manager to start looking up location information. Lines 10 and 13 are similar RPC 
-calls that read location information from the Android location manager, and stops the location 
-lookup. The call \path{get_location()} thus %is defined in the namespace of the sandbox kernel, it 
-can be directly used in an experiment program, and can 
-accomplish in one line of Python code that would otherwise require several dozen 
-lines of Java code. Thus it makes writing an experiment program quicker and more convenient.
-
-A full list of sensor API is documented at~\cite{sensor-api}. The set
-of sensors range from battery, Bluetooth, and cellular, to location, WiFi, 
-accelerometer, and so on. 
-As such, the original Repy interface and the added sensor API together 
-provide the complete \textit{OS level} sandbox kernel on a mobile 
-device, as shown in Figure~\ref{fig-blur}.
-
-\end{comment}
-
-\subsection{Policy Enforcement}
-
-\subsubsection{Reducing Data Precision}\label{sec-layer}
+\subsection{Reducing Data Precision}\label{sec-layer}
 
 %\yanyan{TODO: replace all security layers with blurring layers. fix the line wrapping.}
 %The Sensibility Testbed uses an extended version of the Repy sandbox, whose 
@@ -107,6 +52,8 @@ To ensure the runtime behavior of each function mapping (for example,
 a function mapping of \path{get_location()} still returns location data), 
 every blurring layer uses a \textit{contract} to verify the interface 
 semantics between the blurring layers.
+
+\subsubsection{Virtual Namespace and Contract}
 
 \textbf{Virtual namespace.}
 The virtual namespace of each blurring layer executes the code in descendant 
@@ -155,7 +102,7 @@ mapping, the contract lists the number
 and types of its arguments, the exceptions that can be raised 
 by the function, and the return type of the function\footnote{\scriptsize 
 Since Python is a dynamically-typed language, it is useful to type check 
-a function's arguments, exceptions, and return values.}
+a function's arguments, exceptions, and return values.}.
 
 A contract is represented as a Python dictionary in Repy. As an example, if 
 the blurring layer \path{foo} wanted to create a contract that would map
@@ -240,10 +187,9 @@ experiment program with the appropriate set of functions.
 %
 Therefore, the experimenter's program is ensured to use all the 
 new policies. An example of blurring layer implementation is given in 
-%Section~\ref{sec-precision-example}.  
-\yanyan{our TR.}
+Section~\ref{sec-precision-example}.  
 
-\begin{comment}
+
 \subsubsection{An Example of Policy Implementation}
 \label{sec-precision-example}
 
@@ -332,15 +278,13 @@ and only the blurring layers change the function's behavior, thus
 the policy enforcement is transparent to all the experimenters who run 
 sandboxed programs in Sensibility Testbed.
 
-\end{comment}
 
 
-\subsubsection{Restricting Data Access Frequency}\label{sec-nanny}
 
-%A function call 
-%request can be met only if the frequency is no greater than the cap. 
-%\textbf{Data precision and data access frequency.}
-%\yanyan{I feel this may better be placed in implementation section.}
+\subsection{Restricting Data Access Frequency}\label{sec-nanny}
+
+\subsubsection{\texttt{nanny}}
+
 Reducing data precision partially protects a device owner's privacy. However, frequent data 
 access can be another channel to snoop on personal information.
 If sensor queries are made on a sufficiently frequent basis, they can be used
@@ -374,14 +318,15 @@ table of resource assignments that tracks and updates requests and releases.
 Once resource caps are set, an experiment program can never call a 
 function to access a sensor more frequently than the cap. 
 
-An example implementation is given in \yanyan{our TR.}
+%A function call 
+%request can be met only if the frequency is no greater than the cap. 
 
-\begin{comment}
 \subsubsection{An Example of Policy Implementation}\label{sec-rate-example}
 
 Restricting access rate can also be implemented as a 
 blurring layer, in a similar way as reducing data precision.
-Recall that in Section~\ref{sec-component}, Bob's IRB policy requires that
+Recall that in the Alice/Bob use scenario (Testbed Operation 
+in~\cite{sensibility-submission}), Bob's IRB policy requires that
 his experiment can get location updates every 10 minutes (600 seconds). 
 Therefore, the following blurring layer is automatically loaded along with 
 Bob's experiment code (likely as a descendant of another layer). In 
@@ -413,7 +358,7 @@ Line 2 above defines a resource assignment table, \path{re- sourcesdict}, to tra
 the function call to \path{get_location()}. It restricts the frequency to 
 call \path{get_location()} to once per 600 seconds (note that 
 600 seconds is filled in by Bob, and parsed by the clearinghouse as a blurring layer 
-parameter to \path{restrict_location}, as in Section~\ref{sec-ch}). Line 4 initializes \path{nanny} 
+parameter to \path{restrict_location}). Line 4 initializes \path{nanny} 
 with the resource assignment table, and lines 6 - 9 define a 
 function called \path{restricted_get_location()} that restricts location updates. 
 The \path{tattle_quantity()} call on line 7 charges \textit{one usage} of \path{get_location()} 
@@ -439,16 +384,3 @@ the city level.
 %This is because layers \path{blur_to_city} and 
 %\path{restrict_location} are both used in the policy stack.
 
-\bigskip
-%\subsubsection{Blurring Layer Instantiation}
-%\bigskip
-\end{comment}
-
-\subsection{Resource Manager and Device Manager}
-\yanyan{Albert, please add}
-
-\subsection{Clearinghouse}
-\yanyan{Albert, please add}
-
-\subsection{Experiment Manager}
-\yanyan{Albert, please add}

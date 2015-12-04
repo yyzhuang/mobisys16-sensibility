@@ -1,13 +1,7 @@
 \section{Sensibility Testbed Architecture}\label{sec-design}
 
-\begin{figure}
-\center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
-%\vspace*{-20pt}
-\caption{\small Sensibility Testbed architecture. \label{fig-arch}}
-\end{figure}
-
 The architecture of Sensibility Testbed is comprised of three main components that are critical 
-to its operation. In this section, we discuss each of these components in 
+to its operation, as shown in Figure~\ref{fig-arch}. In this section, we discuss each of these components in 
 greater detail, describing their functions and introducing several key 
 techniques that make the testbed's enhanced security possible. 
 
@@ -25,7 +19,8 @@ sandbox, and a device manager that allows the device owner to control
 if the sandbox and resource manager can run on the device.
 
 
-\subsubsection{Repy} The Repy sandbox is the most important in the device software. This 
+\subsubsection{Secure Sandbox} 
+The Repy sandbox is the most important in the device software. This 
 security-reviewed sandbox~\cite{cappos2010retaining} mitigates the 
 impact of bugs in experimenter code by providing security isolation 
 and performance isolation\footnote{\scriptsize 
@@ -63,7 +58,7 @@ access to cameras.
 The details of policy implementation are presented in 
 Section~\ref{sec-layer} and \ref{sec-nanny}.
 
-\textbf{Security and Performance Isolation}
+\textbf{Security and performance isolation.}
 The sandbox is the execution environment 
 of all experiment code. It isolates experimenters' programs from one 
 another, and prevents any of the code from harming the device 
@@ -71,8 +66,6 @@ through its strong isolation techniques. More importantly, the sandbox
 provides a flexible system call interposition technique where system call behavior 
 can be modified. This allows us to define and implement
 different data access policies. 
-
-
 
 Repy has a small, self-contained kernel as its trusted 
 computing base (TCB). %unprivileged libraries and experiment code. 
@@ -128,13 +121,13 @@ can run experiments on different sandboxes on the same device,
 without any interference between the experiments.
 
 \begin{figure}
-\center{\includegraphics[width=\columnwidth]{figs/blur.pdf}}
+\center{\includegraphics[width=0.9\columnwidth]{figs/blur.pdf}}
 %\vspace*{-20pt}
-\caption{\small Policy stack demonstrating how Sensibility Testbed implements blur policies. \yanyan{maybe replot}
+\caption{\small Policy stack demonstrating how Sensibility Testbed implements blur policies.
 \label{fig-blur}}
 \end{figure}
 
-\textbf{Policy Stack}
+\textbf{Policy stack.}
 In Sensibility Testbed, privacy policies are implemented as blurring layers, with each layer acting as a 
 reference monitor in the sandbox~\cite{ref} to enforce an access 
 control policy over each sensor. Using the sandboxing 
@@ -175,13 +168,15 @@ an accelerometer, to avoid password interference~\cite{michalevsky2014gyrophone}
 %%by another policy. Similarly, other information
 %blurs a WiFi SSID to a hashed string, and restricts the frequency to access a
 %gyroscope to prevent inferring passwords~\cite{michalevsky2014gyrophone}, and so on. 
-Each policy is a blurring layer, which acts as an isolated and 
-contained reference monitor. Different policies can be customized 
-by loading individual blurring layers in order, as a policy stack. 
-By design, a lower layer in the stack is the ancestor of 
-a higher layer. Each blurring layer is untrusted by its ancestor layers, 
-but is trusted by its descendant layers. \jill{can we reword this paragraph to make it more clear?} In addition, every layer in the stack inherits the policy 
-defined by its ancestor layers. The lowest blurring layer with no ancestors is the 
+Each policy is a blurring layer, which defines either of the above
+two categories of policies. Different sets of policies can be customized 
+according to the regulations set by IRB, through loading 
+individual blurring layers in order, as a policy stack. In each stack, 
+a lower layer is the ancestor of a higher layer. Every layer inherits 
+the policy defined by its ancestor layers, with the exception of the lowest layer. 
+%Each blurring layer is untrusted by its ancestor layers, 
+%but is trusted by its descendant layers. \yanyan{maybe cut this.}
+The lowest blurring layer with no ancestors is the 
 Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
 of the policy stack, thereby inheriting all the policies defined by the
 lower layers, as shown in Figure~\ref{fig-blur}. 
@@ -193,41 +188,6 @@ access the sensor data.
 
 %In the following, we describe how to implement each blurring layer, 
 %and use them to form a policy stack.
-
-\textbf{Data Precision and Data Access Frequency}
-\jill{here let's put in a paragraph here about data precision}
-Reducing data precision partially protects a device owner's privacy. However, frequent data 
-access can be another channel to snoop on personal information.
-If sensor queries are made on a sufficiently frequent basis, they can be used
-to track an individual's activity. The goal of reducing sensor access frequency 
-is to prevent an accumulation of identifiable information, such as 
-location~\cite{gruteser2003anonymous}, wireless network identifiers, and even 
-accelerometer data. (Note that specific
-details as to how frequently a certain sensor can be accessed without risking such an 
-invasion is out of the scope of this work). 
-Furthermore, the battery power of a device can 
-be drained faster if sensors are accessed
-with unnecessary frequency. Therefore, restricting the data access rate 
-mandates that experiments collect data only as often as is necessary. 
-To achieve this, the Repy sandbox provides a second mechanism
-called \path{nanny} that mediates and restricts access frequency to sensors. 
-
-\path{nanny} treats all sensors as \textit{resources}, and the function calls to 
-access the sensors as the \textit{usage} of resources. 
-%\path{nanny}'s control 
-%mechanism for a resource is to limit the \textit{rate} of its usage. For example, 
-When an 
-%Utilization is controlled over one or more periods, where
-experiment program's use of a resource is above a given threshold, 
-\path{nanny} pauses the 
-program for as long as required to bound it, on average, below the
-threshold. Therefore, if an experiment program attempts to 
-use a resource at a rate faster than is allowed by a policy, the function 
-call is blocked until sufficient time has passed to average out the overall access rate. 
-To monitor and control the usage of resources, \path{nanny} keeps a 
-table of resource assignments that tracks and updates requests and releases. 
-Once resource caps are set, an experiment program can never call a 
-function to access a sensor more frequently than the cap. 
 
 
 \subsubsection{Resource Manager} The second part of the device software, called a resource manager, 
@@ -243,7 +203,7 @@ into several smaller ones. In order for the clearinghouse or a
 researcher's experiment manager to discover the sandbox on a 
 device, the resource manager also contacts a lookup service that 
 announces the existence of the available devices. An example is 
-given in \jill{add section later}
+given in Section~\ref{sec-case1}.
 
 \subsubsection{Device Manager} The last part of the device software is a device manager that 
 allows device owners to manage the software running on their 
@@ -288,7 +248,7 @@ data on the researcher's behalf.
 This Sensibility Testbed clearinghouse 
 protocol for research with device owners has been approved by
 the IRB at New York University (IRB \# 15-10751). An example 
-of this protocol in operation is also given in \jill{add section later}
+of this protocol in operation is given in Section~\ref{sec-case2}.
 
 %However, it can direct the release of data to a server designated by the 
 %researcher. To do so, the experimenter must register
@@ -316,7 +276,7 @@ of this protocol in operation is also given in \jill{add section later}
 \subsection{Experiment Manager}\label{sec-emt}
 
 The last component in the testbed is an experiment manager, which a 
-researcher can download to his own computer and use to run code through 
+researcher can download to his own computer and use to run code in 
 %which contains Bob's private key, \path{key.bob-priv}, 
 the sandboxes on the remote devices. 
 The researcher uses the experiment manager as a light-weight command line 

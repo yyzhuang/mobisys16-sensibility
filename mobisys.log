@@ -1,0 +1,1495 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  3 DEC 2015 19:04
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**mobisys.tex
+(./mobisys.tex
+LaTeX2e <2015/01/01>
+Babel <3.9l> and hyphenation patterns for 79 languages loaded.
+(./sig-alternate-10pt.cls
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/epsfig.sty
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 94.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count79
+))
+\Gin@req@height=\dimen102
+\Gin@req@width=\dimen103
+)
+\epsfxsize=\dimen104
+\epsfysize=\dimen105
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip41
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks16
+\ex@=\dimen106
+))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen107
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count80
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count81
+\leftroot@=\count82
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count83
+\DOTSCASE@=\count84
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen108
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+\macc@depth=\count85
+\c@MaxMatrixCols=\count86
+\dotsspace@=\muskip10
+\c@parentequation=\count87
+\dspbrk@lvl=\count88
+\tag@help=\toks17
+\row@=\count89
+\column@=\count90
+\maxfields@=\count91
+\andhelp@=\toks18
+\eqnshift@=\dimen109
+\alignsep@=\dimen110
+\tagshift@=\dimen111
+\tagwidth@=\dimen112
+\totwidth@=\dimen113
+\lineht@=\dimen114
+\@envbody=\toks19
+\multlinegap=\skip42
+\multlinetaggap=\skip43
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+)
+Document Class 'sig-alternate' <22nd. April '09>. Modified by G.K.M. Tobin/Gerr
+y Murray
+Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by
+shivers@cs.cmu.edu, 4/93 by theobald@cs.mcgill.ca
+Excerpts were taken from (Journal Style) 'esub2acm.cls'.
+****** Bugs/comments/suggestions/technicalities to Gerry Murray -- murray@hq.ac
+m.org ******
+Questions on the style, SIGS policies, etc. to Adrienne Griscti griscti@acm.org
+
+\footheight=\dimen115
+\@maxsep=\dimen116
+\@dblmaxsep=\dimen117
+\aucount=\count92
+\originalaucount=\count93
+\auwidth=\dimen118
+\auskip=\dimen119
+\auskipcount=\count94
+\auskip=\dimen120
+\allauboxes=\dimen121
+\addauthors=\toks21
+\addauflag=\count95
+\subtitletext=\toks22
+\savesection=\count96
+\sectioncntr=\count97
+\c@figure=\count98
+\c@table=\count99
+\titleboxnotes=\toks23
+\titleboxnoteflag=\count100
+
+LaTeX Warning: You have requested document class `sig-alternate-10pt',
+               but the document class provides `sig-alternate'.
+
+Document Class: sig-alternate 2009/04/22 - V2.4 - based on acmproc.cls V1.3 <No
+v. 30 '99>
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 52.
+)
+\@acmtitlebox=\box28
+\titlenotecount=\count101
+\tntoks=\toks24
+\tntokstwo=\toks25
+\tntoksthree=\toks26
+\tntoksfour=\toks27
+\tntoksfive=\toks28
+\catcount=\count102
+\conf=\toks29
+\confinfo=\toks30
+\c@part=\count103
+\c@section=\count104
+\c@subsection=\count105
+\c@subsubsection=\count106
+\c@paragraph=\count107
+
+Using 'Abbrev' bibliography style
+LaTeX Info: Redefining \cite on input line 1223.
+\bibindent=\dimen122
+\colcntr=\count108
+\saveb@x=\box29
+\copyrtyr=\toks31
+\acmcopyr=\toks32
+\boilerplate=\toks33
+\copyrightetc=\toks34
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+)
+LaTeX Font Info:    Try loading font information for T1+aer on input line 105.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/ae/t1aer.fd
+File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
+)))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
+Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen123
+\Hy@linkcounter=\count109
+\Hy@pagecounter=\count110
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count111
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4443.
+Package hyperref Info: Link nesting OFF on input line 4448.
+Package hyperref Info: Hyper index ON on input line 4451.
+Package hyperref Info: Plain pages OFF on input line 4458.
+Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4688.
+\c@Hy@tempcnt=\count112
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5041.
+\XeTeXLinkMargin=\dimen124
+\Fld@menulength=\count113
+\Field@Width=\dimen125
+\Fld@charsize=\dimen126
+Package hyperref Info: Hyper figures OFF on input line 6295.
+Package hyperref Info: Link nesting OFF on input line 6300.
+Package hyperref Info: Hyper index ON on input line 6303.
+Package hyperref Info: backreferencing OFF on input line 6310.
+Package hyperref Info: Link coloring OFF on input line 6315.
+Package hyperref Info: Link coloring with OCG OFF on input line 6320.
+Package hyperref Info: PDF/A mode OFF on input line 6325.
+LaTeX Info: Redefining \ref on input line 6365.
+LaTeX Info: Redefining \pageref on input line 6369.
+\Hy@abspage=\count114
+\c@Item=\count115
+\c@Hfootnote=\count116
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
+\Fld@listcount=\count117
+\c@bookmark@seq@number=\count118
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip44
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen127
+\WF@size=\dimen128
+\c@WF@wrappedlines=\count119
+\WF@box=\box30
+\WF@everypar=\toks35
+Package: wrapfig 2003/01/31  v 3.6
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen129
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen130
+\captionmargin@=\dimen131
+\captionwidth=\dimen132
+\caption@tempdima=\dimen133
+\caption@indent=\dimen134
+\caption@parindent=\dimen135
+\caption@hangindent=\dimen136
+\abovecaptionskip=\skip45
+\belowcaptionskip=\skip46
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+)
+
+Package caption Warning: Unsupported document class (or package) detected,
+(caption)                usage of the caption package is not recommended.
+See the caption package documentation for explanation.
+
+Package caption Info: \@makecaption = \long macro:#1#2-> \vskip 10pt \setbox \@
+tempboxa \hbox {\textbf {#1: #2}} \ifdim \wd \@tempboxa >\hsize \textbf {#1: #2
+}\par \else \hbox to\hsize {\hfil \box \@tempboxa \hfil } \fi .
+\c@ContinuedFloat=\count120
+Package caption Info: hyperref package is loaded.
+Package caption Info: wrapfig package is loaded.
+)
+\c@subfigure=\count121
+\c@subtable=\count122
+) (/usr/local/texlive/2015/texmf-dist/tex/latex/sttools/stfloats.sty
+Package: stfloats 2012/05/29 v1.1 Improve float mechanism and baselineskip sett
+ings
+\@dblbotnum=\count123
+\c@dblbotnumber=\count124
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count125
+\lst@gtempboxa=\box31
+\lst@token=\toks36
+\lst@length=\count126
+\lst@currlwidth=\dimen137
+\lst@column=\count127
+\lst@pos=\count128
+\lst@lostspace=\dimen138
+\lst@width=\dimen139
+\lst@newlines=\count129
+\lst@lineno=\count130
+\lst@maxwidth=\dimen140
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
+\c@lstnumber=\count131
+\lst@skipnumbers=\count132
+\lst@framebox=\box32
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2014/09/06 1.5e listings configuration
+))
+Package: listings 2014/09/06 1.5e (Carsten Heinz)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/comment/comment.sty
+\CommentStream=\write3
+
+Excluding comment 'comment')
+(/usr/local/texlive/2015/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2008/02/07
+
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)
+\FV@CodeLineNo=\count133
+\FV@InFile=\read1
+\FV@TabBox=\box33
+\c@FancyVerbLine=\count134
+\FV@StepNumber=\count135
+\FV@OutFile=\write4
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/fixltx2e.sty
+Package: fixltx2e 2015/02/21 v2.0a fixes to LaTeX (obsolete)
+
+
+Package fixltx2e Warning: fixltx2e is not required with releases after 2015
+(fixltx2e)                All fixes are now in the LaTeX kernel.
+(fixltx2e)                See the latexrelease package for details.
+
+) (/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 142.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 2014/10/14 v3.0j Driver-dependent file (DPC,SPQR)
+))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/pifont.sty
+Package: pifont 2005/04/12 PSNFSS-v9.2a Pi font support (SPQR) 
+LaTeX Font Info:    Try loading font information for U+pzd on input line 63.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/upzd.fd
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Try loading font information for U+psy on input line 64.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/upsy.fd
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2015/05/04 v2.2 e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count136
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/paralist/paralist.sty
+Package: paralist 2013/06/09 v2.4 Extended list environments
+\pltopsep=\skip47
+\plpartopsep=\skip48
+\plitemsep=\skip49
+\plparsep=\skip50
+\pl@lab=\toks37
+)
+No file mobisys.aux.
+\openout1 = `mobisys.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 114.
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+(/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count137
+\scratchdimen=\dimen141
+\scratchbox=\box34
+\nofMPsegments=\count138
+\nofMParguments=\count139
+\everyMPshowfont=\toks38
+\MPscratchCnt=\count140
+\MPscratchDim=\dimen142
+\MPnumerator=\count141
+\makeMPintoPDFobject=\count142
+\everyMPtoPDFconversion=\toks39
+) (/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\AtBeginShipoutBox=\box35
+
+
+Package hyperref Warning: Height of page (\paperheight) is invalid (0.0pt),
+(hyperref)                using 11in.
+
+Package hyperref Info: Link coloring OFF on input line 114.
+(/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count143
+)
+LaTeX Info: Redefining \ref on input line 114.
+LaTeX Info: Redefining \pageref on input line 114.
+LaTeX Info: Redefining \nameref on input line 114.
+\@outlinefile=\write5
+\openout5 = `mobisys.out'.
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\c@lstlisting=\count144
+LaTeX Font Info:    Try loading font information for U+msa on input line 119.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 119.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 119.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+) (./abstract.tex)
+(./intro.tex
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 9.
+
+
+LaTeX Warning: Citation `phone2015' on page 1 undefined on input line 9.
+
+
+Overfull \hbox (1.05807pt too wide) in paragraph at lines 3--12
+\T1/ptm/m/n/10 have be-come in-dis-pens-able gad-gets in peo-ple's ev-ery-day l
+ife.
+ []
+
+
+LaTeX Warning: Citation `sundaresan2011broadband' on page 1 undefined on input 
+line 23.
+
+
+LaTeX Warning: Citation `ravindranath2012appinsight' on page 1 undefined on inp
+ut line 26.
+
+
+LaTeX Warning: Citation `battery' on page 1 undefined on input line 28.
+
+
+Overfull \hbox (3.70811pt too wide) in paragraph at lines 13--33
+\T1/ptm/m/n/10 bor-hood, de-tect-ing ap-proach-ing earth-quakes, or study-ing t
+raf-
+ []
+
+
+LaTeX Warning: Citation `nikravesh2015mobilyzer' on page 1 undefined on input l
+ine 36.
+
+
+LaTeX Warning: Citation `phonelab' on page 1 undefined on input line 38.
+
+
+LaTeX Warning: Citation `nandugudi2013phonelab' on page 1 undefined on input li
+ne 38.
+
+
+LaTeX Warning: Citation `han2012accomplice' on page 1 undefined on input line 6
+0.
+
+
+LaTeX Warning: Citation `irb' on page 1 undefined on input line 71.
+
+
+Overfull \hbox (27.89713pt too wide) in paragraph at lines 69--84
+[]\T1/ptm/m/n/10 For po-ten-tial testbed users, the chal-lenges are equally for
+midable.
+ []
+
+[1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+
+LaTeX Warning: Citation `hao2013isleep' on page 2 undefined on input line 95.
+
+
+LaTeX Warning: Citation `wang2012no' on page 2 undefined on input line 95.
+
+
+LaTeX Warning: Citation `wang2013sensing' on page 2 undefined on input line 95.
+
+
+
+LaTeX Warning: Citation `camp2015respecting' on page 2 undefined on input line 
+102.
+
+
+Overfull \hbox (4.36772pt too wide) in paragraph at lines 85--105
+\T1/ptm/m/n/10 data plans in ex-change for their com-mit-ment to use the phones
+
+ []
+
+
+LaTeX Warning: Citation `sensibility' on page 2 undefined on input line 107.
+
+
+LaTeX Warning: Citation `zhuang2015privacy' on page 2 undefined on input line 1
+07.
+
+
+LaTeX Warning: Citation `zevenbergen2013ethical' on page 2 undefined on input l
+ine 111.
+
+
+LaTeX Warning: Reference `sec-motivation' on page 2 undefined on input line 157
+.
+
+
+LaTeX Warning: Reference `sec-design' on page 2 undefined on input line 159.
+
+
+LaTeX Warning: Reference `sec-policy' on page 2 undefined on input line 159.
+
+
+LaTeX Warning: Reference `sec-eval' on page 2 undefined on input line 159.
+
+
+LaTeX Warning: Reference `sec-limitation' on page 2 undefined on input line 161
+.
+
+
+LaTeX Warning: Reference `sec-related' on page 2 undefined on input line 162.
+
+
+LaTeX Warning: Reference `sec-conclude' on page 2 undefined on input line 164.
+
+
+Overfull \hbox (8.05765pt too wide) in paragraph at lines 157--165
+\T1/ptm/m/n/10 of the de-sign prin-ci-ples that guided de-vel-op-ment of the te
+stbed,
+ []
+
+) (./motivation.tex [2]
+
+LaTeX Warning: Citation `felt2012android' on page 3 undefined on input line 87.
+
+
+
+LaTeX Warning: Citation `zevenbergen2013ethical' on page 3 undefined on input l
+ine 90.
+
+
+LaTeX Warning: Citation `android-sec' on page 3 undefined on input line 93.
+
+
+LaTeX Warning: Citation `beresford2011mockdroid' on page 3 undefined on input l
+ine 106.
+
+
+LaTeX Warning: Citation `zhou2011taming' on page 3 undefined on input line 107.
+
+
+
+LaTeX Warning: Citation `amini2011cache' on page 3 undefined on input line 111.
+
+
+
+LaTeX Warning: Citation `krumm2007inference' on page 3 undefined on input line 
+111.
+
+
+LaTeX Warning: Citation `fawaz2014location' on page 3 undefined on input line 1
+15.
+
+
+LaTeX Warning: Citation `irb' on page 3 undefined on input line 148.
+
+
+LaTeX Warning: Citation `nandugudi2013phonelab' on page 3 undefined on input li
+ne 155.
+
+
+LaTeX Warning: Citation `nikravesh2015mobilyzer' on page 3 undefined on input l
+ine 155.
+
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 198.
+
+LaTeX Warning: Citation `sensor-api' on page 3 undefined on input line 253.
+
+
+LaTeX Warning: Reference `tab:default' on page 3 undefined on input line 254.
+
+
+LaTeX Warning: Reference `sec-policy' on page 3 undefined on input line 258.
+
+
+LaTeX Warning: Citation `level' on page 3 undefined on input line 262.
+
+
+LaTeX Warning: Citation `zhang2015leave' on page 3 undefined on input line 274.
+
+
+
+LaTeX Warning: Citation `battery-priv' on page 3 undefined on input line 281.
+
+[3]) (./overview.tex
+Overfull \hbox (3.29573pt too wide) in paragraph at lines 1--1
+[]\secfnt OVERVIEW OF SEN-SI-BIL-ITY TESTBED 
+ []
+
+<figs/arch.pdf, id=38, 598.235pt x 291.0875pt>
+File: figs/arch.pdf Graphic file (type pdf)
+ <use figs/arch.pdf>
+Package pdftex.def Info: figs/arch.pdf used on input line 12.
+(pdftex.def)             Requested size: 240.0pt x 116.77937pt.
+
+
+LaTeX Warning: Reference `fig-arch' on page 4 undefined on input line 19.
+
+
+LaTeX Warning: Reference `fig-arch' on page 4 undefined on input line 24.
+
+
+LaTeX Warning: Reference `sec-repy' on page 4 undefined on input line 39.
+
+
+LaTeX Warning: Reference `fig-arch' on page 4 undefined on input line 40.
+
+
+LaTeX Warning: Citation `ch' on page 4 undefined on input line 47.
+
+
+LaTeX Warning: Reference `sec-ch' on page 4 undefined on input line 54.
+
+
+LaTeX Warning: Citation `hibler2008large' on page 4 undefined on input line 59.
+
+
+
+LaTeX Warning: Citation `peterson2006experiences' on page 4 undefined on input 
+line 59.
+
+
+LaTeX Warning: Reference `sec-emt' on page 4 undefined on input line 64.
+
+
+LaTeX Warning: Citation `sensibility-app' on page 4 undefined on input line 79.
+
+
+
+LaTeX Warning: Reference `sec-repy' on page 4 undefined on input line 80.
+
+[4 <./figs/arch.pdf>]
+
+LaTeX Warning: Citation `dht' on page 5 undefined on input line 150.
+
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 152.
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+
+LaTeX Warning: Reference `sec-ch' on page 5 undefined on input line 266.
+
+
+LaTeX Warning: Reference `sec-case1' on page 5 undefined on input line 267.
+
+
+LaTeX Warning: Reference `sec-policy' on page 5 undefined on input line 283.
+
+) (./design.tex
+Overfull \hbox (15.60815pt too wide) in paragraph at lines 1--1
+[]\secfnt SENSIBILITY TESTBED AR-CHI-TEC-TURE 
+ []
+
+
+LaTeX Warning: Reference `fig-arch' on page 5 undefined on input line 4.
+
+[5]
+
+LaTeX Warning: Citation `cappos2010retaining' on page 6 undefined on input line
+ 24.
+
+
+LaTeX Warning: Citation `seattle' on page 6 undefined on input line 28.
+
+
+LaTeX Warning: Citation `repyv2' on page 6 undefined on input line 32.
+
+
+LaTeX Warning: Citation `sensors' on page 6 undefined on input line 36.
+
+
+LaTeX Warning: Reference `sec-layer' on page 6 undefined on input line 59.
+
+
+LaTeX Warning: Reference `sec-nanny' on page 6 undefined on input line 59.
+
+
+Overfull \hbox (12.4173pt too wide) in paragraph at lines 23--60
+\T1/ptm/m/n/10 iso-la-tion and per-for-mance iso-la-tion[][][]. Re-searchers us
+e a Python-
+ []
+
+
+LaTeX Warning: Citation `repyv2' on page 6 undefined on input line 82.
+
+
+LaTeX Warning: Citation `seattle' on page 6 undefined on input line 87.
+
+
+Overfull \hbox (7.9172pt too wide) in paragraph at lines 70--98
+\T1/ptm/m/n/10 san-i-tized to pre-serve con-sis-tent be-hav-ior across dif-fer-
+ent OSes,
+ []
+
+
+LaTeX Warning: Citation `garfinkel2003traps' on page 6 undefined on input line 
+107.
+
+<figs/blur.pdf, id=77, 555.07375pt x 471.7625pt>
+File: figs/blur.pdf Graphic file (type pdf)
+ <use figs/blur.pdf>
+Package pdftex.def Info: figs/blur.pdf used on input line 124.
+(pdftex.def)             Requested size: 215.99854pt x 183.57631pt.
+
+
+LaTeX Warning: Citation `ref' on page 6 undefined on input line 132.
+
+
+LaTeX Warning: Citation `cappos2010retaining' on page 6 undefined on input line
+ 134.
+
+
+LaTeX Warning: Citation `michalevsky2014gyrophone' on page 6 undefined on input
+ line 140.
+
+
+LaTeX Warning: Reference `fig-blur' on page 6 undefined on input line 182.
+
+
+LaTeX Warning: Reference `sec-case1' on page 6 undefined on input line 206.
+
+[6 <./figs/blur.pdf>]
+
+LaTeX Warning: Citation `ch' on page 7 undefined on input line 220.
+
+
+LaTeX Warning: Reference `sec-case2' on page 7 undefined on input line 251.
+
+
+LaTeX Warning: Citation `demo-kit' on page 7 undefined on input line 283.
+
+
+LaTeX Warning: Citation `sensevis' on page 7 undefined on input line 306.
+
+
+LaTeX Warning: Reference `fig-arch' on page 7 undefined on input line 307.
+
+
+Overfull \hbox (6.76741pt too wide) in paragraph at lines 311--346
+[]\T1/ptm/m/n/10 This Sen-si-bil-ity Testbed clear-ing-house pro-to-col for re-
+search
+ []
+
+
+Overfull \hbox (7.91736pt too wide) in paragraph at lines 311--346
+\T1/ptm/m/n/10 the en-force-ment of pri-vacy poli-cies. Us-ing Sen-si-bil-ity T
+estbed,
+ []
+
+) (./policy.tex
+
+LaTeX Warning: Reference `sec-layer' on page 7 undefined on input line 4.
+
+
+LaTeX Warning: Reference `sec-nanny' on page 7 undefined on input line 5.
+
+Excluding 'comment' comment.
+Overfull \hbox (50.85999pt too wide) in paragraph at lines 111--121
+\T1/pcr/m/n/10 accelerometer()$\T1/ptm/m/n/10 , and $\T1/pcr/m/n/10 restricted 
+_ get _ accelerometer()$
+ []
+
+
+Overfull \hbox (19.38893pt too wide) in paragraph at lines 128--135
+\T1/ptm/m/n/10 then the mod-ule $\T1/pcr/m/n/10 bar$ \T1/ptm/m/n/10 would have 
+ac-cess to $\T1/pcr/m/n/10 foo . get _ battery$
+ []
+
+
+Overfull \hbox (20.19954pt too wide) in paragraph at lines 128--135
+\T1/pcr/m/n/10 get _ accelerometer$ \T1/ptm/m/n/10 via the name $\T1/pcr/m/n/10
+ get _ accelerometer$\T1/ptm/m/n/10 .
+ []
+
+[7]
+
+LaTeX Warning: Citation `acharya2000mapbox' on page 8 undefined on input line 1
+49.
+
+
+LaTeX Warning: Citation `fraser2000hardening' on page 8 undefined on input line
+ 149.
+
+
+Overfull \hbox (19.16908pt too wide) in paragraph at lines 160--164
+\T1/ptm/m/n/10 con-tract that would map $\T1/pcr/m/n/10 get _ battery()$ \T1/pt
+m/m/n/10 and $\T1/pcr/m/n/10 restricted _
+ []
+
+Excluding 'comment' comment.
+
+LaTeX Warning: Citation `gruteser2003anonymous' on page 8 undefined on input li
+ne 349.
+
+
+Overfull \hbox (1.63753pt too wide) in paragraph at lines 344--359
+[]\T1/ptm/m/n/10 Reducing data pre-ci-sion par-tially pro-tects a de-vice owner
+'s
+ []
+
+Excluding 'comment' comment.) (./detailed.tex
+
+LaTeX Warning: Reference `sec-ch' on page 8 undefined on input line 12.
+
+
+Overfull \hbox (2.41745pt too wide) in paragraph at lines 5--37
+\T1/ptm/m/n/10 lay-ers de-ter-mine the type of data re-quired, such as ac-celer
+om-
+ []
+
+) [8] (./eval.tex
+
+LaTeX Warning: Reference `sec-our-policies' on page 9 undefined on input line 9
+.
+
+
+LaTeX Warning: Reference `sec-experiment' on page 9 undefined on input line 11.
+
+
+
+LaTeX Warning: Reference `sec-benchmark' on page 9 undefined on input line 15.
+
+
+LaTeX Warning: Reference `sec-deployment' on page 9 undefined on input line 16.
+
+
+
+LaTeX Warning: Citation `aditya2014encore' on page 9 undefined on input line 36
+.
+
+
+LaTeX Warning: Citation `chen2014sensor' on page 9 undefined on input line 40.
+
+
+LaTeX Warning: Citation `agarwal2013protectmyprivacy' on page 9 undefined on in
+put line 49.
+
+
+Overfull \hbox (27.72113pt too wide) in paragraph at lines 49--49
+[]|\T1/ptm/m/n/7 ProtectMyPrivacy 
+ []
+
+
+LaTeX Warning: Citation `parate2013leveraging' on page 9 undefined on input lin
+e 57.
+
+
+LaTeX Warning: Citation `gotz2012maskit' on page 9 undefined on input line 66.
+
+
+LaTeX Warning: Citation `lu2010jigsaw' on page 9 undefined on input line 76.
+
+
+LaTeX Warning: Citation `amini2011cache' on page 9 undefined on input line 83.
+
+
+LaTeX Warning: Citation `jiang2012isolating' on page 9 undefined on input line 
+88.
+
+
+LaTeX Warning: Citation `miluzzo2012tapprints' on page 9 undefined on input lin
+e 95.
+
+
+LaTeX Warning: Citation `shin2011findingmimo' on page 9 undefined on input line
+ 103.
+
+
+Overfull \hbox (16.9133pt too wide) in paragraph at lines 103--103
+[]|\T1/ptm/m/n/7 FindingMiMo 
+ []
+
+
+LaTeX Warning: Citation `owusu2012accessory' on page 9 undefined on input line 
+112.
+
+
+LaTeX Warning: Citation `cai2011touchlogger' on page 9 undefined on input line 
+119.
+
+
+LaTeX Warning: Citation `beresford2011mockdroid' on page 9 undefined on input l
+ine 125.
+
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 127.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <5> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 127.
+
+
+LaTeX Warning: Citation `zhang2015leave' on page 9 undefined on input line 137.
+
+
+
+LaTeX Warning: Citation `aviv2012practicality' on page 9 undefined on input lin
+e 152.
+
+
+LaTeX Warning: Citation `cai2012practicality' on page 9 undefined on input line
+ 161.
+
+
+LaTeX Warning: Citation `dey2014accelprint' on page 9 undefined on input line 1
+69.
+
+
+LaTeX Warning: Citation `bojinov2014mobile' on page 9 undefined on input line 1
+75.
+
+
+LaTeX Warning: Citation `michalevsky2014gyrophone' on page 9 undefined on input
+ line 190.
+
+
+LaTeX Warning: Citation `shokri2011quantifying' on page 9 undefined on input li
+ne 195.
+
+
+LaTeX Warning: Citation `polakis2015s' on page 9 undefined on input line 203.
+
+
+LaTeX Warning: Citation `kapadia2008anonysense' on page 9 undefined on input li
+ne 211.
+
+
+LaTeX Warning: Citation `liu2015good' on page 9 undefined on input line 221.
+
+
+LaTeX Warning: Citation `fawaz2014location' on page 9 undefined on input line 2
+29.
+
+
+LaTeX Warning: Citation `bordenabe2014optimal' on page 9 undefined on input lin
+e 238.
+
+
+LaTeX Warning: Citation `popa2011privacy' on page 9 undefined on input line 244
+.
+
+
+LaTeX Warning: Citation `chakraborty2014ipshield' on page 9 undefined on input 
+line 251.
+
+
+Overfull \hbox (5.02597pt too wide) in paragraph at lines 30--268
+ [][] 
+ []
+
+
+LaTeX Warning: Citation `enck2014taintdroid' on page 9 undefined on input line 
+291.
+
+
+LaTeX Warning: Citation `guha2012koi' on page 9 undefined on input line 300.
+
+
+LaTeX Warning: Citation `gruteser2003anonymous' on page 9 undefined on input li
+ne 307.
+
+
+LaTeX Warning: Citation `toch2010empirical' on page 9 undefined on input line 3
+12.
+
+
+LaTeX Warning: Citation `han2012accomplice' on page 9 undefined on input line 3
+17.
+
+
+LaTeX Warning: Citation `xu2012taplogger' on page 9 undefined on input line 322
+.
+
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 340.
+
+LaTeX Warning: Reference `tab:policy' on page 9 undefined on input line 340.
+
+
+LaTeX Warning: Reference `tab:policy' on page 9 undefined on input line 340.
+
+
+LaTeX Warning: Reference `tab:policy' on page 9 undefined on input line 351.
+
+
+LaTeX Warning: Reference `tab:policy-continued' on page 9 undefined on input li
+ne 351.
+
+
+LaTeX Warning: Citation `aditya2014encore' on page 9 undefined on input line 35
+2.
+
+
+LaTeX Warning: Citation `chen2014sensor' on page 9 undefined on input line 353.
+
+
+
+LaTeX Warning: Reference `tab:default' on page 9 undefined on input line 356.
+
+
+LaTeX Warning: Reference `sec-motivation' on page 9 undefined on input line 359
+.
+
+
+LaTeX Warning: Citation `chakraborty2014ipshield' on page 9 undefined on input 
+line 369.
+
+
+LaTeX Warning: Reference `tab:policy' on page 9 undefined on input line 373.
+
+
+LaTeX Warning: Reference `tab:policy-continued' on page 9 undefined on input li
+ne 373.
+
+
+LaTeX Warning: Citation `cai2011touchlogger' on page 9 undefined on input line 
+390.
+
+
+LaTeX Warning: Citation `owusu2012accessory' on page 9 undefined on input line 
+390.
+
+
+LaTeX Warning: Citation `bojinov2014mobile' on page 9 undefined on input line 3
+91.
+
+
+LaTeX Warning: Citation `dey2014accelprint' on page 9 undefined on input line 3
+91.
+
+
+LaTeX Warning: Reference `sec-experiment' on page 9 undefined on input line 405
+.
+
+
+Overfull \hbox (5.34746pt too wide) in paragraph at lines 380--406
+\T1/ptm/m/n/10 owner, these at-tack tech-niques are much less de-tectable. How-
+
+ []
+
+[9]
+
+LaTeX Warning: Citation `das2014poster' on page 10 undefined on input line 426.
+
+
+
+LaTeX Warning: Citation `clarkson2012breaking' on page 10 undefined on input li
+ne 426.
+
+
+LaTeX Warning: Citation `bojinov2014mobile' on page 10 undefined on input line 
+427.
+
+
+LaTeX Warning: Citation `dey2014accelprint' on page 10 undefined on input line 
+427.
+
+
+LaTeX Warning: Citation `bojinov2014mobile' on page 10 undefined on input line 
+432.
+
+<figs/sz-oz.pdf, id=162, 578.16pt x 433.62pt>
+File: figs/sz-oz.pdf Graphic file (type pdf)
+ <use figs/sz-oz.pdf>
+Package pdftex.def Info: figs/sz-oz.pdf used on input line 443.
+(pdftex.def)             Requested size: 126.0pt x 96.10866pt.
+
+<figs/sz-oz-rand10.pdf, id=164, 578.16pt x 433.62pt>
+File: figs/sz-oz-rand10.pdf Graphic file (type pdf)
+
+<use figs/sz-oz-rand10.pdf>
+Package pdftex.def Info: figs/sz-oz-rand10.pdf used on input line 449.
+(pdftex.def)             Requested size: 126.0pt x 96.10866pt.
+
+<figs/sz-oz-rand20.pdf, id=166, 578.16pt x 433.62pt>
+File: figs/sz-oz-rand20.pdf Graphic file (type pdf)
+
+<use figs/sz-oz-rand20.pdf>
+Package pdftex.def Info: figs/sz-oz-rand20.pdf used on input line 455.
+(pdftex.def)             Requested size: 126.0pt x 96.10866pt.
+
+<figs/sz-oz-rand30.pdf, id=168, 578.16pt x 433.62pt>
+File: figs/sz-oz-rand30.pdf Graphic file (type pdf)
+
+<use figs/sz-oz-rand30.pdf>
+Package pdftex.def Info: figs/sz-oz-rand30.pdf used on input line 461.
+(pdftex.def)             Requested size: 126.0pt x 96.10866pt.
+
+
+LaTeX Warning: Citation `doscher1998accelerometer' on page 10 undefined on inpu
+t line 479.
+
+
+Overfull \hbox (9.25781pt too wide) in paragraph at lines 474--486
+[]\T1/ptm/b/n/10 Background on ac-celerom-e-ter cal-i-bra-tion. \T1/ptm/m/n/10 
+An ac-celerom-
+ []
+
+
+Underfull \vbox (badness 1057) has occurred while \output is active []
+
+
+
+LaTeX Warning: Citation `bojinov2014mobile' on page 10 undefined on input line 
+488.
+
+
+LaTeX Warning: Citation `bojinov2014mobile' on page 10 undefined on input line 
+503.
+
+
+LaTeX Warning: Reference `fig:fingerprinting' on page 10 undefined on input lin
+e 510.
+
+
+LaTeX Warning: Reference `fig:fingerprinting' on page 10 undefined on input lin
+e 513.
+
+
+LaTeX Warning: Reference `fig:fingerprinting' on page 10 undefined on input lin
+e 515.
+
+
+LaTeX Warning: Reference `fig:fingerprinting' on page 10 undefined on input lin
+e 517.
+
+
+LaTeX Warning: Reference `fig:fingerprinting' on page 10 undefined on input lin
+e 520.
+
+
+Overfull \hbox (3.05751pt too wide) in paragraph at lines 535--540
+\T1/ptm/m/n/10 lay-ers with ex-per-i-ment code in Sen-si-bil-ity Testbed, to de
+mon-
+ []
+
+<figs/time.pdf, id=170, 379.26373pt x 299.34172pt>
+File: figs/time.pdf Graphic file (type pdf)
+ <use figs/time.pdf>
+Package pdftex.def Info: figs/time.pdf used on input line 542.
+(pdftex.def)             Requested size: 216.81pt x 171.12442pt.
+
+
+LaTeX Warning: Reference `fig-time' on page 10 undefined on input line 551.
+
+
+LaTeX Warning: Citation `muta' on page 10 undefined on input line 558.
+
+
+LaTeX Warning: Reference `tab:policy' on page 10 undefined on input line 561.
+
+
+LaTeX Warning: Reference `tab:policy-continued' on page 10 undefined on input l
+ine 562.
+
+[10]
+
+LaTeX Warning: Reference `tab:overhead' on page 11 undefined on input line 565.
+
+
+
+LaTeX Warning: Reference `tab:overhead' on page 11 undefined on input line 575.
+
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (5.79628pt too wide) in paragraph at lines 589--605
+ [][] 
+ []
+
+[11 <./figs/sz-oz.pdf> <./figs/sz-oz-rand10.pdf> <./figs/sz-oz-rand20.pdf> <./f
+igs/sz-oz-rand30.pdf> <./figs/time.pdf>]
+
+LaTeX Warning: Citation `open3g' on page 12 undefined on input line 656.
+
+
+Overfull \hbox (24.48729pt too wide) in paragraph at lines 653--660
+\T1/ptm/m/n/10 an ex-per-i-ment. A re-search group in Aus-tria cre-ated the Ope
+n3G [\T1/ptm/b/n/10 ?\T1/ptm/m/n/10 ]
+ []
+
+
+LaTeX Warning: Citation `reininger2015first' on page 12 undefined on input line
+ 662.
+
+
+LaTeX Warning: Citation `sas' on page 12 undefined on input line 680.
+
+) (./limitation.tex
+
+LaTeX Warning: Citation `intent' on page 12 undefined on input line 21.
+
+
+LaTeX Warning: Citation `intent-dev' on page 12 undefined on input line 23.
+
+
+Overfull \hbox (4.85696pt too wide) in paragraph at lines 62--74
+[]\T1/ptm/b/n/10 Usefulness.  \T1/ptm/m/n/10 Sen-si-bil-ity Testbed's cur-rent 
+fea-ture set makes
+ []
+
+
+LaTeX Warning: Citation `OpenWLANMap' on page 12 undefined on input line 88.
+
+
+LaTeX Warning: Citation `wang2011untold' on page 12 undefined on input line 92.
+
+
+[12]
+
+LaTeX Warning: Reference `sec-policy' on page 13 undefined on input line 105.
+
+
+LaTeX Warning: Reference `sec-eval' on page 13 undefined on input line 106.
+
+
+Overfull \hbox (4.1071pt too wide) in paragraph at lines 123--124
+[]\T1/ptm/m/n/10 [Albert: An-other pos-si-ble point is that interface-compatble
+,
+ []
+
+
+LaTeX Warning: Reference `sec-design' on page 13 undefined on input line 126.
+
+
+LaTeX Warning: Citation `sensorium' on page 13 undefined on input line 133.
+
+
+LaTeX Warning: Citation `rafetseder2013sensorium' on page 13 undefined on input
+ line 133.
+
+
+Overfull \hbox (15.33699pt too wide) in paragraph at lines 125--145
+\T1/ptm/m/n/10 stan-ti-ated be-fore the re-searcher's IRB's and Sen-si-bil-ity 
+Testbed's
+ []
+
+) (./related.tex
+
+LaTeX Warning: Citation `gruteser2003anonymous' on page 13 undefined on input l
+ine 7.
+
+
+LaTeX Warning: Citation `mokbel2006new' on page 13 undefined on input line 7.
+
+
+LaTeX Warning: Citation `ghinita2007mobihide' on page 13 undefined on input lin
+e 19.
+
+
+LaTeX Warning: Citation `kapadia2008anonysense' on page 13 undefined on input l
+ine 25.
+
+
+LaTeX Warning: Citation `chakraborty2014ipshield' on page 13 undefined on input
+ line 34.
+
+
+LaTeX Warning: Citation `enck2014taintdroid' on page 13 undefined on input line
+ 34.
+
+
+LaTeX Warning: Citation `holavanalli2013flow' on page 13 undefined on input lin
+e 34.
+
+
+LaTeX Warning: Citation `chakraborty2014ipshield' on page 13 undefined on input
+ line 36.
+
+
+LaTeX Warning: Citation `enck2014taintdroid' on page 13 undefined on input line
+ 36.
+
+
+LaTeX Warning: Citation `holavanalli2013flow' on page 13 undefined on input lin
+e 37.
+
+
+LaTeX Warning: Citation `kiukkonen2010towards' on page 13 undefined on input li
+ne 54.
+
+
+LaTeX Warning: Citation `wagner2014device' on page 13 undefined on input line 5
+4.
+
+
+LaTeX Warning: Citation `nandugudi2013phonelab' on page 13 undefined on input l
+ine 70.
+
+)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [13]
+(./conclusion.tex)
+No file mobisys.bbl.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 152.
+[14
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 152.
+ (./mobisys.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 152.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 152.
+
+
+Package rerunfilecheck Warning: File `mobisys.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `mobisys.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  A190384E3DC5E775021FAAA67C2DFBF6;2300.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 152.
+ ) 
+Here is how much of TeX's memory you used:
+ 10142 strings out of 493089
+ 149677 string characters out of 6134842
+ 282400 words of memory out of 5000000
+ 13346 multiletter control sequences out of 15000+600000
+ 69803 words of font info for 92 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 42i,14n,40p,1004b,520s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texli
+ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive
+/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2
+015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/201
+5/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2015/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2015/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2015/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist/
+fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
+pe1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw
+/helvetic/uhvr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/
+utmb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmri8a.pfb></usr/lo
+cal/texlive/2015/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on mobisys.pdf (14 pages, 581169 bytes).
+PDF statistics:
+ 399 PDF objects out of 1000 (max. 8388607)
+ 270 compressed objects within 3 object streams
+ 68 named destinations out of 1000 (max. 500000)
+ 60 words of extra memory for PDF output out of 10000 (max. 10000000)
+

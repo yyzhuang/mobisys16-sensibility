@@ -12,15 +12,15 @@ as returning the location of a nearest city rather than the device's exact locat
 the frequency of access to a sensor, such as the polling rate of a gyroscope or
 an accelerometer, to avoid password interference~\cite{michalevsky2014gyrophone}.
 
-Each policy is a blurring layer, which defines either of the above
+Each policy is a blurring layer, which defines one of the above
 two categories of policies. Different sets of policies can be customized 
 according to the regulations set by IRB, through loading 
 individual blurring layers in order, as a policy stack. In each stack, 
 a lower layer is the ancestor of a higher layer. Every layer inherits 
-the policy defined by its ancestor layers, with the exception of the lowest layer. 
+the policy defined by its ancestor layers with the exception of the lowest layer,
 %Each blurring layer is untrusted by its ancestor layers, 
 %but is trusted by its descendant layers. \yanyan{maybe cut this.}
-The lowest blurring layer with no ancestors is the 
+which is the 
 Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
 of the policy stack, thereby inheriting all the policies defined by the
 lower layers, as shown in Figure~\ref{fig-blur}. 
@@ -53,14 +53,15 @@ a function mapping of \path{get_location()} still returns location data),
 every blurring layer uses a \textit{contract} to verify the interface 
 semantics between the blurring layers.
 
-\subsubsection{Virtual Namespace and Contract}
+%\subsubsection{Virtual Namespace and Contract}
 
 \textbf{Virtual namespace.}
 The virtual namespace of each blurring layer executes the code in descendant 
-layers with the corresponding layer's function mapping. By our convention, 
-the virtual namespace of a blurring layer does not contain functions from the 
-sandbox kernel or the namespace of its parent layer, unless explicitly 
-specified by the mapping. \yanyan{why is this statement needed?}
+layers with the corresponding layer's function mapping. 
+%By our convention, 
+%the virtual namespace of a blurring layer does not contain functions from the 
+%sandbox kernel or the namespace of its parent layer, unless explicitly 
+%specified by the mapping. \yanyan{why is this statement needed?}
 For example, if a layer \path{foo} with 
 functions \path{get_battery()}, \path{get_accelerometer()}, and 
 \path{restricted_get_accelerometer()} were to instantiate a descendant 

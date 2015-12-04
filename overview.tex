@@ -6,7 +6,7 @@ section, we describe these principles and the resulting testbed
 components. We also show the testbed operation via two usage 
 scenarios.
 
-\subsection{Design Principles}\label{sec-overview}
+\subsection{Design Principles}\label{sec-principles}
 
 \begin{figure}
 \center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
@@ -29,17 +29,17 @@ support three fundamental design principles.
 Since hardware resources are limited on mobile devices, it is 
 not possible to dedicate an entire device to an experiment. Therefore, 
 Sensibility Testbed allows several experiments to share one device. It 
-uses a sandbox to isolate one researcher's code from 
+uses a \textit{sandbox} to isolate one researcher's code from 
  another, through its performance isolation technique. The sandbox 
 also prevents experiment code from inadvertently harming the device
-via security isolation. Other software within the device controls a
-researcher's access to a sandbox, allows the device 
-owner to opt in or out of the testbed, and allows the device
-to communicate with the rest of the testbed. Together, they form the
-\textit{device software} (Section~\ref{sec-repy}, though only the 
-sandbox is shown in Figure~\ref{fig-arch}).
+via security isolation. Other software within the device includes a 
+\textit{resource manager} that controls a researcher's access to a sandbox 
+and allows the device to communicate with the rest of the testbed, 
+and a \textit{device manager} that allows the device 
+owner to opt in or out of the testbed. Together, they form the
+\textit{device software} (Section~\ref{sec-repy}).
 
-\textbf{A centralized way of allocating devices and mediating data access.}
+\textbf{Allocating devices and mediating data access.}
 Sensibility Testbed is designed to provide both enhanced security and 
 more efficient management of experimental setup, so another principle 
 for the design was a central component that could serve as a a trusted 
@@ -50,7 +50,9 @@ register accounts for each experiment, and share access to a common
 pool of devices, freeing them from the need to individually recruit participants. 
 The clearinghouse can also allocate resources and mediate 
 data access according to policies defined by a researcher's IRB. The 
-clearinghouse thus facilitates device sharing and policy enforcement 
+clearinghouse thus facilitates device sharing and policy enforcement.  
+Additionally, the clearinghouse uses a distributed service called 
+\textit{lookup service} to keep track of the devices in the testbed 
 (Section~\ref{sec-ch}).
 
 \textbf{Local support for remote experimentation.} 
@@ -63,10 +65,130 @@ hardware resources on mobile devices using the researcher's testbed
 credentials (assigned by the clearinghouse). This tool will be introduced
 in Section~\ref{sec-emt}.
 
-\smallskip
-The following section describes %the three components in more detail, and 
-%addresses 
-how these parties interact to enable safe experimentation on mobile devices. 
+%\smallskip
+%The following section describes %the three components in more detail, and 
+%%addresses 
+%how these parties interact to enable safe experimentation on mobile devices. 
+
+\subsection{Policy Design}
+
+\begin{table}
+\scriptsize
+\centering
+
+\bgroup
+\def\arraystretch{1.15}% % for table padding
+\begin{tabular}{|l|c|c|c|}
+\hline
+\multirow{2}{*}{\bf Sensor} & 
+\multicolumn{3}{c|}{\bf Default policy} \\\cline{2-4}
+& {\bf LR} & {\bf MR} & {\bf HR} \\\hline
+
+Battery (plug-in type, level, technology, etc.) & \tickmark &  & \\ \hline
+Bluetooth (local name, scan mode, etc.) & & \tickmark & \\ \hline
+
+\multirow{2}{5.5cm}{Cellular network (cell ID, area code, country code, 
+operator name, etc.)} & & \multirow{2}{*}{\tickmark} & \\ 
+& & & \\ \hline
+
+Location (latitude, longitude, altitude, speed, etc.) & & \tickmark & \\ \hline
+Settings (screen brightness, ringer volume, etc.) & & \tickmark & \\ \hline
+
+\multirow{2}{5.5cm}{Motion sensors (accelerometer, 
+gyroscope, magnetometer, orientation , etc.)} & & \multirow{2}{*}{\tickmark} & \\ 
+& & & \\ \hline
+
+\multirow{2}{5.5cm}{WiFi network (information about the 
+currently active access point, and WiFi scan result)} & & \multirow{2}{*}{\tickmark} & \\ 
+& & & \\ \hline 
+
+%Start/stop activities & & & \xmark \\ \hline 
+%Running applications & & & \xmark \\ \hline 
+Camera (take pictures, record videos) & & & \xmark \\ \hline 
+Intent (scan barcode, search, etc.) & & & \xmark \\ \hline 
+Address book & & & \xmark \\ \hline 
+Microphone (voice record) & & & \xmark \\ \hline 
+SMS (send/receive messages, delete messages) & & & \xmark \\ \hline 
+
+\end{tabular}
+\egroup
+
+\caption{\small Sensibility Testbed's default policies for sensors. LR/MR/HR
+stands for low/moderate/high risk, respectively. Access is only allowed to sensors that have low to 
+moderate risks (marked by \tickmark). Sensors that are highly risky are 
+disabled by default (marked by \xmark).}
+\label{tab:default}
+%\vspace{-10pt}
+\end{table}
+
+
+The last unique concept Sensibility Testbed leveraged to ensure 
+protection of end-user security and privacy protection is that all sensors 
+are not alike. As mentioned earlier, failure to 
+recognize the vulnerability of certain sensors was a key reason for privacy 
+breaches. In designing Sensibility Testbed, default policies were set as 
+to what types of sensors could be accessed. Even if an IRB happened 
+to approve such a policy, there are certain sensors that the testbed's
+own IRB designates as off-limits due to the high risk associated with 
+potential breaches. 
+%and for which access can be pre-approved with the
+%researcher's local IRB. 
+Only those sensors listed on our project 
+wiki page~\cite{sensor-api} are accessible to a researcher. 
+A summary of these sensors is listed in Table~\ref{tab:default}, 
+with each one categorized as low, moderate or high 
+privacy risk. The list of sensors that Sensibility Testbed provides are all of moderate 
+to low privacy risks (marked by \tickmark), and the testbed further provides policy enforcement
+(Section~\ref{sec-policy}) to protect all the sensor data. Sensors 
+such as cameras and microphones that are deemed sensitive are not 
+exposed to experiment code by default (marked by \xmark). Such 
+classification is motivated by the Android system, where 
+permissions are categorized into different protection levels~\cite{level}:
+\textit{normal} permissions are automatically granted to the apps, 
+\textit{dangerous} permissions are given based upon the 
+user's consent, and so on. In our case, 
+%we divide sensors into different risk levels, as shown 
+%in Table~\ref{tab:default}. 
+%Sensors with low to moderate risk are 
+%allowed and protected by IRB policies. Sensors of high risk are 
+%disabled by default. 
+we divide sensors into different risk levels by the consequences and 
+difficulties of a potential attack. If a microphone is controlled by 
+a malicious party, it can be used to intelligently choose data of a 
+higher value (e.g., credit card number, password) to record~\cite{zhang2015leave}. On the other 
+hand, in order to infer a credit card number or password typed on a 
+smartphone using motion sensors, the attack requires the installation of 
+a sophisticated algorithm on the device that constantly learns about  
+the patterns of data generated by accelerometer or gyroscope. In contrast,
+using battery information alone is not sufficient to create a fingerprint 
+for each device. Different information and mutiple occurrences need to
+be pieced together to extract this data~\cite{battery-priv}. Therefore, 
+compared to motion sensors, a microphone is considered a higher risk, 
+and a battery is a significantly lower risk.
+
+Although high-risk sensors are disabled, if such access  is critical to the 
+study, access can be requested using a different IRB procedure. 
+In this case, the research project has to go through the Sensibility 
+Testbed's IRB, in addition to the researcher's IRB. 
+\yanyan{if we think this is ok, then we provide specially
+designed interface and policy?} \lois{following up on Yanyan's comment--If the Testbed's IRB says this expanded access is permissable, are the device owner's notified and can they opt out of this study? Otherwise, that would be a direct violation of the privacy protection you claim to give them}
+\lois{I did not touch these last two paragraphs because I still don't know about  the opt-out policy for individuals if this permission is given}
+%Depending on the experiment description provided by the 
+%researcher, the fields marked with a (*) are the ones that will be blurred.
+%
+%
+
+As a result, Sensibility Testbed does not
+provide unfettered access to all sensors. 
+%Access to sensors of
+%higher risk, e.g., the policies that request restricted sensor data, 
+%or at higher frequencies than our default policies, 
+%needs to go through the Sensibility Testbed's IRB,
+%in addition to the researcher's IRB. 
+The default policies serve as a common denominator to all 
+researchers' IRB policies. In most cases, we expect
+that researchers need only go through their local IRB to get
+the sensor access they need for their experiment. 
 
 
 \subsection{Testbed Operation}

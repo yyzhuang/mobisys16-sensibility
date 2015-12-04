@@ -37,6 +37,7 @@ EnCore~\cite{aditya2014encore}  & Bluetooth & \tickmark &   &   \\\hline
 % attack: associating Bluetooth MAC address with device
 % solution: use Bluetooth 4.0's native support for randomized MAC address
 
+\begin{comment}
 \multirow{2}{*}{\cite{chen2014sensor}\textsuperscript{*}} & Accelerometer 
 & \tickmark &   &  \\ \cline{2-5}
 & Camera & & \tickmark & \\ \hline
@@ -45,6 +46,7 @@ EnCore~\cite{aditya2014encore}  & Bluetooth & \tickmark &   &   \\\hline
 % solution: (1) use accelerometer to infer the orientation of front camera, 
 % (2) user shaking the phone, and separate the data of shaking video and
 % shaking accelerometer to ensure a real 3D face
+\end{comment}
 
 \multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & Device ID & & \tickmark & \\ \cline{2-5}
 & WiFi & \tickmark &   &  \\ \cline{2-5}
@@ -634,7 +636,7 @@ $MB$ in all cases.
 %\textbf{CPU and memory overhead.}
 %\todo{what's the CPU/memory overhead?}
 
-\subsection{Experience Using Sensibility}\label{sec-deployment}
+\subsection{Experience Running Experiments}\label{sec-deployment}
 
 %\todo{Q3: how is the testbed being used? A: deployment experience: 
 %number of people, projects, issues, hackathon.}
@@ -676,36 +678,64 @@ habits and patterns.
 %projects, such as monitoring construction safety.
 
 {\bf Hack-a-thons.}  In the past two years, we have hosted 
-In 2014, we hosted a Hack-a-thon styled, one-day workshop co-located with 
-the IEEE Sensors Applications Symposium (SAS) \cite{sas}. About twenty 
-workshop participants with various backgrounds worked in teams 
-for six hours and built four functional applications using Sensibility 
-Testbed. None of the participants had any prior experience with 
-this testbed, and many of them had no background in Computer
-Science. With this success, we hosted a second workshop with 
-SAS in 2015, and will continue in 2016. Interesting experiments 
-developed by the participants include a device network monitor: 
-when the battery level of a device is low, WiFi or Bluetooth that 
-requires high power is turned off.
+hack-a-thons co-located with 
+the IEEE Sensors Applications Symposium (SAS)~\cite{sas}.  SAS attracts a 
+diverse community of researchers that use sensors in their research.
+The vast majority of participants are not computer scientists, but instead
+come from other science disciplines.
+
+We recruited SAS attendees to attend a hack-a-thon in each of the past two
+years.  As a result, each year we had about twenty participants
+spend a day of the conference build applications for the Sensibility Testbed.
+None of the participants had any prior experience with 
+Sensibility Testbed, and many of them also had no experience with Python.
+
+As our IRB was not approved in time for these workshops, 
+researchers implemented code that they then tested on their own phone.
+Each of the projects did a demonstration in the late afternoon session that 
+showed their application working in practice.  The team that built
+the best application received an award, including new Android phones.
+
+Despite only having about six hours from the start of the hack-a-thon (where
+they first learned about Sensibility) until when the researchers demonstrated
+their working application, researchers built some interesting and complex
+applications.  These include:
+
+\begin{itemize}
+\item ...
+\cappos{Yanyan please list...}
+
+\end{itemize}
 
 %\label{sec-ease}
 
-\yanyan{how much time a student spent doing some
-measurements (like Thomas's motion detection alg).}
-
-\yanyan{compare to other projects,  developers can save
-thousands of lines of code, and reuse the same set of 
-devices.}
-
+We are hosting another hack-a-thon with SAS 2016 and invite interested 
+researchers to join. \cappos{Likely cut}
 
 \subsection{Experience Implementing Policies}\label{sec-implementing-policies}
 
-Experiments are not the only thing that needs to be implemented in Sensibility
-Testbed.  It is important that security policies can be implemented for 
-Sensibility Testbed.
+In addition to experiments, it is important that security policies can be 
+implemented for Sensibility Testbed.  The policy implementation mechanism has 
+been used in student assignments across ten classes at three institutions.
+These assignments had students implement a policy to restrict access to 
+some resource, usually the network or file system.  
+
+In most classes, the students were given a week to learn the programming
+environment and write their policy code.  Nearly all students successfully
+completed the assignment, often stating in evaluations that implementing a new 
+policy took a few hours.   More details about the implementation of policy
+code in the classroom and our pedagogical experiences with them is available
+in other sources~\cite{Cappos_SIGCSE_2014, Hooshangi_SIGCSE_2015}.
+
+%Students were then
+%provided every student's policy code and encouraged to try to violate the
+%guarantees given in the policies.   The assignments were designed to force
+%students to track filesystem or network state that is stored by the underlying
+%kernel and to keep it synchronized 
 
 
-\cappos{Add content about Richard, Sara, and my experience with security
-policies in the classroom.}
+
+%\cappos{Add content about Richard, Sara, and my experience with security
+%policies in the classroom.}
 
 

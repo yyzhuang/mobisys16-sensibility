@@ -19,13 +19,14 @@ accelerometers, cameras, and microphones, they can generate valuable
 data for such studies as determining noise levels within an urban
 neighborhood, detecting approaching earthquakes, or studying traffic
 patterns at particular intersections. Accessing devices in a home
-network can also help providers improve the types of services they 
-offer~\cite{sundaresan2011broadband}. Testing applications on remote
+network can also help providers improve the service 
+quality~\cite{sundaresan2011broadband}. Testing applications on remote
 devices allows developers to better understand how applications 
 perform in diverse environments, enabling improvements in 
 performance~\cite{ravindranath2012appinsight}. For instance, 
 some platform APIs change their behavior depending 
-on the battery level of the device~\cite{battery}. Without being able to remotely access battery life, these APIs can not guarantee basic function efficiency.
+on the battery level of the device~\cite{battery}. 
+%Without remote access battery life, these APIs can not guarantee basic function efficiency.
 %Even being able to
 %remotely assess how much life is left in the battery of a device can
 %help platform APIs deliver better service to its
@@ -38,9 +39,9 @@ to deploy new services and test research prototypes (e.g.,
 Phonelab~\cite{phonelab, nandugudi2013phonelab}). However, personal devices
 remain largely underused because of two interrelated challenges:
 
-\begin{itemize}
+\begin{itemize}\setlength\itemsep{0em}
 \item The risk research studies pose to the privacy of \textbf{device 
-owners} and the performance of applications, and 
+owners}, and 
 
 \item The difficulties \textbf{researchers} have
 securing access to devices, and using any data gathered in a
@@ -57,17 +58,17 @@ movement acceleration, etc.} on mobile devices can provide.
 Data acquired through a smartphone's GPS,WiFi
 connections, or Bluetooth pairing history can be highly personal,
 exposing sensitive information, such as where a person lives or 
-shops~\cite{han2012accomplice}. Even seemingly benign applications, 
+shops~\cite{han2012accomplice}. Seemingly benign applications, 
 such as popular online games downloaded to mobile devices, can
 leak data, such as the model number of the device, or the age, gender, 
-or location of its owners. \lois{the citation was deleted somewhere along the lines. Its Angry Birds, I think} Furthermore, running experiment code poses 
+or location of its owners~\cite{AngryBirds}. Furthermore, running experiment code poses 
 a risk to the operation of the device itself, through potential exposure 
 to bugs and other vulnerabilities. 
 %It can also seriously interfere with battery life, if the device 
 %is accessed too often.
 
-For potential testbed users, the challenges are equally formidable. 
-These experimenters are under the governance of Institutional 
+For researchers, the challenges are equally formidable. 
+Researchers' experimenters are under the governance of Institutional 
 Review Boards (IRBs)~\cite{irb} that
 review all experimental protocols involving human subjects,
 and set a strict set of procedures that any researcher working under
@@ -93,11 +94,13 @@ Other testbeds deal with both
 the recruitment and privacy issues by choosing to select participants
 from an internal group, such as faculty working with their students
 and colleagues~\cite{hao2013isleep, wang2012no, wang2013sensing}. However,
-such controlled candidate selections fall short for a few reasons.
-First, it does not relieve the burden on the researchers to ensure the privacy of the
-device owner and to enforce IRB policies, since the present
-network testbeds do not yet have a systematic way to provide these protections. As a result, there is limited protection for the device 
-owners. Research has shown that most people usually do not understand 
+such controlled candidate selection still falls short, as it does not 
+relieve the burden on the researchers to ensure the privacy of the
+device owner and to enforce IRB policies. 
+%Since the present network testbeds do not yet have a systematic way 
+%to provide these protections, there is limited protection for the device 
+%owners. 
+Research has shown that most people usually do not understand 
 the basics of privacy, or the implication of granting device
 permissions~\cite{camp2015respecting}. Therefore, if the testbed does 
 not safeguard the security of devices, no matter what 
@@ -115,12 +118,12 @@ experiment code more secure in a number of ways. First,
 it provides better protection against invasion of privacy by carefully controlling
 access to device sensors. The testbed employs a stringent set of
 policies as to which sensors can be accessed, and these
-policies are customizable to each researchers' IRB policies. Therefore,  
-this serves as a template for researchers to parameterize their 
-experiment. The testbed infrastructure automatically implements
+policies are customizable to each researchers' IRB policies. This 
+serves as a template for researchers to parameterize their 
+experiment. Second, the testbed infrastructure automatically implements
 the IRB policies on end-user devices, through the use of \textit{blurring 
 layers} in a secure sandbox. Each blurring layer mediates the access to 
-a sensor by limiting the precision of data generated by it, and 
+a sensor by limiting the precision of data generated by it, or 
 regulating the frequency that the sensor can be accessed. In addition, 
 the testbed's secure sandbox provides both security and performance 
 isolation, and ensures experiment code can not harm the devices of 
@@ -133,33 +136,42 @@ choose from, eliminating the time-consuming process of recruitment.
 
 The contributions of this work are as follows:
 
-\begin{enumerate}
-\item We identify the issues that have prevented successful implementation
-of experiments on remote user devices, including potential damage to
-devices from experiment code, the risk of privacy invasion, and the
-administrative challenges faced potential researchers. \yanyan{I fell this may not
-be significant enough as a contribution.}
+\begin{itemize}\setlength\itemsep{0em}
+%\item We identify the issues that have prevented successful implementation
+%of experiments on remote user devices, including potential damage to
+%devices from experiment code, the risk of privacy invasion, and the
+%administrative challenges faced potential researchers. 
 
 \item We introduce Sensibility Testbed as a flexible and secure platform for
-conducting experiments on Android devices that addresses many of the
+conducting experiments on Android devices that addresses the
 concerns above, including automatically obtaining and enforcing 
-institution-mandated IRB policies.
+institution-mandated IRB policies. The design of \sysname is through 
+identifying potential risk of privacy invasion, and the administrative 
+challenges faced potential researchers.
 
 \item We describe the unique features of Sensibility Testbed, which include 
-controlled sensor access through the development of blurring layers.
+controlled sensor access through the development of blurring layers that are
+highly customizable.
 
 \item We evaluate Sensibility Testbed's effectiveness in
-protecting device owners' privacy and find that nearly 86\% of
+protecting device owners' privacy and find that nearly 85\% of
 security and privacy issues present in previous projects using 
-mobile devices were addressed by the new system.
-\end{enumerate}
+mobile devices were addressed by the default policies.
+\end{itemize}
 
-The rest of this paper is organized as follows. First, in Section~\ref{sec-motivation} we
-present background information about several key concepts that are
-critical to understanding how Sensibility Testbed works and how its use can benefit both researchers and device owners. Section~\ref{sec-design} offers an overview of the design principles that guided  development of the testbed, including a description of its key components and a simplified look at the operation of the program. The architecture of the Sensibility Testbed is reviewed in Section~\ref{sec-policy}. Section~\ref{sec-eval} presents a detailed look at the implementation of Sensibility Testbed , while Section offers a detailed walkthough of the program in operation. Section Seven provides experimental results to prove the
+The rest of this paper is organized as follows. In Section~\ref{sec-motivation} we
+present background information about several key concepts of \sysname. 
+%that are critical to understanding how Sensibility Testbed works and how its use can benefit both researchers and device owners. 
+Section~\ref{sec-overview} offers an overview of the design principles 
+%including a description of its key components and a simplified look at 
+and the operation of the testbed. The architecture of the Sensibility Testbed 
+is reviewed in Section~\ref{sec-design}, and Section~\ref{sec-policy} 
+presents the detailed implementation of the architecture. 
+%while Section offers a detailed walkthough of the program in operation. 
+Section~\ref{sec-eval} provides experimental results to prove the
 viability of Sensibility Testbed in enforcing privacy policies, while
-Section~\ref{sec-limitation} examines challenges and current limitations for
-implementation of the testbed. In Section~\ref{sec-related} we review related work
-in protecting the privacy of data on mobile devices, and we share some
-concluding thoughts in Section~\ref{sec-conclude}.
+Section~\ref{sec-limitation} examines challenges and current limitations. 
+In Section~\ref{sec-related} we review related work,
+%in protecting the privacy of data on mobile devices, 
+and we share our concluding thoughts in Section~\ref{sec-conclude}.
 

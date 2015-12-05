@@ -35,20 +35,22 @@ volume. & Full precision, or constant. & \tickmark \\ \hline
 Prevent keyloggers. & Motion sensors & Accelerometer, gyroscope, magnetometer, orientation, ambient light. & Full precision, 
 roundup, random rotation, or constant. & \tickmark \\ \hline 
 
-\multirow{7}{1.7cm}{Prevent locating a device.} & \multirow{4}{*}{Location} & 
+\multirow{8}{1.7cm}{Prevent locating a device.} & \multirow{4}{*}{Location} & 
 \multirow{3}{*}{Latitude, longitude, altitude.}  & Approximate to the nearest 
 zipcode region, or city/state/country center. & \multirow{4}{*}{\tickmark} \\\cline{3-4}
 %& & Speed. & Round-up, or constant. & \\\cline{3-4}
 & & Location provider name (network/GPS/passive). & Full precision, or constant. & \\ \cline{2-5}
 
-& \multirow{1}{*}{Cellular network} & Cell ID, neighboring cell ID(s). & Randomized ID. & N/A \\ \cline{2-5}
+& \multirow{2}{*}{Cellular network} & Cell ID, neighboring cell ID(s). & Randomized ID. & N/A \\ \cline{3-5}
+& & Network operator ID and name, country code, area code. & Hashed ID, names, 
+and code. & \tickmark \\ \cline{2-5}
 
 & \multirow{2}{*}{WiFi network} & WiFi connection information (router's SSID and MAC address). 
-& \multirow{2}{3cm}{Hashed SSID address, randomized MAC address.} & \multirow{2}{*}{\tickmark} 
+& \multirow{2}{3cm}{Hashed SSID, randomized MAC address.} & \multirow{2}{*}{\tickmark} 
 \\ \cline{3-3}  
 & & WiFi scan result (nearby WiFi routers' SSIDs and MAC addresses) & & \\ \hline 
 
-\multirow{11}{1.7cm}{Prevent identifying a device owner.} & 
+\multirow{10}{1.7cm}{Prevent identifying a device owner.} & 
 \multirow{3}{*}{Bluetooth} & MAC address.  & 
 Randomized MAC address. & \multirow{2}{*}{N/A} \\ \cline{3-4}
  & & Local name, nearby Bluetooth device names. &
@@ -56,11 +58,9 @@ Hashed device names. &  \\ \cline{3-5}
  & & Scan mode, state (enabled/disabled). & Full precision, or constant. & 
  \tickmark \\ \cline{2-5}
 
-& \multirow{4}{*}{Cellular network} & Roaming status, SIM card status (ready/absent), 
+& \multirow{3}{*}{Cellular network} & Roaming status, SIM card status (ready/absent), 
 phone status (idle/busy), signal strength. & Full precision, or constant. & 
-\multirow{3}{*}{\tickmark} \\ \cline{3-4}
-& & Network operator ID and name, country code, area code. & Hashed ID, names, 
-and code. &\\ \cline{3-5}
+\multirow{2}{*}{\tickmark} \\ \cline{3-5}
 & & Device ID, incoming number.  & Randomized ID and number. & N/A \\ \cline{2-5}
 
 & \multirow{4}{*}{WiFi network} & WiFi connection information (Device MAC address, 
@@ -73,7 +73,7 @@ security features). & & \\ \hline
 %Start/stop activities & & & \xmark \\ \hline 
 %Running applications & & & \xmark \\ \hline 
 \multirow{2}{1.7cm}{Prevent video/ audio recording.} & 
-Camera & Take pictures, record videos & \multirow{5}{*}{Disabled} & 
+Camera & Take pictures, record videos. & \multirow{5}{*}{Disabled} & 
 \multirow{5}{*}{N/A} \\ \cline{2-3} 
 
 & Microphone & Voice record. & &\\ \cline{1-3} 
@@ -167,11 +167,51 @@ leverages a concept that not all sensors are alike.
 In designing Sensibility Testbed, \textit{default policies} were set as 
 to what types of sensors could be accessed, and the sensor data should be
 accessed at which granularity or frequency to prevent common privacy and
-security attacks. To privide such protection, \sysname classifies sensors as 
-of low, moderate, or high risk. Sensors of high risk are not accessable to 
-researchers by default, and the sensors of low and moderate risk are further 
-protected by the default policies.
+security attacks. To privide such protection, \sysname 
+%classifies sensors as 
+%of low, moderate, or high risk. Sensors of high risk are not accessable to 
+%researchers by default, and the sensors of low and moderate risk are further 
+%protected by the default policies.
+uses a set of policies to prevent a range of attacks, as listed in 
+Table~\ref{tab:default}. These policies roughly fall into three categories.
 
+\textbf{Category 1.}
+First, the default policies disable cameras and microphones. The reason is 
+that if a microphone is controlled by a malicious party, it can be used to 
+intelligently choose data of a higher value, such as credit card number or 
+password, to record~\cite{zhang2015leave}. Cameras face the same kind 
+of risks. Meanwhile, the default policies disable interrupting actions, such as 
+making phone calls, scanning a barcode on behalf of the device owner, 
+and accessing an address book. 
+
+\textbf{Category 2.}
+Next, given our analysis of the current privacy attacks 
+(Section~\ref{sec-our-policies}), identifying a device or its owner, locating 
+a device, and inferring keys typed by a device owner are the most
+common risks. In Table~\ref{tab:default}, sensor data like MAC address, 
+device ID, etc., can be used to identify a device; latitude, longitude, cell 
+IDs in a cellular network, a WiFi router's SSID can be use to locate a 
+device; motion sensors like accelerometer and gyroscope can be used
+as keyloggers to infer a credit card number or password typed on a 
+smartphone. However, compared cameras and microphones, these 
+sensors normally require a background process that continuously 
+collects the data, or a sophisticated algorithm that constantly learns 
+about the patterns of data generated. Therefore, the default policies 
+blur these data, such as using randomized MAC addresses in a 
+Bluetooth and WiFi network, approximated location coordinates, and 
+slightly rotated motion sensor data. 
+
+\textbf{Category 3.}
+Finally, as long as the policies in the first two categories hold, research 
+projects are allowed to get data at a level that is meaningful. For example, 
+projects that are interested in monitoring human activity, wireless network 
+performance, etc., sensor values are allowed to the granularity that is safe, 
+as long as the device owers cannot be identified, located, etc. Some data 
+can be accessed at full precision (cellular signal strength, WiFi link speed), 
+whereas others have an upper bound on their access frequency. 
+\yanyan{how to add frequency to the table?}
+
+\begin{comment}
 \textbf{Risk categorization.}
 %Even if an IRB happened 
 %to approve such a policy, there are certain sensors that the testbed's
@@ -228,18 +268,27 @@ accessed at full precision (cellular signal strength, WiFi link speed),
 whereas others have an upper bound on their access frequency. 
 \yanyan{how to add frequency to the table?}
 
-Although high-risk sensors are disabled, if such access  is critical to the 
-study, access can be requested using a different IRB procedure. 
-In this case, the research project has to go through the Sensibility 
-Testbed's IRB, in addition to the researcher's IRB. 
-\yanyan{if we think this is ok, then we provide specially
-designed interface and policy?} \lois{following up on Yanyan's comment--If the Testbed's IRB says this expanded access is permissable, are the device owner's notified and can they opt out of this study? Otherwise, that would be a direct violation of the privacy protection you claim to give them}
+\end{comment}
+
+The three categories of default policies serve as a common denominator 
+to researchers' IRB policies. Researchers can further customize the policies 
+with parameters that result in coarser data granularity. The default and 
+customized policies are automatically enforced by the \sysname 
+infrastructure. Such a 
+protocol for research with mobile device sensors has been approved by
+the IRB at New York University (IRB \# 15-10751). 
+
+By default, risky sensor data is disabled or blurred. However, if such 
+access is critical to the study, access must be requested by going through 
+the \sysname IRB, in addition to the researcher's IRB. 
+\yanyan{how to notify device owners policies changed?} 
+%\lois{following up on Yanyan's comment--If the Testbed's IRB says this expanded access is permissable, are the device owner's notified and can they opt out of this study? Otherwise, that would be a direct violation of the privacy protection you claim to give them}
 %\lois{I did not touch these last two paragraphs because I still don't know about  the opt-out policy for individuals if this permission is given}
 %Depending on the experiment description provided by the 
 %researcher, the fields marked with a (*) are the ones that will be blurred.
 %
 %
-
+%
 As a result, Sensibility Testbed does not
 provide unfettered access to all sensors. 
 %Access to sensors of
@@ -247,8 +296,7 @@ provide unfettered access to all sensors.
 %or at higher frequencies than our default policies, 
 %needs to go through the Sensibility Testbed's IRB,
 %in addition to the researcher's IRB. 
-The default policies serve as a common denominator to all 
-researchers' IRB policies. In most cases, we expect
+In most cases, we expect
 that researchers need only go through their local IRB to get
 the sensor access they need for their experiment. 
 

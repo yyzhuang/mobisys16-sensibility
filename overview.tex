@@ -20,17 +20,38 @@ scenarios.
 
 \bgroup
 \def\arraystretch{1.15}% % for table padding
-\begin{tabular}{|c|l|p{8cm}|p{3cm}|c|}
+\begin{tabular}{|p{1.6cm}|p{1.6cm}|p{8cm}|p{3cm}|c|}
 \hline
-{\bf Risk category}  & {\bf Sensor} & {\bf Sensor data} & {\bf Default policy} & {\bf Customizable} \\ \hline
+{\bf Goals\textsuperscript{*}}  & {\bf Sensor} & {\bf Sensor data} & {\bf Default 
+policy\textsuperscript{\dag}} & {\bf Customizable} \\ \hline \hline
 
-\multirow{2}{*}{Low} & \multirow{2}{*}{Battery} & Status (charging/discharging), temperature, 
+\multirow{3}{1.7cm}{\yanyan{?}} & \multirow{2}{*}{Battery} & Status (charging/discharging), temperature, 
  technology, health (good/overheat). & Full precision, or constant. & \multirow{2}{*}{\tickmark} \\ \cline{3-4}
- & & Battery level, voltage, plug-in type. & Round-up, or constant. &  \\ \hline
+ & & Battery level, voltage, plug-in type. & Round-up, or constant. &  \\ \cline{2-5} 
+ 
+& Settings & Vibrate mode, screen settings (on/off, brightness, timeout), media/ringer 
+volume. & Full precision, or constant. & \tickmark \\ \hline 
 
-\multirow{19}{*}{Moderate} & \multirow{3}{*}{Bluetooth} & MAC address.  & 
+Prevent keyloggers. & Motion sensors & Accelerometer, gyroscope, magnetometer, orientation, ambient light. & Full precision, 
+roundup, random rotation, or constant. & \tickmark \\ \hline 
+
+\multirow{7}{1.7cm}{Prevent locating a device.} & \multirow{4}{*}{Location} & 
+\multirow{3}{*}{Latitude, longitude, altitude.}  & Approximate to the nearest 
+zipcode region, or city/state/country center. & \multirow{4}{*}{\tickmark} \\\cline{3-4}
+%& & Speed. & Round-up, or constant. & \\\cline{3-4}
+& & Location provider name (network/GPS/passive). & Full precision, or constant. & \\ \cline{2-5}
+
+& \multirow{1}{*}{Cellular network} & Cell ID, neighboring cell ID(s). & Randomized ID. & N/A \\ \cline{2-5}
+
+& \multirow{2}{*}{WiFi network} & WiFi connection information (router's SSID and MAC address). 
+& \multirow{2}{3cm}{Hashed SSID address, randomized MAC address.} & \multirow{2}{*}{\tickmark} 
+\\ \cline{3-3}  
+& & WiFi scan result (nearby WiFi routers' SSIDs and MAC addresses) & & \\ \hline 
+
+\multirow{11}{1.7cm}{Prevent identifying a device owner.} & 
+\multirow{3}{*}{Bluetooth} & MAC address.  & 
 Randomized MAC address. & \multirow{2}{*}{N/A} \\ \cline{3-4}
- & & Local name, remote device names (nearby Bluetooth device names) &
+ & & Local name, nearby Bluetooth device names. &
 Hashed device names. &  \\ \cline{3-5}
  & & Scan mode, state (enabled/disabled). & Full precision, or constant. & 
  \tickmark \\ \cline{2-5}
@@ -40,44 +61,41 @@ phone status (idle/busy), signal strength. & Full precision, or constant. &
 \multirow{3}{*}{\tickmark} \\ \cline{3-4}
 & & Network operator ID and name, country code, area code. & Hashed ID, names, 
 and code. &\\ \cline{3-5}
-& & Cell ID, neighboring cell ID(s), incoming number.  & Randomized ID and 
-number. & N/A \\ \cline{2-5}
+& & Device ID, incoming number.  & Randomized ID and number. & N/A \\ \cline{2-5}
 
-& \multirow{4}{*}{Location} & \multirow{3}{*}{Latitude, longitude, altitude.}  & Approximate 
-to the nearest zipcode region, or city/state/country center. & \multirow{4}{*}{\tickmark} \\\cline{3-4}
-& & Speed. & Round-up, or constant. & \\\cline{3-4}
-& & Location provider (network/GPS/passive). & Full precision, or constant. & \\ \cline{2-5}
-
-& Settings & Vibrate mode, screen settings (on/off, brightness, timeout), media/ringer 
-volume. & Full precision, or constant. & \tickmark \\ \cline{2-5}
-
-& Motion sensors & Accelerometer, gyroscope, magnetometer, orientation, ambient light. & Full precision, 
-roundup, random rotation, or constant. & \tickmark \\ \cline{2-5}
-
-& \multirow{4}{*}{WiFi network} & WiFi connection information (network SSID, router's MAC address, 
-link speed, device MAC address, IP address, association state) & \multirow{4}{3cm}{Hashed SSID/IP 
-address, randomized MAC address, full precision or constant association state/link speed.} & 
+& \multirow{4}{*}{WiFi network} & WiFi connection information (Device MAC address, 
+IP address, link speed, association state). & \multirow{4}{3cm}{Hashed IP address, 
+randomized MAC address, full precision or constant frequency/signal strength.} & 
 \multirow{4}{*}{\tickmark} \\ \cline{3-3}  
-& & WiFi scan result (information about nearby WiFi routers, each router has the same 
-information as WiFi connection information above) & & \\ \hline
+& & WiFi scan result (nearby WiFi routers' frequency, signal strength, 
+security features). & & \\ \hline 
 
 %Start/stop activities & & & \xmark \\ \hline 
 %Running applications & & & \xmark \\ \hline 
-\multirow{5}{*}{High} & Camera & Take pictures, record videos & \multirow{5}{*}{Disabled} & 
+\multirow{2}{1.7cm}{Prevent video/ audio recording.} & 
+Camera & Take pictures, record videos & \multirow{5}{*}{Disabled} & 
 \multirow{5}{*}{N/A} \\ \cline{2-3} 
 
-& Intent & Scan barcode, search, etc.  &  & \\ \cline{2-3} 
+& Microphone & Voice record. & &\\ \cline{1-3} 
 
-& Address book & Contact list of the device owner. & & \\ \cline{2-3} 
+\multirow{2}{1.7cm}{Prevent actions for owner.}& Intent & Scan barcode, search, etc.  &  & \\ \cline{2-3} 
 
-& Microphone & Voice record. & &\\ \cline{2-3} 
+& Phone, SMS & Send/receive messages, delete messages, dial/pick up phone calls. & & \\  \cline{1-3} 
 
-& SMS & Send/receive messages, delete messages. & & \\ \hline 
+Protect owner's contacts. & Address book & Contact list of the device owner. & & \\ \hline 
+
+\multicolumn{5}{l}{\textsuperscript{*}\scriptsize These goals are the common goals, though uncommon 
+goals exist. For example, motion sensors can be used to fingerprint devices~\cite{bojinov2014mobile}, 
+or record conversations~\cite{michalevsky2014gyrophone}.} \\ 
+
+\multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize As new threats emerge, we plan to adjust the default
+policies.} \\ 
 
 \end{tabular}
 \egroup
 
-\caption{\small Sensibility Testbed's default policies for sensors.}
+\caption{\small Sensibility Testbed's default policies for controlling sensor data precision.
+\yanyan{things like signal strength, mode, status should go to the first row.}}
 \label{tab:default}
 %\vspace{-10pt}
 \end{table*}

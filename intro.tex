@@ -18,7 +18,8 @@ these devices have embedded features like GPS,
 accelerometers, cameras, and microphones, they can generate valuable
 data for such studies as determining noise levels within an urban
 neighborhood, detecting approaching earthquakes, or studying traffic
-patterns at particular intersections. Accessing devices in a home
+patterns at particular intersections.\cappos{add cites?} Accessing 
+devices in a home
 network can also help providers improve the service 
 quality~\cite{sundaresan2011broadband}. Testing applications on remote
 devices allows developers to better understand how applications 
@@ -33,7 +34,7 @@ on the battery level of the device~\cite{battery}.
 %customers~\cite{battery}.
 
 There have been initiatives within the network
-community to study mobile devices(e.g.,
+community to study mobile devices (e.g.,
 Mobilyzer~\cite{nikravesh2015mobilyzer}), and in the systems community
 to deploy new services and test research prototypes (e.g.,
 Phonelab~\cite{phonelab, nandugudi2013phonelab}). However, personal devices
@@ -44,6 +45,8 @@ remain largely underused because of two interrelated challenges:
 owners}, and 
 
 \item The difficulties \textbf{researchers} have
+\cappos{Do you mean obtaining access due to IRB constraints?  What does 
+"securing" mean here?}
 securing access to devices, and using any data gathered in a
 responsible and ethical manner. 
 \end{itemize}
@@ -81,7 +84,7 @@ owners willing to volunteer their devices for testing, a process that
 is time-consuming. Moreover, experimental setup and results cannot 
 easily be shared with other researchers. As a result, each research 
 group has to repeat the process of infrastructure setup, and policy 
-implementation for each experimental deployment.
+implementation \cappos{what is this?} for each experimental deployment.
 
 To address some of these concerns, experimental testbeds such as
 PhoneLab, have
@@ -105,13 +108,18 @@ the basics of privacy, or the implication of granting device
 permissions~\cite{camp2015respecting}. Therefore, if the testbed does 
 not safeguard the security of devices, no matter what 
 advantages participants may receive, their devices are still at risk.
+\cappos{I miss the point of this paragraph in the rest of the narative...}
 
 In this work, we introduce Sensibility Testbed~\cite{sensibility,
 zhuang2015privacy}, an Internet-wide mobile testbed that 
 %represents an important first step towards 
 lowers the technical barriers to research on personal mobile
 devices without lowering the ethical standards of the research
-institution~\cite{zevenbergen2013ethical}.
+institution~\cite{zevenbergen2013ethical}.  \cappos{I would instead emphasize 
+that it streamlines IRB since it acts as a middle man for experimenters and 
+participants.  The paragraph here seems to wander to me (e.g., where do we
+discuss ``making prototyping faster'' again?), but eventually comes
+to this point anyways.}
 The new testbed makes experiment prototyping faster, the remote
 control and management of devices easier, and the running of
 experiment code more secure in a number of ways. First, 
@@ -157,6 +165,10 @@ highly customizable.
 protecting device owners' privacy and find that nearly 85\% of
 security and privacy issues present in previous projects using 
 mobile devices were addressed by the default policies.
+\cappos{I'm not sure that the quantitative parts of the analysis are 
+what we want to emphasize at this point.  If we do this, we need to set it 
+up differently.  I would also wonder how useful this is if the number isn't
+100\%...}
 \end{itemize}
 
 The rest of this paper is organized as follows. In Section~\ref{sec-motivation} we

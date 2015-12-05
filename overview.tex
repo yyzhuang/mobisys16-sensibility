@@ -7,6 +7,8 @@ components. We also show the testbed operation via two usage
 scenarios.
 
 \subsection{Design Principles}\label{sec-principles}
+\cappos{Are these really design principles?  They just seem like justifications
+for the components...}
 
 \begin{figure}
 \center{\includegraphics[width=\columnwidth]{figs/arch.pdf}}
@@ -277,11 +279,14 @@ customized policies are automatically enforced by the \sysname
 infrastructure. Such a 
 protocol for research with mobile device sensors has been approved by
 the IRB at New York University (IRB \# 15-10751). 
+\cappos{Shouldn't this detail come earlier?  Why is this here instead?}
 
 By default, risky sensor data is disabled or blurred. However, if such 
 access is critical to the study, access must be requested by going through 
 the \sysname IRB, in addition to the researcher's IRB. 
 \yanyan{how to notify device owners policies changed?} 
+\cappos{Don't you have some things you would never allow even if the NYU IRB
+approves it?}
 %\lois{following up on Yanyan's comment--If the Testbed's IRB says this expanded access is permissable, are the device owner's notified and can they opt out of this study? Otherwise, that would be a direct violation of the privacy protection you claim to give them}
 %\lois{I did not touch these last two paragraphs because I still don't know about  the opt-out policy for individuals if this permission is given}
 %Depending on the experiment description provided by the 
@@ -499,8 +504,8 @@ clearinghouse (Section~\ref{sec-ch}). The clearinghouse then looks up
 available devices like in Section~\ref{sec-case1}. If the clearinghouse 
 discovers that Alice's device is available, it
 assigns her device to Bob's experiment account by placing Bob's
-public key in Alice's sandbox. At this point, Bob can access Alice's 
-device through his experiment manager, just like using \texttt{ssh}.
+public key in Alice's sandbox. At this point, Bob can remotely access Alice's 
+device through his experiment manager and can stop and start the experiment.
 
 As already described, the clearinghouse has a default set of blurring layers 
 for accuracy and access frequency levels for each sensor. 

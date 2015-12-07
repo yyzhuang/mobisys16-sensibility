@@ -22,119 +22,74 @@ and a researcher seeking to run tests on remote devices. In the
 following walk through, we assume that Alice, a device owner, participates in 
 the testbed, while a researcher, Bob, runs code on Sensibility Testbed 
 using Alice's smartphone, among other
-devices. Let's suppose that the goal of Bob's experiment is to determine the cellular service
+devices. Suppose that the goal of Bob's experiment is to determine the cellular service
 quality in major cities. His experiment therefore needs to obtain location information
 of individual devices, their cellular service provider, network
-<<<<<<< HEAD
 type (3G, 4G, LTE, etc.), and signal strength. 
 
-Alice wants to allow scientists to perform experiements using her smartphone.
+Alice wants to allow scientists to perform experiements using her device.
 She starts by installing the Sensibility Testbed app from 
 the Android app store~\cite{sensibility-app}. After downloading the app, 
-Alice is informed about the testbed's privacy and use policy 
+Alice is informed about the testbed's privacy and usage policy 
 in a consent form and must give consent before participating.
-Any device owner, regardless of age, country, or background, can 
-opt into our testbed in this manner \cappos{Is this true of pregnant women, 
-children, etc.?  They are in protected groups...}, and can opt out just by 
-uninstalling the app. The app will also display a list of experiments and 
-each experiment's policies, so Alice can opt out of individual experiments. 
-\cappos{how is this updated?  Does Alice see this before or after an 
-experiment may run?  How much "lead time" does Alice get to opt-out
-before the experiment happens?}
-\cappos{Do you want to say something about informed consent here or
-does it fit better later?}
+Any device owner (except those in protected group such as pregnant women, 
+people under 18 years old), regardless of country or background, can 
+opt into our testbed in this manner, and can opt out just by 
+uninstalling the app. 
 
-To conduct an experiment, Bob will first provide his institution's 
-IRB policies  \cappos{I don't think this is phrased correctly.  I think 
-you mean to say that Bob goes through the IRB process at his institution.}
-to the clearinghouse (Section~\ref{sec-ch}) and sign up for his experiment. 
-\cappos{Doesn't Bob get materials from our site (via the checkboxes, etc.)
-that help with his IRB process?}
-The clearinghouse server helps him acquire devices, and codifies 
-policies specified by Bob's IRB. After obtaining remote devices, 
-Bob can perform experiments directly on the devices through 
-an experiment manager (Section~\ref{sec-emt}), \cappos{I think that these 
-details don't matter.  They don't know what an experiment manager, 
-clearinghouse, etc.  are at this point.} using the 
-credentials assigned by the clearinghouse. Such a 
-protocol for research with mobile device sensors has been approved by
-the IRB at New York University (IRB \# 15-10751).  \cappos{I do not understand
-how this ties into the main point.  Why does Bob need to know this to
-do an experiment?  If he doesn't, then this does not fit here.}
+To conduct an experiment, Bob first fills out a form at a \sysname website 
+(Section~\ref{sec-ch}), which has a list of checkboxes for each sensor 
+and the text boxes to indicate the precision and frequency to access 
+each sensor. Bob then downloads documents to provide to his IRB that 
+explains the details about his experiment, \sysname and the technical 
+restrictions his experiment will have. Bob then goes through the IRB process at 
+his institution, provides his institution's IRB policies to the 
+\sysname website, and sign up for his experiment. 
 
-The form that Bob previously filled out on the Sensibility site is used to
+The form that Bob previously filled out on the \sysname website is used to
 enforce a technical set of restrictions for his experiment.  This means
-that regardless if Bob makes an error or is malicious, his experiment is
-restrited in the data it can gather.  So Bob's IRB form which requests 
-access to GPS and cellular information, would result in him being blocked
-from reading the roaming status despite it being tracked under the same
-Android permission as the other cellular ID information.  
+that even if Bob makes an error in his code or his code is malicious, his 
+experiment is still restrited in the data it can acquire. 
+\yanyan{how can restricting data prevent errors?} Therefore, Bob's IRB 
+policies which request access to cellular signal strength and network type, would result 
+in his experiment being blocked from reading the roaming status and cell 
+IDs. Note that the latter information is accessible with the same 
+Android permission, but is blocked by \sysname.  This
+protocol for research with mobile device sensors has been approved by
+the IRB at New York University (IRB \# 15-10751).  
 
-Note that the form has limits to the precision of data that Bob can request
+Note that the policies have limits to the precision of data that Bob can request
 for many sensors (e.g., preventing access to the raw MAC address of the device).
 If Bob has a legitimate need for this data and can appropriately secure it,
 Bob can request such access by also passing his locally approved request 
 through NYU's IRB.  This additional check ensures not only that Bob's 
 handling and access to the data is appropriate, but ensures that this does
-not violate Alice's privacy and use policy with the Sensibility Testbed.
+not violate Alice's privacy and usage policy with the Sensibility Testbed.
 %When Bob's IRB wants to access information that is more sensitive than
 %what is described in NYU IRB, \yanyan{Justin, help!}  
 
 Once Bob's experiment has been approved and the appropriate privacy
-restrictions are identified, Bob may now run his experiment on the
-devices of participants like Alice.  \cappos{Is here a better place
-to move the opt-out text?}.  Alice's informed consent to Sensibility Testbed
+restrictions are identified, Bob can obtain remote devices, and run his experiment on the
+devices of participants like Alice (Section~\ref{sec-emt}). On Alice's device, the app displays a 
+list of running experiments and their policies. If Alice does not agree with
+sharing her MAC address, she can opt out of Bob's experiment. 
+%\cappos{how is this updated?  Does Alice see this before or after an 
+%experiment may run?  How much "lead time" does Alice get to opt-out
+%before the experiment happens?}
+%\cappos{Do you want to say something about informed consent here or
+%does it fit better later?} 
+Alice's informed consent to Sensibility Testbed
 ensures that Bob does not need to individually recruit Alice to include
-her smartphone's data in his study.
+her device in his study.
 
-\cappos{Extra text.}
 This work flow is shown in Figure~\ref{fig-walkthrough}. \sysname
 acts as an intermediate between the device owner and researcher, 
 where the device owners give their informed consent, and researchers
 provide their IRB policies. As a result, the researchers do not recruit
 device owners directly for each experiment, and the testbed infrastructure 
-enforces the IRB policies on behalf of the researcher. \yanyan{where 
-should NYU IRB lie in this figure?}
+enforces the IRB policies on behalf of the researcher. 
 
 \sysname's default policies are described next.
-=======
-type (3G, 4G, LTE, etc.), and signal strength. Bob has obtained an IRB for gathering 
-his experiment data. At the same time, Alice wants to be ensured that her privacy is 
-protected according to the policies specified in Bob's IRB.
-
-In order for Alice to participate in Sensibility Testbed as a device owner,
-she starts by installing the Sensibility Testbed app from 
-the Android app store~\cite{sensibility-app}. After downloading the app, 
-Alice has the opportunity to select which experiments she would like to opt into, 
-though at any time she can choose to opt out of any individual experiment or her 
-complete participation in the testbed.
-
-To conduct an experiment, Bob will first provide his institution's 
-IRB policies to the clearinghouse (Section~\ref{sec-ch}) component of Sensibility Testbed 
-and sign up for his experiment. 
-The clearinghouse server helps him acquire devices and automatically codifies 
-policies specified by Bob's IRB. After obtaining remote devices, 
-Bob can perform experiments directly on the devices through 
-an experiment manager (Section~\ref{sec-emt}), using the 
-credentials assigned by the clearinghouse. The app installed on Alice's device will 
-automatically enforce the IRB privacy policies on any data collected before it leaves her device and 
-goes to Bob. If Bob's IRB requests that all location data is provided by subjects at 
-a city-level granularity, for example, Alice's exact location will be obscured 
-to the nearest city before Bob can access it. 
-If Bob wishes to run a
-second experiment using either the same or different IRB policies, Sensibility Testbed 
-greatly simplifies this process by enabling 
-him to do so without having to recruit subjects again or re-implement the 
-IRB policies in his experiment code.
-Such a 
-protocol for research with mobile device sensors has been approved by
-the IRB at New York University (IRB \# 15-10751). 
-
-This work flow is shown in Figure~\ref{fig-walkthrough}. \sysname
-acts as an intermediate between the device owner and researcher, 
-where the device owners give their informed consent, and researchers
-provide their IRB policies. 
->>>>>>> a59aa3d25f287a6b156075d6ead8886f9281b705
 
 %Device owners like Alice participate in Sensibility Testbed by p.
 

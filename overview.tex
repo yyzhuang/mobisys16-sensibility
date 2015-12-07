@@ -1,14 +1,38 @@
 \section{Overview of Sensibility Testbed}\label{sec-overview}
-%Here we are going to put the overview and high-level walkthrough. 
-%(I'm putting the old Section 3.3 here for now. )
-\jill{it sounds like the whole section is solely about default policies- 
-let's maybe add in more of a general statement here on the design as a whole}
-The center if \sysname is its policies. We introduce how the default
-policies are designed, and the procedures to follow if default policies
-become insufficient. We further descrive \sysname's design guideline 
+
+In this section we discuss the steps required so that experiments 
+can run on \sysname. The basic operation involves four separate 
+parties: a \textit{device owner} interested in participating in 
+experiments, a \textit{clearinghouse} that registers and configures 
+this device,  a \textit{researcher} seeking to run experiments on 
+remote devices, and the researcher's institution's \textit{local IRB}.
+In the following, we assume that Alice, a device owner, participates in 
+the testbed, while a researcher, Bob, wants to runs code on \sysname 
+using Alice's device, among other devices.
+
+From the perspective of Bob, the steps required to 
+run an experiment on \sysname roughly fall into two categories: 
+experiment approval, and deployment.
+First of all, Bob the researcher designs his experiment, and 
+possibly tests its feasibility on his own device. Following this, 
+he registers his experiment on the \sysname clearinghouse, and 
+specifies the sensors and sensor accuracy that his experiment 
+requires. The clearinghouse provides Bob with a form summarizing 
+the request. Bob now requests approval for his experiment from his 
+institution's IRB, supplying the clearinghouse's form and any 
+additional information about the experiment as needed by his IRB. 
+Once Bob's IRB approves the experiment, he uploads the confirmation 
+to \sysname's clearinghouse, and is finally granted the permission 
+to access remote devices to deploy his experiment and collect data.
+
+In the sections below, we walk through the steps in greater detail, 
+introduce how the default policies are designed, and explain the 
+procedures to follow if default policies become insufficient. 
+We further describe \sysname's design guideline 
 and the resulting testbed components. We also show the testbed operation.
 
-\subsection{A High-level Walkthrough}\label{sec-walkthrough}
+
+\subsection{Walkthrough}\label{sec-walkthrough}
 
 \begin{figure}
 \center{\includegraphics[width=\columnwidth]{figs/irb.pdf}}
@@ -16,13 +40,7 @@ and the resulting testbed components. We also show the testbed operation.
 \caption{\small A high-level walkthrough. \label{fig-walkthrough}}
 \end{figure}
 
-The basic operation of Sensibility Testbed involves two separate 
-parties: a device owner interested in participating in experiments 
-and a researcher seeking to run tests on remote devices. In the 
-following, we assume that Alice, a device owner, participates in 
-the testbed, while a researcher, Bob, runs code on Sensibility Testbed 
-using Alice's device, among other
-devices. Suppose that the goal of Bob's experiment is to determine the cellular service
+Suppose that the goal of Bob's experiment is to determine the cellular service
 quality in major cities. His experiment therefore needs to obtain location information
 of individual devices, their cellular service provider, network
 type (3G, 4G, LTE, etc.), and signal strength. 
@@ -53,7 +71,7 @@ his institution, provides his institution's IRB policies to the
 The form that Bob filled out on the \sysname website is used to
 enforce a set of technical restrictions for his experiment.  This means
 that even if Bob makes an error in his code or his code is malicious, his 
-experiment is still restrited in the data it can acquire. 
+experiment is still restricted in the data it can acquire. 
 \yanyan{how can restricting data prevent errors?} Therefore, Bob's IRB 
 policies which request access to cellular signal strength and network type, would result 
 in his experiment being blocked from reading the cellular roaming status and cell 
@@ -288,7 +306,7 @@ A summary of the default policies is as follows.
 
 %\textbf{Category 1.}
 First, the default policies disable cameras and microphones, since they 
-are highly senstive. If a microphone is controlled by a malicious party, it can be used to 
+are highly sensitive. If a microphone is controlled by a malicious party, it can be used to 
 intelligently choose data of a higher value to record, such as a credit card 
 number or password~\cite{zhang2015leave}. Cameras face similar
 risks. Meanwhile, the default policies disable interrupting actions, such as 

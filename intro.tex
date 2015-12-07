@@ -14,13 +14,13 @@ Given the sheer number of these devices and the increasing
 sophistication of their features,
 the value of smart devices as data collection vehicles for government,
 university, or corporate studies continues to grow. Since
-these devices have embedded features like GPS,
+these devices have embedded GPS,
 accelerometers, cameras, and microphones, they can generate valuable
 data for such studies as determining noise levels within an urban
-neighborhood, detecting approaching earthquakes, or studying traffic
-patterns at particular intersections.\cappos{add cites?} Accessing 
-devices in a home
-network can also help providers improve the service 
+neighborhood~\cite{kardous2014evaluation}, detecting approaching 
+earthquakes~\cite{faulkner2011next}, or studying traffic
+patterns at particular intersections~\cite{zhuang2011time}. Accessing 
+devices in a home network can help providers improve the service 
 quality~\cite{sundaresan2011broadband}. Testing applications on remote
 devices allows developers to better understand how applications 
 perform in diverse environments, enabling improvements in 
@@ -45,10 +45,10 @@ remain largely underused because of two interrelated challenges:
 owners}, and 
 
 \item The difficulties \textbf{researchers} have
-\cappos{Do you mean obtaining access due to IRB constraints?  What does 
-"securing" mean here?}
-securing access to devices, and using any data gathered in a
-responsible and ethical manner. 
+%\cappos{Do you mean obtaining access due to IRB constraints?  What does 
+%"securing" mean here?}
+obtaining access to devices due to the restrictions set by Institutional Review 
+Boards, and using data gathered in a responsible and ethical manner. 
 \end{itemize}
 					
 For device owners, privacy and security threats to mobile devices have
@@ -82,63 +82,81 @@ these policies, and the process must be repeated every time he or
 she starts a new project. The experimenter must also recruit device 
 owners willing to volunteer their devices for testing, a process that 
 is time-consuming. Moreover, experimental setup and results cannot 
-easily be shared with other researchers. As a result, each research 
-group has to repeat the process of infrastructure setup, and policy 
-implementation \cappos{what is this?} for each experimental deployment.
+easily be shared with other researchers. 
+%As a result, each research group has to repeat the process of 
+%infrastructure setup, and policy implementation \cappos{what 
+%is this?} for each experimental deployment.
 
-To address some of these concerns, experimental testbeds such as
-PhoneLab, have
-been established to provide a platform for running apps on
-smartphones. PhoneLab recruits participants by giving them free
-smartphones and reduced data plans in exchange for their commitment to
-use the phones as their personal devices. 
+Due to these concerns, experimental testbeds either do not use data 
+from real participants (using archived traces like 
+in~\cite{kapadia2008anonysense}) or use data collected 
+from a tightly controlled, non-representative subset of participants.
+%such as PhoneLab, have been established to provide a platform for 
+%running apps on smartphones. 
+%PhoneLab recruits participants by giving them free
+%smartphones and reduced data plans in exchange for their commitment to
+%use the phones as their personal devices. 
 %PhoneLab then runs Android apps on the devices and collects data. 
-Other testbeds deal with both
+For example, some testbeds deal with both
 the recruitment and privacy issues by choosing to select participants
 from an internal group, such as faculty working with their students
-and colleagues~\cite{hao2013isleep, wang2012no, wang2013sensing}. However,
-such controlled candidate selection still falls short, as it does not 
+and colleagues~\cite{hao2013isleep, wang2012no, wang2013sensing}. 
+Other testbeds require researchers obtain IRB approval pior to using the
+testbed, but provide no technical measures for IRB policy 
+enforcement~\cite{phonelab, nandugudi2013phonelab}. 
+These mechanisms still fall short, as they do not 
 relieve the burden on the researchers to ensure the privacy of the
 device owner and to enforce IRB policies. 
 %Since the present network testbeds do not yet have a systematic way 
 %to provide these protections, there is limited protection for the device 
 %owners. 
-Research has shown that most people usually do not understand 
-the basics of privacy, or the implication of granting device
-permissions~\cite{camp2015respecting}. Therefore, if the testbed does 
-not safeguard the security of devices, no matter what 
-advantages participants may receive, their devices are still at risk.
-\cappos{I miss the point of this paragraph in the rest of the narative...}
+%Research has shown that most people usually do not understand 
+%the basics of privacy, or the implication of granting device
+%permissions~\cite{camp2015respecting}. Therefore, if the testbed does 
+%not safeguard the security of devices, no matter what 
+%advantages participants may receive, their devices are still at risk.
+%\cappos{I miss the point of this paragraph in the rest of the narative...}
 
 In this work, we introduce Sensibility Testbed~\cite{sensibility,
 zhuang2015privacy}, an Internet-wide mobile testbed that 
 %represents an important first step towards 
 lowers the technical barriers to research on personal mobile
 devices without lowering the ethical standards of the research
-institution~\cite{zevenbergen2013ethical}.  \cappos{I would instead emphasize 
-that it streamlines IRB since it acts as a middle man for experimenters and 
-participants.  The paragraph here seems to wander to me (e.g., where do we
-discuss ``making prototyping faster'' again?), but eventually comes
-to this point anyways.}
-The new testbed makes experiment prototyping faster, the remote
-control and management of devices easier, and the running of
-experiment code more secure in a number of ways. First, 
-it provides better protection against invasion of privacy by carefully controlling
+institution~\cite{zevenbergen2013ethical}.  
+%\cappos{I would instead emphasize 
+%that it streamlines IRB since it acts as a middle man for experimenters and 
+%participants.  The paragraph here seems to wander to me (e.g., where do we
+%discuss ``making prototyping faster'' again?), but eventually comes
+%to this point anyways.}
+The new testbed streamlines the IRB process for researchers as it acts 
+as an intermediate between researchers and device owners. 
+%makes experiment prototyping faster, the remote
+%control and management of devices easier, and the running of
+%experiment code more secure in a number of ways. 
+Researchers provide their policy specification to the testbed, and 
+the testbed recruits participants and implement the policies on researchers' 
+behalf. This model 
+makes experiment prototyping faster and more secure n a number of ways. 
+
+First, \sysname provides better protection against invasion of privacy by carefully controlling
 access to device sensors. The testbed employs a stringent set of
 policies as to which sensors can be accessed, and these
-policies are customizable to each researchers' IRB policies. This 
-serves as a template for researchers to parameterize their 
-experiment. Second, the testbed infrastructure automatically implements
+policies are customizable to each researchers' IRB policies. 
+%This serves as a template for researchers to parameterize their 
+%experiment. 
+Second, the testbed infrastructure automatically implements
 the IRB policies on end-user devices, through the use of \textit{blurring 
 layers} in a secure sandbox. Each blurring layer mediates the access to 
 a sensor by limiting the precision of data generated by it, or 
-regulating the frequency that the sensor can be accessed. In addition, 
+regulating the frequency that the sensor can be accessed. Policy thus
+can be easily enforced at the end-user devices by the testbed 
+infrastructure. In addition, 
 the testbed's secure sandbox provides both security and performance 
 isolation, and ensures experiment code cannot harm the devices of 
 volunteers. Due to these privacy and security mechanisms, 
 the enrollment process for volunteer device owners is as
 simple as a one-time download and install of an app. The testbed thus
-builds and maintains a pool of willing volunteers for researchers to
+builds and maintains a pool of willing participants for researchers to
 choose from, eliminating the time-consuming process of recruitment.
 
 

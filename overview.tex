@@ -449,13 +449,12 @@ the sensor access they need for their experiment.
 \end{figure}
 
 %\subsubsection{Interacting Parties}\label{sec-parties}
-In order for the testbed to operate as in Section~\ref{sec-walkthrough},
-the testbed involves three types of interacting
+Sensibility Testbed involves three types of interacting
 parties, as shown in Figure~\ref{fig-arch}: mobile \textit{devices} 
 owned by ordinary people, with our app installed; a 
 \textit{clearinghouse} server that discovers and configures
 participating devices; and \textit{experimenters} who want to run
-experiments on mobile devices. The design of \sysname follows
+experiments on mobile devices. Our design follows
 a few guidelines, resulting in the testbed components
 shown in Figure~\ref{fig-arch}.
 %\subsubsection{Testbed Architecture}
@@ -491,7 +490,8 @@ Additionally, the clearinghouse uses a distributed service called
 (Section~\ref{sec-ch}).
 
 \textbf{Local support for remote experimentation.} 
-The last design principle was to allow researchers to manage their 
+The last design principle \jill{not sure if this is a principle...maybe we should rename this section}
+was to allow researchers to manage their 
 experiments on remote devices from a local machine, as is offered 
 by other testbeds~\cite{hibler2008large, peterson2006experiences}. Sensibility 
 Testbed addresses this need by using a tool called \textit{experiment 

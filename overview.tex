@@ -37,11 +37,13 @@ people under 18 years old), regardless of country or background, can
 opt into our testbed in this manner, and can opt out just by 
 uninstalling the app. 
 
-To conduct an experiment, Bob first fills out a form at a \sysname website 
-(Section~\ref{sec-ch}), which has a list of checkboxes for each sensor 
-and the text boxes to indicate the precision and frequency to access 
+Bob completes a series of steps to deploy his experiment on \sysname.
+He first fills out a form at a \sysname website 
+(Section~\ref{sec-ch}), which has a list of checkboxes for device sensors 
+and text boxes indicating the precision and frequency that Bob can access 
 each sensor. These boxes provide the default policies of \sysname, and 
-Bob can only indicate data of coarser granularity. Bob then downloads 
+Bob can only indicate data of coarser granularity. \jill{i thought this process was automated?}
+Bob then downloads 
 documents to provide to his IRB that 
 explains the details about his experiment, \sysname and the technical 
 restrictions his experiment will have. Bob then obtains IRB approval at 
@@ -267,9 +269,8 @@ the data from mobile devices useful for a wide range of research. \sysname
 leverages a concept that not all sensors are alike. 
 %As mentioned earlier, failure to recognize the vulnerability of
 %certain sensors was a key reason for privacy breaches. 
-In designing Sensibility Testbed, \textit{default policies} were set as 
-to what types of sensors could be accessed, and the sensor data should be
-accessed at which precision or frequency to prevent common privacy and
+Sensibility Testbed uses \textit{default policies} to specify the precision and 
+accuracy that different types of sensors can be accessed to prevent common privacy and
 security attacks, %To privide such protection, \sysname 
 %classifies sensors as 
 %of low, moderate, or high risk. Sensors of high risk are not accessable to 
@@ -278,9 +279,8 @@ security attacks, %To privide such protection, \sysname
 %uses a set of policies to prevent a range of attacks, 
 as listed in Table~\ref{tab:default}. 
 %These policies roughly fall into three categories.
-These default policies serve as a common denominator 
-to researchers' IRB policies. Researchers can further customize the policies 
-with parameters that result in coarser data granularity. The default and 
+Researchers can further customize the policies 
+to access sensors at a coarser data granularity. The default and 
 customized policies are automatically enforced by the \sysname 
 infrastructure. 
 %\cappos{Shouldn't this detail come earlier?  Why is this here instead?}

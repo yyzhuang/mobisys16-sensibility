@@ -19,9 +19,9 @@ and the resulting testbed components. We also show the testbed operation.
 The basic operation of Sensibility Testbed involves two separate 
 parties: a device owner interested in participating in experiments 
 and a researcher seeking to run tests on remote devices. In the 
-following walk through, we assume that Alice, a device owner, participates in 
+following, we assume that Alice, a device owner, participates in 
 the testbed, while a researcher, Bob, runs code on Sensibility Testbed 
-using Alice's smartphone, among other
+using Alice's device, among other
 devices. Suppose that the goal of Bob's experiment is to determine the cellular service
 quality in major cities. His experiment therefore needs to obtain location information
 of individual devices, their cellular service provider, network
@@ -44,27 +44,27 @@ each sensor. These boxes provide the default policies of \sysname, and
 Bob can only indicate data of coarser granularity. Bob then downloads 
 documents to provide to his IRB that 
 explains the details about his experiment, \sysname and the technical 
-restrictions his experiment will have. Bob then goes through the IRB process at 
+restrictions his experiment will have. Bob then obtains IRB approval at 
 his institution, provides his institution's IRB policies to the 
-\sysname website, and sign up for his experiment. 
+\sysname website, and signs up for his experiment. 
 
-The form that Bob previously filled out on the \sysname website is used to
-enforce a technical set of restrictions for his experiment.  This means
+The form that Bob filled out on the \sysname website is used to
+enforce a set of technical restrictions for his experiment.  This means
 that even if Bob makes an error in his code or his code is malicious, his 
 experiment is still restrited in the data it can acquire. 
 \yanyan{how can restricting data prevent errors?} Therefore, Bob's IRB 
 policies which request access to cellular signal strength and network type, would result 
-in his experiment being blocked from reading the roaming status and cell 
+in his experiment being blocked from reading the cellular roaming status and cell 
 IDs. Note that the latter information is accessible with the same 
 Android permission, but is blocked by \sysname.  This
 protocol for research with mobile device sensors has been approved by
 the IRB at New York University (IRB \# 15-10751).  
 
-Note that the policies have limits to the precision of data that Bob can request
+Note that the policies set limits to the precision of data that Bob can request
 for many sensors (e.g., preventing access to the raw MAC address of the device).
 If Bob has a legitimate need for this data and can appropriately secure it,
 Bob can request such access by also passing his locally approved request 
-through NYU's IRB.  This additional check ensures not only that Bob's 
+through \sysname's IRB.  This additional check ensures not only that Bob's 
 handling and access to the data is appropriate, but ensures that this does
 not violate Alice's privacy and usage policy with the Sensibility Testbed.
 %When Bob's IRB wants to access information that is more sensitive than
@@ -88,7 +88,7 @@ This work flow is shown in Figure~\ref{fig-walkthrough}. \jill{let's add how Bob
 data from Alice's device in Figure 1} \sysname
 acts as an intermediate between the device owner and researcher, 
 where the device owners give their informed consent, and researchers
-provide their IRB policies. As a result, the researchers do not recruit
+provide their IRB policies. The researchers do not recruit
 device owners directly for each experiment, and the testbed infrastructure 
 enforces the IRB policies on behalf of the researcher. 
 
@@ -349,7 +349,7 @@ by the phone's cellular radio. Cellular radio power consumption depends
 on the distance to the nearest cellular tower and any obstacles between 
 the phone and tower. This combination of factors creates a unique power 
 consumption profile for each geographic location~\cite{battery-use}.}. 
-Since the later data has been protected by aforementioned policies, such 
+Since the latter data has been protected by aforementioned policies, such 
 complex privacy attacks become less effective. \jill{not sure if this argument is strong
  because we can't account for every possible combination}
 
@@ -412,11 +412,11 @@ whereas others have an upper bound on their access frequency.
 
 \end{comment}
 
-By default, risky sensor data is disabled or blurred \jill{*risky*: we should say according to our 
-analysis of previous work}. However, if such 
-access is critical to the study, access must be requested by going through 
-the \sysname IRB, in addition to the researcher's IRB. 
-\yanyan{Justin, help!} 
+According to our analysis of previous work, sensor data is disabled or 
+blurred by default. However, if such access is critical to the study, access 
+must be requested by going through the \sysname's IRB, in addition to the 
+researcher's IRB. 
+%\yanyan{Justin, help!} 
 %\cappos{Don't you have some things you would never allow even if the NYU IRB
 %approves it?}
 %\lois{following up on Yanyan's comment--If the Testbed's IRB says this expanded access is permissable, are the device owner's notified and can they opt out of this study? Otherwise, that would be a direct violation of the privacy protection you claim to give them}
@@ -449,7 +449,8 @@ the sensor access they need for their experiment.
 \end{figure}
 
 %\subsubsection{Interacting Parties}\label{sec-parties}
-The operation of Sensibility Testbed  involves three types of interacting
+In order for the testbed to operate as in Section~\ref{sec-walkthrough},
+the testbed involves three types of interacting
 parties, as shown in Figure~\ref{fig-arch}: mobile \textit{devices} 
 owned by ordinary people, with our app installed; a 
 \textit{clearinghouse} server that discovers and configures

@@ -27,8 +27,8 @@ quality in major cities. His experiment therefore needs to obtain location infor
 of individual devices, their cellular service provider, network
 type (3G, 4G, LTE, etc.), and signal strength. 
 
-Alice wants to allow scientists to perform experiements using her device.
-She starts by installing the Sensibility Testbed app from 
+In order for Alice to participate in Sensibility Testbed as a device owner,
+she starts by installing the Sensibility Testbed app from 
 the Android app store~\cite{sensibility-app}. After downloading the app, 
 Alice is informed about the testbed's privacy and usage policy 
 in a consent form and must give consent before participating.
@@ -40,7 +40,9 @@ uninstalling the app.
 To conduct an experiment, Bob first fills out a form at a \sysname website 
 (Section~\ref{sec-ch}), which has a list of checkboxes for each sensor 
 and the text boxes to indicate the precision and frequency to access 
-each sensor. Bob then downloads documents to provide to his IRB that 
+each sensor. These boxes provide the default policies of \sysname, and 
+Bob can only indicate data of coarser granularity. Bob then downloads 
+documents to provide to his IRB that 
 explains the details about his experiment, \sysname and the technical 
 restrictions his experiment will have. Bob then goes through the IRB process at 
 his institution, provides his institution's IRB policies to the 
@@ -82,7 +84,8 @@ Alice's informed consent to Sensibility Testbed
 ensures that Bob does not need to individually recruit Alice to include
 her device in his study.
 
-This work flow is shown in Figure~\ref{fig-walkthrough}. \sysname
+This work flow is shown in Figure~\ref{fig-walkthrough}. \jill{let's add how Bob gets the 
+data from Alice's device in Figure 1} \sysname
 acts as an intermediate between the device owner and researcher, 
 where the device owners give their informed consent, and researchers
 provide their IRB policies. As a result, the researchers do not recruit
@@ -91,6 +94,43 @@ enforces the IRB policies on behalf of the researcher.
 
 \sysname's default policies are described next.
 
+\begin{comment}
+In order for Alice to participate in Sensibility Testbed as a device owner,
+she starts by installing the Sensibility Testbed app from 
+the Android app store~\cite{sensibility-app}. After downloading the app, 
+Alice has the opportunity to select which experiments she would like to opt into, 
+though at any time she can choose to opt out of any individual experiment or her 
+complete participation in the testbed.
+
+To conduct an experiment, Bob will first provide his institution's 
+IRB policies to the clearinghouse (Section~\ref{sec-ch}) component of Sensibility Testbed 
+and sign up for his experiment. 
+The clearinghouse server helps him acquire devices and automatically codifies 
+policies specified by Bob's IRB. After obtaining remote devices, 
+Bob can perform experiments directly on the devices through 
+an experiment manager (Section~\ref{sec-emt}), using the 
+credentials assigned by the clearinghouse. The app installed on Alice's device will 
+automatically enforce the IRB privacy policies on any data collected before it leaves her device and 
+goes to Bob. If Bob's IRB requests that all location data is provided by subjects at 
+a city-level granularity, for example, Alice's exact location will be obscured 
+to the nearest city before Bob can access it. 
+If Bob wishes to run a
+second experiment using either the same or different IRB policies, Sensibility Testbed 
+greatly simplifies this process by enabling 
+him to do so without having to recruit subjects again or re-implement the 
+IRB policies in his experiment code.
+Such a 
+protocol for research with mobile device sensors has been approved by
+the IRB at New York University (IRB \# 15-10751). 
+
+This work flow is shown in Figure~\ref{fig-walkthrough}. \jill{let's add how Bob gets the 
+data from Alice's device in Figure 1} \sysname
+acts as an intermediate between the device owner and researcher, 
+where the device owners give their informed consent, and researchers
+provide their IRB policies. 
+>>>>>>> a59aa3d25f287a6b156075d6ead8886f9281b705
+>>>>>>> 6fade2a1f52aa5af8b551ed70308db63d3e3aa7f
+\end{comment}
 %Device owners like Alice participate in Sensibility Testbed by p.
 
 %These policies restrict what and how data can be accessed by the 
@@ -247,8 +287,8 @@ infrastructure.
 A summary of the default policies is as follows.
 
 %\textbf{Category 1.}
-First, the default policies disable cameras and microphones. The reason is 
-that if a microphone is controlled by a malicious party, it can be used to 
+First, the default policies disable cameras and microphones, since they 
+are highly senstive. If a microphone is controlled by a malicious party, it can be used to 
 intelligently choose data of a higher value to record, such as a credit card 
 number or password~\cite{zhang2015leave}. Cameras face similar
 risks. Meanwhile, the default policies disable interrupting actions, such as 
@@ -256,49 +296,53 @@ making phone calls, scanning a barcode on behalf of the device owner,
 and accessing an address book. 
 
 %\textbf{Category 2.}
-Next, given our analysis of the current privacy attacks 
-(Section~\ref{sec-our-policies}), (1) identifying a device or its owner, (2) locating 
-a device, and (3) inferring keys strokes typed by a device owner are the most
-common risks. In Table~\ref{tab:default}, sensor data like MAC address, 
-device ID, etc., can be used to identify a device; latitude, longitude, cell 
-IDs in a cellular network, a WiFi router's SSID can be use to locate a 
-device; motion sensors like accelerometer and gyroscope can be used
+Next, given our analysis of the current privacy attacks, we have identified the three 
+most common 
+risks for device owners (Section~\ref{sec-our-policies}): (1) identifying a device or its owner, 
+(2) locating a device, and (3) inferring keys strokes typed by a device owner. 
+As shown in Table~\ref{tab:default}, 
+sensor data like MAC address and device ID can be used to identify a device, while latitude, longitude, cell 
+IDs, and a WiFi router's SSID can be use to locate a 
+device. Motion sensors like accelerometer and gyroscope can also be used
 as keyloggers to infer keys typed or icons tapped on a 
-smartphone. Compared cameras and microphones, these 
+smartphone. Compared to cameras and microphones, these 
 sensors normally require a background process that continuously 
 collects the data, or a sophisticated algorithm that constantly learns 
-about the patterns of data generated. Therefore, the default policies 
-blur these data, such as using randomized MAC addresses in a 
+about the patterns of data generated. 
+Therefore, Sensibility Testbed's default policies 
+blur data from these sensors, but don't disable them completely. 
+For example, the default policies enforce randomized MAC addresses in a 
 Bluetooth and WiFi network, approximated location coordinates, and 
-controlling the frequency to access motion sensor data. Note that keyloggers (3)
-are more effective when the access frequency to motion sensors are 
+control the frequency of access to motion sensor data. Note that keyloggers (3)
+are more effective when the access frequency to motion sensors is 
 high. Previous work such as ACCessory~\cite{owusu2012accessory}, 
 TapPrints~\cite{miluzzo2012tapprints}, TapLogger~\cite{xu2012taplogger}, 
 and other projects~\cite{aviv2012practicality} showed that when the 
 frequency to get motion sensor data is above 100 Hz, the keyloggers' 
 learning algorithms become much more accurate. Therefore, we limit 
 motion sensors to be accessed at a rate lower than 100 Hz. Meanwhile, 
-identification of a device (1) can be effectively prevented by limiting data 
+identification of a device (risk 1) can be effectively prevented by limiting data 
 precision. If one merely controls the access frequency, an adversary can 
 still learn about the device identity given enough time. Therefore, we do
-not control the frequency for (1). Locating a device (2) is prevented by 
+not control the frequency for risk 1. Locating a device (risk 2) is reduced by 
 controlling both the data precision and access frequency. The current policy
-for locaiton frequency is once per 10 minutes. \yanyan{I put a number I'm 
-confortable with, but with no backup...}
+for location frequency is once per 10 minutes. \yanyan{I put a number I'm 
+confortable with, but with no backup...} \jill{let's think some more about how we 
+should justify this, and what about risk 3?}
 
 %\textbf{Category 3.}
 Finally, as long as the previous policies hold, research 
 projects are allowed to get data at a level that is meaningful. For example, 
 projects that are interested in monitoring human activity, wireless network 
-performance, etc., sensor values are allowed to the granularity that is safe 
+performance, etc., sensor values are allowed at the granularity that is safe 
 according to the researcher's IRB, 
-as long as the device owers cannot be identified, located, no key strokes 
-can be inferred, etc. The default policies currently allow these data to be 
-accessed with full precision (and accuracy can be reduced if the IRB
-does not require full precision), as data like cellular signal strength, WiFi 
-link speed is only meaningful with highest accuracy. While it is true that
+as long as the device owners cannot be identified or located, no key strokes 
+can be inferred, etc. The default policies currently allow this data to be 
+accessed with full precision (accuracy can be reduced if the IRB
+does not require full precision), since data such as cellular signal strength and WiFi 
+link speed is typically only meaningful with highest accuracy. While it is true that
 certain data like battery information can be used to infer the location of 
-a device, such technique only works in conjunction with other data 
+a device, such techniques only works in conjunction with other data 
 such as cellular data usage~\cite{michalevsky2015powerspy}\footnote{\scriptsize 
 The tracking works by measuring the overall power consumption 
 by the phone's cellular radio. Cellular radio power consumption depends 
@@ -306,7 +350,8 @@ on the distance to the nearest cellular tower and any obstacles between
 the phone and tower. This combination of factors creates a unique power 
 consumption profile for each geographic location~\cite{battery-use}.}. 
 Since the later data has been protected by aforementioned policies, such 
-complex privacy attacks become less effective. 
+complex privacy attacks become less effective. \jill{not sure if this argument is strong
+ because we can't account for every possible combination}
 
 \begin{comment}
 \textbf{Risk categorization.}
@@ -367,7 +412,8 @@ whereas others have an upper bound on their access frequency.
 
 \end{comment}
 
-By default, risky sensor data is disabled or blurred. However, if such 
+By default, risky sensor data is disabled or blurred \jill{*risky*: we should say according to our 
+analysis of previous work}. However, if such 
 access is critical to the study, access must be requested by going through 
 the \sysname IRB, in addition to the researcher's IRB. 
 \yanyan{Justin, help!} 

@@ -62,7 +62,10 @@ approves the other policies.
 %IDs in cellular networks, but his IRB disallows such data access. Bob then
 In this case, Bob will revise the experiment registration form, refile the paperwork, 
 and obtain IRB approval. Bob then submits the revised  
-registration form and his IRB approval to the clearinghouse.
+registration form and his IRB approval to the clearinghouse. \jill{it's not clear to me 
+why the paperwork for the IRB also needs to be filled out on the ST website before the 
+IRB is approved -- is 
+this because the IRB application needs to include the NYU IRB? we should clarify)}
 
 The clearinghouse creates a list of access policies for Bob's
 experiment, according to the specified IRB policies. For the sensor
@@ -114,12 +117,14 @@ through the stack of blurring layers that preceded it.
 Bob's program will then be subject to all the 
 policies defined in the preceding layers, or the policy stack. 
 As a result,  the policies are transparently applied to Bob's experiment code. 
+\jill{i'm not totally sure what's going on in this paragraph}
 
 The mechanisms in this section are all transparent to the experimenters 
 and device owners, as the implementation of policies is controlled by the 
 clearinghouse on behalf of the experimenters. An experimenter is aware 
 of certain policies in place, but does not need to implement or explicitly
 enforce such policies. 
+\jill{we should add something in this example about how default policies play a role}
 
 \begin{comment}
 As already described, the clearinghouse has a default set of blurring layers 

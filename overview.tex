@@ -1,6 +1,8 @@
 \section{Overview of Sensibility Testbed}\label{sec-overview}
 %Here we are going to put the overview and high-level walkthrough. 
 %(I'm putting the old Section 3.3 here for now. )
+\jill{it sounds like the whole section is solely about default policies- 
+let's maybe add in more of a general statement here on the design as a whole}
 The center if \sysname is its policies. We introduce how the default
 policies are designed, and the procedures to follow if default policies
 become insufficient. We further descrive \sysname's design guideline 
@@ -17,12 +19,13 @@ and the resulting testbed components. We also show the testbed operation.
 The basic operation of Sensibility Testbed involves two separate 
 parties: a device owner interested in participating in experiments 
 and a researcher seeking to run tests on remote devices. In the 
-following, we assume that Alice, a device owner, participates in 
-the testbed. A researcher, Bob, runs code on Sensibility Testbed 
-using Alice's smartphone, discovered among other
-devices. Specifically, Bob wants to know the cellular service
-quality in major cities. As such, he needs location information
+following walk through, we assume that Alice, a device owner, participates in 
+the testbed, while a researcher, Bob, runs code on Sensibility Testbed 
+using Alice's smartphone, among other
+devices. Let's suppose that the goal of Bob's experiment is to determine the cellular service
+quality in major cities. His experiment therefore needs to obtain location information
 of individual devices, their cellular service provider, network
+<<<<<<< HEAD
 type (3G, 4G, LTE, etc.), and signal strength. 
 
 Alice wants to allow scientists to perform experiements using her smartphone.
@@ -94,6 +97,44 @@ enforces the IRB policies on behalf of the researcher. \yanyan{where
 should NYU IRB lie in this figure?}
 
 \sysname's default policies are described next.
+=======
+type (3G, 4G, LTE, etc.), and signal strength. Bob has obtained an IRB for gathering 
+his experiment data. At the same time, Alice wants to be ensured that her privacy is 
+protected according to the policies specified in Bob's IRB.
+
+In order for Alice to participate in Sensibility Testbed as a device owner,
+she starts by installing the Sensibility Testbed app from 
+the Android app store~\cite{sensibility-app}. After downloading the app, 
+Alice has the opportunity to select which experiments she would like to opt into, 
+though at any time she can choose to opt out of any individual experiment or her 
+complete participation in the testbed.
+
+To conduct an experiment, Bob will first provide his institution's 
+IRB policies to the clearinghouse (Section~\ref{sec-ch}) component of Sensibility Testbed 
+and sign up for his experiment. 
+The clearinghouse server helps him acquire devices and automatically codifies 
+policies specified by Bob's IRB. After obtaining remote devices, 
+Bob can perform experiments directly on the devices through 
+an experiment manager (Section~\ref{sec-emt}), using the 
+credentials assigned by the clearinghouse. The app installed on Alice's device will 
+automatically enforce the IRB privacy policies on any data collected before it leaves her device and 
+goes to Bob. If Bob's IRB requests that all location data is provided by subjects at 
+a city-level granularity, for example, Alice's exact location will be obscured 
+to the nearest city before Bob can access it. 
+If Bob wishes to run a
+second experiment using either the same or different IRB policies, Sensibility Testbed 
+greatly simplifies this process by enabling 
+him to do so without having to recruit subjects again or re-implement the 
+IRB policies in his experiment code.
+Such a 
+protocol for research with mobile device sensors has been approved by
+the IRB at New York University (IRB \# 15-10751). 
+
+This work flow is shown in Figure~\ref{fig-walkthrough}. \sysname
+acts as an intermediate between the device owner and researcher, 
+where the device owners give their informed consent, and researchers
+provide their IRB policies. 
+>>>>>>> a59aa3d25f287a6b156075d6ead8886f9281b705
 
 %Device owners like Alice participate in Sensibility Testbed by p.
 

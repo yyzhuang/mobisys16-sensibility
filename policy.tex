@@ -587,41 +587,54 @@ the city level.
 The \sysname device manager allows device owners to control 
 the software running on their devices, and configure device owner's 
 privacy policies locally. It is implemented as a Python 
-program that is configured when the \sysname app 
-is installed. \yanyan{what does the configuration do?} As with the sandbox, the device manager is based on our 
+program that the device owner configures (with respect to which 
+sensors they allow access to, etc.) when the \sysname app 
+is installed. As with the sandbox, the device manager is based on our 
 prior work on Seattle Testbed, but is specifically customized to 
 the Android OS. For instance, \sysname runs on a end-user device 
 as background process. Starting the app at boot time of the 
 device is implemented by registering a Broadcast Intent handler 
 for \path{ACTION_BOOT_COMPLETED}. Also, permanent storage needs 
 special treatment, as the media on which a \sysname is installed
-might be unmounted and ejected from the device at any time. \yanyan{how is this handled??}
+might be unmounted and ejected from the device at any time.
+% \yanyan{how is this handled??}
+% \albert{Glad you asked! It's AMAZING how we handle this!!!! https://github.com/SensibilityTestbed/sensibility-testbed/blob/359dc6b17ec4d0d8734d86b0f71ce033a0d05412/SensibilityTestbed/src/com/sensibility_testbed/InstallerService.java#L460-L464 https://github.com/SensibilityTestbed/sensibility-testbed/blob/359dc6b17ec4d0d8734d86b0f71ce033a0d05412/SensibilityTestbed/src/com/sensibility_testbed/ScriptService.java#L376-L384 https://github.com/SensibilityTestbed/sensibility-testbed/blob/359dc6b17ec4d0d8734d86b0f71ce033a0d05412/SensibilityTestbed/src/com/sensibility_testbed/ScriptActivity.java#L938-L941 }
+% \albert{In other words: Let's not add irrelevant detail.}
 The device manager also includes code to dynamically 
 traverse NAT gateways and firewalls (both are commonly found 
 on Internet connections over WiFi), so that it remains contactable 
 even if the device does not currently possess a public IP address.
 
-To enable local configuration of policies set by a device owner, 
-the device manager parses the input from the user interface
-\yanyan{add how device manager policies --> sandbox policies.}
+Whenever a sandbox is instantiated, the device manager first invokes 
+blurring layers that map to the policies that the device owner 
+configured. On top of these, it stacks blurring layers representing 
+the researcher's IRB (which get set by the clearinghouse).
+Any sensor calls performed by the sandboxed program are now subject 
+to the smallest accuracy and lowest rate allowed by the combination 
+of blurring layers.
 
 \textbf{Clearinghouse.}
 \sysname's clearinghouse is hosted on a web server at NYU. 
 \yanyan{cite, but sensibilityclearinghouse.poly.edu/ does not have 
 registration form. Kaushik's website is ugly..}
-%\albert{...trying to indicate that ``you, dear reader'' needn't worry about that aspect...}
 It is implemented based on the Django web framework. 
 Django uses Python as its runtime, like our sandbox, so it is 
 straightforward for the clearinghouse to reuse the same libraries for 
 cryptography, device announcement and lookup, 
-\yanyan{add a paragraph for lookup service. otherwise this 
-comes out of blue. or ref to TR \cite{zhuangTR15}?} and 
-sandbox control as the other parts of the system.
+%\yanyan{add a paragraph for lookup service. otherwise this 
+%comes out of blue. or ref to TR \cite{zhuangTR15}?} 
+%\albert{Nah, let's not add more irrelevant detail.}
+and sandbox control as the other parts of the system.
 
-The clearinghouse uses databases to store the information about
-available devices, and registered researcher's experiments. \yanyan{briefly 
-describe the DBs, how the devices get timed out when inactive, how 
-to pass the parsed IRB policies onto device sandboxes, etc.}
+The clearinghouse stores information about
+available devices and registered researcher's experiments. 
+Furthermore, it possesses cryptographic keys that allow it to 
+configure additional blurring layers (as translated from the researcher's 
+IRB) for a remote sandbox, and assign a researcher access to 
+sandboxes. Similarly, when the researcher's experiment period is 
+over \albert{which we never mentioned will happen}, the clearinghouse 
+removes this researcher's access rights from every sandbox they 
+had control over.
 
 \textbf{Experiment Manager.}
 Researchers use an experiment manager to directly access remote 
@@ -629,7 +642,10 @@ devices, like using a command line console via \texttt{ssh}.
 %run on experimenter's machines so that 
 %they can interface with the sandboxes they can control. 
 The experiment manager, including assorted Repy libraries to support 
-the development of experiments (\yanyan{such as libraries to...}), is available 
+the development of experiments,
+% (\yanyan{such as libraries to...}), 
+% \albert{Nah, let's not add more irrelevant detail.}
+is available 
 in packaged form that can be downloaded \cite{demo-kit}. It runs 
 on all operating systems and platforms supported by Python. 
 To accommodate for the reality of today's networks, the experiment 

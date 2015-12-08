@@ -6,8 +6,10 @@ The architecture of Sensibility Testbed has three interacting parties:
 experiments on mobile devices; a \textit{clearinghouse} server that discovers 
 participating devices, and configures the researcher's IRB policies on the 
 devices; and mobile \textit{devices} owned by ordinary people, with the testbed 
-software installed. In this section, we discuss the role and functions of each 
-party, and introduce their key techniques. We use the same example as in 
+software installed. In this section, we 
+%discuss the role and functions of each party, and introduce their key 
+%techniques. We 
+use the same example as in 
 Section~\ref{sec-walkthrough} to explain the interaction between different 
 parties, where researcher Bob wants to know the cellular service quality 
 using Alice's device.
@@ -18,14 +20,14 @@ using Alice's device.
 %\caption{\small Sensibility Testbed architecture. \label{fig-arch}}
 %\end{figure}
 
-\subsection{Clearinghouse}\label{sec-ch}
+\subsection{Researcher Specifies IRB Policies}\label{sec-ch}
 Before conducting any experiments, Bob first registers an account 
 at the clearinghouse. 
 The clearinghouse~\cite{ch} is a testbed server that has two 
 responsibilities. First, it keeps track of devices and grants 
 researchers access to available devices; and second, it
 sets up the relevant IRB policies on behalf of the researcher, that 
-must be enforced through the sandboxes on remote devices.
+must be enforced on remote devices.
 %It allows experimenters to register accounts and share 
 %access to a common pool of devices.
 
@@ -61,8 +63,8 @@ that even if Bob makes an error in his code or his code is malicious, his
 experiment is still restricted in the data it can acquire. 
 \yanyan{how can restricting data prevent errors?} Therefore, Bob's IRB 
 policies which request access to cellular signal strength and network type, would result 
-in his experiment being blocked from reading the cellular roaming status and cell 
-IDs. Note that the latter information is accessible with the same 
+in his experiment being blocked from reading the cellular roaming status and area 
+code. Note that the latter information is accessible with the same 
 Android permission, but is blocked by \sysname. 
 After the application is submitted, Bob's IRB may disagree with 
 his initial experiment requirements. For example, Bob's IRB will not permit
@@ -78,7 +80,7 @@ registration form and his IRB approval to the clearinghouse.
 % is assigned a pair of public/private \textit{authentication keys} by the 
 %clearinghouse, to authenticate himself with the clearinghouse. This
 %researcher 
-can then sign into the clearinghouse and request a 
+can sign into the clearinghouse and request a 
 number of sandboxes for his experiment. The clearinghouse 
 looks up available sandboxes on behalf of Bob. If Alice's device is discovered, the 
 clearinghouse stores her device's meta information (an anonymized 
@@ -124,7 +126,8 @@ It does not store any data on the researcher's behalf.
 
 %\lois{have you introduced the idea of keys yet? If not, I think this needs to be explained.}
 
-\subsection{Device Software}\label{sec-repy}
+\subsection{Device Onwner's Informed Consent and Privacy Policy 
+Enforcement}\label{sec-repy}
 
 In order for Alice to participate in Sensibility Testbed as a device owner,
 she starts by installing the Sensibility Testbed app from 
@@ -142,7 +145,7 @@ The usage policy requires that the participants in \sysname must be at least
 Any other device owner, regardless of country or background, can 
 opt into our testbed in this manner, and can opt out just by uninstalling the app. 
 If Alice agrees, the app will be installed on her device, which includes other
-device software that enforces Bob's IRB policies specified configured at the 
+device software that enforces Bob's IRB policies specified at the 
 clearinghouse (Section~\ref{sec-bob-policy}), and allows Alice to set her 
 own policies (Section~\ref{sec-alice-policy}).
 
@@ -231,7 +234,15 @@ pauses the code for as long as required to bound it, on average, below
 the threshold. Therefore, if an experiment attempts to use a sensor at a 
 rate faster than is allowed by a policy, the system call is blocked until 
 sufficient time has passed to average out the overall access rate. An example
-of this blurring layer is given in our technical report~\cite{zhuangTR15}.
+of this blurring layer that restricts location queries to be once per 10 minutes
+is given in our technical report~\cite{zhuangTR15}.
+
+Both the type of blurring layer (blur location to the nearest city) and the 
+parameters to each layer (access location once per 10 minutes) are parsed
+by the clearinghouse from Bob's input, and passed on to the sandbox on 
+Alice's device. Each blurring layer is implemented as templated code, 
+pre-loaded in each sandbox, and can be instantiated with parameters 
+once the clearinghouse instructs it to do so.
 
 \textbf{Policy Stack.}
 Different sets of policies can be customized 
@@ -291,22 +302,24 @@ experiment using the device manager interface.
 
 Alice can also configure the policies through the device manager to allow
 sensors on her device to be acessed at a granularity she is comfortable with.
-\yanyan{how does this work? device manager policy --> sandbox policy. 
-Justin or Albert please explain.}
+Alice sets these policies via the user interface of the \sysname app. 
+The device manager then parses them just as the clearinghouse
+parses Bob's IRB policies, and then passes the policies on to the sandbox.
+The implementation of Alice's policies is the same as Bob's, through
+the use of blurring layers.
 These policies supersede any policies set by researcher's IRB. For 
 example, if Alice disallows access to her location information, then 
 Bob's experiment cannot get any location from Alice's device even
 Bob's IRB allows this access. 
 
 
-\subsection{Experiment Manager}\label{sec-emt}
+\subsection{Researcher Conducts an Experiment}\label{sec-emt}
 
-The last component in the testbed is an experiment manager, which 
-Bob can download to his own computer and use to run code in 
-%which contains Bob's private key, \path{key.bob-priv}, 
-the sandboxes on the remote devices. 
+%The last component in the testbed is an experiment manager, which 
+To run code on Alice's device, Bob needs to download an experiment 
+manager to his own computer.
 Bob uses the experiment manager as a light-weight command line 
-console~\cite{demo-kit} to directly access the remote devices, upload 
+console~\cite{demo-kit} to directly access Alice's device, upload 
 experiment code, and %written in the Repy programming interface, and
 communicate with Alice's device to start or stop the execution of the experiment. 
 %To authenticate himself with the remote sandbox, the researcher uses 

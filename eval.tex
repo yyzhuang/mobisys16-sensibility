@@ -37,33 +37,16 @@ EnCore~\cite{aditya2014encore}  & Bluetooth & \tickmark &   &   \\\hline
 % attack: associating Bluetooth MAC address with device
 % solution: use Bluetooth 4.0's native support for randomized MAC address
 
-\begin{comment}
-\multirow{2}{*}{\cite{chen2014sensor}\textsuperscript{*}} & Accelerometer 
-& \tickmark &   &  \\ \cline{2-5}
-& Camera & & \tickmark & \\ \hline
-% attack: 2D photo/video attack (use other's photo/video as input to facial recognition) 
-% and virtual camera attack (using a virtual cam to modify videos)
-% solution: (1) use accelerometer to infer the orientation of front camera, 
-% (2) user shaking the phone, and separate the data of shaking video and
-% shaking accelerometer to ensure a real 3D face
-\end{comment}
-
-\multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & Device ID & & \tickmark & \\ \cline{2-5}
-& WiFi & \tickmark &   &  \\ \cline{2-5}
-& Bluetooth & \tickmark &   & \\ \cline{2-5}
-& Address book & & \tickmark & \\ \cline{2-5}
-& Location & \tickmark &   &   \\\hline
-% attack: general privacy issues
-% solution: substitute anonymized data in place by crowd sourced recommendations
- 
-\multirow{4}{*}{CQue~\cite{parate2013leveraging}}  & Location & \tickmark &  & \\\cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Gyroscope & \tickmark &   &  \\ \cline{2-5}
-& Bluetooth & \tickmark &   &   \\\hline
-% attack: this paper tries to infer individual behavior by fusing a bunch of sensors 
-% and provide insights into privacy leakage (use issue what-if queries to explore
-% the leakage if certain sensor data is revealed to apps)
-% solution: detection and fusion of sensors (math)
+%\begin{comment}
+%\multirow{2}{*}{\cite{chen2014sensor}\textsuperscript{*}} & Accelerometer 
+%& \tickmark &   &  \\ \cline{2-5}
+%& Camera & & \tickmark & \\ \hline
+%% attack: 2D photo/video attack (use other's photo/video as input to facial recognition) 
+%% and virtual camera attack (using a virtual cam to modify videos)
+%% solution: (1) use accelerometer to infer the orientation of front camera, 
+%% (2) user shaking the phone, and separate the data of shaking video and
+%% shaking accelerometer to ensure a real 3D face
+%\end{comment}
 
 \multirow{3}{*}{MaskIt~\cite{gotz2012maskit}} & Location & \tickmark &   & \\\cline{2-5}
 & Cellular & \tickmark &   &   \\ \cline{2-5}
@@ -75,12 +58,12 @@ EnCore~\cite{aditya2014encore}  & Bluetooth & \tickmark &   &   \\\hline
 % is defined with respect to a set of sensitive contexts specified by the user
 % sec 7.1 described data (location, cellular, bluetooth)
 
-\multirow{3}{*}{Jigsaw~\cite{lu2010jigsaw}} & Accelerometer 
-& \tickmark &   &  \\ \cline{2-5}  
-& Microphone  & & \tickmark & \\ \cline{2-5}
-& Location & \tickmark &   &   \\\hline
-% attack: robustness to position change and energy drain
-% solution: throttles the depth and sophistication of sensing when data is low quality
+Koi~\cite{guha2012koi} & Location & \tickmark &   &  \\ \hline
+% attack: location tracking
+% solution: apps set location based triggers, and have them fired
+% based on location updates. eg, instead of location lookup, it does
+% location matching: when the phone is in a grocery store, it notifies
+% the app that set this locaiton trigger
 
 Cach{\'e}~\cite{amini2011cache} & Location & \tickmark &   &   \\\hline
 % attack: location privacy
@@ -124,32 +107,27 @@ TouchLogger~\cite{cai2011touchlogger} & Gyroscope & \tickmark &
 % solution: this is an attack paper, showing it's possible to infer 
 % input using gyroscope
 
-\multirow{6}{*}{MockDroid~\cite{beresford2011mockdroid}} 
-& Location & \tickmark &  & \\\cline{2-5}
-& Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
-& Cellular & \tickmark &   &  \\ \cline{2-5}
-& Address book & & \tickmark & \\ \cline{2-5}
-& Device ID & & \tickmark & \\ \cline{2-5}
-& Broadcast intent &  & \tickmark  &  \\ \hline
-% attack: general privacy attacks
-% solution: modify the Android OS to allow users to mock or revoke
-% access to data during run time (simulating lack of location info, wireless
-% network, fake device ID, never sending broadcast intent, etc.)
+Cloaking~\cite{gruteser2003anonymous} & Location & \tickmark &   &  \\ \hline
+% attack: location tracking
+% solution: adjust the resolution of location information along spatial or 
+% temperal dimensions to meet the specified anonymity constraints
 
-\multirow{6}{*}{Guardian \cite{zhang2015leave}} 
-& Bluetooth & \tickmark &   & \\ \cline{2-5}
-& Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
-& Microphone  & & \tickmark & \\ \cline{2-5}
-& Cellular & \tickmark &   &  \\ \cline{2-5}
-& Motion sensors & \tickmark &   &  \\ \cline{2-5}
-& CPU usage\textsuperscript{\ddag} & \tickmark & & \\\hline
-% attack: rumtime information gathering (a malicious app recording
-% phone conversations, etc.)
-% solution: pause suspicious background apps (that records the phone 
-% conversation) when the target app is running in the foreground. the 
-% background apps are identified by their behaviors inferred from their
-% thread names, CPU scheduling, kernel time etc. the key is when to 
-% suspend and resume the suspicious background apps
+Locaccino~\cite{toch2010empirical} & Location & \tickmark &   &  \\ \hline
+% attack: location tracking
+% solution: survey showed that users are more comfortable sharing their
+% location when they are at places visited by a large and diverse set of people
+
+\multirow{2}{*}{Accomplice~\cite{han2012accomplice}} & Location & \tickmark &   &  \\ \cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \hline
+% attack: location tracking using accelerometer
+% solution: this is an attack paper. accelerometer can be used to track location
+
+\multirow{2}{*}{TapLogger~\cite{xu2012taplogger}} & Gyroscope & \tickmark &   &  \\ \cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \hline
+% attack: accelerometer and gyroscope can be extracted to monitor inputs
+% solution: this is an attack paper, showing it's possible to infer 
+% input using accelerometer and gyroscope. Tab 1 in the paper shows
+% "useful" sensor rate is 25 to 95Hz.
 
 \cite{aviv2012practicality}\textsuperscript{*} & Accelerometer & \tickmark &   
 &  \\ \hline
@@ -228,15 +206,6 @@ Where's Wally \cite{polakis2015s}%\textsuperscript{*}
 % solution: this is an attack paper. microphone is used to help 
 % accelerometer during the detection
 
-LP-Guardian~\cite{fawaz2014location} 
-& Location & \tickmark &   &  \\ \hline
-% attack: tracking, profiling, and identification threats
-% solution:  anonymize location in the background and let user to choose 
-% appropriate anonymization strategy for foreground location access; 
-% feed app with the location granularity necessary to serve the user; 
-% for apps that require constant monitoring, replace the real location
-% with dummy ones that belong to a synthetic route
-
 \cite{bordenabe2014optimal}\textsuperscript{*}
 & Location & \tickmark &   &  \\ \hline
 % attack: localization attacks
@@ -250,15 +219,14 @@ PrivStats~\cite{popa2011privacy}
 % both strong guarantees of location privacy and protection against 
 % cheating clients.
 
-\multirow{5}{*}{ipShield~\cite{chakraborty2014ipshield}} 
-& Location (GPS) & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Gyroscope & \tickmark & &  \\ \cline{2-5}
-& WiFi & \tickmark &   &  \\ \cline{2-5}
-& Cellular & \tickmark &   & \\ \hline
-% attack: general privacy attacks
-% solution: allow users to specify privacy preferences, auto-generates
-% privacy actions on sensors (supression, allow, add noise, etc). 
+LP-Guardian~\cite{fawaz2014location} 
+& Location & \tickmark &   &  \\ \hline
+% attack: tracking, profiling, and identification threats
+% solution:  anonymize location in the background and let user to choose 
+% appropriate anonymization strategy for foreground location access; 
+% feed app with the location granularity necessary to serve the user; 
+% for apps that require constant monitoring, replace the real location
+% with dummy ones that belong to a synthetic route
 
 \multicolumn{5}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
 
@@ -270,79 +238,13 @@ through reading the files in \path{/proc/stat}.} \\
 
 \caption{\small Sensibility Testbed's support for privacy and security policies. A default 
 policy is supported by Sensibility Testbed without extra effort. A specialized policy can 
-be supported by extending default policies. A policy is marked as N/A if it is not possible 
-to provide support.}
+be supported by extending default policies. A policy is N/A if it is not possible 
+to provide support.\yanyan{specific attacks}}
 \label{tab:policy}
 %\vspace{-10pt}
 \end{table}
 
 %\todo{Q1: does ST protect privacy sufficiently?}
-
-\begin{table}
-\scriptsize
-\centering
-
-\bgroup
-\def\arraystretch{1.15}% % for table padding
-\begin{tabular}{|l|l|c|c|c|}
-\hline
-\multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
-\multicolumn{3}{c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
-& & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
-
-\multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Internet\textsuperscript{\dag} & \tickmark & & \\ \hline
-% attack: general privacy attacks
-% solution: labels (taints) data from privacy-sensitive sources and
-% transitively applies labels as sensitive data propagates
-% through program variables, files, and interprocess messages.
-% (maybe this is not the best example)
-
-Koi~\cite{guha2012koi} & Location & \tickmark &   &  \\ \hline
-% attack: location tracking
-% solution: apps set location based triggers, and have them fired
-% based on location updates. eg, instead of location lookup, it does
-% location matching: when the phone is in a grocery store, it notifies
-% the app that set this locaiton trigger
-
-Cloaking~\cite{gruteser2003anonymous} & Location & \tickmark &   &  \\ \hline
-% attack: location tracking
-% solution: adjust the resolution of location information along spatial or 
-% temperal dimensions to meet the specified anonymity constraints
-
-Locaccino~\cite{toch2010empirical} & Location & \tickmark &   &  \\ \hline
-% attack: location tracking
-% solution: survey showed that users are more comfortable sharing their
-% location when they are at places visited by a large and diverse set of people
-
-\multirow{2}{*}{Accomplice~\cite{han2012accomplice}} & Location & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \hline
-% attack: location tracking using accelerometer
-% solution: this is an attack paper. accelerometer can be used to track location
-
-\multirow{2}{*}{TapLogger~\cite{xu2012taplogger}} & Gyroscope & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \hline
-% attack: accelerometer and gyroscope can be extracted to monitor inputs
-% solution: this is an attack paper, showing it's possible to infer 
-% input using accelerometer and gyroscope. Tab 1 in the paper shows
-% "useful" sensor rate is 25 to 95Hz.
-
-\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 77} & \multirow{2}{1cm}{\bf 
-65/77 (84.42\%)} & \multirow{2}{1cm}{\bf 11/77 (14.29\%)} & 
-\multirow{2}{1cm}{\bf 1/76 (1.29\%)} \\ & & & & \\\hline
-
-\multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
-can be implemented by interposing socket calls.} \\
-
-\end{tabular}
-\egroup
-
-\caption{\small Table~\ref{tab:policy} continued --- Sensibility Testbed's support 
-for privacy and security policies. }
-\label{tab:policy-continued}
-%\vspace{-10pt}
-\end{table}
 
 
 \textbf{Privacy and security concerns.}
@@ -378,6 +280,106 @@ Sensibility Testbed using default policies, and 13\% issues can be resolved by e
 default policies (specialized policies). Only about 1\% of them cannot
 be protected by the policies in Sensibility Testbed, \yanyan{I'm not sure 
 yet how to explain this. I don't know what experiment would need this.}
+
+
+\begin{table}
+\scriptsize
+\centering
+
+\bgroup
+\def\arraystretch{1.15}% % for table padding
+\begin{tabular}{|l|l|c|c|c|}
+\hline
+\multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
+\multicolumn{3}{c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
+& & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
+
+\multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \cline{2-5}
+& Internet\textsuperscript{\dag} & \tickmark & & \\ \hline
+% attack: general privacy attacks
+% solution: labels (taints) data from privacy-sensitive sources and
+% transitively applies labels as sensitive data propagates
+% through program variables, files, and interprocess messages.
+% (maybe this is not the best example)
+
+\multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & Device ID & & \tickmark & \\ \cline{2-5}
+& WiFi & \tickmark &   &  \\ \cline{2-5}
+& Bluetooth & \tickmark &   & \\ \cline{2-5}
+& Address book & & \tickmark & \\ \cline{2-5}
+& Location & \tickmark &   &   \\\hline
+% attack: general privacy issues
+% solution: substitute anonymized data in place by crowd sourced recommendations
+
+\multirow{4}{*}{CQue~\cite{parate2013leveraging}}  & Location & \tickmark &  & \\\cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \cline{2-5}
+& Gyroscope & \tickmark &   &  \\ \cline{2-5}
+& Bluetooth & \tickmark &   &   \\\hline
+% attack: this paper tries to infer individual behavior by fusing a bunch of sensors 
+% and provide insights into privacy leakage (use issue what-if queries to explore
+% the leakage if certain sensor data is revealed to apps)
+% solution: detection and fusion of sensors (math)
+
+\multirow{3}{*}{Jigsaw~\cite{lu2010jigsaw}} & Accelerometer 
+& \tickmark &   &  \\ \cline{2-5}  
+& Microphone  & & \tickmark & \\ \cline{2-5}
+& Location & \tickmark &   &   \\\hline
+% attack: robustness to position change and energy drain
+% solution: throttles the depth and sophistication of sensing when data is low quality
+
+\multirow{6}{*}{MockDroid~\cite{beresford2011mockdroid}} 
+& Location & \tickmark &  & \\\cline{2-5}
+& Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
+& Cellular & \tickmark &   &  \\ \cline{2-5}
+& Address book & & \tickmark & \\ \cline{2-5}
+& Device ID & & \tickmark & \\ \cline{2-5}
+& Broadcast intent &  & \tickmark  &  \\ \hline
+% attack: general privacy attacks
+% solution: modify the Android OS to allow users to mock or revoke
+% access to data during run time (simulating lack of location info, wireless
+% network, fake device ID, never sending broadcast intent, etc.)
+
+\multirow{6}{*}{Guardian \cite{zhang2015leave}} 
+& Bluetooth & \tickmark &   & \\ \cline{2-5}
+& Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
+& Microphone  & & \tickmark & \\ \cline{2-5}
+& Cellular & \tickmark &   &  \\ \cline{2-5}
+& Motion sensors & \tickmark &   &  \\ \cline{2-5}
+& CPU usage\textsuperscript{\ddag} & \tickmark & & \\\hline
+% attack: rumtime information gathering (a malicious app recording
+% phone conversations, etc.)
+% solution: pause suspicious background apps (that records the phone 
+% conversation) when the target app is running in the foreground. the 
+% background apps are identified by their behaviors inferred from their
+% thread names, CPU scheduling, kernel time etc. the key is when to 
+% suspend and resume the suspicious background apps
+
+
+\multirow{5}{*}{ipShield~\cite{chakraborty2014ipshield}} 
+& Location (GPS) & \tickmark &   &  \\ \cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \cline{2-5}
+& Gyroscope & \tickmark & &  \\ \cline{2-5}
+& WiFi & \tickmark &   &  \\ \cline{2-5}
+& Cellular & \tickmark &   & \\ \hline
+% attack: general privacy attacks
+% solution: allow users to specify privacy preferences, auto-generates
+% privacy actions on sensors (supression, allow, add noise, etc). 
+
+\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 77} & \multirow{2}{1cm}{\bf 
+65/77 (84.42\%)} & \multirow{2}{1cm}{\bf 11/77 (14.29\%)} & 
+\multirow{2}{1cm}{\bf 1/76 (1.29\%)} \\ & & & & \\\hline
+
+\multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
+can be implemented by interposing socket calls.} \\
+
+\end{tabular}
+\egroup
+
+\caption{\small Table~\ref{tab:policy} continued --- Sensibility Testbed's support 
+for privacy and security policies. \yanyan{general attacks}}
+\label{tab:policy-continued}
+%\vspace{-10pt}
+\end{table}
 
 In particular, prior work shows 
 that Android users' touch inputs can be revealed through a few attack 

@@ -1,27 +1,4 @@
-\section{Evaluation}\label{sec-eval}
-
-In this section we evaluate the effectiveness of Sensibility Testbed's 
-privacy mechanisms, its usability as a mobile testbed, and its 
-performance. To investigate whether the policies provided by 
-Sensibility Testbed are representative, we surveyed the projects
-in the past few years and identified their security and privacy 
-mechanisms. We analyzed if Sensibility Testbed can provide policies 
-to protect the corresponding data in Section~\ref{sec-our-policies}. 
-We then show two examples by applying Sensibility Testbed's 
-policies to two experiments in Section~\ref{sec-experiment}. We 
-demonstrate that with the policies in place, we can protect the 
-device owner's privacy, while the data is sufficient for answering 
-research questions. We show the performance overhead of 
-Sensibility Testbed in Section~\ref{sec-benchmark}, and our 
-deployment experience in Section~\ref{sec-deployment}.
-
-%\todo{Q: how well the testbed protects privacy, and still allows experiments
-%to function? A: \ref{sec-accurate} and \ref{sec-function}.}
-
-
-\subsection{Sensibility Testbed's Privacy Policies}\label{sec-our-policies}
-
-\begin{table}
+\begin{table*}
 \scriptsize
 \centering
 
@@ -29,11 +6,9 @@ deployment experience in Section~\ref{sec-deployment}.
 \def\arraystretch{1.15}% % for table padding
 \begin{tabular}{|l|l|c|c|c|}
 \hline
-\multirow{2}{.75cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
-\multicolumn{3}{c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
-& & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
+{\bf Project} & {\bf Sensor} & \multicolumn{3}{c|}{\bf Sensibility Testbed policy}  \\\hline
 
-EnCore~\cite{aditya2014encore}  & Bluetooth & \tickmark &   &   \\\hline
+EnCore~\cite{aditya2014encore}  & Bluetooth & Randomize Bluetooth MAC address. &   &   \\\hline
 % attack: associating Bluetooth MAC address with device
 % solution: use Bluetooth 4.0's native support for randomized MAC address
 
@@ -85,14 +60,21 @@ Cach{\'e}~\cite{amini2011cache} & Location & \tickmark &   &   \\\hline
 % of taps using motion sensor + machine learning
 % in Sec 4 they mentioned they had to use sensor rate@100Hz
 
-\multirow{4}{.8cm}{FindingMiMo \cite{shin2011findingmimo}} 
-& WiFi & \tickmark &   &  \\ \cline{2-5}
-& Location & \tickmark &  & \\\cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Magnetometer & \tickmark &   &  \\ \hline
+\multirow{2}{.8cm}{FindingMiMo \cite{shin2011findingmimo}} 
+& WiFi & \multirow{2}{*}{Access frequency $\leq$ once per 2 minutes.} &   &  \\ \cline{2-2}
+& Location & &  & \\\cline{2-5}
+& Accelerometer & \multirow{2}{*}{Not specified, only for move detection.} &   &  \\ \cline{2-2}
+& Magnetometer &  &   &  \\ \hline
 % attack: this is a tracker for device. it tracks and locates a missing mobile device
 % in indoor environments by observing the ambient features such as radio signals, 
 % and retrieving location information from ambient observations
+% sec 5.1:  The sampling interval for GPS sensing is
+%2 minutes; we activates it for 30 seconds for single positioning.
+%The interval of Wi-Fi scanning is adaptively determined, based on
+%a user’s movement. In the move state, the system stores Wi-Fi
+%vectors every 5 seconds. In the stationary state, we activates Wi-Fi 
+%module for 30 seconds to scan the surrounding APs every 10
+%seconds. The sampling interval is set at 2 minutes
 
 ACCessory~\cite{owusu2012accessory} & Accelerometer & \tickmark &   
 &  \\ \hline
@@ -122,12 +104,12 @@ Locaccino~\cite{toch2010empirical} & Location & \tickmark &   &  \\ \hline
 % attack: location tracking using accelerometer
 % solution: this is an attack paper. accelerometer can be used to track location
 
-\multirow{2}{*}{TapLogger~\cite{xu2012taplogger}} & Gyroscope & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \hline
+\multirow{2}{*}{TapLogger~\cite{xu2012taplogger}} & Gyroscope & \multirow{2}{*}{Access frequency $\leq$ 25 Hz.} &   &  \\ \cline{2-2}
+& Accelerometer &  &   &  \\ \hline
 % attack: accelerometer and gyroscope can be extracted to monitor inputs
 % solution: this is an attack paper, showing it's possible to infer 
 % input using accelerometer and gyroscope. Tab 1 in the paper shows
-% "useful" sensor rate is 25 to 95Hz.
+% "useful" sensor rate is: accelerometer/orientation both 25-50Hz, .
 
 \cite{aviv2012practicality}\textsuperscript{*} & Accelerometer & \tickmark &   
 &  \\ \hline
@@ -230,56 +212,99 @@ LP-Guardian~\cite{fawaz2014location}
 
 \multicolumn{5}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
 
-\multicolumn{5}{l}{\textsuperscript{\ddag}\scriptsize CPU usage can be obtained
-through reading the files in \path{/proc/stat}.} \\
-
 \end{tabular}
 \egroup
 
-\caption{\small Sensibility Testbed's support for privacy and security policies. A default 
-policy is supported by Sensibility Testbed without extra effort. A specialized policy can 
-be supported by extending default policies. A policy is N/A if it is not possible 
-to provide support.\yanyan{specific attacks}}
+\caption{\small Sensibility Testbed's support against known attacks. 
+%Default policies are listed in Table~\ref{tab:default}.
+%is supported by Sensibility Testbed without extra effort. A specialized policy can 
+%be supported by extending default policies. A policy is N/A if it is not possible 
+%to provide support.\yanyan{specific attacks}}
+}
 \label{tab:policy}
 %\vspace{-10pt}
-\end{table}
+\end{table*}
 
-%\todo{Q1: does ST protect privacy sufficiently?}
+\section{Evaluation}\label{sec-eval}
+
+In this section we evaluate the effectiveness of Sensibility Testbed's 
+privacy mechanisms, its usability as a mobile testbed, and its 
+performance. To investigate whether the policies provided by 
+Sensibility Testbed are representative, we surveyed the projects
+in the past few years and identified their security and privacy 
+mechanisms. We analyzed if Sensibility Testbed can provide policies 
+to protect the corresponding data in Section~\ref{sec-our-policies}. 
+We then show two examples by applying Sensibility Testbed's 
+policies to two experiments in Section~\ref{sec-experiment}. We 
+demonstrate that with the policies in place, we can protect the 
+device owner's privacy, while the data is sufficient for answering 
+research questions. We show the performance overhead of 
+Sensibility Testbed in Section~\ref{sec-benchmark}, and our 
+deployment experience in Section~\ref{sec-deployment}.
+
+%\todo{Q: how well the testbed protects privacy, and still allows experiments
+%to function? A: \ref{sec-accurate} and \ref{sec-function}.}
 
 
-\textbf{Privacy and security concerns.}
+\subsection{Sensibility Testbed's Privacy Policies}\label{sec-our-policies}
+
+\textbf{Protection Against Known Attacks.}
+As stated in Section~\ref{sec-policy-design}, \sysname's default policies are 
+set to appropriate levels to protect against known attacks today.
 In order to identify the current privacy and security concerns on mobile 
-devices, we surveyed 31 projects in the past few years. We then analyzed
-these projects by reading their corresponding publications, identified 
-their needs or their provided mechanism for privacy protection. 
-These projects, listed in Table~\ref{tab:policy} and \ref{tab:policy-continued},
-range from social network applications~\cite{aditya2014encore} to facial
-recognition algorithms~\cite{chen2014sensor}. If their privacy need or privacy
-protection can be supported by equivalent \textit{default} policies in Sensibility 
-Testbed, a \tickmark\ is marked in the default column. These sensors belong to 
-low to moderate risk, as defined in Table~\ref{tab:default}. Similarly, if the
-sensors are of high risk, a \tickmark\ is marked in the specialized column. 
-This means that a different IRB procedure could be followed to extend 
-default policies (Section~\ref{sec-motivation}). If a sensor cannot be 
-supported by a default or specialized policy, a \xmark\ is marked in the 
-N/A column. 
+devices, we surveyed 31 projects in the past years by reading their corresponding 
+publications. Some of these projects
+propose privacy protection mechanisms against a certain attack (e.g., 
+EnCore~\cite{aditya2014encore} uses randomized Bluetooth MAC address to 
+prevent the tracking of a device), others show the posibility of a certain attack 
+using sensors (e.g., TapPrints~\cite{miluzzo2012tapprints} shows that it is 
+possible to infer key strokes using motion sensors). We analyzed both kinds of
+projects, and identified the privacy risks in these projects.
+\todo{Q: what privacy concerns do people have? }
 
-Out of these projects, 
-19 of them proposed privacy protection about location information, 16 of 
-them considered motion sensors such as accelerometer and gyroscope 
-risky, and 9 had concerns about wireless network such as WiFi and Bluetooth
-(connection/pairing history, MAC addresses, etc.). As expected, location (mainly GPS)
-and motion sensors (mainly accelerometer) have the most privacy and security 
-concerns~\cite{chakraborty2014ipshield}.
-%\todo{Q1.1: what privacy concerns do people have? }
+These projects are listed in Table~\ref{tab:policy}. As shown in the table, the 
+most common risks are: identifying a device or its owner, locating a device, and 
+inferring keys strokes typed by a device owner. In this table, we also show the
+policies in \sysname that can be applied to protect the device owner from the
+attacks stated in the project publication. For example, 
+FindingMiMo~\cite{shin2011findingmimo} locates a device by monitoring 
+the device's location and ambient radio signal (particularly WiFi). It generates 
+an ambient environment fingerprint that a device encouter during a day so 
+that the device can be located. As shown in Section 5.1 
+of~\cite{shin2011findingmimo}, the GPS location and WiFi scan's sampling 
+interval is 2 minutes. Therefore, restricting the access frequency to these 
+sensors to below once per 2 minutes can effectively prevent the environment 
+fingerprinting, even if the accuracy of GPS and WiFi is not reduced.
+\todo{Q1: does ST protect privacy sufficiently?}
 
-\textbf{Are Sensibility Testbed's policies sufficient?}
-As shown in Table~\ref{tab:policy} and \ref{tab:policy-continued}, nearly 86\% 
-of the security and privacy issues in prior projects can be addressed in 
-Sensibility Testbed using default policies, and 13\% issues can be resolved by extending 
-default policies (specialized policies). Only about 1\% of them cannot
-be protected by the policies in Sensibility Testbed, \yanyan{I'm not sure 
-yet how to explain this. I don't know what experiment would need this.}
+%These projects, listed in Table~\ref{tab:policy} and \ref{tab:policy-continued},
+%range from social network applications~\cite{aditya2014encore} to facial
+%recognition algorithms~\cite{chen2014sensor}. If their privacy need or privacy
+%protection can be supported by equivalent \textit{default} policies in Sensibility 
+%Testbed, a \tickmark\ is marked in the default column. These sensors belong to 
+%low to moderate risk, as defined in Table~\ref{tab:default}. Similarly, if the
+%sensors are of high risk, a \tickmark\ is marked in the specialized column. 
+%This means that a different IRB procedure could be followed to extend 
+%default policies (Section~\ref{sec-motivation}). If a sensor cannot be 
+%supported by a default or specialized policy, a \xmark\ is marked in the 
+%N/A column. 
+%
+%Out of these projects, 
+%19 of them proposed privacy protection about location information, 16 of 
+%them considered motion sensors such as accelerometer and gyroscope 
+%risky, and 9 had concerns about wireless network such as WiFi and Bluetooth
+%(connection/pairing history, MAC addresses, etc.). As expected, location (mainly GPS)
+%and motion sensors (mainly accelerometer) have the most privacy and security 
+%concerns~\cite{chakraborty2014ipshield}.
+
+
+%\textbf{Are Sensibility Testbed's policies sufficient?}
+%As shown in Table~\ref{tab:policy} and \ref{tab:policy-continued}, nearly 86\% 
+%of the security and privacy issues in prior projects can be addressed in 
+%Sensibility Testbed using default policies, and 13\% issues can be resolved by extending 
+%default policies (specialized policies). Only about 1\% of them cannot
+%be protected by the policies in Sensibility Testbed, \yanyan{I'm not sure 
+%yet how to explain this. I don't know what experiment would need this.}
 
 
 \begin{table}
@@ -291,8 +316,8 @@ yet how to explain this. I don't know what experiment would need this.}
 \begin{tabular}{|l|l|c|c|c|}
 \hline
 \multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
-\multicolumn{3}{c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
-& & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
+\multicolumn{3}{c|}{\bf Sensibility Testbed policy} \\\cline{3-5}
+& & {\bf Default} & {\bf Extended} & {\bf Cannot support} \\\hline
 
 \multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
 & Accelerometer & \tickmark &   &  \\ \cline{2-5}
@@ -303,7 +328,7 @@ yet how to explain this. I don't know what experiment would need this.}
 % through program variables, files, and interprocess messages.
 % (maybe this is not the best example)
 
-\multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & Device ID & & \tickmark & \\ \cline{2-5}
+\multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & Device ID & \tickmark &  & \\ \cline{2-5}
 & WiFi & \tickmark &   &  \\ \cline{2-5}
 & Bluetooth & \tickmark &   & \\ \cline{2-5}
 & Address book & & \tickmark & \\ \cline{2-5}
@@ -332,7 +357,7 @@ yet how to explain this. I don't know what experiment would need this.}
 & Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
 & Cellular & \tickmark &   &  \\ \cline{2-5}
 & Address book & & \tickmark & \\ \cline{2-5}
-& Device ID & & \tickmark & \\ \cline{2-5}
+& Device ID & \tickmark & & \\ \cline{2-5}
 & Broadcast intent &  & \tickmark  &  \\ \hline
 % attack: general privacy attacks
 % solution: modify the Android OS to allow users to mock or revoke
@@ -365,23 +390,38 @@ yet how to explain this. I don't know what experiment would need this.}
 % solution: allow users to specify privacy preferences, auto-generates
 % privacy actions on sensors (supression, allow, add noise, etc). 
 
-\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 77} & \multirow{2}{1cm}{\bf 
-65/77 (84.42\%)} & \multirow{2}{1cm}{\bf 11/77 (14.29\%)} & 
-\multirow{2}{1cm}{\bf 1/76 (1.29\%)} \\ & & & & \\\hline
+%\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 77} & \multirow{2}{1cm}{\bf 
+%65/77 (84.42\%)} & \multirow{2}{1cm}{\bf 11/77 (14.29\%)} & 
+%\multirow{2}{1cm}{\bf 1/76 (1.29\%)} \\ & & & & \\\hline
 
 \multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
 can be implemented by interposing socket calls.} \\
 
+\multicolumn{5}{l}{\textsuperscript{\ddag}\scriptsize CPU usage can be obtained
+through reading the files in \path{/proc/stat}.} \\
+
 \end{tabular}
 \egroup
 
-\caption{\small Table~\ref{tab:policy} continued --- Sensibility Testbed's support 
-for privacy and security policies. \yanyan{general attacks}}
+\caption{\small \sysname's support for privacy protection compared to other
+privacy frameworks.}
 \label{tab:policy-continued}
 %\vspace{-10pt}
 \end{table}
 
-In particular, prior work shows 
+\textbf{Are Sensibility Testbed's Policies Sufficient?}
+We compare \sysname's privacy protection with other privacy frameworks. 
+As shown in Table~\ref{tab:policy-continued}, if a privacy policy can be supported
+by \sysname's default policy (e.g., providing a hashed device ID), a \tickmark\ 
+is placed in the default column. If a default policy is too restrictive, but an 
+extended policy with \sysname's IRB can permite (e.g., access to a camera
+with limited pixel resolution), then a \tickmark\ is placed in the extended column.
+As shown in the table, most of the privacy policies (x\%) can be supported by
+\sysname's default policies, and y\% needs to go through extended IRB in order
+to get access to sensor data. 
+
+\begin{comment}
+As another example, prior work shows 
 that Android users' touch inputs can be revealed through a few attack 
 techniques like keyloggers and fingerprinting. 
 %For example, a smartphone's accelerometer 
@@ -407,9 +447,7 @@ Therefore, the policies to restrict the access rates to motion sensors
 are effective when the allowed rate is lower than the best keylogger 
 would require to identify a key, or the best tracker to fingerprint a device.
 Section~\ref{sec-experiment} shows such an example. 
-
-Another line of attack is on location privacy. \yanyan{need to wirte more here.
-should we do an experiment for location?}
+\end{comment}
 
 %\todo{Q1.2: does ST address these concerns? A1.2: show
 %  a handful of past experiments with a 90/10 rule -- 90\% of experiments

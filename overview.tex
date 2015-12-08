@@ -8,7 +8,7 @@ participating devices, and configures privacy policies on the
 devices,  a \textit{researcher} seeking to run experiments on 
 remote devices. 
 %and the researcher's institution's \textit{local IRB}.
-
+%
 In the sections below, we present a high-level walkthrough of the steps 
 required of the researcher and device owner, 
 introduce how the default policies are designed, and explain the 
@@ -61,7 +61,9 @@ Alice is informed about the testbed's privacy and usage policy
 in a consent form and must give consent before participating.
 She can opt out of the testbed by uninstalling the app, opt out of
 an individual experiment, and set local sensor policies that
-will supersede Bob's IRB policies (Section~\ref{sec-repy}). 
+will supersede Bob's IRB policies (Section~\ref{sec-repy}). This
+protocol for research with mobile device sensors has been approved by
+the IRB at New York University (IRB \# 15-10751).  
 
 \begin{comment}
 Bob completes a series of steps to deploy his experiment on \sysname.
@@ -170,8 +172,8 @@ enforces the IRB policies on behalf of the researcher.
 \def\arraystretch{1.15}% % for table padding
 \begin{tabular}{|p{3cm}|p{8cm}|p{4cm}|}
 \hline
-{\bf Goals\textsuperscript{*}}  & {\bf Sensor data} & {\bf Possible default 
-policy\textsuperscript{\dag}}  \\ \hline \hline
+{\bf Goals\textsuperscript{*}}  & {\bf Sensor data} & {\bf Default policy\textsuperscript{\dag}}  
+\\ \hline \hline
 
 \multirow{8}{3cm}{Support research projects. \yanyan{this is not a prevention goal tho.}} 
 & Battery status (charging/discharging), temperature, 
@@ -408,7 +410,8 @@ supersede both \sysname's default policies and the researcher's IRB policies,
 as described in Section~\ref{sec-repy}.
 
 \sysname's default policies are set to appropriate levels to protect against 
-known attacks today. However, these levels will need to change over time as
+known attacks today, as shown in our analysis in Section~\ref{sec-our-policies}. 
+However, these levels will need to change over time as
 new attacks emerge and become available. \sysname's IRB allows adjusting 
 of sensor access rates, therefore making the default policies
 stronger over time as they adjust to new attacks. It is also important to note that 

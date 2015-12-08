@@ -1,16 +1,13 @@
 \section{Sensibility Testbed Architecture}\label{sec-design}
 
-The architecture of Sensibility Testbed has three interacting parties: 
+As stated in Section~\ref{sec-overview}, the architecture of Sensibility 
+Testbed involves three interacting parties:  
 %as shown in Figure~\ref{fig-arch}: 
-\textit{researchers} who want to run
-experiments on mobile devices; a \textit{clearinghouse} server that discovers 
-participating devices, and configures the researcher's IRB policies on the 
-devices; and mobile \textit{devices} owned by ordinary people, with the testbed 
-software installed. In this section, we 
+researchers, a clearinghouse server, and mobile device owners. In this section, we 
 %discuss the role and functions of each party, and introduce their key 
 %techniques. We 
 use the same example as in 
-Section~\ref{sec-walkthrough} to explain the interaction between different 
+Section~\ref{sec-walkthrough} to explain the interaction between these 
 parties, where researcher Bob wants to know the cellular service quality 
 using Alice's device.
 
@@ -284,7 +281,8 @@ clearinghouse on behalf of the experimenters. An experimenter is aware
 of certain policies in place, but does not need to implement or explicitly
 enforce such policies. 
 \jill{we should add something in this example about how default policies play a role}
-
+\yanyan{Can we explain how some policies supersede other policies? ie, device
+owner's policies > \sysname default policies > researcher's IRB policies.}
 %In the following, we describe how to implement each blurring layer, 
 %and use them to form a policy stack.
 

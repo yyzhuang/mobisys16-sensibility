@@ -285,12 +285,11 @@ policies.} \\
 \subsection{Policy Design}\label{sec-policy-design}
 
 The goal of \sysname is to protect the device owner's privacy, while making
-the data from mobile devices useful for a wide range of research. \sysname
-leverages a concept that not all sensors are alike. 
+the data from mobile devices useful for a wide range of research. 
 %As mentioned earlier, failure to recognize the vulnerability of
 %certain sensors was a key reason for privacy breaches. 
-Sensibility Testbed uses \textit{default policies} to specify the precision and 
-accuracy that different types of sensors can be accessed to prevent common privacy and
+Sensibility Testbed uses \textit{default policies} to specify how 
+different types of sensors can be accessed to prevent common privacy and
 security attacks, %To privide such protection, \sysname 
 %classifies sensors as 
 %of low, moderate, or high risk. Sensors of high risk are not accessable to 
@@ -299,16 +298,15 @@ security attacks, %To privide such protection, \sysname
 %uses a set of policies to prevent a range of attacks, 
 as listed in Table~\ref{tab:default}. 
 %These policies roughly fall into three categories.
-Researchers can further customize the policies 
+Researchers can further customize the policies through their IRB
 to access sensors at a coarser data granularity. The default and 
-customized policies are automatically enforced by the \sysname 
+customized policies would then be automatically enforced by the \sysname 
 infrastructure. 
 %\cappos{Shouldn't this detail come earlier?  Why is this here instead?}
-A summary of the default policies is as follows.
 
 %\textbf{Category 1.}
-First, the default policies disable cameras and microphones, since they 
-are highly sensitive. If a microphone is controlled by a malicious party, it can be used to 
+The default policies disable highly sensitive sensors, such as cameras and microphones. 
+If a microphone is controlled by a malicious party, for example, it can be used to 
 intelligently choose data of a higher value to record, such as a credit card 
 number or password~\cite{zhang2015leave}. Cameras face similar
 risks. Meanwhile, the default policies disable interrupting actions, such as 
@@ -316,7 +314,8 @@ making phone calls, scanning a barcode on behalf of the device owner,
 and accessing an address book. 
 
 %\textbf{Category 2.}
-Next, given our analysis of the current privacy attacks, we have identified the three 
+Given our analysis of privacy attacks in the current literature, 
+we have identified the three 
 most common 
 risks for device owners (Section~\ref{sec-our-policies}): (1) identifying a device or its owner, 
 (2) locating a device, and (3) inferring keys strokes typed by a device owner. 
@@ -333,47 +332,39 @@ Therefore, Sensibility Testbed's default policies
 blur data from these sensors, but don't disable them completely. 
 For example, the default policies enforce randomized MAC addresses in a 
 Bluetooth and WiFi network, approximated location coordinates, and 
-control the frequency of access to motion sensor data. Note that keyloggers (3)
+control the frequency of access to motion sensor data. Note that keyloggers (risk 3)
 are more effective when the access frequency to motion sensors is 
 high. Previous work such as ACCessory~\cite{owusu2012accessory}, 
 TapPrints~\cite{miluzzo2012tapprints}, TapLogger~\cite{xu2012taplogger}, 
 and other projects~\cite{aviv2012practicality} showed that when the 
-frequency to get motion sensor data is above 100 Hz, the keyloggers' 
-learning algorithms become much more accurate. Therefore, we limit 
-motion sensors to be accessed at a rate lower than 100 Hz. Meanwhile, 
-identification of a device (risk 1) can be effectively prevented by limiting data 
-precision. If one merely controls the access frequency, an adversary can 
-still learn about the device identity given enough time. Therefore, we do
-not control the frequency for risk 1. Locating a device (risk 2) is reduced by 
-controlling both the data precision and access frequency. The current policy
-for location frequency is once per 10 minutes. \yanyan{I put a number I'm 
-confortable with, but with no backup...} \jill{let's think some more about how we 
-should justify this, and what about risk 3? in 5.1 we say: Note that specific details 
-as to how frequently a certain sensor can be accessed without risking such an 
-invasion is out of the scope of this work....}
+frequency to get motion sensor data is above a certain threshold, the keyloggers' 
+learning algorithms become much more accurate. Therefore, 
+using \sysname's default policies, we can limit 
+motion sensors to be accessed at a rate lower than this threshold. 
+
 
 %\textbf{Category 3.}
-Finally, as long as the previous policies hold, research 
-projects are allowed to get data at a level that is meaningful. For example, 
-projects that are interested in monitoring human activity, wireless network 
-performance, etc., sensor values are allowed at the granularity that is safe 
-according to the researcher's IRB, 
-as long as the device owners cannot be identified or located, no key strokes 
-can be inferred, etc. The default policies currently allow this data to be 
-accessed with full precision (accuracy can be reduced if the IRB
-does not require full precision), since data such as cellular signal strength and WiFi 
-link speed is typically only meaningful with highest accuracy. While it is true that
-certain data like battery information can be used to infer the location of 
-a device, such techniques only works in conjunction with other data 
-such as cellular data usage~\cite{michalevsky2015powerspy}\footnote{\scriptsize 
-The tracking works by measuring the overall power consumption 
-by the phone's cellular radio. Cellular radio power consumption depends 
-on the distance to the nearest cellular tower and any obstacles between 
-the phone and tower. This combination of factors creates a unique power 
-consumption profile for each geographic location~\cite{battery-use}.}. 
-Since the latter data has been protected by aforementioned policies, such 
-complex privacy attacks become less effective. \jill{not sure if this argument is strong
- because we can't account for every possible combination}
+%\sysname's default policies allow research 
+%projects to get data at a level that is meaningful. For example, 
+%projects that are interested in monitoring human activity, wireless network 
+%performance, etc., sensor values are allowed at the granularity that is safe 
+%according to the researcher's IRB. 
+
+%The default policies currently allow this data to be 
+%accessed with full precision (accuracy can be reduced if the IRB
+%does not require full precision), since data such as cellular signal strength and WiFi 
+%link speed is typically only meaningful with highest accuracy. While it is true that
+%certain data like battery information can be used to infer the location of 
+%a device, such techniques only works in conjunction with other data 
+%such as cellular data usage~\cite{michalevsky2015powerspy}\footnote{\scriptsize 
+%The tracking works by measuring the overall power consumption 
+%by the phone's cellular radio. Cellular radio power consumption depends 
+%on the distance to the nearest cellular tower and any obstacles between 
+%the phone and tower. This combination of factors creates a unique power 
+%consumption profile for each geographic location~\cite{battery-use}.}. 
+%Since the latter data has been protected by aforementioned policies, such 
+%complex privacy attacks become less effective. \jill{not sure if this argument is strong
+%because we can't account for every possible combination}
 
 \begin{comment}
 \textbf{Risk categorization.}
@@ -434,10 +425,24 @@ whereas others have an upper bound on their access frequency.
 
 \end{comment}
 
+
 According to our analysis of previous work, sensor data is disabled or 
-blurred by default. However, if such access is critical to the study, access 
+blurred by default. However, if a finer-grained access is critical to the study, access 
 must be requested by going through the \sysname's IRB, in addition to the 
-researcher's IRB. 
+researcher's IRB. \jill{should we say something here about the device owner 
+being able to set his own limits on sensors?}
+
+\sysname's default policies are set to appropriate levels to protect against 
+known attacks today. However, these levels will need to change over time as
+new attacks emerge and become available. \sysname's IRB allows adjusting 
+of sensor access rates, therefore making the default policies
+stronger over time as they adjust to new attacks. It is also important to note that 
+if a researcher's IRB allows access to non-sensitive sensor data, \sysname will 
+enable the researcher to obtain that data without control over what the data is used for.
+A researcher may succeed in finding a new attack by combining this data with other 
+information, for example. However, given the 
+knowledge of the new attack, \sysname can update its default policies to prevent against
+this type of attack happening with future use. 
 %\yanyan{Justin, help!} 
 %\cappos{Don't you have some things you would never allow even if the NYU IRB
 %approves it?}
@@ -448,15 +453,15 @@ researcher's IRB.
 %
 %
 %
-As a result, Sensibility Testbed does not
-provide unfettered access to all sensors. 
+%As a result, Sensibility Testbed does not
+%provide unfettered access to all sensors. 
 %Access to sensors of
 %higher risk, e.g., the policies that request restricted sensor data, 
 %or at higher frequencies than our default policies, 
 %needs to go through the Sensibility Testbed's IRB,
 %in addition to the researcher's IRB. 
-In most cases, we expect
-that researchers need only go through their local IRB to get
-the sensor access they need for their experiment. 
+%In most cases, we expect
+%that researchers need only go through their local IRB to get
+%the sensor access they need for their experiment. 
 
 

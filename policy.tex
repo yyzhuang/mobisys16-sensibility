@@ -1,5 +1,6 @@
 \section{Implementation}\label{sec-policy}
-
+This section describes the implementation of the techniques introduced
+in Section~\ref{sec-design}.
 It is important to acknowledge that the Sensibility Testbed 
 benefitted from the design and implementation of an earlier experimental 
 platform for networking and distributed system research called Seattle. 
@@ -14,7 +15,7 @@ network bandwidth, allowing Seattle to run with minimal impact on system
 security and performance. Programs are only allowed to operate inside of a 
 sandbox, ensuring that other files and programs on the computer are kept 
 private and safe. The basic design of the Repy Sandbox described below was 
-leveraged from the earlier Seattle design. \jill{what do we add?}
+leveraged from the earlier Seattle design. 
 
 \begin{comment}
 \subsection{Sensor Access from the Repy Sandbox}
@@ -96,16 +97,18 @@ device, as shown in Figure~\ref{fig-blur}.
 \end{comment}
 
 \subsection{Secure Sandbox}\label{sec-sandbox}
-The Repy sandbox is the most important in the device software. This 
-security-reviewed sandbox~\cite{cappos2010retaining} mitigates the 
+The sandbox described in Section~\ref{sec-repy} is called Repy 
+(Restricted Python), a 
+%sandbox is the most important in the device software. This 
+security-reviewed sandbox~\cite{cappos2010retaining} that mitigates the 
 impact of bugs in experimenter code by providing security isolation 
 and performance isolation\footnote{\scriptsize 
 This sandbox has been used successfully for more than six years in our 
-prior work, the Seattle testbed~\cite{seattle}.}. 
+prior work, the Seattle testbed~\cite{seattle}.} (introduced below). 
 %Instead of developing full-fledged Android apps, all 
 %experiments in Sensibility Testbed are written in a language
 %similar to Python, and run in a secure %Python-based
-Researchers use a Python-like programming interface~\cite{repyv2}
+Researchers in \sysname use Repy's Python-like programming interface~\cite{repyv2}
 to write experiment code, upload the code and execute it in the
 sandbox on remote devices. The programming interface includes functions for networking, 
 file system access, threading, locking, logging, and so on. To access sensors, 
@@ -128,14 +131,16 @@ data gathered from the device to adapt to any IRB proscribed limits.
 %location. Using the same technique, 
 For example, the sandbox can anonymize the IP address of a device, constrain  
 the frequency of access to GPS locations, and disable
-access to cameras. 
+access to cameras. The policy enforcement 
+is presented in Section~\ref{sec-repy}. We focus on the 
+security and performance isolation of Repy in this section.
 %Such privacy protection is a contribution of Sensibility Testbed, 
 %which does not exist in any prior work. 
-The details of policy implementation are presented in 
-Section~\ref{sec-layer} and \ref{sec-nanny}.
+%The details of policy implementation are presented in 
+%Section~\ref{sec-layer} and \ref{sec-nanny}.
 
-\textbf{Security and performance isolation.}
-The sandbox is the execution environment 
+\textbf{Security and Performance Isolation.}
+The Repy sandbox is the execution environment 
 of all experiment code. It isolates experimenters' programs from one 
 another, and prevents any of the code from harming the device 
 through its strong isolation techniques. More importantly, the sandbox
@@ -577,44 +582,56 @@ the city level.
 \end{comment}
 
 
-
-\subsection{Resource Manager and Device Manager}
-The \sysname resource and device managers are implemented as Python 
-programs that are set up and configured as the \sysname Android app 
-is installed. As with the sandbox, both components are based on our 
-prior work in Seattle Testbed, but are specifically customized to 
-the Android OS. For instance, starting the app at boot time of the 
-device is implemented by registering a \texttt{BroadcastIntent} handler 
+\subsection{Other Testbed Infrastructure}
+\textbf{Device Manager.}
+The \sysname device manager allows device owners to control 
+the software running on their devices, and configure device owner's 
+privacy policies locally. It is implemented as a Python 
+program that is configured when the \sysname app 
+is installed. \yanyan{what does the configuration do?} As with the sandbox, the device manager is based on our 
+prior work on Seattle Testbed, but is specifically customized to 
+the Android OS. For instance, \sysname runs on a end-user device 
+as background process. Starting the app at boot time of the 
+device is implemented by registering a Broadcast Intent handler 
 for \path{ACTION_BOOT_COMPLETED}. Also, permanent storage needs 
-special treatment, as the media on which a \sysname install lives 
-might be unmounted and ejected from the device at any time.
-The resource manager furthermore includes code to dynamically 
-traverse NAT gateways and firewalls (both which are commonly found 
+special treatment, as the media on which a \sysname is installed
+might be unmounted and ejected from the device at any time. \yanyan{how is this handled??}
+The device manager also includes code to dynamically 
+traverse NAT gateways and firewalls (both are commonly found 
 on Internet connections over WiFi), so that it remains contactable 
 even if the device does not currently possess a public IP address.
 
+To enable local configuration of policies set by a device owner, 
+the device manager parses the input from the user interface
+\yanyan{add how device manager policies --> sandbox policies.}
 
-\subsection{Clearinghouse}
-\albert{I don't know if any of this is interesting at all.}
-
-\sysname's clearinghouse is hosted on a web server operated by the 
-authors. \albert{...trying to indicate that ``you, dear reader'' needn't worry about that aspect...}
-
-It is implemented on top of the Django web framework. 
-Django uses Python as its runtime (as does our sandbox), so it is 
+\textbf{Clearinghouse.}
+\sysname's clearinghouse is hosted on a web server at NYU. 
+\yanyan{cite, but sensibilityclearinghouse.poly.edu/ does not have 
+registration form. Kaushik's website is ugly..}
+%\albert{...trying to indicate that ``you, dear reader'' needn't worry about that aspect...}
+It is implemented based on the Django web framework. 
+Django uses Python as its runtime, like our sandbox, so it is 
 straightforward for the clearinghouse to reuse the same libraries for 
-cryptography, node announcement and lookup, and sandbox control as the 
-other parts of the system.
+cryptography, device announcement and lookup, 
+\yanyan{add a paragraph for lookup service. otherwise this 
+comes out of blue. or ref to TR \cite{zhuangTR15}?} and 
+sandbox control as the other parts of the system.
 
+The clearinghouse uses databases to store the information about
+available devices, and registered researcher's experiments. \yanyan{briefly 
+describe the DBs, how the devices get timed out when inactive, how 
+to pass the parsed IRB policies onto device sandboxes, etc.}
 
-
-\subsection{Experiment Manager}
-
-This component is required to run on experimenter's machines so that 
-they can interface with the sandboxes they can control. The experiment 
-manager, including assorted Repy libraries to support the development of 
-experiments, is available in packaged form \cite{demo-kit}, and runs 
-on all operating systems and platforms supported by Python 2. 
+\textbf{Experiment Manager.}
+Researchers use an experiment manager to directly access remote 
+devices, like using a command line console via \texttt{ssh}. 
+%run on experimenter's machines so that 
+%they can interface with the sandboxes they can control. 
+The experiment manager, including assorted Repy libraries to support 
+the development of experiments (\yanyan{such as libraries to...}), is available 
+in packaged form that can be downloaded \cite{demo-kit}. It runs 
+on all operating systems and platforms supported by Python. 
 To accommodate for the reality of today's networks, the experiment 
 manager supports contacting resource managers on devices 
 inside WiFi networks (or behind NAT gateways and firewalls in general).

@@ -5,33 +5,15 @@ can run on \sysname. The basic operation involves four separate
 parties: a \textit{device owner} interested in participating in 
 experiments, a \textit{clearinghouse} that registers and configures 
 this device,  a \textit{researcher} seeking to run experiments on 
-remote devices, and the researcher's institution's \textit{local IRB}.
-In the following, we assume that Alice, a device owner, participates in 
-the testbed, while a researcher, Bob, wants to runs code on \sysname 
-using Alice's device, among other devices.
+remote devices. 
+%and the researcher's institution's \textit{local IRB}.
 
-From the perspective of Bob, the steps required to 
-run an experiment on \sysname roughly fall into two categories: 
-experiment approval, and deployment.
-First of all, Bob the researcher designs his experiment, and 
-possibly tests its feasibility on his own device (on which he can 
-use the same \sysname app but does not need IRB approval to access it). 
-Following this, 
-he registers his experiment on the \sysname clearinghouse, and 
-specifies the sensors and sensor accuracy that his experiment 
-requires. The clearinghouse provides Bob with a form summarizing 
-the request. Bob now requests approval for his experiment from his 
-institution's IRB, supplying the clearinghouse's form and any 
-additional information about the experiment as needed by his IRB. 
-Once Bob's IRB approves the experiment, he uploads the confirmation 
-to \sysname's clearinghouse, and is finally granted the permission 
-to access remote devices to deploy his experiment and collect data.
-
-In the sections below, we walk through the steps in greater detail, 
+In the sections below, we present a high-level walkthrough of the steps 
+required of the researcher and device owner, 
 introduce how the default policies are designed, and explain the 
 procedures to follow if default policies become insufficient. 
-We further describe \sysname's design guideline 
-and the resulting testbed components. We also show the testbed operation.
+%We further describe \sysname's design guideline 
+%and the resulting testbed components. We also show the testbed operation.
 
 
 \subsection{Walkthrough}\label{sec-walkthrough}
@@ -42,21 +24,45 @@ and the resulting testbed components. We also show the testbed operation.
 \caption{\small A high-level walkthrough. \label{fig-walkthrough}}
 \end{figure}
 
-Suppose that the goal of Bob's experiment is to determine the cellular service
+In the following, we assume that Alice, a device owner, participates in 
+the testbed, while a researcher, Bob, wants to runs code on \sysname 
+using Alice's device, among other devices.
+
+For Bob, the steps required to run an experiment include
+%on \sysname roughly fall into two categories: 
+IRB approval for his experiment, and code deployment.
+Bob first %designs his experiment, and 
+%possibly tests its feasibility on his own device (on which he can 
+%use the same \sysname app but does not need IRB approval to access it). 
+%Following this, he 
+registers his experiment on the \sysname clearinghouse, where he 
+specifies the sensors and sensor accuracy that his experiment 
+requires through a web form. Suppose that the goal of Bob's experiment is to determine the cellular service
 quality in major cities. His experiment therefore needs to obtain location information
 of individual devices, their cellular service provider, network
 type (3G, 4G, LTE, etc.), and signal strength. 
+The clearinghouse's form provides Bob 
+%summarizing the request. 
+with a list of available sensors and their possible privacy configurations. 
+Bob then requests approval for his experiment from his 
+institution's IRB, supplying his experiment description using the clearinghouse form, the \sysname's approved 
+IRB, and any additional information about the testbed as needed by his institution. 
+The process how Bob specifies IRB policies is described in details in 
+Section~\ref{sec-ch}. Once Bob's IRB approves the experiment, he 
+uploads the confirmation to \sysname's clearinghouse, and is finally 
+granted the permission to access devices to deploy his experiment 
+and collect data, as will be described in Section~\ref{sec-emt}.
 
-In order for Alice to participate in Sensibility Testbed as a device owner,
+In order for Alice to participate in Sensibility Testbed,
 she starts by installing the Sensibility Testbed app from 
 the Android app store~\cite{sensibility-app}. After downloading the app, 
 Alice is informed about the testbed's privacy and usage policy 
 in a consent form and must give consent before participating.
-Any device owner (except those in protected group such as pregnant women, 
-people under 18 years old), regardless of country or background, can 
-opt into our testbed in this manner, and can opt out just by 
-uninstalling the app. 
+She can opt out of the testbed by uninstalling the app, opt out of
+an individual experiment, and set local sensor policies that
+will supersede Bob's IRB policies (Section~\ref{sec-repy}). 
 
+\begin{comment}
 Bob completes a series of steps to deploy his experiment on \sysname.
 He first fills out a form at a \sysname website 
 (Section~\ref{sec-ch}), which has a list of checkboxes for device sensors 
@@ -115,44 +121,8 @@ device owners directly for each experiment, and the testbed infrastructure
 enforces the IRB policies on behalf of the researcher. 
 
 \sysname's default policies are described next.
-
-\begin{comment}
-In order for Alice to participate in Sensibility Testbed as a device owner,
-she starts by installing the Sensibility Testbed app from 
-the Android app store~\cite{sensibility-app}. After downloading the app, 
-Alice has the opportunity to select which experiments she would like to opt into, 
-though at any time she can choose to opt out of any individual experiment or her 
-complete participation in the testbed.
-
-To conduct an experiment, Bob will first provide his institution's 
-IRB policies to the clearinghouse (Section~\ref{sec-ch}) component of Sensibility Testbed 
-and sign up for his experiment. 
-The clearinghouse server helps him acquire devices and automatically codifies 
-policies specified by Bob's IRB. After obtaining remote devices, 
-Bob can perform experiments directly on the devices through 
-an experiment manager (Section~\ref{sec-emt}), using the 
-credentials assigned by the clearinghouse. The app installed on Alice's device will 
-automatically enforce the IRB privacy policies on any data collected before it leaves her device and 
-goes to Bob. If Bob's IRB requests that all location data is provided by subjects at 
-a city-level granularity, for example, Alice's exact location will be obscured 
-to the nearest city before Bob can access it. 
-If Bob wishes to run a
-second experiment using either the same or different IRB policies, Sensibility Testbed 
-greatly simplifies this process by enabling 
-him to do so without having to recruit subjects again or re-implement the 
-IRB policies in his experiment code.
-Such a 
-protocol for research with mobile device sensors has been approved by
-the IRB at New York University (IRB \# 15-10751). 
-
-This work flow is shown in Figure~\ref{fig-walkthrough}. \jill{let's add how Bob gets the 
-data from Alice's device in Figure 1} \sysname
-acts as an intermediate between the device owner and researcher, 
-where the device owners give their informed consent, and researchers
-provide their IRB policies. 
->>>>>>> a59aa3d25f287a6b156075d6ead8886f9281b705
->>>>>>> 6fade2a1f52aa5af8b551ed70308db63d3e3aa7f
 \end{comment}
+
 %Device owners like Alice participate in Sensibility Testbed by p.
 
 %These policies restrict what and how data can be accessed by the 

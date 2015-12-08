@@ -98,6 +98,124 @@ device, as shown in Figure~\ref{fig-blur}.
 
 \end{comment}
 
+\subsection{Secure Sandbox}\label{sec-sandbox}
+The Repy sandbox is the most important in the device software. This 
+security-reviewed sandbox~\cite{cappos2010retaining} mitigates the 
+impact of bugs in experimenter code by providing security isolation 
+and performance isolation\footnote{\scriptsize 
+This sandbox has been used successfully for more than six years in our 
+prior work, the Seattle testbed~\cite{seattle}.}. 
+%Instead of developing full-fledged Android apps, all 
+%experiments in Sensibility Testbed are written in a language
+%similar to Python, and run in a secure %Python-based
+Researchers use a Python-like programming interface~\cite{repyv2}
+to write experiment code, upload the code and execute it in the
+sandbox on remote devices. The programming interface includes functions for networking, 
+file system access, threading, locking, logging, and so on. To access sensors, 
+the sandbox also has a set of sensor functions~\cite{sensors}. 
+%Details about implementing the Repy sandbox for mobile 
+%devices are described in Section~\ref{sec-repy-ext}.
+%
+%However, the current Repy sandbox does not include calls to access sensors. 
+%%To obtain the sensor data, we need to extend the sandbox. 
+%The extended Repy sandbox that allows sensor access  
+%will be described in Section~\ref{sec-repy-ext}.
+Another important feature of the Repy sandbox allows us to change the 
+behavior of its programming interface, and control the 
+data gathered from the device to adapt to any IRB proscribed limits. 
+%For  an experiment
+%that involves GPS location, a privacy policy might restrict the
+%level of data granularity available to the experiment. For example, it can
+%obfuscate GPS location such that it only identifies the center
+%of the city that the device is located in, rather than the exact
+%location. Using the same technique, 
+For example, the sandbox can anonymize the IP address of a device, constrain  
+the frequency of access to GPS locations, and disable
+access to cameras. 
+%Such privacy protection is a contribution of Sensibility Testbed, 
+%which does not exist in any prior work. 
+The details of policy implementation are presented in 
+Section~\ref{sec-layer} and \ref{sec-nanny}.
+
+\textbf{Security and performance isolation.}
+The sandbox is the execution environment 
+of all experiment code. It isolates experimenters' programs from one 
+another, and prevents any of the code from harming the device 
+through its strong isolation techniques. More importantly, the sandbox
+provides a flexible system call interposition technique where system call behavior 
+can be modified. This allows us to define and implement
+different data access policies. 
+
+Repy has a small, self-contained kernel as its trusted 
+computing base (TCB). %unprivileged libraries and experiment code. 
+Every system call in the TCB is strictly 
+sanitized to preserve consistent behavior across different OSes, 
+and to avoid uncommon corner cases that can be exploited. 
+Furthermore, since the TCB is small (about 8,000 lines of code), it is 
+less likely to have a kernel exploit than other more complex kernels. 
+As a result, any vulnerability in an experiment 
+%can at most cause compromise in the unprivileged portion of the sandbox, 
+cannot escape the sandbox and perform malicious actions to 
+the device system. The Repy sandbox exposes its system calls for 
+accessing resources on a device through a Python-like programming 
+interface~\cite{repyv2} isolating experiment code from the kernel. 
+%another way of saying this:
+%Experiment code for accessing resources is contained by the 
+%Repy sandbox, using its Python-like programming language interface.
+This same sandbox design has been successfully running experiments as part of a network research 
+testbed for more than six years, without significant operation faults or security breaches~\cite{seattle}. \yanyan{Justin thinks this statement is weak.} \lois{I don't know if this answers his concerns since the meaning is essentially the same}
+%=======
+%through a Python-like programming interface~\cite{repyv2}. 
+%%to experiment code for accessing resources on a device. 
+%%another way of saying this:
+%%Experiment code for accessing resources is contained by the 
+%%Repy sandbox, using its Python-like programming language interface.
+%This same sandbox design has been successfully running experiments 
+%as part of a network research testbed~\cite{seattle} for more than six 
+%years, with no report of operational faults or security breaches. 
+%>>>>>>> yyzhuang/master
+
+In addition to security isolation,
+%The sandbox exposes a programming 
+%interface to experimenter programs to access 
+%resources on the device. 
+the sandbox provides performance isolation by
+%by using OS hooks to monitor and control the amount of 
+%CPU and memory used by a sandboxed program. To restrict 
+%other resources, such as network and disk I/O, the sandbox 
+interposition on system calls~\cite{garfinkel2003traps} that 
+use resources, such as network and disk I/O, and preventing 
+or delaying the execution of these calls if they exceed 
+their configured quota. 
+%As a result, this sandbox limits 
+%what a sandboxed program can do. For example, 
+This isolation means the sandbox can set access limits. For example, 
+reading from and writing to the file system can
+only occur in a per-experiment directory, sending and receiving
+data via the network interface cannot exceed a configured rate, and 
+CPU, memory and battery consumption cannot exceed a set level.
+Therefore, the sandbox isolates the experiment program from 
+the rest of the device. Due to this isolation, different researchers 
+can run experiments on different sandboxes on the same device, 
+without any interference between the experiments.
+
+
+%\subsubsection{Resource Manager} The second part of the device software, called a resource manager, 
+%establishes a trust relationship between a device and a researcher. It 
+%manages a researcher's access to the sandboxes on a device, and
+%controls the start and stop of the sandboxes on the device. The 
+%resource manager controls which researchers can access the 
+%sandbox on any given device, and communicates with the clearinghouse
+%or experiment manager. If multiple researchers have access to 
+%the same device, the resource manager splits the resources in the 
+%sandbox among the researchers, and partitions the one sandbox 
+%into several smaller ones. In order for the clearinghouse or a 
+%researcher's experiment manager to discover the sandbox on a 
+%device, the resource manager also contacts a lookup service that 
+%announces the existence of the available devices. An example is 
+%given in Section~\ref{sec-case1}.
+
+\begin{comment}
 \subsection{Policy Enforcement}
 
 \subsubsection{Reducing Data Precision}\label{sec-layer}
@@ -173,7 +291,7 @@ by the function, and the return type of the function\footnote{\scriptsize
 Since Python is a dynamically-typed language, it is useful to type check 
 a function's arguments, exceptions, and return values.}.
 
-\begin{comment}
+
 A contract is represented as a Python dictionary in Repy. As an example, if 
 the blurring layer \path{foo} wanted to create a contract that would map
 \path{get_battery()} and \path{restricted_get_accelerometer()} into 
@@ -202,7 +320,6 @@ namespace. Thus the target for the \path{get_battery} in the
 contract is the \path{foo.get_battery} function. Similarly, the 
 target for the \path{get_accelerometer} in the contract is the 
 \path{foo.restricted_get_accelerometer}.
-\end{comment}
 
 Whenever an experiment calls a function, such as \path{get_battery}
 or \path{get_accelerometer}, a verification process must perform 
@@ -260,6 +377,7 @@ Therefore, the experimenter's program is ensured to use all the
 new policies. An example of blurring layer implementation is given in 
 %Section~\ref{sec-precision-example}.  
 our technical report~\cite{zhuangTR15}. 
+\end{comment}
 
 \begin{comment}
 \subsubsection{An Example of Policy Implementation}
@@ -350,8 +468,6 @@ and only the blurring layers change the function's behavior, thus
 the policy enforcement is transparent to all the experimenters who run 
 sandboxed programs in Sensibility Testbed.
 
-\end{comment}
-
 
 \subsubsection{Restricting Data Access Frequency}\label{sec-nanny}
 
@@ -393,6 +509,7 @@ Once resource caps are set, an experiment program can never call a
 function to access a sensor more frequently than the cap. 
 
 An example implementation is given in technical report~\cite{zhuangTR15}.
+\end{comment}
 
 \begin{comment}
 \subsubsection{An Example of Policy Implementation}\label{sec-rate-example}

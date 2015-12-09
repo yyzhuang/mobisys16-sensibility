@@ -10,15 +10,7 @@ introduce how the default policies are designed.
 %We further describe \sysname's design guideline 
 %and the resulting testbed components. We also show the testbed operation.
 
-
-\subsection{Walkthrough}\label{sec-walkthrough}
-
-\begin{figure}
-\center{\includegraphics[width=\columnwidth]{figs/irb.pdf}}
-%\vspace*{-20pt}
-\caption{\small A high-level walkthrough. \label{fig-walkthrough}}
-\end{figure}
-
+\cappos{moved here for now.  This may need to be removed altogether.}
 The basic operation of \sysname involves four separate 
 parties: a \textit{device owner} interested in participating in 
 experiments, a \textit{clearinghouse} that discovers the
@@ -29,10 +21,74 @@ In the following, we assume that Alice, a device owner, participates in
 the testbed, while a researcher, Bob, wants to runs code on \sysname 
 using Alice's device, among other devices.
 
-For Bob, the steps required to run an experiment include
+
+\subsection{Walkthrough}\label{sec-walkthrough}
+
+\begin{figure}
+\center{\includegraphics[width=\columnwidth]{figs/irb.pdf}}
+%\vspace*{-20pt}
+\caption{\small A high-level walkthrough. \label{fig-walkthrough}}
+\end{figure}
+
+Alice decides to install Sensibility Testbed because she wants to 
+altruistically help scientific progress.  She agrees to the privacy
+policy for the platform and gives informed consent about the (Sec 4.1)
+type of research experiments she wants to participate in.  Alice also
+may choose the granularity of data that her phone provides (Sec 4.2), for 
+example to block any possible access to her microphone.  At this point,
+her smartphone is ready for researchers to use.  Alice may see experiments 
+that are in the approval process, as
+well as those that are running on her device, and choose
+to opt-out at any time (Sec 4.3). 
+
+Now suppose that Rhonda, a researcher, wants to study the deployment of
+different networking technologies in her city.  She wants to gather
+the network type (3G, 4G, LTE, etc.), provider, and signal strength from
+users all around the city.  Rhonda goes to the Sensibility Testbed site
+and enters information about the sorts of data her experiment requires
+into a form (Sec 4.4).  Rhonda decides that she can use randomized IDs in lieu 
+of the smarthphone's cell ID, but requires the accurate carrier 
+network information such as X, Y, and Z. \cappos{please fill in / correct}
+She also specifies that her experiment requires GPS data accurate to within
+30m for her measurements and needs to update this every 10 seconds.
+The Sensibility Testbed site takes her requirements and provides detailed
+information for her IRB (Sec 4.5) that Rhonda can use to describe Sensibility
+Testbed and how the restrictions that Rhonda agreed to will be technically
+enforced.
+
+As is always the case with an IRB, Rhonda's IRB may at this point approve 
+or ask her to revise the experiment and its requirements, providing any
+changes to the Sensibility Testbed site.  Once approved, Rhonda submits 
+the IRB approval to the Sensibility Testbed site.  If 
+Rhonda's experiment requests access to sensors in a manner that is 
+equal to or above a \emph{baseline} privacy level (discussed in more detail
+in Sec 4.6), her experiment will be immediately approved at this point.
+If not, Rhonda's experiment is subject to an additional IRB check at NYU 
+to ensure that her experiment will not violate Alice's consent or privacy and
+that adequate controls can be put in place to replace the \emph{baseline}
+privacy policies.
+
+Now approved, Rhonda's experiment can be deployed on end user phones.  She
+selects the devices she wishes to use on the Sensibility Testbed 
+website, deploys her experiment, and collects the results (4.???  5.???).  
+Even if Rhonda's rival Eve steals Rhonda's credentials and deploys a
+malicious experiment, the experiment is blocked from accessing sensors except 
+in the manner specified in the IRB policy.  Experiment code is blocked from 
+reading the WiFi connection information (because this was not requested in
+Rhonda's IRB) and is prevented from obtaining Alice's GPS information at a 
+finer granularity or frequency than was listed. 
+ \cappos{I resisted saying something about battery / malware
+here because these contributions are the focus of other papers.}
+Alice is thus happy to let Rhonda perform her experiment, 
+knowing that she is contributing to scientific progress without compromising 
+her privacy. 
+
+
+\begin{comment}
+%For Bob, the steps required to run an experiment include
 %on \sysname roughly fall into two categories: 
-IRB approval for his experiment, and code deployment.
-Bob first %designs his experiment, and 
+%IRB approval for his experiment, and code deployment.
+%Bob first %designs his experiment, and 
 %possibly tests its feasibility on his own device (on which he can 
 %use the same \sysname app but does not need IRB approval to access it). 
 %Following this, he 
@@ -65,7 +121,6 @@ will supersede Bob's IRB policies (Section~\ref{sec-repy}). This
 protocol for research with mobile device sensors has been approved by
 the IRB at New York University (IRB \# 15-10751).  
 
-\begin{comment}
 Bob completes a series of steps to deploy his experiment on \sysname.
 He first fills out a form at a \sysname website 
 (Section~\ref{sec-ch}), which has a list of checkboxes for device sensors 

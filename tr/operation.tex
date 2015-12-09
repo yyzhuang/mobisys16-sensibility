@@ -1,0 +1,64 @@
+\section{Testbed Operation}
+
+\subsection{Clearinghouse tracks devices}\label{sec-case1}
+Once the app is started, Alice's device can be discovered by 
+the clearinghouse. The resource manager in her app periodically contacts 
+a lookup service to advertise the device sandbox to the rest of the testbed, 
+such as the clearinghouse or experiment manager. \yanyan{resource 
+manager and lookup service have not been introduced yet.}
+A lookup service is a distributed key-value store, such as a 
+distributed hash table (DHT)~\cite{dht}, that allows one to associate 
+keys with values and retrieve values associated with keys. In this case, 
+Alice's resource manager uses an \textit{identification key}, \path{key.alice}, 
+generated during the app installation, and associates this key 
+with Alice's device IP address and port number, by 
+storing this key-value entry in the lookup service. This key is not 
+associated with Alice or her device's identity, but only with the app's 
+installation on the device. 
+%When the clearinghouse knows Alice's key, it can retrieve Alice's 
+%IP:port by looking up her key, \path{key.alice}, through 
+%the lookup service. With IP:port, the clearinghouse can then
+%communicate with Alice's device over the network.
+\yanyan{I think the device first puts key.sensibility 
+in the lookup service. is this key's value key.alice? so when the 
+clearinghouse looks up key.sensibility, it finds out key.alice; and then
+it uses key.alice to lookup IP:port. But is it necessary to go into such detail?}
+
+%The app interface also displays a list of experiment running
+%on Alice's device, and their policies. Therefore, 
+%through the app interface, Alice may uninstall, or 
+%choose to opt out of individual experiments. 
+%\lois{how? I have not seen this explained yet and I think its critical to discuss this}
+
+To keep track of Alice's device, the
+clearinghouse periodically queries the lookup service to
+discover any new device installs. Once Alice's device is discovered, the
+clearinghouse obtains \path{key.alice}, and thus
+%clearinghouse uses a database that stores her device's unique
+%identification key, \path{key.alice}, generated during installation. 
+can retrieve Alice's  IP address and port number by 
+looking up her key in the lookup service. This allows the clearinghouse
+to communicate with Alice's device over the network.
+If Alice uninstalls the Sensibility Testbed app, 
+\path{key.alice} is deleted at the clearinghouse, which effectively unlinks
+her device from any metadata stored on the clearinghouse. The key
+will also be removed from the lookup service after a period of inactivity.
+An experiment manager controlled by a researcher can lookup
+available device installs in a similar way. Instead of finding all devices
+available to the testbed, the experiment manager will only be able to 
+lookup devices assigned to the researcher by the clearinghouse.
+
+%The clearinghouse
+%plays an intermediate role between the experimenter and 
+%the device owner.
+%As described in Section~\ref{sec-overview}, when an 
+%experimenter registers at the clearinghouse, he
+%needs to provide his IRB policies. These policies ensure that
+%the researcher cannot conduct experiments to access data that
+%extend beyond the experiment policy. The clearinghouse 
+%translates and codifies each policy, and instructs the 
+%sandboxes on remote devices to implement these policies. 
+%When experiment code is running in the sandbox, the 
+%policies will be applied to restrict %the precision of sensor 
+%%data or the frequency to access 
+%sensor access. 

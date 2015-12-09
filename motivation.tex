@@ -7,13 +7,10 @@ development.
 %the desire to balance the benefits of such research 
 %with the very real privacy risks that could potentially occur if a 
 %device owner allows access to his/her device. 
-Next, we look at one solution to the problem: collecting proximate 
-data in place of real data. Third, we talk about 
+Next, we look at one solution to the problem of collecting approximate 
+data in place of real data. Finally, we talk about 
 the traditional role of IRB in research involving human subjects 
-and to data accessed remotely. Lastly, we look at Sensibility Testbed's 
-default policies, which automatically closes off access to 
-sensors which have the highest risk for violating the privacy of 
-device owners.
+and to data accessed remotely. 
 
 \textbf{Motivation: the potential and the risks of accessing sensor data.}
 Having access to data from the enormous number of smartphones 
@@ -25,18 +22,18 @@ number of fields, ranging from health and fitness to the social sciences.
 %studies also are "fixed in time," there is no way to monitor behavior 
 %over extended periods of time. 
 It is also a research method that does not incur high maintenance costs. 
-Unfortunately, it is a research method that is "expensive" in other ways, 
+Unfortunately, it is a research method that is ``expensive'' in other ways, 
 primarily time. Recruitment of volunteers is time-consuming and often 
 frustrating. %There are a number of reasons why this recruitment is so 
 %difficult. One is that 
-First, there is no easy method to build a pool of willing device owners, 
+First, there is no easy method to build a pool of willing participants, 
 so it needs to be re-done every time a new experiment is proposed. 
 Second, there are complications due to institutional policies on work 
-with human subjects (discussed later in this section) that effects who 
+with human subjects (discussed later in this section) that affect who 
 can be recruited and under what conditions. An individual recruiting 
 on her own is likely to end up with a more homogenous set of subjects, 
 drawn either from one locality or interest group. Last but not least, there 
-is a very real threat of damage to a participant's device, and invasion 
+is a very real threat of damage to a participant's device and invasion 
 of the participant's privacy. Participants face a significant risk if 
 they offer their device to a researcher.
 
@@ -89,7 +86,7 @@ conduct research on end-user devices in compliance with ethical standards,
 without an organized approach to enforcing those 
 standards~\cite{zevenbergen2013ethical}. Another reason for 
 the prevalent privacy breaches on many mobile systems %such as Android and iOS, 
-is that only a sub-set of sensors like GPS and bluetooth are considered risky, 	
+is that only a sub-set of sensors like GPS and Bluetooth are considered risky, 	
 and have their access mediated~\cite{android-sec}. Other sensors 
 such as accelerometer, gyroscope, etc., require no permission to access, 
 thus leaving them open to attack. A first step to expanding the use of sensors on mobile devices is to design solutions that address the security needs of device owners and the practical needs of potential researchers.
@@ -99,8 +96,8 @@ thus leaving them open to attack. A first step to expanding the use of sensors o
 How specific does data need to be in order to be useful? Studies have indicated that 
 sensor data can be accessed without compromising device 
 owners' privacy or sacrificing service functioning if that data is generalized. 
-Such data, that substitutes approximate location does not 
-directly violate the privacy of the device owner, but still provides 
+Such data that substitutes approximate sensor values does not 
+directly violate the privacy of the device owner, and still provides 
 valuable information to the researcher conducting the study.
 For this reason, researchers have proposed 
 substituting mocked~\cite{beresford2011mockdroid} or 
@@ -116,8 +113,8 @@ sensor data from their personal devices~\cite{fawaz2014location}.
 Most participants could accommodate some reduced application 
 functionality, as long as their privacy was protected. Those 
 applications included in the survey
-ranged from location-based search (e.g., Yelp), social 
-network apps, to gaming and weather forecasting apps. 
+ranged from location-based search (e.g., Yelp) and social 
+network apps to gaming and weather forecasting apps. 
 %the imprecise information is sufficient for a large class of services. \lois{these two sentences have to be clarified. How does one survey an application? And, why would participants be willing to a loss of functionality?}
 %The US Federal Communications Commission requires 
 %emergency rescue and 
@@ -127,25 +124,39 @@ network apps, to gaming and weather forecasting apps.
 
 Based on these facts, restricting 
 the amount of data accessible, such as reducing the precision or 
-access frequency, offer an effective privacy protection mechanism to 
+access frequency, offers an effective privacy protection mechanism to 
 provide to end users. In this work, we coin the term \textit{data blurring}
-as one privacy protection mechanism. However, to achieve data blurring easily and reliably to 
-ensure experiments do not collect more data than needed to provide 
-their functionalities requires a way to automatically substitute approximate 
-data in place of explicit raw data.
+as one privacy protection mechanism. However, it must be ensured that  
+experiments do not collect more data than they need for providing 
+their functionaly. 
+An automatic way to substitute approximate data in place of explicit raw data 
+is required to achieve realiable and easily usable blurring.
+
 
 \textbf{IRB policies: guiding ethical behavior.}
 %On the other hand, research institutions have also designed a 
 %protocol based on the \textit{institutional review board (IRB)}, 
 %to assess the ethics of a researcher's project, and review its methods. 
-As mentioned earlier, every researcher's work will be guided by an 
+As mentioned earlier, every researcher's work is guided by an 
 Institutional Review Board\footnote{\scriptsize Also known as an 
 independent ethics committee (IEC), ethical review board (ERB), 
 or research ethics board (REB).}, an internal group that serves as 
 the ethical watch dogs for colleges, universities, government agencies, 
 and other research institutions. It is the job of these boards, 
 to approve, monitor, and review research involving human 
-subjects~\cite{irb}. While a commitment to ethical treatment of humans who submit to experiments has always been part of the professional codes of most scientists, IRBs did not become ubiquitous in research facilities until the latter part of the 20th century.  Partly provoked by atrocities committed by the Nazis in the name of scientific experiments in the Second World War II, and partly inspired by directives from the medical community, including Declaration of Helsinki established In 1964 by the World Medical Association, research institutions formally acknowledged the need to protect human subjects in any research setting. Today, IRBs require all researchers working under 
+subjects~\cite{irb}. 
+\begin{comment}
+While a commitment to ethical treatment of humans who 
+submit to experiments has always been part of the professional codes of most 
+scientists, IRBs did not become ubiquitous in research facilities until the 
+latter part of the 20th century.  Partly provoked by atrocities committed by 
+the Nazis in the name of scientific experiments in the Second World War II, 
+and partly inspired by directives from the medical community, including 
+Declaration of Helsinki established In 1964 by the World Medical Association, 
+research institutions formally acknowledged the need to protect human subjects 
+in any research setting. Today, 
+\end{comment}
+IRBs require all researchers working under 
 their aegis to submit the protocols of their studies in advance, with an aim to 
 protect not only the physical and mental well-being of subjects, 
 but also to protect any information about these individuals generated 
@@ -187,121 +198,3 @@ experiment will be compliant with a researcher's IRB policies.
 %
 %\textbf{Sensibility Testbed's default policies.}
 
-\begin{table}
-\scriptsize
-\centering
-
-\bgroup
-\def\arraystretch{1.15}% % for table padding
-\begin{tabular}{|l|c|c|c|}
-\hline
-\multirow{2}{*}{\bf Sensor} & 
-\multicolumn{3}{c|}{\bf Default policy} \\\cline{2-4}
-& {\bf LR} & {\bf MR} & {\bf HR} \\\hline
-
-Battery (plug-in type, level, technology, etc.) & \tickmark &  & \\ \hline
-Bluetooth (local name, scan mode, etc.) & & \tickmark & \\ \hline
-
-\multirow{2}{5.5cm}{Cellular network (cell ID, area code, country code, 
-operator name, etc.)} & & \multirow{2}{*}{\tickmark} & \\ 
-& & & \\ \hline
-
-Location (latitude, longitude, altitude, speed, etc.) & & \tickmark & \\ \hline
-Settings (screen brightness, ringer volume, etc.) & & \tickmark & \\ \hline
-
-\multirow{2}{5.5cm}{Motion sensors (accelerometer, 
-gyroscope, magnetometer, orientation , etc.)} & & \multirow{2}{*}{\tickmark} & \\ 
-& & & \\ \hline
-
-\multirow{2}{5.5cm}{WiFi network (information about the 
-currently active access point, and WiFi scan result)} & & \multirow{2}{*}{\tickmark} & \\ 
-& & & \\ \hline 
-
-%Start/stop activities & & & \xmark \\ \hline 
-%Running applications & & & \xmark \\ \hline 
-Camera (take pictures, record videos) & & & \xmark \\ \hline 
-Intent (scan barcode, search, etc.) & & & \xmark \\ \hline 
-Address book & & & \xmark \\ \hline 
-Microphone (voice record) & & & \xmark \\ \hline 
-SMS (send/receive messages, delete messages) & & & \xmark \\ \hline 
-
-\end{tabular}
-\egroup
-
-\caption{\small Sensibility Testbed's default policies for sensors. LR/MR/HR
-stands for low/moderate/high risk, respectively. Access is only allowed to sensors that have low to 
-moderate risks (marked by \tickmark). Sensors that are highly risky are 
-disabled by default (marked by \xmark).}
-\label{tab:default}
-%\vspace{-10pt}
-\end{table}
-
-\textbf{Sensibility Testbed's default policies.} %\label{sec-irb-policies}
-\yanyan{this may fit well with design principles.}
-The last unique concept Sensibility Testbed leveraged to ensure 
-protection of end-user security and privacy protection is that all sensors 
-are not alike. As mentioned earlier, failure to 
-recognize the vulnerability of certain sensors was a key reason for privacy 
-breaches. In designing Sensibility Testbed, default policies were set as 
-to what types of sensors could be accessed. Even if an IRB happened 
-to approve such a policy, there are certain sensors that the testbed's
-own IRB designates as off-limits due to the high risk associated with 
-potential breaches. 
-%and for which access can be pre-approved with the
-%researcher's local IRB. 
-Only those sensors listed on our project 
-wiki page~\cite{sensor-api} are accessible to a researcher. 
-A summary of these sensors is listed in Table~\ref{tab:default}, 
-with each one categorized as low, moderate or high 
-privacy risk. The list of sensors that Sensibility Testbed provides are all of moderate 
-to low privacy risks (marked by \tickmark), and the testbed further provides policy enforcement
-(Section~\ref{sec-policy}) to protect all the sensor data. Sensors 
-such as cameras and microphones that are deemed sensitive are not 
-exposed to experiment code by default (marked by \xmark). Such 
-classification is motivated by the Android system, where 
-permissions are categorized into different protection levels~\cite{level}:
-\textit{normal} permissions are automatically granted to the apps, 
-\textit{dangerous} permissions are given based upon the 
-user's consent, and so on. In our case, 
-%we divide sensors into different risk levels, as shown 
-%in Table~\ref{tab:default}. 
-%Sensors with low to moderate risk are 
-%allowed and protected by IRB policies. Sensors of high risk are 
-%disabled by default. 
-we divide sensors into different risk levels by the consequences and 
-difficulties of a potential attack. If a microphone is controlled by 
-a malicious party, it can be used to intelligently choose data of a 
-higher value (e.g., credit card number, password) to record~\cite{zhang2015leave}. On the other 
-hand, in order to infer a credit card number or password typed on a 
-smartphone using motion sensors, the attack requires the installation of 
-a sophisticated algorithm on the device that constantly learns about  
-the patterns of data generated by accelerometer or gyroscope. In contrast,
-using battery information alone is not sufficient to create a fingerprint 
-for each device. Different information and mutiple occurrences need to
-be pieced together to extract this data~\cite{battery-priv}. Therefore, 
-compared to motion sensors, a microphone is considered a higher risk, 
-and a battery is a significantly lower risk.
-
-Although high-risk sensors are disabled, if such access  is critical to the 
-study, access can be requested using a different IRB procedure. 
-In this case, the research project has to go through the Sensibility 
-Testbed's IRB, in addition to the researcher's IRB. 
-\yanyan{if we think this is ok, then we provide specially
-designed interface and policy?} \lois{following up on Yanyan's comment--If the Testbed's IRB says this expanded access is permissable, are the device owner's notified and can they opt out of this study? Otherwise, that would be a direct violation of the privacy protection you claim to give them}
-\lois{I did not touch these last two paragraphs because I still don't know about  the opt-out policy for individuals if this permission is given}
-%Depending on the experiment description provided by the 
-%researcher, the fields marked with a (*) are the ones that will be blurred.
-%
-%
-
-As a result, Sensibility Testbed does not
-provide unfettered access to all sensors. 
-%Access to sensors of
-%higher risk, e.g., the policies that request restricted sensor data, 
-%or at higher frequencies than our default policies, 
-%needs to go through the Sensibility Testbed's IRB,
-%in addition to the researcher's IRB. 
-The default policies serve as a common denominator to all 
-researchers' IRB policies. In most cases, we expect
-that researchers need only go through their local IRB to get
-the sensor access they need for their experiment. 

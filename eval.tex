@@ -15,11 +15,307 @@ research questions. We show the performance overhead of
 Sensibility Testbed in Section~\ref{sec-benchmark}, and our 
 deployment experience in Section~\ref{sec-deployment}.
 
-%\todo{Q: how well the testbed protects privacy, and still allows experiments
-%to function? A: \ref{sec-accurate} and \ref{sec-function}.}
-
-
 \subsection{Sensibility Testbed's Privacy Policies}\label{sec-our-policies}
+
+\subsubsection{Policies Against Known Attacks}
+As stated in Section~\ref{sec-policy-design}, \sysname's default policies are 
+set to appropriate levels to protect against known attacks today. In order to 
+evaluate if \sysname's policies are effective in preventing common attacks, 
+we surveyed 25 recent projects that 
+protect against sensor related privacy issues. We examined the sensor 
+privacy attacks in these projects, and how these projects control the access 
+to these sensors, in terms of data granularity. We show these access control 
+in the form of equivalent \sysname default policies. The results are shown in 
+Table~\ref{tab:policy}. In some cases, the details about data access granularity
+is insufficient. We mark these cases as "not specified". 
+
+\begin{table}
+\scriptsize
+\centering
+
+\bgroup
+\def\arraystretch{1.15}% % for table padding
+\begin{tabular}{|l|l|l|}
+\hline
+{\bf Project} & {\bf Sensor} & {\bf Sensibility Testbed policy}  \\\hline
+
+\multirow{2}{*}{EnCore~\cite{aditya2014encore}}  & \multirow{2}{*}{Bluetooth} & 
+\multirow{2}{3.5cm}{Randomize Bluetooth MAC addresses.}  \\
+& &  \\\hline
+% attack: associating Bluetooth MAC address with device
+% solution: use Bluetooth 4.0's native support for randomized MAC address
+
+%\begin{comment}
+%\multirow{2}{*}{\cite{chen2014sensor}\textsuperscript{*}} & Accelerometer 
+%& \tickmark &   &  \\ \cline{2-5}
+%& Camera & & \tickmark & \\ \hline
+%% attack: 2D photo/video attack (use other's photo/video as input to facial recognition) 
+%% and virtual camera attack (using a virtual cam to modify videos)
+%% solution: (1) use accelerometer to infer the orientation of front camera, 
+%% (2) user shaking the phone, and separate the data of shaking video and
+%% shaking accelerometer to ensure a real 3D face
+%\end{comment}
+
+\multirow{3}{*}{MaskIt~\cite{gotz2012maskit}} & Location & \tickmark \\\cline{2-3}
+& Cellular & \tickmark  \\ \cline{2-3}
+& Bluetooth & \tickmark   \\\hline
+% attack: temperal correlations (heading towards hospital means the person will
+% be at the hospital)
+% solution: filter a user context stream that provably preserves privacy (a privacy 
+% check deciding whether to release or suppress the current user context). privacy 
+% is defined with respect to a set of sensitive contexts specified by the user
+% sec 7.1 described data (location, cellular, bluetooth)
+
+Koi~\cite{guha2012koi} & Location & \tickmark  \\ \hline
+% attack: location tracking
+% solution: apps set location based triggers, and have them fired
+% based on location updates. eg, instead of location lookup, it does
+% location matching: when the phone is in a grocery store, it notifies
+% the app that set this locaiton trigger
+
+Cach{\'e}~\cite{amini2011cache} & Location & \tickmark    \\\hline
+% attack: location privacy
+% solution: caching locaiton content in advance. retrieve content locally
+% when it is needed. this is like approximate location with a zipcode/city
+
+\cite{jiang2012isolating}\textsuperscript{*} & Cellular & \tickmark    \\\hline
+% attack: voice related fraud (dial a number without the user knowing it)
+% solution: detect voice-related fraud activities using call records, 
+% use voice calls from domestic callers to foreign recipients and 
+% a Markov Clustering based method for isolating dominant fraud 
+% activities from international calls
+
+ACCessory~\cite{owusu2012accessory} & Accelerometer & 
+Access frequency $\leq$ 100 Hz.  \\ \hline
+% attack: accelerometer can be extracted to monitor inputs
+% solution: this is an attack paper, showing it's possible to extract entered 
+% text. in Sec 4.1/Fig 5 they mentioned sensor rate@100Hz significantly
+% improved accuracy.
+
+\multirow{2}{*}{TapPrints~\cite{miluzzo2012tapprints}} & Accelerometer 
+& \multirow{2}{*}{Access frequency $\leq$ 100 Hz.}   \\ \cline{2-2}
+& Gyroscope &  \\ \hline
+% attack: monitor user inputs like keyboard and icons
+% solution: this is an attack paper, showing it's possible to infer location
+% of taps using motion sensor + machine learning
+% in Sec 4 they mentioned they had to use sensor rate@100Hz
+
+\multirow{2}{*}{TapLogger~\cite{xu2012taplogger}} & Accelerometer & \multirow{2}{*}{Access 
+frequency $\leq$ 25 Hz.}   \\ \cline{2-2}
+& Gyroscope &   \\ \hline
+% attack: accelerometer and gyroscope can be extracted to monitor inputs
+% solution: this is an attack paper, showing it's possible to infer 
+% input using accelerometer and gyroscope. Tab 1 in the paper shows
+% "useful" sensor rate is: accelerometer/orientation both 25-50Hz, .
+
+\multirow{4}{*}{FindingMiMo \cite{shin2011findingmimo}} 
+& WiFi & \multirow{2}{3cm}{Access frequency $\leq$ once per 2 minutes.}  \\ \cline{2-2}
+& Location &  \\\cline{2-3}
+& Accelerometer & \multirow{2}{*}{Not specified.}  \\ \cline{2-2}
+& Magnetometer &   \\ \hline
+% attack: this is a tracker for device. it tracks and locates a missing mobile device
+% in indoor environments by observing the ambient features such as radio signals, 
+% and retrieving location information from ambient observations
+% sec 5.1:  The sampling interval for GPS sensing is
+%2 minutes; we activates it for 30 seconds for single positioning.
+%The interval of Wi-Fi scanning is adaptively determined, based on
+%a user’s movement. In the move state, the system stores Wi-Fi
+%vectors every 5 seconds. In the stationary state, we activates Wi-Fi 
+%module for 30 seconds to scan the surrounding APs every 10
+%seconds. The sampling interval is set at 2 minutes
+
+TouchLogger~\cite{cai2011touchlogger} & Gyroscope & \tickmark \\ \hline
+% attack: gyroscope can be extracted to monitor inputs
+% solution: this is an attack paper, showing it's possible to infer 
+% input using gyroscope
+
+Cloaking~\cite{gruteser2003anonymous} & Location & \tickmark  \\ \hline
+% attack: location tracking
+% solution: adjust the resolution of location information along spatial or 
+% temperal dimensions to meet the specified anonymity constraints
+
+Locaccino~\cite{toch2010empirical} & Location & \tickmark  \\ \hline
+% attack: location tracking
+% solution: survey showed that users are more comfortable sharing their
+% location when they are at places visited by a large and diverse set of people
+
+\multirow{2}{*}{Accomplice~\cite{han2012accomplice}} & Location & \tickmark  \\ \cline{2-3}
+& Accelerometer & \tickmark  \\ \hline
+% attack: location tracking using accelerometer
+% solution: this is an attack paper. accelerometer can be used to track location
+
+
+\cite{aviv2012practicality}\textsuperscript{*} & Accelerometer & \tickmark  \\ \hline
+% attack: accelerometer can be extracted to monitor inputs
+% solution: another attack paper. their method is sample-rate independent. 
+% in Tab 1 they used rates from 25 to 62Hz. on page 8, "all devices perform well
+% above random guessing, suggesting that the features are reasonably
+% resilient to sample rate fluctuations, as addressed by the samplenormalized
+% features (see Section 6)"
+
+\multirow{2}{*}{\cite{cai2012practicality}\textsuperscript{*}} & Accelerometer 
+& \tickmark  \\ \cline{2-3}
+& Gyroscope & \tickmark  \\ \hline
+% attack: accelerometer and gyroscope can be extracted to monitor inputs
+% solution: another attack paper. they showed attack remains effective 
+% even though the accuracy is affected by user habits, device dimension, 
+% screen orientation, and keyboard layout. 
+
+AccelPrint~\cite{dey2014accelprint} & Accelerometer & \tickmark   \\ \hline
+% attack: use accelerometer to fingerprint devices
+% solution: this is a fingerprinting paper. one can fingerprint an accelerometer
+% when it is vibrating (eg, during an incoming call) and measure its imperfection
+
+\multirow{8}{*}{\cite{bojinov2014mobile}\textsuperscript{*}} & Microphone  
+&  \\ \cline{2-3}
+& Accelerometer & \tickmark  \\ \cline{2-3}
+& Gyroscope & \tickmark  \\ \cline{2-3}
+& Magnetometer & \tickmark  \\ \cline{2-3}
+& Ambient light & \tickmark  \\ \cline{2-3}
+& Location (GPS) & \tickmark  \\ \cline{2-3}
+& Touch screen &  \\ \cline{2-3}
+& Camera &  \\ \hline
+% attack: use microphone and accelerometer to fingerprint devices
+% solution: this is a fingerprinting paper. it measures sensor's 
+% imperfection. though not evaluated, 
+% they showed in Tab 1 that gyroscope, magnetometer, etc. all 
+% have biases and imperfection that can be used for fingerprinting.
+
+Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope 
+& \tickmark  \\ \hline
+% attack: use gyroscope to record voice
+% solution: this is an attack paper
+
+\cite{shokri2011quantifying}\textsuperscript{*}
+& Location & \tickmark  \\ \hline
+% attack: tracking and localization attacks
+% solution: a generic theoretical framework for modeling and evaluating
+% location privacy, lots of stats. tracking and localization attacks are 
+% modeled as statistical inferernce problems, and metric to evaluate 
+% location privacy is an adversary's expected error.
+
+Where's Wally \cite{polakis2015s}%\textsuperscript{*}
+& Location & \tickmark  \\ \hline
+% attack: tracking and localization attacks
+% solution: many apps use location proximity (notify who is nearby, at 
+% what distance). the paper theoretically model the problem of locating
+% users as a search problem, and device optimal algorithm to realize
+% those attacks
+
+\multirow{3}{*}{AnonySense~\cite{kapadia2008anonysense}} 
+& Location & \tickmark  \\ \cline{2-3}
+& \multirow{2}{1.8cm}{Network interface addresses} & 
+\multirow{2}{*}{\tickmark}  \\
+& & \\ \hline
+% attack: localization attacks
+% solution: partition the area of the user into tessellation, and report 
+% the tile number instead of real location of the user. also changes
+% IP and MAC addresses
+
+\multirow{2}{*}{\cite{liu2015good}\textsuperscript{*}}
+& Accelerometer & \tickmark   \\ \cline{2-3}
+& Microphone  &  \\ \hline 
+% attack: use accelerometer on smart watches to monitor inputs (more
+% challenging than accelerometer on smartphones)
+% solution: this is an attack paper. microphone is used to help 
+% accelerometer during the detection
+
+\cite{bordenabe2014optimal}\textsuperscript{*}
+& Location & \tickmark   \\ \hline
+% attack: localization attacks
+% solution: optimizing the trade-off between geo-indistinguishability 
+% and quality of service. 
+
+PrivStats~\cite{popa2011privacy}
+& Location & \tickmark   \\ \hline
+% attack: localization attacks
+% solution: compute aggregate statistics over location data. achieves 
+% both strong guarantees of location privacy and protection against 
+% cheating clients.
+
+LP-Guardian~\cite{fawaz2014location} 
+& Location & \tickmark   \\ \hline
+% attack: tracking, profiling, and identification threats
+% solution:  anonymize location in the background and let user to choose 
+% appropriate anonymization strategy for foreground location access; 
+% feed app with the location granularity necessary to serve the user; 
+% for apps that require constant monitoring, replace the real location
+% with dummy ones that belong to a synthetic route
+
+\multicolumn{3}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
+
+\end{tabular}
+\egroup
+
+\caption{\small Sensibility Testbed prevent against known attacks. 
+%Default policies are listed in Table~\ref{tab:default}.
+%is supported by Sensibility Testbed without extra effort. A specialized policy can 
+%be supported by extending default policies. A policy is N/A if it is not possible 
+%to provide support.\yanyan{specific attacks}}
+}
+\label{tab:policy}
+%\vspace{-10pt}
+\end{table}
+
+As shown in the table, the most common risks are identifying a device or its 
+owner, locating a device, and inferring keys strokes typed by a device owner. 
+For example, to prevent identifying a device, EnCore~\cite{aditya2014encore} 
+uses randomized Bluetooth MAC address to prevent device tracking. This 
+identification attack can also be
+prevented by a Bluetooth policy in \sysname that generates a random string to 
+substitute the Bluetooth MAC address. Another project FindingMiMo~\cite{shin2011findingmimo} 
+locates a device by monitoring the device's location and ambient radio signal 
+(particularly WiFi). It generates an ambient environment fingerprint that a 
+device encouter during a day so that the device can be located. However, as 
+shown in~\cite{shin2011findingmimo}, the GPS location and WiFi scan's sampling 
+interval has to be less than 2 minutes. Therefore, using a \sysname policy to 
+restrict the access frequency to these sensors to below once per 2 minutes can 
+effectively prevent the environment fingerprinting, even if the accuracy of GPS 
+and WiFi data is not reduced. When GPS signal is not available (e.g., indoors), 
+FindingMiMo uses an accelerometer and magnetometer to model human steps,
+but there is insufficient details about the data granularity of these two sensors. 
+ACCessory~\cite{owusu2012accessory} shows that it is possible to infer key 
+strokes using an accelerometer, and the key inference accuracy increases 
+significantly when the sensor readings achieves 100Hz. Therefore, using a 
+policy to limit accelerometer access frequency to below keyloggers' desired 
+rate can make them much less effective. \yanyan{not all keyloggers require
+100Hz though.}
+
+Although \sysname can set default policies for these privacy attacks, these 
+levels will need to be revised over time when new attacks become available. 
+\sysname's IRB allows adjusting these specific sensor access restrictions, 
+and thus making the default policies stronger over time, and preventing new 
+attacks with future use.
+
+%These projects, listed in Table~\ref{tab:policy} and \ref{tab:policy-continued},
+%range from social network applications~\cite{aditya2014encore} to facial
+%recognition algorithms~\cite{chen2014sensor}. If their privacy need or privacy
+%protection can be supported by equivalent \textit{default} policies in Sensibility 
+%Testbed, a \tickmark\ is marked in the default column. These sensors belong to 
+%low to moderate risk, as defined in Table~\ref{tab:default}. Similarly, if the
+%sensors are of high risk, a \tickmark\ is marked in the specialized column. 
+%This means that a different IRB procedure could be followed to extend 
+%default policies (Section~\ref{sec-motivation}). If a sensor cannot be 
+%supported by a default or specialized policy, a \xmark\ is marked in the 
+%N/A column. 
+%
+%Out of these projects, 
+%19 of them proposed privacy protection about location information, 16 of 
+%them considered motion sensors such as accelerometer and gyroscope 
+%risky, and 9 had concerns about wireless network such as WiFi and Bluetooth
+%(connection/pairing history, MAC addresses, etc.). As expected, location (mainly GPS)
+%and motion sensors (mainly accelerometer) have the most privacy and security 
+%concerns~\cite{chakraborty2014ipshield}.
+
+
+%\textbf{Are Sensibility Testbed's policies sufficient?}
+%As shown in Table~\ref{tab:policy} and \ref{tab:policy-continued}, nearly 86\% 
+%of the security and privacy issues in prior projects can be addressed in 
+%Sensibility Testbed using default policies, and 13\% issues can be resolved by extending 
+%default policies (specialized policies). Only about 1\% of them cannot
+%be protected by the policies in Sensibility Testbed, \yanyan{I'm not sure 
+%yet how to explain this. I don't know what experiment would need this.}
+
 
 \begin{table}
 \scriptsize
@@ -29,31 +325,32 @@ deployment experience in Section~\ref{sec-deployment}.
 \def\arraystretch{1.15}% % for table padding
 \begin{tabular}{|l|l|c|c|c|}
 \hline
-\multirow{2}{.75cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
-\multicolumn{3}{c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
-& & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
+\multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
+\multicolumn{3}{c|}{\bf Sensibility Testbed policy} \\\cline{3-5}
+& & {\bf Default} & {\bf Extended} & {\bf Cannot support} \\\hline
 
-EnCore~\cite{aditya2014encore}  & Bluetooth & \tickmark &   &   \\\hline
-% attack: associating Bluetooth MAC address with device
-% solution: use Bluetooth 4.0's native support for randomized MAC address
+\multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
+& Accelerometer & \tickmark &   &  \\ \cline{2-5}
+& Microphone & & \tickmark & \\ \cline{2-5}
+& Camera & & \tickmark & \\ \cline{2-5}
+& Address book & & \tickmark & \\ \cline{2-5}
+& SMS messages & & \tickmark & \\ \cline{2-5}
+& Device IDs & \tickmark & & \\ \cline{2-5}
+& Network interface\textsuperscript{\dag} & \tickmark & & \\ \hline
+% attack: general privacy attacks
+% solution: labels (taints) data from privacy-sensitive sources and
+% transitively applies labels as sensitive data propagates
+% through program variables, files, and interprocess messages.
+% (maybe this is not the best example)
 
-\multirow{2}{*}{\cite{chen2014sensor}\textsuperscript{*}} & Accelerometer 
-& \tickmark &   &  \\ \cline{2-5}
-& Camera & & \tickmark & \\ \hline
-% attack: 2D photo/video attack (use other's photo/video as input to facial recognition) 
-% and virtual camera attack (using a virtual cam to modify videos)
-% solution: (1) use accelerometer to infer the orientation of front camera, 
-% (2) user shaking the phone, and separate the data of shaking video and
-% shaking accelerometer to ensure a real 3D face
-
-\multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & Device ID & & \tickmark & \\ \cline{2-5}
+\multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & Device ID & \tickmark &  & \\ \cline{2-5}
 & WiFi & \tickmark &   &  \\ \cline{2-5}
 & Bluetooth & \tickmark &   & \\ \cline{2-5}
 & Address book & & \tickmark & \\ \cline{2-5}
 & Location & \tickmark &   &   \\\hline
 % attack: general privacy issues
 % solution: substitute anonymized data in place by crowd sourced recommendations
- 
+
 \multirow{4}{*}{CQue~\cite{parate2013leveraging}}  & Location & \tickmark &  & \\\cline{2-5}
 & Accelerometer & \tickmark &   &  \\ \cline{2-5}
 & Gyroscope & \tickmark &   &  \\ \cline{2-5}
@@ -63,16 +360,6 @@ EnCore~\cite{aditya2014encore}  & Bluetooth & \tickmark &   &   \\\hline
 % the leakage if certain sensor data is revealed to apps)
 % solution: detection and fusion of sensors (math)
 
-\multirow{3}{*}{MaskIt~\cite{gotz2012maskit}} & Location & \tickmark &   & \\\cline{2-5}
-& Cellular & \tickmark &   &   \\ \cline{2-5}
-& Bluetooth & \tickmark &   &   \\\hline
-% attack: temperal correlations (heading towards hospital means the person will
-% be at the hospital)
-% solution: filter a user context stream that provably preserves privacy (a privacy 
-% check deciding whether to release or suppress the current user context). privacy 
-% is defined with respect to a set of sensitive contexts specified by the user
-% sec 7.1 described data (location, cellular, bluetooth)
-
 \multirow{3}{*}{Jigsaw~\cite{lu2010jigsaw}} & Accelerometer 
 & \tickmark &   &  \\ \cline{2-5}  
 & Microphone  & & \tickmark & \\ \cline{2-5}
@@ -80,54 +367,12 @@ EnCore~\cite{aditya2014encore}  & Bluetooth & \tickmark &   &   \\\hline
 % attack: robustness to position change and energy drain
 % solution: throttles the depth and sophistication of sensing when data is low quality
 
-Cach{\'e}~\cite{amini2011cache} & Location & \tickmark &   &   \\\hline
-% attack: location privacy
-% solution: caching locaiton content in advance. retrieve content locally
-% when it is needed. this is like approximate location with a zipcode/city
-
-\cite{jiang2012isolating}\textsuperscript{*} & Cellular & \tickmark &   &   \\\hline
-% attack: voice related fraud (dial a number without the user knowing it)
-% solution: detect voice-related fraud activities using call records, 
-% use voice calls from domestic callers to foreign recipients and 
-% a Markov Clustering based method for isolating dominant fraud 
-% activities from international calls
-
-\multirow{2}{*}{TapPrints~\cite{miluzzo2012tapprints}} & Accelerometer 
-& \tickmark &   &  \\ \cline{2-5}  
-& Gyroscope & \tickmark &   &  \\ \hline
-% attack: monitor user inputs like keyboard and icons
-% solution: this is an attack paper, showing it's possible to infer location
-% of taps using motion sensor + machine learning
-% in Sec 4 they mentioned they had to use sensor rate@100Hz
-
-\multirow{4}{.8cm}{FindingMiMo \cite{shin2011findingmimo}} 
-& WiFi & \tickmark &   &  \\ \cline{2-5}
-& Location & \tickmark &  & \\\cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Magnetometer & \tickmark &   &  \\ \hline
-% attack: this is a tracker for device. it tracks and locates a missing mobile device
-% in indoor environments by observing the ambient features such as radio signals, 
-% and retrieving location information from ambient observations
-
-ACCessory~\cite{owusu2012accessory} & Accelerometer & \tickmark &   
-&  \\ \hline
-% attack: accelerometer can be extracted to monitor inputs
-% solution: this is an attack paper, showing it's possible to extract entered 
-% text. in Sec 4.1/Fig 5 they mentioned sensor rate@100Hz significantly
-% improved accuracy.
-
-TouchLogger~\cite{cai2011touchlogger} & Gyroscope & \tickmark &   
-&  \\ \hline
-% attack: gyroscope can be extracted to monitor inputs
-% solution: this is an attack paper, showing it's possible to infer 
-% input using gyroscope
-
 \multirow{6}{*}{MockDroid~\cite{beresford2011mockdroid}} 
 & Location & \tickmark &  & \\\cline{2-5}
 & Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
 & Cellular & \tickmark &   &  \\ \cline{2-5}
 & Address book & & \tickmark & \\ \cline{2-5}
-& Device ID & & \tickmark & \\ \cline{2-5}
+& Device ID & \tickmark & & \\ \cline{2-5}
 & Broadcast intent &  & \tickmark  &  \\ \hline
 % attack: general privacy attacks
 % solution: modify the Android OS to allow users to mock or revoke
@@ -149,104 +394,6 @@ TouchLogger~\cite{cai2011touchlogger} & Gyroscope & \tickmark &
 % thread names, CPU scheduling, kernel time etc. the key is when to 
 % suspend and resume the suspicious background apps
 
-\cite{aviv2012practicality}\textsuperscript{*} & Accelerometer & \tickmark &   
-&  \\ \hline
-% attack: accelerometer can be extracted to monitor inputs
-% solution: another attack paper. their method is sample-rate independent. 
-% in Tab 1 they used rates from 25 to 62Hz. on page 8, "all devices perform well
-% above random guessing, suggesting that the features are reasonably
-% resilient to sample rate fluctuations, as addressed by the samplenormalized
-% features (see Section 6)"
-
-\multirow{2}{*}{\cite{cai2012practicality}\textsuperscript{*}} & Accelerometer 
-& \tickmark &  &  \\ \cline{2-5}
-& Gyroscope & \tickmark & &  \\ \hline
-% attack: accelerometer and gyroscope can be extracted to monitor inputs
-% solution: another attack paper. they showed attack remains effective 
-% even though the accuracy is affected by user habits, device dimension, 
-% screen orientation, and keyboard layout. 
-
-AccelPrint~\cite{dey2014accelprint} & Accelerometer & \tickmark &   
-&  \\ \hline
-% attack: use accelerometer to fingerprint devices
-% solution: this is a fingerprinting paper. one can fingerprint an accelerometer
-% when it is vibrating (eg, during an incoming call) and measure its imperfection
-
-\multirow{8}{*}{\cite{bojinov2014mobile}\textsuperscript{*}} & Microphone  
-& & \tickmark & \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Gyroscope & \tickmark & &  \\ \cline{2-5}
-& Magnetometer & \tickmark &   &  \\ \cline{2-5}
-& Ambient light & \tickmark &   &  \\ \cline{2-5}
-& Location (GPS) & \tickmark &   &  \\ \cline{2-5}
-& Touch screen & & & \xmark \\ \cline{2-5}
-& Camera & & \tickmark & \\ \hline
-% attack: use microphone and accelerometer to fingerprint devices
-% solution: this is a fingerprinting paper. it measures sensor's 
-% imperfection. though not evaluated, 
-% they showed in Tab 1 that gyroscope, magnetometer, etc. all 
-% have biases and imperfection that can be used for fingerprinting.
-
-Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope 
-& \tickmark & &  \\ \hline
-% attack: use gyroscope to record voice
-% solution: this is an attack paper
-
-\cite{shokri2011quantifying}\textsuperscript{*}
-& Location & \tickmark &   &  \\ \hline
-% attack: tracking and localization attacks
-% solution: a generic theoretical framework for modeling and evaluating
-% location privacy, lots of stats. tracking and localization attacks are 
-% modeled as statistical inferernce problems, and metric to evaluate 
-% location privacy is an adversary's expected error.
-
-Where's Wally \cite{polakis2015s}%\textsuperscript{*}
-& Location & \tickmark &   &  \\ \hline
-% attack: tracking and localization attacks
-% solution: many apps use location proximity (notify who is nearby, at 
-% what distance). the paper theoretically model the problem of locating
-% users as a search problem, and device optimal algorithm to realize
-% those attacks
-
-\multirow{3}{*}{AnonySense~\cite{kapadia2008anonysense}} 
-& Location & \tickmark &   &  \\ \cline{2-5}
-& \multirow{2}{1.8cm}{Network interface addresses} & 
-\multirow{2}{*}{\tickmark} &   &  \\
-& & & &\\ \hline
-% attack: localization attacks
-% solution: partition the area of the user into tessellation, and report 
-% the tile number instead of real location of the user. also changes
-% IP and MAC addresses
-
-\multirow{2}{*}{\cite{liu2015good}\textsuperscript{*}}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Microphone  & & \tickmark & \\ \hline 
-% attack: use accelerometer on smart watches to monitor inputs (more
-% challenging than accelerometer on smartphones)
-% solution: this is an attack paper. microphone is used to help 
-% accelerometer during the detection
-
-LP-Guardian~\cite{fawaz2014location} 
-& Location & \tickmark &   &  \\ \hline
-% attack: tracking, profiling, and identification threats
-% solution:  anonymize location in the background and let user to choose 
-% appropriate anonymization strategy for foreground location access; 
-% feed app with the location granularity necessary to serve the user; 
-% for apps that require constant monitoring, replace the real location
-% with dummy ones that belong to a synthetic route
-
-\cite{bordenabe2014optimal}\textsuperscript{*}
-& Location & \tickmark &   &  \\ \hline
-% attack: localization attacks
-% solution: optimizing the trade-off between geo-indistinguishability 
-% and quality of service. 
-
-PrivStats~\cite{popa2011privacy}
-& Location & \tickmark &   &  \\ \hline
-% attack: localization attacks
-% solution: compute aggregate statistics over location data. achieves 
-% both strong guarantees of location privacy and protection against 
-% cheating clients.
 
 \multirow{5}{*}{ipShield~\cite{chakraborty2014ipshield}} 
 & Location (GPS) & \tickmark &   &  \\ \cline{2-5}
@@ -258,7 +405,12 @@ PrivStats~\cite{popa2011privacy}
 % solution: allow users to specify privacy preferences, auto-generates
 % privacy actions on sensors (supression, allow, add noise, etc). 
 
-\multicolumn{5}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
+%\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 77} & \multirow{2}{1cm}{\bf 
+%65/77 (84.42\%)} & \multirow{2}{1cm}{\bf 11/77 (14.29\%)} & 
+%\multirow{2}{1cm}{\bf 1/76 (1.29\%)} \\ & & & & \\\hline
+
+\multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
+can be implemented by interposing socket calls.} \\
 
 \multicolumn{5}{l}{\textsuperscript{\ddag}\scriptsize CPU usage can be obtained
 through reading the files in \path{/proc/stat}.} \\
@@ -266,118 +418,36 @@ through reading the files in \path{/proc/stat}.} \\
 \end{tabular}
 \egroup
 
-\caption{\small Sensibility Testbed's support for privacy and security policies. A default 
-policy is supported by Sensibility Testbed without extra effort. A specialized policy can 
-be supported by extending default policies. A policy is marked as N/A if it is not possible 
-to provide support.}
-\label{tab:policy}
-%\vspace{-10pt}
-\end{table}
-
-%\todo{Q1: does ST protect privacy sufficiently?}
-
-\begin{table}
-\scriptsize
-\centering
-
-\bgroup
-\def\arraystretch{1.15}% % for table padding
-\begin{tabular}{|l|l|c|c|c|}
-\hline
-\multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
-\multicolumn{3}{c|}{\bf Equivalent Sensibility Testbed policy} \\\cline{3-5}
-& & {\bf Default} & {\bf Specialized} & {\bf N/A} \\\hline
-
-\multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Internet\textsuperscript{\dag} & \tickmark & & \\ \hline
-% attack: general privacy attacks
-% solution: labels (taints) data from privacy-sensitive sources and
-% transitively applies labels as sensitive data propagates
-% through program variables, files, and interprocess messages.
-% (maybe this is not the best example)
-
-Koi~\cite{guha2012koi} & Location & \tickmark &   &  \\ \hline
-% attack: location tracking
-% solution: apps set location based triggers, and have them fired
-% based on location updates. eg, instead of location lookup, it does
-% location matching: when the phone is in a grocery store, it notifies
-% the app that set this locaiton trigger
-
-Cloaking~\cite{gruteser2003anonymous} & Location & \tickmark &   &  \\ \hline
-% attack: location tracking
-% solution: adjust the resolution of location information along spatial or 
-% temperal dimensions to meet the specified anonymity constraints
-
-Locaccino~\cite{toch2010empirical} & Location & \tickmark &   &  \\ \hline
-% attack: location tracking
-% solution: survey showed that users are more comfortable sharing their
-% location when they are at places visited by a large and diverse set of people
-
-\multirow{2}{*}{Accomplice~\cite{han2012accomplice}} & Location & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \hline
-% attack: location tracking using accelerometer
-% solution: this is an attack paper. accelerometer can be used to track location
-
-\multirow{2}{*}{TapLogger~\cite{xu2012taplogger}} & Gyroscope & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \hline
-% attack: accelerometer and gyroscope can be extracted to monitor inputs
-% solution: this is an attack paper, showing it's possible to infer 
-% input using accelerometer and gyroscope. Tab 1 in the paper shows
-% "useful" sensor rate is 25 to 95Hz.
-
-\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 77} & \multirow{2}{1cm}{\bf 
-65/77 (84.42\%)} & \multirow{2}{1cm}{\bf 11/77 (14.29\%)} & 
-\multirow{2}{1cm}{\bf 1/76 (1.29\%)} \\ & & & & \\\hline
-
-\multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
-can be implemented by interposing socket calls.} \\
-
-\end{tabular}
-\egroup
-
-\caption{\small Table~\ref{tab:policy} continued --- Sensibility Testbed's support 
-for privacy and security policies. }
+\caption{\small \sysname's privacy protection compared to other general
+defense frameworks.}
 \label{tab:policy-continued}
 %\vspace{-10pt}
 \end{table}
 
+\subsubsection{Sensibility Testbed's Protection Compared to Other General
+Defense Frameworks}
+To evaluate whether \sysname's privacy protection can be as effective as other 
+general defense frameworks, we surveyed another 7 recent projects that provide
+protection against privacy attacks. These projects are different from the ones
+in Table~\ref{tab:policy} because \yanyan{complete this.} Similar to the projects 
+Table~\ref{tab:policy}, we also examined the sensor privacy attacks in these 7 
+projects, and how these projects control the access to these sensors. 
+As shown in Table~\ref{tab:policy-continued}, if a privacy policy can be supported
+by \sysname's default policy (e.g., providing a hashed device ID), a \tickmark\ 
+is placed in the default column. If a default policy is too restrictive, but an 
+extended policy with \sysname's IRB can permite (e.g., access to a camera
+with limited pixel resolution), then a \tickmark\ is placed in the extended column.
+For example, although \sysname does not provide  information-flow tracking as 
+in TaintDroid~\cite{enck2014taintdroid}, it provides equivalent restrictions to 
+location, accelerometer, microphone, camera, address book, SMS messages, 
+device identifiers, and network interfaces. 
 
-\textbf{Privacy and security concerns.}
-In order to identify the current privacy and security concerns on mobile 
-devices, we surveyed 31 projects in the past few years. We then analyzed
-these projects by reading their corresponding publications, identified 
-their needs or their provided mechanism for privacy protection. 
-These projects, listed in Table~\ref{tab:policy} and \ref{tab:policy-continued},
-range from social network applications~\cite{aditya2014encore} to facial
-recognition algorithms~\cite{chen2014sensor}. If their privacy need or privacy
-protection can be supported by equivalent \textit{default} policies in Sensibility 
-Testbed, a \tickmark\ is marked in the default column. These sensors belong to 
-low to moderate risk, as defined in Table~\ref{tab:default}. Similarly, if the
-sensors are of high risk, a \tickmark\ is marked in the specialized column. 
-This means that a different IRB procedure could be followed to extend 
-default policies (Section~\ref{sec-motivation}). If a sensor cannot be 
-supported by a default or specialized policy, a \xmark\ is marked in the 
-N/A column. 
+As shown in the table, most of the privacy policies (x\%) can be supported by
+\sysname's default policies, and y\% needs to go through extended IRB in order
+to get access to sensor data. 
 
-Out of these projects, 
-19 of them proposed privacy protection about location information, 16 of 
-them considered motion sensors such as accelerometer and gyroscope 
-risky, and 9 had concerns about wireless network such as WiFi and Bluetooth
-(connection/pairing history, MAC addresses, etc.). As expected, location (mainly GPS)
-and motion sensors (mainly accelerometer) have the most privacy and security 
-concerns~\cite{chakraborty2014ipshield}.
-%\todo{Q1.1: what privacy concerns do people have? }
-
-\textbf{Are Sensibility Testbed's policies sufficient?}
-As shown in Table~\ref{tab:policy} and \ref{tab:policy-continued}, nearly 86\% 
-of the security and privacy issues in prior projects can be addressed in 
-Sensibility Testbed using default policies, and 13\% issues can be resolved by extending 
-default policies (specialized policies). Only about 1\% of them cannot
-be protected by the policies in Sensibility Testbed, \yanyan{I'm not sure 
-yet how to explain this. I don't know what experiment would need this.}
-
-In particular, prior work shows 
+\begin{comment}
+As another example, prior work shows 
 that Android users' touch inputs can be revealed through a few attack 
 techniques like keyloggers and fingerprinting. 
 %For example, a smartphone's accelerometer 
@@ -403,9 +473,7 @@ Therefore, the policies to restrict the access rates to motion sensors
 are effective when the allowed rate is lower than the best keylogger 
 would require to identify a key, or the best tracker to fingerprint a device.
 Section~\ref{sec-experiment} shows such an example. 
-
-Another line of attack is on location privacy. \yanyan{need to wirte more here.
-should we do an experiment for location?}
+\end{comment}
 
 %\todo{Q1.2: does ST address these concerns? A1.2: show
 %  a handful of past experiments with a 90/10 rule -- 90\% of experiments
@@ -634,7 +702,7 @@ $MB$ in all cases.
 %\textbf{CPU and memory overhead.}
 %\todo{what's the CPU/memory overhead?}
 
-\subsection{Experience Using Sensibility}\label{sec-deployment}
+\subsection{Experience Running Experiments}\label{sec-deployment}
 
 %\todo{Q3: how is the testbed being used? A: deployment experience: 
 %number of people, projects, issues, hackathon.}
@@ -676,36 +744,64 @@ habits and patterns.
 %projects, such as monitoring construction safety.
 
 {\bf Hack-a-thons.}  In the past two years, we have hosted 
-In 2014, we hosted a Hack-a-thon styled, one-day workshop co-located with 
-the IEEE Sensors Applications Symposium (SAS) \cite{sas}. About twenty 
-workshop participants with various backgrounds worked in teams 
-for six hours and built four functional applications using Sensibility 
-Testbed. None of the participants had any prior experience with 
-this testbed, and many of them had no background in Computer
-Science. With this success, we hosted a second workshop with 
-SAS in 2015, and will continue in 2016. Interesting experiments 
-developed by the participants include a device network monitor: 
-when the battery level of a device is low, WiFi or Bluetooth that 
-requires high power is turned off.
+hack-a-thons co-located with 
+the IEEE Sensors Applications Symposium (SAS)~\cite{sas}.  SAS attracts a 
+diverse community of researchers that use sensors in their research.
+The vast majority of participants are not computer scientists, but instead
+come from other science disciplines.
+
+We recruited SAS attendees to attend a hack-a-thon in each of the past two
+years.  As a result, each year we had about twenty participants
+spend a day of the conference build applications for the Sensibility Testbed.
+None of the participants had any prior experience with 
+Sensibility Testbed, and many of them also had no experience with Python.
+
+As our IRB was not approved in time for these workshops, 
+researchers implemented code that they then tested on their own phone.
+Each of the projects did a demonstration in the late afternoon session that 
+showed their application working in practice.  The team that built
+the best application received an award, including new Android phones.
+
+Despite only having about six hours from the start of the hack-a-thon (where
+they first learned about Sensibility) until when the researchers demonstrated
+their working application, researchers built some interesting and complex
+applications.  These include:
+
+\begin{itemize}
+\item ...
+\cappos{Yanyan please list...}
+
+\end{itemize}
 
 %\label{sec-ease}
 
-\yanyan{how much time a student spent doing some
-measurements (like Thomas's motion detection alg).}
-
-\yanyan{compare to other projects,  developers can save
-thousands of lines of code, and reuse the same set of 
-devices.}
-
+We are hosting another hack-a-thon with SAS 2016 and invite interested 
+researchers to join. \cappos{Likely cut}
 
 \subsection{Experience Implementing Policies}\label{sec-implementing-policies}
 
-Experiments are not the only thing that needs to be implemented in Sensibility
-Testbed.  It is important that security policies can be implemented for 
-Sensibility Testbed.
+In addition to experiments, it is important that security policies can be 
+implemented for Sensibility Testbed.  The policy implementation mechanism has 
+been used in student assignments across ten classes at three institutions.
+These assignments had students implement a policy to restrict access to 
+some resource, usually the network or file system.  
+
+In most classes, the students were given a week to learn the programming
+environment and write their policy code.  Nearly all students successfully
+completed the assignment, often stating in evaluations that implementing a new 
+policy took a few hours.   More details about the implementation of policy
+code in the classroom and our pedagogical experiences with them is available
+in other sources~\cite{Cappos_SIGCSE_2014, Hooshangi_SIGCSE_2015}.
+
+%Students were then
+%provided every student's policy code and encouraged to try to violate the
+%guarantees given in the policies.   The assignments were designed to force
+%students to track filesystem or network state that is stored by the underlying
+%kernel and to keep it synchronized 
 
 
-\cappos{Add content about Richard, Sara, and my experience with security
-policies in the classroom.}
+
+%\cappos{Add content about Richard, Sara, and my experience with security
+%policies in the classroom.}
 
 

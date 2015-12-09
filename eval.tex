@@ -6,22 +6,28 @@ performance. To investigate whether the policies provided by
 Sensibility Testbed are representative, we surveyed the projects
 in the past few years and identified their security and privacy 
 mechanisms. We analyzed if Sensibility Testbed can provide policies 
-to protect the corresponding data in Section~\ref{sec-our-policies}. 
-We then show two examples by applying Sensibility Testbed's 
-policies to two experiments in Section~\ref{sec-experiment}. We 
-demonstrate that with the policies in place, we can protect the 
-device owner's privacy, while the data is sufficient for answering 
-research questions. We show the performance overhead of 
+to prevent common privacy attacks in Section~\ref{sec-our-policies}. 
+We then show an example by applying Sensibility Testbed's 
+policies to an experiment in Section~\ref{sec-experiment}. We 
+demonstrate that with the policies in place, we can prevent device
+fingerprinting using accelerometers. We show the performance overhead of 
 Sensibility Testbed in Section~\ref{sec-benchmark}, and our 
-deployment experience in Section~\ref{sec-deployment}.
+experience in Section~\ref{sec-deployment}.
 
 \subsection{Sensibility Testbed's Privacy Policies}\label{sec-our-policies}
 
+The policies in \sysname are implemented as blurring layers, as described
+in Section~\ref{sec-bob-policy}. Although the number of policies can be
+infinite, similar policies can reuse common code, and be parameterized 
+given researcher supplied specifications. 
+
+In this section, we investigate which policies can be set by \sysname to 
+prevent common attacks, and how \sysname's privacy protection compared 
+to other general defense frameworks.
+
 \subsubsection{Policies Against Known Attacks}
-As stated in Section~\ref{sec-policy-design}, \sysname's default policies are 
-set to appropriate levels to protect against known attacks today. In order to 
-evaluate if \sysname's policies are effective in preventing common attacks, 
-we surveyed 25 recent projects that 
+In order to evaluate if \sysname's policies are effective in preventing common 
+attacks, we surveyed 25 recent projects that 
 protect against sensor related privacy issues. We examined the sensor 
 privacy attacks in these projects, and how these projects control the access 
 to these sensors, in terms of data granularity. We show these access control 
@@ -45,7 +51,6 @@ is insufficient. We mark these cases as "not specified".
 % attack: associating Bluetooth MAC address with device
 % solution: use Bluetooth 4.0's native support for randomized MAC address
 
-%\begin{comment}
 %\multirow{2}{*}{\cite{chen2014sensor}\textsuperscript{*}} & Accelerometer 
 %& \tickmark &   &  \\ \cline{2-5}
 %& Camera & & \tickmark & \\ \hline
@@ -54,26 +59,42 @@ is insufficient. We mark these cases as "not specified".
 %% solution: (1) use accelerometer to infer the orientation of front camera, 
 %% (2) user shaking the phone, and separate the data of shaking video and
 %% shaking accelerometer to ensure a real 3D face
-%\end{comment}
 
-\multirow{3}{*}{MaskIt~\cite{gotz2012maskit}} & Location & \tickmark \\\cline{2-3}
-& Cellular & \tickmark  \\ \cline{2-3}
-& Bluetooth & \tickmark   \\\hline
-% attack: temperal correlations (heading towards hospital means the person will
-% be at the hospital)
-% solution: filter a user context stream that provably preserves privacy (a privacy 
-% check deciding whether to release or suppress the current user context). privacy 
-% is defined with respect to a set of sensitive contexts specified by the user
-% sec 7.1 described data (location, cellular, bluetooth)
+\multirow{2}{*}{\cite{bojinov2014mobile}\textsuperscript{*}} & Microphone  
+& Add random (small) noises. \\ \cline{2-3}
+& Accelerometer & Random (small) rotation\textsuperscript{\dag}.  \\ \hline
+%& Gyroscope & \tickmark  \\ \cline{2-3}
+%& Magnetometer & \tickmark  \\ \cline{2-3}
+%& Ambient light & \tickmark  \\ \cline{2-3}
+%& Touch screen &  \\ \hline
+% attack: use microphone and accelerometer to fingerprint devices
+% solution: this is a fingerprinting paper. it measures sensor's 
+% imperfection. though not evaluated, 
+% they showed in Tab 1 that gyroscope, magnetometer, etc. all 
+% have biases and imperfection that can be used for fingerprinting.
 
-Koi~\cite{guha2012koi} & Location & \tickmark  \\ \hline
+AccelPrint~\cite{dey2014accelprint} & Accelerometer & Random (small) 
+rotation.   \\ \hline
+% attack: use accelerometer to fingerprint devices
+% solution: this is a fingerprinting paper. one can fingerprint an accelerometer
+% when it is vibrating (eg, during an incoming call) and measure its imperfection
+
+\cite{clarkson2012breaking}\textsuperscript{*} & Microphone & 
+Add random (small) noises. \\ \hline
+
+\cite{lukas2006digital}\textsuperscript{*} & Camera & Limit pixel resolution. \\ \hline
+%& Location (GPS) & \tickmark  \\ \hline
+
+
+%Koi~\cite{guha2012koi} & Location & \tickmark  \\ \hline
 % attack: location tracking
 % solution: apps set location based triggers, and have them fired
 % based on location updates. eg, instead of location lookup, it does
 % location matching: when the phone is in a grocery store, it notifies
 % the app that set this locaiton trigger
+% prevents linkage between location and user identity
 
-Cach{\'e}~\cite{amini2011cache} & Location & \tickmark    \\\hline
+Cach{\'e}~\cite{amini2011cache} & Location & Approximate to a zipcode region or city.    \\\hline
 % attack: location privacy
 % solution: caching locaiton content in advance. retrieve content locally
 % when it is needed. this is like approximate location with a zipcode/city
@@ -161,25 +182,6 @@ Locaccino~\cite{toch2010empirical} & Location & \tickmark  \\ \hline
 % even though the accuracy is affected by user habits, device dimension, 
 % screen orientation, and keyboard layout. 
 
-AccelPrint~\cite{dey2014accelprint} & Accelerometer & \tickmark   \\ \hline
-% attack: use accelerometer to fingerprint devices
-% solution: this is a fingerprinting paper. one can fingerprint an accelerometer
-% when it is vibrating (eg, during an incoming call) and measure its imperfection
-
-\multirow{8}{*}{\cite{bojinov2014mobile}\textsuperscript{*}} & Microphone  
-&  \\ \cline{2-3}
-& Accelerometer & \tickmark  \\ \cline{2-3}
-& Gyroscope & \tickmark  \\ \cline{2-3}
-& Magnetometer & \tickmark  \\ \cline{2-3}
-& Ambient light & \tickmark  \\ \cline{2-3}
-& Location (GPS) & \tickmark  \\ \cline{2-3}
-& Touch screen &  \\ \cline{2-3}
-& Camera &  \\ \hline
-% attack: use microphone and accelerometer to fingerprint devices
-% solution: this is a fingerprinting paper. it measures sensor's 
-% imperfection. though not evaluated, 
-% they showed in Tab 1 that gyroscope, magnetometer, etc. all 
-% have biases and imperfection that can be used for fingerprinting.
 
 Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope 
 & \tickmark  \\ \hline
@@ -242,7 +244,10 @@ LP-Guardian~\cite{fawaz2014location}
 % for apps that require constant monitoring, replace the real location
 % with dummy ones that belong to a synthetic route
 
+
 \multicolumn{3}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
+
+\multicolumn{3}{l}{\textsuperscript{\dag}\scriptsize An example of this is shown in Section~\ref{sec-experiment}.} \\ 
 
 \end{tabular}
 \egroup
@@ -281,7 +286,9 @@ policy to limit accelerometer access frequency to below keyloggers' desired
 rate can make them much less effective. \yanyan{not all keyloggers require
 100Hz though.}
 
-Although \sysname can set default policies for these privacy attacks, these 
+As stated in Section~\ref{sec-policy-design}, \sysname's default policies are 
+set to appropriate levels to protect against known attacks today. 
+Although \sysname can set default policies for the privacy attacks, these 
 levels will need to be revised over time when new attacks become available. 
 \sysname's IRB allows adjusting these specific sensor access restrictions, 
 and thus making the default policies stronger over time, and preventing new 
@@ -316,6 +323,91 @@ attacks with future use.
 %be protected by the policies in Sensibility Testbed, \yanyan{I'm not sure 
 %yet how to explain this. I don't know what experiment would need this.}
 
+\subsubsection{Sensibility Testbed's Protection Compared to Other General
+Defense Frameworks}
+To evaluate whether \sysname's privacy protection can be as effective as other 
+general defense frameworks, we surveyed another 7 recent projects that provide
+protection against privacy attacks. These projects are different from the ones
+in Table~\ref{tab:policy} because \yanyan{complete this.} Similar to the projects 
+Table~\ref{tab:policy}, we also examined the sensor privacy attacks in these 7 
+projects, and how these projects control the access to these sensors. 
+As shown in Table~\ref{tab:policy-continued}, if a privacy policy can be supported
+by \sysname's default policy (e.g., providing a hashed device ID), a \tickmark\ 
+is placed in the default column. If a default policy is too restrictive, but an 
+extended policy with \sysname's IRB can permite (e.g., access to a camera
+with limited pixel resolution), then a \tickmark\ is placed in the extended column.
+For example, although \sysname does not provide  information-flow tracking as 
+in TaintDroid~\cite{enck2014taintdroid}, it provides equivalent restrictions to 
+location, accelerometer, microphone, camera, address book, SMS messages, 
+device identifiers, and network interfaces. 
+
+As shown in the table, most of the privacy policies (x\%) can be supported by
+\sysname's default policies, and y\% needs to go through extended IRB in order
+to get access to sensor data. 
+
+
+\begin{comment}
+As another example, prior work shows 
+that Android users' touch inputs can be revealed through a few attack 
+techniques like keyloggers and fingerprinting. 
+%For example, a smartphone's accelerometer 
+%and gyroscope can disclose shift and rotation data when a user types 
+%through a software keyboard. Imprecisions in sensor calibration can 
+%result in a device-specific scaling and thus can be a reliable fingerprint 
+%of the device. 
+User generated data thus can be informative enough 
+for malware to infer the key the user enters~\cite{cai2011touchlogger, 
+owusu2012accessory}, or to fingerprint and identify individual 
+devices~\cite{bojinov2014mobile, dey2014accelprint}. Because these 
+motion sensors are accessible 
+%through JavaScript in a mobile web browser, 
+without requesting any 
+permissions or notifying the device owner, these attack techniques are much 
+less detectable. However, the chance for these techniques to succeed
+depends on their sampling rate. 
+%Consider an Android 
+%user's average typing speed of 3 keys per second, when the sampling 
+%rate goes down to once per second, the best the adversary can do is 
+%just to identify 1 of these 3 keys. 
+Therefore, the policies to restrict the access rates to motion sensors 
+are effective when the allowed rate is lower than the best keylogger 
+would require to identify a key, or the best tracker to fingerprint a device.
+Section~\ref{sec-experiment} shows such an example. 
+\end{comment}
+
+
+%\todo{Q1.2: does ST address these concerns? A1.2: show
+%  a handful of past experiments with a 90/10 rule -- 90\% of experiments
+%  can be doone with virtually no mods, and the other 8\% we can write 
+%  specialized policy for and 2\% it's too hard.}
+
+\subsection{An Example Privacy Protection}\label{sec-experiment}
+
+%\todo{Q2: is ST useful for answering research questions? A:
+%compare the results of an algorithm with varying levels of 
+%data precision (Seth's algorithm?), and show a diagram suggested
+%by Justin.}
+This section demonstrates an example policy enforcement using the 
+privacy protection in Section~\ref{sec-our-policies}. In this example, an 
+adversary uses an accelerometer to fingerprint a device. 
+%The technique relies on the fact that imprecisions in sensor calibration can 
+%result in a device-specific scaling and thus can be a reliable fingerprint of the device. 
+
+
+Research has shown that using sensors on a modern smartphone, such as 
+a speaker~\cite{das2014poster}, microphone~\cite{clarkson2012breaking} 
+or accelerometer~\cite{bojinov2014mobile, dey2014accelprint}, one can 
+build a robust device fingerprint that is independent of the software state
+and survives a hard reset. The more recent accelerometer based fingerprinting
+is particular interesting because an accelerometer is accessible in mobile apps
+without requesting any permissions from the device owner, therefore these 
+attack techniques are much less detectable. Specifically, the 
+technique in~\cite{bojinov2014mobile} is based on the device-specific errors in 
+accelerometer calibration, which result in unique scaling and translation of 
+the measured values. In this section, we show that by using data blurring in 
+\sysname, it is possible to prevent such fingerprinting. 
+%while producing data that is still sufficient for benign experiments to function. 
+
 
 \begin{table}
 \scriptsize
@@ -327,9 +419,9 @@ attacks with future use.
 \hline
 \multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
 \multicolumn{3}{c|}{\bf Sensibility Testbed policy} \\\cline{3-5}
-& & {\bf Default} & {\bf Extended} & {\bf Cannot support} \\\hline
+& & {\bf Default} & {\bf Extended} & {\bf No support} \\\hline
 
-\multirow{3}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
+\multirow{8}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
 & Accelerometer & \tickmark &   &  \\ \cline{2-5}
 & Microphone & & \tickmark & \\ \cline{2-5}
 & Camera & & \tickmark & \\ \cline{2-5}
@@ -405,6 +497,16 @@ attacks with future use.
 % solution: allow users to specify privacy preferences, auto-generates
 % privacy actions on sensors (supression, allow, add noise, etc). 
 
+\multirow{3}{*}{MaskIt~\cite{gotz2012maskit}} & Location & \tickmark &   & \\\cline{2-5}
+& Cellular & \tickmark &   & \\ \cline{2-5}
+& Bluetooth &  \tickmark &   & \\\hline
+% attack: temperal correlations (heading towards hospital means the person will
+% be at the hospital)
+% solution: filter a user context stream that provably preserves privacy (a privacy 
+% check deciding whether to "release or suppress" the current user context). privacy 
+% is defined with respect to a set of sensitive contexts specified by the user
+% sec 7.1 described data (location, cellular, bluetooth)
+
 %\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 77} & \multirow{2}{1cm}{\bf 
 %65/77 (84.42\%)} & \multirow{2}{1cm}{\bf 11/77 (14.29\%)} & 
 %\multirow{2}{1cm}{\bf 1/76 (1.29\%)} \\ & & & & \\\hline
@@ -424,84 +526,6 @@ defense frameworks.}
 %\vspace{-10pt}
 \end{table}
 
-\subsubsection{Sensibility Testbed's Protection Compared to Other General
-Defense Frameworks}
-To evaluate whether \sysname's privacy protection can be as effective as other 
-general defense frameworks, we surveyed another 7 recent projects that provide
-protection against privacy attacks. These projects are different from the ones
-in Table~\ref{tab:policy} because \yanyan{complete this.} Similar to the projects 
-Table~\ref{tab:policy}, we also examined the sensor privacy attacks in these 7 
-projects, and how these projects control the access to these sensors. 
-As shown in Table~\ref{tab:policy-continued}, if a privacy policy can be supported
-by \sysname's default policy (e.g., providing a hashed device ID), a \tickmark\ 
-is placed in the default column. If a default policy is too restrictive, but an 
-extended policy with \sysname's IRB can permite (e.g., access to a camera
-with limited pixel resolution), then a \tickmark\ is placed in the extended column.
-For example, although \sysname does not provide  information-flow tracking as 
-in TaintDroid~\cite{enck2014taintdroid}, it provides equivalent restrictions to 
-location, accelerometer, microphone, camera, address book, SMS messages, 
-device identifiers, and network interfaces. 
-
-As shown in the table, most of the privacy policies (x\%) can be supported by
-\sysname's default policies, and y\% needs to go through extended IRB in order
-to get access to sensor data. 
-
-\begin{comment}
-As another example, prior work shows 
-that Android users' touch inputs can be revealed through a few attack 
-techniques like keyloggers and fingerprinting. 
-%For example, a smartphone's accelerometer 
-%and gyroscope can disclose shift and rotation data when a user types 
-%through a software keyboard. Imprecisions in sensor calibration can 
-%result in a device-specific scaling and thus can be a reliable fingerprint 
-%of the device. 
-User generated data thus can be informative enough 
-for malware to infer the key the user enters~\cite{cai2011touchlogger, 
-owusu2012accessory}, or to fingerprint and identify individual 
-devices~\cite{bojinov2014mobile, dey2014accelprint}. Because these 
-motion sensors are accessible 
-%through JavaScript in a mobile web browser, 
-without requesting any 
-permissions or notifying the device owner, these attack techniques are much 
-less detectable. However, the chance for these techniques to succeed
-depends on their sampling rate. 
-%Consider an Android 
-%user's average typing speed of 3 keys per second, when the sampling 
-%rate goes down to once per second, the best the adversary can do is 
-%just to identify 1 of these 3 keys. 
-Therefore, the policies to restrict the access rates to motion sensors 
-are effective when the allowed rate is lower than the best keylogger 
-would require to identify a key, or the best tracker to fingerprint a device.
-Section~\ref{sec-experiment} shows such an example. 
-\end{comment}
-
-%\todo{Q1.2: does ST address these concerns? A1.2: show
-%  a handful of past experiments with a 90/10 rule -- 90\% of experiments
-%  can be doone with virtually no mods, and the other 8\% we can write 
-%  specialized policy for and 2\% it's too hard.}
-
-\subsection{Privacy Protection and Experiment Functionality}\label{sec-experiment}
-
-\todo{Q2: is ST useful for answering research questions? A:
-compare the results of an algorithm with varying levels of 
-data precision (Seth's algorithm?), and show a diagram suggested
-by Justin.}
-
-\yanyan{with the privacy protection in place, is the data we 
-provide sufficient for experiments to function?}
-
-Research has shown that using sensors on a modern smartphone, such as 
-a speaker~\cite{das2014poster}, microphone~\cite{clarkson2012breaking} 
-or accelerometer~\cite{bojinov2014mobile, dey2014accelprint}, one can 
-build a robust device fingerprint that is independent of the software state
-and survives a hard reset. The more recent accelerometer based fingerprinting
-is particular interesting because an accelerometer is accessible in mobile apps
-without requesting any permissions from the device owner. Specifically, the 
-technique in~\cite{bojinov2014mobile} is based on the device-specific errors in 
-accelerometer calibration, which result in unique scaling and translation of 
-the measured values. In this section, we show that by using data blurring in 
-\sysname, it is possible to prevent such fingerprinting, while producing data that
-is still sufficient for benign experiments to function. 
 
 
 \begin{figure*}
@@ -574,21 +598,22 @@ if the surface on which the phone lies is not perfectly level.
 
 \textbf{Data blurring and fingerprinting.}
 We carried out an accelerometer fingerprinting experiment on a group
-of X Android devices, with $10,000$ measurement samples from each.
-Figure~\ref{fig:fingerprinting}(a) shows the estimated $S_z$ and $O_z$
-based on unfiltered accelerometer data. The fingerprinting method is
-very effective. Among the X devices, only one pair is near-collision. In
-Figure~\ref{fig:fingerprinting}(b)-(d), we apply a blurring layer to the 
+of 10 Android devices, with $10,000$ measurement samples from each device.
+Figure~\ref{fig:fingerprinting}(a) shows the estimated $S_z$ and $O_z$ in Eq.~(\ref{eq:fxy})
+based on unfiltered accelerometer data, where each device is represented 
+by the medians and variances of $S_z$ and $O_z$ along the X and Y axis. 
+The fingerprinting method is
+very effective. Among the 10 devices, only one pair is near-collision. In
+Figure~\ref{fig:fingerprinting}(b)-(d), we apply a policy to the 
 accelerometer that rotates the device by a small angle $\theta$. In 
 Figure~\ref{fig:fingerprinting}(b), $\theta$ is a random variable that is
 uniformly distributed between $0$ and $10^{\circ}$. Similarly, $\theta$
 in Figure~\ref{fig:fingerprinting}(c) and (d) is uniformly distributed 
-between $0$ and $20/30^{\circ}$. As shown, the more we rotate the 
+between $0$ and $20^{\circ}$ and $30^{\circ}$, respectively. As shown, the more we rotate the 
 device, the less distinct the estimation of $S_z$ and $O_z$ are for each 
 device. The results in Figure~\ref{fig:fingerprinting}(c) are almost 
-undistinguishable. Therefore, using data blurring in \sysname, we are able 
-to prevent fingerprinting and keep the anonymity of mobile devices in such 
-a case.
+undistinguishable. Therefore, using \sysname's policy, we can 
+prevent fingerprinting and keep the anonymity of mobile devices.
 
 %\subsection{Usability}\label{sec-usability}
 %
@@ -598,11 +623,11 @@ a case.
 %
 %\yanyan{incentives to participants}
 
-\subsection{Microbenchmarks}\label{sec-benchmark}
+\subsection{Performance Overhead}\label{sec-benchmark}
 
-We measured the overhead incurred by running blurring layers with 
-experiment code in Sensibility Testbed, to demonstrate that it is 
-feasible to protect sensor data privacy on end-user devices without 
+We measured the overhead incurred by running blurring layers as policies, 
+along with experiment code in Sensibility Testbed. We show that it is 
+feasible to protect the privacy on end-user devices without 
 affecting user experience. 
 %in terms of app responsiveness and battery life.
 
@@ -612,13 +637,14 @@ affecting user experience.
 layers with experiment code. Blue points show the execution time of 
 an experiment using blurring layers without verifying the runtime behavior. 
 Black points show the execution time with the runtime behavior verified. 
+\yanyan{remove blue and add a base line?}
 \label{fig-time}}
 \end{figure}
 
 %\textbf{Runtime overhead.}
 Figure~\ref{fig-time} shows the runtime overhead of using varying number of 
 blurring layers, i.e., policies, to protect sensor data. The experiment code 
-uses calls \path{get_battery()} in the Repy sandbox. Each point in the 
+calls \path{get_battery()} from the Repy sandbox. Each point in the 
 figure is averaged over 100 iterations. Blue points show the execution time of 
 using blurring layers without verifying the runtime behavior. Black points 
 show the execution time with the runtime behavior verified, i.e., using a 
@@ -628,7 +654,7 @@ for arguments and return values. When the number of layers is below 10,
 the runtime is slightly increased from 10$^{-5} s$ to 10$^{-4} s$. Although
 the runtime overhead is higher with more layers, as Table~\ref{tab:policy} 
 and \ref{tab:policy-continued} show, most projects need less than 10
-policies. 
+policies. \yanyan{we don't mention contracts in paper anymore.}
 
 Table~\ref{tab:overhead}(a) shows the total runtime overhead when an experiment
 calls \path{get_accelerometer()}, without any blurring layer (no layer), with blurring 
@@ -644,8 +670,8 @@ Table~\ref{tab:overhead}(b) shows the memory overhead without any blurring layer
 (no layer), and with blurring layers that verifies the runtime behavior and rounds up 
 decimal points (round-up). As the results show, the memory overhead is almost
 constant, around 0.48 - 0.55 $MB$, until the number of blurring layers reaches 100. 
-\yanyan{is there an explanation?} Nevertheless, the overhead never exceeded 1 
-$MB$ in all cases. 
+%\yanyan{is there an explanation?} 
+Nevertheless, the overhead never exceeded 1 $MB$ in all cases. 
 
 \begin{table}
 \scriptsize
@@ -693,7 +719,7 @@ $MB$ in all cases.
 
 \egroup
 
-\caption{\small Overhead with varying number of blurring layers. }
+\caption{\small Overhead with varying number of blurring layers. \yanyan{remove no-op in (a)?}}
 \label{tab:overhead}
 %\vspace{-10pt}
 \end{table}
@@ -702,14 +728,14 @@ $MB$ in all cases.
 %\textbf{CPU and memory overhead.}
 %\todo{what's the CPU/memory overhead?}
 
-\subsection{Experience Running Experiments}\label{sec-deployment}
+\subsection{Experience with \sysname}\label{sec-deployment}
 
 %\todo{Q3: how is the testbed being used? A: deployment experience: 
 %number of people, projects, issues, hackathon.}
 
-%\subsubsection{External Projects and Collaboration}\label{sec-external}
+\subsubsection{Experience Running Experiments}\label{sec-external}
 
-Our early prototype of Sensibility has been used by dozens of researchers.
+Our early prototype of \sysname has been used by dozens of researchers.
 This has come in two forms: researchers performing extended practical
 deployments and researchers experimenting with Sensibility Testbed at a 
 hack-a-thon.  As our IRB was recently approved, the experiments to date have 
@@ -721,14 +747,14 @@ use Sensibility Testbed?
 {\bf Research deployment.}  Sensibility Testbed has been used by 
 several research projects where the researchers installed Sensibility
 Testbed on their own devices and then conducted an experiment.  
-A research group in Austria created the Open3G~\cite{open3g} project to
+A research group in Austria created the Open3G \cite{open3g} project to
 investigate cellular technology coverage in Vienna.  The researchers
 who created this project estimated that the effort to write the code to
 collect the sensor data took about an hour.
 
 Sensibility Testbed was also used by a high school student as part of 
 a vehicle data collection project~\cite{reininger2015first}.  The student
-connected their phone to the OBD2 port in their car and used Sensibility
+connected his phone to the on-board diagnostics sensor in a car and used Sensibility
 Testbed to capture data.  The student then drove around the greater
 New York area and used this information to derive information about driving
 habits and patterns. 
@@ -752,47 +778,43 @@ come from other science disciplines.
 
 We recruited SAS attendees to attend a hack-a-thon in each of the past two
 years.  As a result, each year we had about twenty participants
-spend a day of the conference build applications for the Sensibility Testbed.
+spend a day of the conference building applications for the Sensibility Testbed.
 None of the participants had any prior experience with 
 Sensibility Testbed, and many of them also had no experience with Python.
 
 As our IRB was not approved in time for these workshops, 
-researchers implemented code that they then tested on their own phone.
-Each of the projects did a demonstration in the late afternoon session that 
-showed their application working in practice.  The team that built
-the best application received an award, including new Android phones.
-
-Despite only having about six hours from the start of the hack-a-thon (where
-they first learned about Sensibility) until when the researchers demonstrated
-their working application, researchers built some interesting and complex
-applications.  These include:
-
-\begin{itemize}
-\item ...
-\cappos{Yanyan please list...}
-
-\end{itemize}
+researchers implemented code that they then tested on their own devices.
+%Each of the projects did a demonstration in the late afternoon session that 
+%showed their application working in practice.  The team that built
+%the best application received an award, including new Android phones.
+%
+Despite only having about six hours from they first learned about \sysname, 
+researchers built some interesting and complex applications. These include 
+navigating between conference rooms using WiFi connection information, 
+monitoring battery information and turning off WiFi and Bluetooth when 
+battery level of is low.
 
 %\label{sec-ease}
 
-We are hosting another hack-a-thon with SAS 2016 and invite interested 
-researchers to join. \cappos{Likely cut}
+%We are hosting another hack-a-thon with SAS 2016 and invite interested 
+%researchers to join. \cappos{Likely cut}
 
-\subsection{Experience Implementing Policies}\label{sec-implementing-policies}
+\subsubsection{Experience Implementing Policies}\label{sec-implementing-policies}
 
-In addition to experiments, it is important that security policies can be 
-implemented for Sensibility Testbed.  The policy implementation mechanism has 
+In addition to experiments, 
+%it is important that security policies can be implemented for Sensibility Testbed.  
+the policy implementation mechanism in \sysname has 
 been used in student assignments across ten classes at three institutions.
 These assignments had students implement a policy to restrict access to 
 some resource, usually the network or file system.  
-
+%
 In most classes, the students were given a week to learn the programming
 environment and write their policy code.  Nearly all students successfully
 completed the assignment, often stating in evaluations that implementing a new 
 policy took a few hours.   More details about the implementation of policy
 code in the classroom and our pedagogical experiences with them is available
 in other sources~\cite{Cappos_SIGCSE_2014, Hooshangi_SIGCSE_2015}.
-
+\yanyan{are these related to sensors?}
 %Students were then
 %provided every student's policy code and encouraged to try to violate the
 %guarantees given in the policies.   The assignments were designed to force

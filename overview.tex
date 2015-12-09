@@ -310,12 +310,12 @@ For example, the default policies enforce randomized MAC addresses in a
 Bluetooth and WiFi network, approximated location coordinates, and 
 control the frequency of access to motion sensor data. Note that keyloggers (risk 3)
 are more effective when the access frequency to motion sensors is 
-high. Previous work such as ACCessory~\cite{owusu2012accessory}, 
+high: Previous work such as ACCessory~\cite{owusu2012accessory}, 
 TapPrints~\cite{miluzzo2012tapprints}, TapLogger~\cite{xu2012taplogger}, 
 and other projects~\cite{aviv2012practicality} showed that when the 
 frequency to get motion sensor data is above a certain threshold, the keyloggers' 
-learning algorithms become much more accurate. Therefore, 
-using \sysname's default policies, we can limit 
+learning algorithms become much more accurate.  
+Using \sysname's default policies, we can limit 
 motion sensors to be accessed at a rate lower than this threshold. 
 
 
@@ -402,12 +402,15 @@ whereas others have an upper bound on their access frequency.
 \end{comment}
 
 
-According to our analysis of previous work, sensor data is disabled or 
-blurred by default. However, if a finer-grained access is critical to the study, access 
+As a consequence of our analysis of previous work, \sysname blurs (or 
+even disables access to) sensor data by default.
+However, if a finer-grained access is critical to the study, access 
 must be requested by going through the \sysname's IRB, in addition to the 
-researcher's IRB. However, the device owner configured local policies 
+researcher's IRB. Even if both IRBs consent that access at elevated accuracy 
+should be granted, the local policies configured by the device owner still 
 supersede both \sysname's default policies and the researcher's IRB policies, 
-as described in Section~\ref{sec-repy}.
+and may still block fine-grained access. We further describe this hierarchy 
+of policies in Section~\ref{sec-repy}.
 
 \sysname's default policies are set to appropriate levels to protect against 
 known attacks today. %as shown in our analysis in Section~\ref{sec-our-policies}. 

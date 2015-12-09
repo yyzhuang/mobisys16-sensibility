@@ -258,8 +258,10 @@ policies.} \\
 %\vspace{-10pt}
 \end{table*}
 
-\subsection{Policy Design}\label{sec-policy-design}
+\subsection{Default Policies}\label{sec-policy-design}
 
+Policies govern at which accuracy and rate a sandboxed experiment can 
+access sensors on a device, if any. 
 The goal of \sysname is to protect the device owner's privacy, while making
 the data from mobile devices useful for a wide range of research. 
 %As mentioned earlier, failure to recognize the vulnerability of
@@ -279,9 +281,13 @@ to access sensors at a coarser data granularity. The default and
 customized policies would then be automatically enforced by the \sysname 
 infrastructure. 
 %\cappos{Shouldn't this detail come earlier?  Why is this here instead?}
+Also, the device owner may add their own policies which have ultimate 
+control over the maximum sensor access accuracy and rate that an 
+experiment can attain.
 
 %\textbf{Category 1.}
-The default policies disable highly sensitive sensors, such as cameras and microphones. 
+The \textit{default policies} disable highly sensitive sensors 
+such as cameras and microphones. 
 If a microphone is controlled by a malicious party, for example, it can be used to 
 intelligently choose data of a higher value to record, such as a credit card 
 number or password~\cite{zhang2015leave}. Cameras face similar

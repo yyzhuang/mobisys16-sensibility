@@ -14,17 +14,6 @@ fingerprinting using accelerometers. We show the performance overhead of
 Sensibility Testbed in Section~\ref{sec-benchmark}, and our 
 experience in Section~\ref{sec-deployment}.
 
-\subsection{Sensibility Testbed's Privacy Policies}\label{sec-our-policies}
-
-The policies in \sysname are implemented as blurring layers, as described
-in Section~\ref{sec-bob-policy}. Although the number of policies can be
-infinite, similar policies can reuse common code, and be parameterized 
-given researcher supplied specifications. 
-
-In this section, we investigate which policies can be set by \sysname to 
-prevent common attacks, and how \sysname's privacy protection compared 
-to other general defense frameworks.
-
 
 \begin{table}
 \scriptsize
@@ -173,8 +162,11 @@ location within radius r.   \\ \hline
 % both strong guarantees of location privacy and protection against 
 % cheating clients.
 
-LP-Guardian~\cite{fawaz2014location} 
-& Location & \tickmark   \\ \hline
+\multirow{3}{*}{LP-Guardian~\cite{fawaz2014location}}
+& \multirow{3}{*}{Location} & \multirow{3}{3.5cm}{Approximate to a zipcode 
+region/ city, radomized location within radius r.}    \\ 
+& & \\ 
+& & \\ \hline
 % attack: tracking, profiling, and identification threats
 % solution:  anonymize location in the background and let user to choose 
 % appropriate anonymization strategy for foreground location access; 
@@ -229,8 +221,8 @@ frequency $\leq$ 76 Hz.  \\ \hline
 % screen orientation, and keyboard layout. 
 
 \multirow{2}{*}{\cite{liu2015good}\textsuperscript{*}}
-& Accelerometer & \tickmark   \\ \cline{2-3}
-& Microphone  &  \\ \hline 
+& Accelerometer & Access frequency $\leq$ 100 Hz.   \\ \cline{2-3}
+& Microphone  & Audio sampling rate $\leq$ 44.1 kHz. \\ \hline 
 % attack: use accelerometer on smart watches to monitor inputs (more
 % challenging than accelerometer on smartphones)
 % solution: this is an attack paper. microphone is used to help 
@@ -250,7 +242,7 @@ Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope
 
 \multicolumn{3}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
 
-\multicolumn{3}{l}{\textsuperscript{\dag}\scriptsize An example of this is shown in Section~\ref{sec-experiment}.} \\ 
+%\multicolumn{3}{l}{\textsuperscript{\dag}\scriptsize An example of this is shown in Section~\ref{sec-experiment}.} \\ 
 
 \end{tabular}
 \egroup
@@ -265,13 +257,24 @@ Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope
 %\vspace{-10pt}
 \end{table}
 
+\subsection{Sensibility Testbed's Privacy Policies}\label{sec-our-policies}
+
+The policies in \sysname are implemented as blurring layers, as described
+in Section~\ref{sec-bob-policy}. Although the number of policies can be
+infinite, similar policies can reuse common code, and be parameterized 
+given researcher supplied specifications. 
+
+In this section, we investigate which policies can be set by \sysname to 
+prevent common attacks, and how \sysname's privacy protection compared 
+to other general defense frameworks.
+
 \subsubsection{Policies Against Known Attacks}
 In order to evaluate if \sysname's policies are effective in preventing common 
 attacks, we surveyed 25 recent projects that 
 protect against sensor related privacy issues. We examined the sensor 
 privacy attacks in these projects, and how these projects control the access 
 to these sensors (in terms of data granularity, if available). We show these access control 
-in the form of equivalent \sysname default policies. The results are shown in 
+in the form of equivalent \sysname baseline policies. The results are shown in 
 Table~\ref{tab:policy}. In some cases, the details about data access granularity
 is insufficient. We mark these cases as "unspecified". 
 
@@ -299,12 +302,12 @@ policy to limit accelerometer access frequency to below keyloggers' desired
 rate can make them much less effective. \yanyan{not all keyloggers require
 100Hz though.}
 
-As stated in Section~\ref{sec-policy-design}, \sysname's default policies are 
+As stated in Section~\ref{sec-policy-design}, \sysname's baseline policies are 
 set to appropriate levels to protect against known attacks today. 
-Although \sysname can set default policies for the privacy attacks, these 
+Although \sysname can set baseline policies for the privacy attacks, these 
 levels will need to be revised over time when new attacks become available. 
 \sysname's IRB allows adjusting these specific sensor access restrictions, 
-and thus making the default policies stronger over time, and preventing new 
+and thus making the baseline policies stronger over time, and preventing new 
 attacks with future use.
 
 %These projects, listed in Table~\ref{tab:policy} and \ref{tab:policy-continued},
@@ -336,17 +339,135 @@ attacks with future use.
 %be protected by the policies in Sensibility Testbed, \yanyan{I'm not sure 
 %yet how to explain this. I don't know what experiment would need this.}
 
-\subsubsection{Sensibility Testbed's Protection Compared to Other General
-Defense Frameworks}
+\begin{table}
+\scriptsize
+\centering
+
+\bgroup
+\def\arraystretch{1.15}% % for table padding
+\begin{tabular}{|p{2.5cm}|l|c|c|}
+\hline
+\multirow{2}{1.5cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
+\multicolumn{2}{c|}{\bf Sensibility Testbed policy} \\\cline{3-4}
+& & {\bf Baseline} & {\bf Extended} \\\hline
+
+\multirow{8}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &    \\ \cline{2-4}
+& Accelerometer & \tickmark &    \\ \cline{2-4}
+& Microphone & & \tickmark \\ \cline{2-4}
+& Camera & & \tickmark \\ \cline{2-4}
+& Address book & & \tickmark \\ \cline{2-4}
+& SMS messages & & \tickmark  \\ \cline{2-4}
+& Device IDs & \tickmark & \\ \cline{2-4}
+& Network interface\textsuperscript{\dag} & \tickmark & \\ \hline
+% attack: general privacy attacks
+% solution: labels (taints) data from privacy-sensitive sources and
+% transitively applies labels as sensitive data propagates
+% through program variables, files, and interprocess messages.
+% (maybe this is not the best example)
+
+\multirow{5}{2.5cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & 
+Device ID & \tickmark &  \\ \cline{2-4}
+& WiFi & \tickmark &    \\ \cline{2-4}
+& Bluetooth & \tickmark &   \\ \cline{2-4}
+& Address book & & \tickmark  \\ \cline{2-4}
+& Location & \tickmark &    \\\hline
+% attack: general privacy issues
+% solution: substitute anonymized data in place by crowd sourced recommendations
+
+\multirow{4}{*}{CQue~\cite{parate2013leveraging}}  & Location & \tickmark &  \\\cline{2-4}
+& Accelerometer & \tickmark &    \\ \cline{2-4}
+& Gyroscope & \tickmark &    \\ \cline{2-4}
+& Bluetooth & \tickmark &    \\\hline
+% attack: this paper tries to infer individual behavior by fusing a bunch of sensors 
+% and provide insights into privacy leakage (use issue what-if queries to explore
+% the leakage if certain sensor data is revealed to apps)
+% solution: detection and fusion of sensors (math)
+
+\multirow{3}{*}{Jigsaw~\cite{lu2010jigsaw}} & Accelerometer 
+& \tickmark &    \\ \cline{2-4}  
+& Microphone  & & \tickmark  \\ \cline{2-4}
+& Location & \tickmark &    \\\hline
+% attack: robustness to position change and energy drain
+% solution: throttles the depth and sophistication of sensing when data is low quality
+
+\multirow{6}{*}{MockDroid~\cite{beresford2011mockdroid}} 
+& Location & \tickmark &  \\\cline{2-4}
+& Internet\textsuperscript{\dag} & \tickmark &  \\ \cline{2-4}
+& Cellular & \tickmark &    \\ \cline{2-4}
+& Address book & & \tickmark  \\ \cline{2-4}
+& Device ID & \tickmark & \\ \cline{2-4}
+& Broadcast intent &  & \tickmark   \\ \hline
+% attack: general privacy attacks
+% solution: modify the Android OS to allow users to mock or revoke
+% access to data during run time (simulating lack of location info, wireless
+% network, fake device ID, never sending broadcast intent, etc.)
+
+\multirow{6}{*}{Guardian \cite{zhang2015leave}} 
+& Bluetooth & \tickmark &   \\ \cline{2-4}
+& Internet\textsuperscript{\dag} & \tickmark &  \\ \cline{2-4}
+& Microphone  & & \tickmark  \\ \cline{2-4}
+& Cellular & \tickmark &    \\ \cline{2-4}
+& Motion sensors & \tickmark &    \\ \cline{2-4}
+& CPU usage\textsuperscript{\ddag} & \tickmark & \\\hline
+% attack: rumtime information gathering (a malicious app recording
+% phone conversations, etc.)
+% solution: pause suspicious background apps (that records the phone 
+% conversation) when the target app is running in the foreground. the 
+% background apps are identified by their behaviors inferred from their
+% thread names, CPU scheduling, kernel time etc. the key is when to 
+% suspend and resume the suspicious background apps
+
+
+\multirow{5}{*}{ipShield~\cite{chakraborty2014ipshield}} 
+& Location (GPS) & \tickmark &    \\ \cline{2-4}
+& Accelerometer & \tickmark &    \\ \cline{2-4}
+& Gyroscope & \tickmark &  \\ \cline{2-4}
+& WiFi & \tickmark &    \\ \cline{2-4}
+& Cellular & \tickmark &   \\ \hline
+% attack: general privacy attacks
+% solution: allow users to specify privacy preferences, auto-generates
+% privacy actions on sensors (supression, allow, add noise, etc). 
+
+\multirow{3}{*}{MaskIt~\cite{gotz2012maskit}} & Location & \tickmark &   \\\cline{2-4}
+& Cellular & \tickmark &    \\ \cline{2-4}
+& Bluetooth &  \tickmark &    \\\hline
+% attack: temperal correlations (heading towards hospital means the person will
+% be at the hospital)
+% solution: filter a user context stream that provably preserves privacy (a privacy 
+% check deciding whether to "release or suppress" the current user context). privacy 
+% is defined with respect to a set of sensitive contexts specified by the user
+% sec 7.1 described data (location, cellular, bluetooth)
+
+\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 40} & \multirow{2}{1cm}{\bf 
+31/40 (77.5\%)} & \multirow{2}{1cm}{\bf 9/40 (22.5\%)} \\ 
+& & & \\\hline
+
+\multicolumn{4}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
+can be implemented by interposing socket calls.} \\
+
+\multicolumn{4}{l}{\textsuperscript{\ddag}\scriptsize CPU usage can be obtained
+through reading the files in \path{/proc/stat}.} \\
+
+\end{tabular}
+\egroup
+
+\caption{\small \sysname's privacy protection compared to other general
+defense frameworks.}
+\label{tab:policy-continued}
+%\vspace{-10pt}
+\end{table}
+
+\subsubsection{Sensibility Testbed's Privacy Protection} 
+%Compared to Other General Defense Frameworks}
 To evaluate whether \sysname's privacy protection can be as effective as other 
-general defense frameworks, we surveyed another 7 recent projects that provide
+general defense frameworks, we surveyed another 8 recent projects that provide
 protection against privacy attacks. These projects are different from the ones
 in Table~\ref{tab:policy} because \yanyan{complete this.} Similar to the projects 
-Table~\ref{tab:policy}, we also examined the sensor privacy attacks in these 7 
+Table~\ref{tab:policy}, we also examined the sensor privacy attacks in these 8
 projects, and how these projects control the access to these sensors. 
 As shown in Table~\ref{tab:policy-continued}, if a privacy policy can be supported
-by \sysname's default policy (e.g., providing a hashed device ID), a \tickmark\ 
-is placed in the default column. If a default policy is too restrictive, but an 
+by \sysname's baseline policy (e.g., providing a hashed device ID), a \tickmark\ 
+is placed in the baseline column. If a baseline policy is too restrictive, but an 
 extended policy with \sysname's IRB can permite (e.g., access to a camera
 with limited pixel resolution), then a \tickmark\ is placed in the extended column.
 For example, although \sysname does not provide  information-flow tracking as 
@@ -354,8 +475,8 @@ in TaintDroid~\cite{enck2014taintdroid}, it provides equivalent restrictions to
 location, accelerometer, microphone, camera, address book, SMS messages, 
 device identifiers, and network interfaces. 
 
-As shown in the table, most of the privacy policies (x\%) can be supported by
-\sysname's default policies, and y\% needs to go through extended IRB in order
+As shown in the table, most of the privacy protection (77.5\%) can be supported by
+\sysname's baseline policies, and 22.5\% needs to go through extended IRB in order
 to get access to sensor data. 
 
 
@@ -394,152 +515,6 @@ Section~\ref{sec-experiment} shows such an example.
 %  can be doone with virtually no mods, and the other 8\% we can write 
 %  specialized policy for and 2\% it's too hard.}
 
-\subsection{An Example Privacy Protection}\label{sec-experiment}
-
-%\todo{Q2: is ST useful for answering research questions? A:
-%compare the results of an algorithm with varying levels of 
-%data precision (Seth's algorithm?), and show a diagram suggested
-%by Justin.}
-This section demonstrates an example policy enforcement using the 
-privacy protection in Section~\ref{sec-our-policies}. In this example, an 
-adversary uses an accelerometer to fingerprint a device. 
-%The technique relies on the fact that imprecisions in sensor calibration can 
-%result in a device-specific scaling and thus can be a reliable fingerprint of the device. 
-
-
-Research has shown that using sensors on a modern smartphone, such as 
-a speaker~\cite{das2014poster}, microphone~\cite{clarkson2012breaking} 
-or accelerometer~\cite{bojinov2014mobile, dey2014accelprint}, one can 
-build a robust device fingerprint that is independent of the software state
-and survives a hard reset. The more recent accelerometer based fingerprinting
-is particular interesting because an accelerometer is accessible in mobile apps
-without requesting any permissions from the device owner, therefore these 
-attack techniques are much less detectable. Specifically, the 
-technique in~\cite{bojinov2014mobile} is based on the device-specific errors in 
-accelerometer calibration, which result in unique scaling and translation of 
-the measured values. In this section, we show that by using data blurring in 
-\sysname, it is possible to prevent such fingerprinting. 
-%while producing data that is still sufficient for benign experiments to function. 
-
-
-\begin{table}
-\scriptsize
-\centering
-
-\bgroup
-\def\arraystretch{1.15}% % for table padding
-\begin{tabular}{|l|l|c|c|c|}
-\hline
-\multirow{2}{.8cm}{\bf Project} & \multirow{2}{*}{\bf Sensor} & 
-\multicolumn{3}{c|}{\bf Sensibility Testbed policy} \\\cline{3-5}
-& & {\bf Default} & {\bf Extended} & {\bf No support} \\\hline
-
-\multirow{8}{*}{TaintDroid~\cite{enck2014taintdroid}} & Location & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Microphone & & \tickmark & \\ \cline{2-5}
-& Camera & & \tickmark & \\ \cline{2-5}
-& Address book & & \tickmark & \\ \cline{2-5}
-& SMS messages & & \tickmark & \\ \cline{2-5}
-& Device IDs & \tickmark & & \\ \cline{2-5}
-& Network interface\textsuperscript{\dag} & \tickmark & & \\ \hline
-% attack: general privacy attacks
-% solution: labels (taints) data from privacy-sensitive sources and
-% transitively applies labels as sensitive data propagates
-% through program variables, files, and interprocess messages.
-% (maybe this is not the best example)
-
-\multirow{5}{.8cm}{ProtectMyPrivacy \cite{agarwal2013protectmyprivacy}} & Device ID & \tickmark &  & \\ \cline{2-5}
-& WiFi & \tickmark &   &  \\ \cline{2-5}
-& Bluetooth & \tickmark &   & \\ \cline{2-5}
-& Address book & & \tickmark & \\ \cline{2-5}
-& Location & \tickmark &   &   \\\hline
-% attack: general privacy issues
-% solution: substitute anonymized data in place by crowd sourced recommendations
-
-\multirow{4}{*}{CQue~\cite{parate2013leveraging}}  & Location & \tickmark &  & \\\cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Gyroscope & \tickmark &   &  \\ \cline{2-5}
-& Bluetooth & \tickmark &   &   \\\hline
-% attack: this paper tries to infer individual behavior by fusing a bunch of sensors 
-% and provide insights into privacy leakage (use issue what-if queries to explore
-% the leakage if certain sensor data is revealed to apps)
-% solution: detection and fusion of sensors (math)
-
-\multirow{3}{*}{Jigsaw~\cite{lu2010jigsaw}} & Accelerometer 
-& \tickmark &   &  \\ \cline{2-5}  
-& Microphone  & & \tickmark & \\ \cline{2-5}
-& Location & \tickmark &   &   \\\hline
-% attack: robustness to position change and energy drain
-% solution: throttles the depth and sophistication of sensing when data is low quality
-
-\multirow{6}{*}{MockDroid~\cite{beresford2011mockdroid}} 
-& Location & \tickmark &  & \\\cline{2-5}
-& Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
-& Cellular & \tickmark &   &  \\ \cline{2-5}
-& Address book & & \tickmark & \\ \cline{2-5}
-& Device ID & \tickmark & & \\ \cline{2-5}
-& Broadcast intent &  & \tickmark  &  \\ \hline
-% attack: general privacy attacks
-% solution: modify the Android OS to allow users to mock or revoke
-% access to data during run time (simulating lack of location info, wireless
-% network, fake device ID, never sending broadcast intent, etc.)
-
-\multirow{6}{*}{Guardian \cite{zhang2015leave}} 
-& Bluetooth & \tickmark &   & \\ \cline{2-5}
-& Internet\textsuperscript{\dag} & \tickmark & & \\ \cline{2-5}
-& Microphone  & & \tickmark & \\ \cline{2-5}
-& Cellular & \tickmark &   &  \\ \cline{2-5}
-& Motion sensors & \tickmark &   &  \\ \cline{2-5}
-& CPU usage\textsuperscript{\ddag} & \tickmark & & \\\hline
-% attack: rumtime information gathering (a malicious app recording
-% phone conversations, etc.)
-% solution: pause suspicious background apps (that records the phone 
-% conversation) when the target app is running in the foreground. the 
-% background apps are identified by their behaviors inferred from their
-% thread names, CPU scheduling, kernel time etc. the key is when to 
-% suspend and resume the suspicious background apps
-
-
-\multirow{5}{*}{ipShield~\cite{chakraborty2014ipshield}} 
-& Location (GPS) & \tickmark &   &  \\ \cline{2-5}
-& Accelerometer & \tickmark &   &  \\ \cline{2-5}
-& Gyroscope & \tickmark & &  \\ \cline{2-5}
-& WiFi & \tickmark &   &  \\ \cline{2-5}
-& Cellular & \tickmark &   & \\ \hline
-% attack: general privacy attacks
-% solution: allow users to specify privacy preferences, auto-generates
-% privacy actions on sensors (supression, allow, add noise, etc). 
-
-\multirow{3}{*}{MaskIt~\cite{gotz2012maskit}} & Location & \tickmark &   & \\\cline{2-5}
-& Cellular & \tickmark &   & \\ \cline{2-5}
-& Bluetooth &  \tickmark &   & \\\hline
-% attack: temperal correlations (heading towards hospital means the person will
-% be at the hospital)
-% solution: filter a user context stream that provably preserves privacy (a privacy 
-% check deciding whether to "release or suppress" the current user context). privacy 
-% is defined with respect to a set of sensitive contexts specified by the user
-% sec 7.1 described data (location, cellular, bluetooth)
-
-%\multirow{2}{*}{\bf Total} & \multirow{2}{*}{\bf 77} & \multirow{2}{1cm}{\bf 
-%65/77 (84.42\%)} & \multirow{2}{1cm}{\bf 11/77 (14.29\%)} & 
-%\multirow{2}{1cm}{\bf 1/76 (1.29\%)} \\ & & & & \\\hline
-
-\multicolumn{5}{l}{\textsuperscript{\dag}\scriptsize Internet connectivity policies
-can be implemented by interposing socket calls.} \\
-
-\multicolumn{5}{l}{\textsuperscript{\ddag}\scriptsize CPU usage can be obtained
-through reading the files in \path{/proc/stat}.} \\
-
-\end{tabular}
-\egroup
-
-\caption{\small \sysname's privacy protection compared to other general
-defense frameworks.}
-\label{tab:policy-continued}
-%\vspace{-10pt}
-\end{table}
-
-
 
 \begin{figure*}
 \centering
@@ -575,6 +550,34 @@ pair is represented by the median and standard deviation of $10,000$ data sample
 
 \label{fig:fingerprinting}
 \end{figure*}
+
+\subsection{An Example of Privacy Protection}\label{sec-experiment}
+
+%\todo{Q2: is ST useful for answering research questions? A:
+%compare the results of an algorithm with varying levels of 
+%data precision (Seth's algorithm?), and show a diagram suggested
+%by Justin.}
+This section demonstrates an example policy enforcement using the 
+privacy protection in Section~\ref{sec-our-policies}. In this example, an 
+adversary uses an accelerometer to fingerprint a device. 
+%The technique relies on the fact that imprecisions in sensor calibration can 
+%result in a device-specific scaling and thus can be a reliable fingerprint of the device. 
+
+
+Research has shown that using sensors on a modern smartphone, such as 
+a speaker~\cite{das2014poster}, microphone~\cite{clarkson2012breaking} 
+or accelerometer~\cite{bojinov2014mobile, dey2014accelprint}, one can 
+build a robust device fingerprint that is independent of the software state
+and survives a hard reset. The more recent accelerometer based fingerprinting
+is particular interesting because an accelerometer is accessible in mobile apps
+without requesting any permissions from the device owner, therefore these 
+attack techniques are much less detectable. Specifically, the 
+technique in~\cite{bojinov2014mobile} is based on the device-specific errors in 
+accelerometer calibration, which result in unique scaling and translation of 
+the measured values. In this section, we show that by using data blurring in 
+\sysname, it is possible to prevent such fingerprinting. 
+%while producing data that is still sufficient for benign experiments to function. 
+
 
 \textbf{Background on accelerometer calibration.}
 An accelerometer measures the acceleration force to a device along three 
@@ -644,6 +647,7 @@ feasible to protect the privacy on end-user devices without
 affecting user experience. 
 %in terms of app responsiveness and battery life.
 
+\begin{comment}
 \begin{figure}
 \center{\includegraphics[width=3in]{figs/time.pdf}}
 \caption{\small Overhead incurred by running varying number of blurring 
@@ -668,14 +672,16 @@ the runtime is slightly increased from 10$^{-5} s$ to 10$^{-4} s$. Although
 the runtime overhead is higher with more layers, as Table~\ref{tab:policy} 
 and \ref{tab:policy-continued} show, most projects need less than 10
 policies. \yanyan{we don't mention contracts in paper anymore.}
+\end{comment}
 
 Table~\ref{tab:overhead}(a) shows the total runtime overhead when an experiment
-calls \path{get_accelerometer()}, without any blurring layer (no layer), with blurring 
-layers but without verifying the runtime behavior (no-op), and with blurring layers
-that verifies the runtime behavior and rounds up accelerometer to two decimal 
+calls \path{get_accelerometer()}, without any blurring layer (no layer), 
+%with blurring layers but without verifying the runtime behavior (no-op), 
+and with blurring layers that rounds up accelerometer to two decimal 
 points (round-up). As shown in the table, the total runtime is \textit{linear} with an 
 increasing number of layers/policies. The overhead per policy is almost
-constant, with no-op round 0.12 - 0.14 $ms$ and round-up 0.14 - 0.21 $ms$. 
+constant, %with no-op round 0.12 - 0.14 $ms$ and round-up 
+about 0.14 - 0.21 $ms$. 
 Therefore, the runtime overhead will not affect conducting an 
 experiment or user experience.
 
@@ -699,13 +705,13 @@ Nevertheless, the overhead never exceeded 1 $MB$ in all cases.
 \multicolumn{4}{c|}{\bf Number of blurring layers} \\\cline{3-6}
 \multicolumn{2}{|c|}{} & {\bf 3} & {\bf 10} & {\bf 50} & {\bf 100}\\\hline
 
-\multicolumn{2}{|c|}{No layer (baseline)} & \multicolumn{4}{c|}{6.276 $ms$} \\\hline
+\multicolumn{2}{|c|}{No layer} & \multicolumn{4}{c|}{6.276 $ms$} \\\hline
 
-\multirow{2}{*}{No-op} & Total & 6.654 $ms$ & 7.756 $ms$ & 12.75 $ms$ & 18.94 $ms$ \\ 
-& Per-layer & 0.1259 $ms$ & 0.1479 $ms$ & 0.1295 $ms$ & 0.1266 $ms$ \\\hline
+%\multirow{2}{*}{No-op} & Total & 6.654 $ms$ & 7.756 $ms$ & 12.75 $ms$ & 18.94 $ms$ \\ 
+%& Per-layer & 0.1259 $ms$ & 0.1479 $ms$ & 0.1295 $ms$ & 0.1266 $ms$ \\\hline
 
-\multirow{2}{*}{Round-up} & Total & 6.907 $ms$ & 7.991 $ms$  & 13.86 $ms$ & 20.64 $ms$ \\ 
-& Per-layer & 0.2104 $ms$ & 0.1715 $ms$ & 0.1518 $ms$ & 0.1436 $ms$ \\\hline 
+\multirow{2}{*}{Round -up} & Total & 6.907 $ms$ & 7.991 $ms$  & 13.86 $ms$ & 20.64 $ms$ \\ \cline{2-6}
+& Per-layer & 0.2104 $ms$ & 0.1715 $ms$ & 0.1518 $ms$ & 0.1436 $ms$ \\ \hline
 \multicolumn{6}{c}{\vspace{-0.1cm}}\\
 
 \multicolumn{6}{c}{\small (a) Runtime overhead.} \\
@@ -719,11 +725,11 @@ Nevertheless, the overhead never exceeded 1 $MB$ in all cases.
 \multicolumn{4}{c|}{\bf Number of blurring layers} \\\cline{3-6}
 \multicolumn{2}{|c|}{} & {\bf 3} & {\bf 10} & {\bf 50} & {\bf 100}\\\hline
 
-\multicolumn{2}{|c|}{No layer (baseline)} & \multicolumn{4}{c|}{6.246 $MB$} \\\hline
+\multicolumn{2}{|c|}{No layer} & \multicolumn{4}{c|}{6.246 $MB$} \\\hline
 
 \multicolumn{2}{|c|}{Round-up} & 6.742 $MB$ & 6.801 $MB$ & 6.727 $MB$ & 7.230 $MB$ \\\hline
 
-\multicolumn{2}{|c|}{Overhead} & 0.492 $MB$ & 0.555 $MB$ & 0.480 $MB$ & 0.984 $MB$ \\\hline
+\multicolumn{2}{|c|}{Total overhead} & 0.496 $MB$ & 0.555 $MB$ & 0.481 $MB$ & 0.984 $MB$ \\\hline
 \multicolumn{6}{c}{\vspace{-0.1cm}}\\
 
 \multicolumn{6}{c}{\small (b) Memory overhead.} \\
@@ -732,7 +738,7 @@ Nevertheless, the overhead never exceeded 1 $MB$ in all cases.
 
 \egroup
 
-\caption{\small Overhead with varying number of blurring layers. \yanyan{remove no-op in (a)?}}
+\caption{\small Overhead with varying number of blurring layers.}
 \label{tab:overhead}
 %\vspace{-10pt}
 \end{table}

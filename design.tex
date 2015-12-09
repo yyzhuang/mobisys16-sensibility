@@ -30,9 +30,10 @@ must be enforced on remote devices.
 
 To register his experiment, Bob first fills out a form on the clearinghouse 
 web page, which has a list of checkboxes for all available sensors 
-and text boxes indicating the precision and frequency that Bob can access 
+and text boxes indicating the precision and frequency at which Bob 
+desires to access 
 each sensor. Bob checks off only the sensors necessary for his experiment, 
-and set the policies by filling in the text boxes for each sensor.
+and sets the policies by filling in the text boxes for each sensor.
 In this case, Bob specifies that 
 his experiment can (1) read location information
 from devices at the granularity of a city, (2) read accurate
@@ -55,10 +56,13 @@ to make it easier for researchers like Bob to
 file the necessary IRB paperwork with their institutions.
 
 The form that Bob filled out on the clearinghouse website is used to
-enforce a set of technical restrictions for his experiment.  This means
+enforce a set of technical restrictions for his experiment. 
+The blurring layers are provided by 
+\sysname, and are set up in a non-bypassable fashion -- it is not 
+Bob's task to implement the approved access policies. This means
 that even if Bob makes an error in his code or his code is malicious, his 
 experiment is still restricted in the data it can acquire. 
-\yanyan{how can restricting data prevent errors?} Therefore, Bob's IRB 
+Therefore, Bob's IRB 
 policies which request access to cellular signal strength and network type, would result 
 in his experiment being blocked from reading the cellular roaming status and area 
 code. Note that the latter information is accessible with the same 

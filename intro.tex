@@ -168,40 +168,48 @@ The contributions of this work are as follows:
 %devices from experiment code, the risk of privacy invasion, and the
 %administrative challenges faced potential researchers. 
 
-\item We introduce Sensibility Testbed as a flexible and secure platform for
-conducting experiments on Android devices that addresses the
-concerns above, including automatically obtaining and enforcing 
-institution-mandated IRB policies. \sysname identifies potential 
-risk of privacy invasion and alleviates administrative 
-challenges faced by potential researchers.
+\item We introduce \sysname as a platform for experimentation on 
+mobile devices that enables programmable enforcement of 
+IRB-approved privacy policies. Our design allows for precise 
+programmable control of sensor access through the use of blurring l
+ayers that substitute approximated data for the more intrusive raw data.
 
-\item We describe the unique features of Sensibility Testbed, which include 
-controlled sensor access through the development of blurring layers that are
-highly customizable.
+% access to sensor information, including technically enforcing institution-mandated 
+%IRB policies. 
 
-\item We evaluate Sensibility Testbed's effectiveness in
-protecting device owners' privacy and find that our default 
-policies would address most of the 
-security and privacy issues present in the literature in 
-previous projects using mobile devices.
-\jill{i think the contributions should be: 
-1. ST streamlines the process of IRB policy enforcement, which makes experiments safer for device owners and easier for researchers who no longer have to recruit mobile device participants 
-2. ST allows researchers to run multiple experiments using ST without having to obtain an IRB and rewrite code enforcing the policies of the IRB for each experiment.
-3. controlled sensor access through blurring layers
-4. perhaps something here about default policies for protecting the privacy of device owners as an extra precaution
-5. st allows researchers to share device subjects with security isolation between experiements}
+\item We integrate a set of baseline privacy policies into the testbed 
+design that respond to common attack techniques identified in the 
+literature. These policies prevent researchers from maliciously or 
+inadvertently accessing private data on personal devices.
+
+%\sysname applies a set of baseline privacy policies that no 
+%known attacks would be able to compromise a device. The policies 
+%are applied directly on mobile devices. No sensitive information leaves the device.
+
+%\item We describe the unique features of Sensibility Testbed, which include 
+%controlled sensor access through the development of blurring layers that are
+%highly customizable.
+
+\item To our knowledge, we are the first mobile testbed to prevent 
+exfiltration of sensitive information from devices during execution 
+without manual intervention by the device owner. 
+
+\item By greatly reducing the risk to device owners, we encourage 
+greater participation, thus potentially offering researchers a larger and 
+more diverse pool of test subjects.
+
 \end{itemize}
 
 The rest of this paper is organized as follows. In Section~\ref{sec-motivation} we
 present background information about several key concepts of \sysname. 
 %that are critical to understanding how Sensibility Testbed works and how its use can benefit both researchers and device owners. 
 Section~\ref{sec-overview} offers an overview of the basic approval and 
-deployment procedure for an experiment, and introduces \sysname's 
-default sensor access policies.
+deployment procedure for an experiment. 
+%and introduces \sysname's default sensor access policies.
 %including a description of its key components and a simplified look at 
 The architecture of the Sensibility Testbed 
 is reviewed in Section~\ref{sec-design}, and Section~\ref{sec-policy} 
-presents the detailed implementation of the architecture. 
+presents the detailed implementation. 
 %while Section offers a detailed walkthough of the program in operation. 
 Section~\ref{sec-eval} provides experimental results to prove the
 viability of Sensibility Testbed in enforcing privacy policies, while

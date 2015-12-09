@@ -25,15 +25,6 @@ In this section, we investigate which policies can be set by \sysname to
 prevent common attacks, and how \sysname's privacy protection compared 
 to other general defense frameworks.
 
-\subsubsection{Policies Against Known Attacks}
-In order to evaluate if \sysname's policies are effective in preventing common 
-attacks, we surveyed 25 recent projects that 
-protect against sensor related privacy issues. We examined the sensor 
-privacy attacks in these projects, and how these projects control the access 
-to these sensors, in terms of data granularity. We show these access control 
-in the form of equivalent \sysname default policies. The results are shown in 
-Table~\ref{tab:policy}. In some cases, the details about data access granularity
-is insufficient. We mark these cases as "not specified". 
 
 \begin{table}
 \scriptsize
@@ -94,17 +85,102 @@ Add random (small) noises. \\ \hline
 % the app that set this locaiton trigger
 % prevents linkage between location and user identity
 
-Cach{\'e}~\cite{amini2011cache} & Location & Approximate to a zipcode region or city.    \\\hline
+Cach{\'e}~\cite{amini2011cache} & Location & Approximate to a zipcode region/city.    \\\hline
 % attack: location privacy
 % solution: caching locaiton content in advance. retrieve content locally
 % when it is needed. this is like approximate location with a zipcode/city
 
-\cite{jiang2012isolating}\textsuperscript{*} & Cellular & \tickmark    \\\hline
-% attack: voice related fraud (dial a number without the user knowing it)
-% solution: detect voice-related fraud activities using call records, 
-% use voice calls from domestic callers to foreign recipients and 
-% a Markov Clustering based method for isolating dominant fraud 
-% activities from international calls
+
+\multirow{4}{*}{FindingMiMo \cite{shin2011findingmimo}} 
+& WiFi & \multirow{2}{3cm}{Access frequency $\leq$ once per 2 minutes.}  \\ \cline{2-2}
+& Location &  \\\cline{2-3}
+& Accelerometer & \multirow{2}{*}{Unspecified.}  \\ \cline{2-2}
+& Magnetometer &   \\ \hline
+% attack: this is a tracker for device. it tracks and locates a missing mobile device
+% in indoor environments by observing the ambient features such as radio signals, 
+% and retrieving location information from ambient observations
+% sec 5.1:  The sampling interval for GPS sensing is
+%2 minutes; we activates it for 30 seconds for single positioning.
+%The interval of Wi-Fi scanning is adaptively determined, based on
+%a user’s movement. In the move state, the system stores Wi-Fi
+%vectors every 5 seconds. In the stationary state, we activates Wi-Fi 
+%module for 30 seconds to scan the surrounding APs every 10
+%seconds. The sampling interval is set at 2 minutes
+
+
+\multirow{2}{*}{Cloaking~\cite{gruteser2003anonymous}} & \multirow{2}{*}{Location} 
+& \multirow{2}{3.5cm}{Radomized location within a 100 meter radius.}  \\ 
+& & \\ \hline
+% attack: location tracking
+% solution: adjust the resolution of location information along spatial or 
+% temperal dimensions to meet the specified anonymity constraints
+
+Locaccino~\cite{toch2010empirical} & Location & Approximate to a zipcode region/city.  \\ \hline
+% attack: location tracking
+% solution: survey showed that users are more comfortable sharing their
+% location when they are at places visited by a large and diverse set of people
+
+\multirow{3}{*}{Accomplice~\cite{han2012accomplice}} & \multirow{2}{*}{Location} 
+& \multirow{2}{3.5cm}{Radomized location within a 200 meter radius.}  \\ 
+& & \\ \cline{2-3}
+& Accelerometer & Unspecified.  \\ \hline
+% attack: location tracking using accelerometer
+% solution: this is an attack paper. accelerometer can be used to track location
+% sec IV.B: 200 m radius
+
+\cite{shokri2011quantifying}\textsuperscript{*}
+& Location & Approximate to a zipcode region/city.  \\ \hline
+% attack: tracking and localization attacks
+% solution: a generic theoretical framework for modeling and evaluating
+% location privacy, lots of stats. tracking and localization attacks are 
+% modeled as statistical inferernce problems, and metric to evaluate 
+% location privacy is an adversary's expected error.
+
+\multirow{3}{*}{Where's Wally \cite{polakis2015s}}%\textsuperscript{*}}
+& \multirow{3}{*}{Location} & \multirow{3}{3.5cm}{Radomized location 
+in an area of 700 m$^2$, access frequency $\leq$ 500 times per hour.}  \\
+&& \\ %\cline{2-2}
+&& \\ \hline
+% attack: tracking and localization attacks
+% solution: many apps use location proximity (notify who is nearby, at 
+% what distance). the paper theoretically model the problem of locating
+% users as a search problem, and device optimal algorithm to realize
+% those attacks
+
+\multirow{3}{*}{AnonySense~\cite{kapadia2008anonysense}} 
+& \multirow{2}{*}{Location} & \multirow{2}{3.5cm}{Approximate to a small region (size unspecified).}  \\ 
+& & \\ \cline{2-3}
+& \multirow{2}{1.8cm}{Network interface addresses} & 
+\multirow{2}{*}{Randomize IP and MAC addresses.}  \\
+& & \\ \hline
+% attack: localization attacks
+% solution: partition the area of the user into tessellation, and report 
+% the tile number instead of real location of the user. also changes
+% IP and MAC addresses
+
+\cite{andres2013geo}\textsuperscript{*} & Location & Radomized 
+location within radius r.   \\ \hline
+
+\cite{bordenabe2014optimal}\textsuperscript{*}
+& Location & Radomized location within a grid.   \\ \hline
+% attack: localization attacks
+% solution: optimizing the trade-off between geo-indistinguishability 
+% and quality of service. 
+
+%PrivStats~\cite{popa2011privacy} & Location & \tickmark   \\ \hline
+% attack: localization attacks
+% solution: compute aggregate statistics over location data. achieves 
+% both strong guarantees of location privacy and protection against 
+% cheating clients.
+
+LP-Guardian~\cite{fawaz2014location} 
+& Location & \tickmark   \\ \hline
+% attack: tracking, profiling, and identification threats
+% solution:  anonymize location in the background and let user to choose 
+% appropriate anonymization strategy for foreground location access; 
+% feed app with the location granularity necessary to serve the user; 
+% for apps that require constant monitoring, replace the real location
+% with dummy ones that belong to a synthetic route
 
 ACCessory~\cite{owusu2012accessory} & Accelerometer & 
 Access frequency $\leq$ 100 Hz.  \\ \hline
@@ -129,44 +205,14 @@ frequency $\leq$ 25 Hz.}   \\ \cline{2-2}
 % input using accelerometer and gyroscope. Tab 1 in the paper shows
 % "useful" sensor rate is: accelerometer/orientation both 25-50Hz, .
 
-\multirow{4}{*}{FindingMiMo \cite{shin2011findingmimo}} 
-& WiFi & \multirow{2}{3cm}{Access frequency $\leq$ once per 2 minutes.}  \\ \cline{2-2}
-& Location &  \\\cline{2-3}
-& Accelerometer & \multirow{2}{*}{Not specified.}  \\ \cline{2-2}
-& Magnetometer &   \\ \hline
-% attack: this is a tracker for device. it tracks and locates a missing mobile device
-% in indoor environments by observing the ambient features such as radio signals, 
-% and retrieving location information from ambient observations
-% sec 5.1:  The sampling interval for GPS sensing is
-%2 minutes; we activates it for 30 seconds for single positioning.
-%The interval of Wi-Fi scanning is adaptively determined, based on
-%a user’s movement. In the move state, the system stores Wi-Fi
-%vectors every 5 seconds. In the stationary state, we activates Wi-Fi 
-%module for 30 seconds to scan the surrounding APs every 10
-%seconds. The sampling interval is set at 2 minutes
-
-TouchLogger~\cite{cai2011touchlogger} & Gyroscope & \tickmark \\ \hline
+TouchLogger~\cite{cai2011touchlogger} & Gyroscope & Access 
+frequency $\leq$ 33 Hz. \\ \hline
 % attack: gyroscope can be extracted to monitor inputs
 % solution: this is an attack paper, showing it's possible to infer 
 % input using gyroscope
 
-Cloaking~\cite{gruteser2003anonymous} & Location & \tickmark  \\ \hline
-% attack: location tracking
-% solution: adjust the resolution of location information along spatial or 
-% temperal dimensions to meet the specified anonymity constraints
-
-Locaccino~\cite{toch2010empirical} & Location & \tickmark  \\ \hline
-% attack: location tracking
-% solution: survey showed that users are more comfortable sharing their
-% location when they are at places visited by a large and diverse set of people
-
-\multirow{2}{*}{Accomplice~\cite{han2012accomplice}} & Location & \tickmark  \\ \cline{2-3}
-& Accelerometer & \tickmark  \\ \hline
-% attack: location tracking using accelerometer
-% solution: this is an attack paper. accelerometer can be used to track location
-
-
-\cite{aviv2012practicality}\textsuperscript{*} & Accelerometer & \tickmark  \\ \hline
+\cite{aviv2012practicality}\textsuperscript{*} & Accelerometer & Access 
+frequency $\leq$ 76 Hz.  \\ \hline
 % attack: accelerometer can be extracted to monitor inputs
 % solution: another attack paper. their method is sample-rate independent. 
 % in Tab 1 they used rates from 25 to 62Hz. on page 8, "all devices perform well
@@ -175,44 +221,12 @@ Locaccino~\cite{toch2010empirical} & Location & \tickmark  \\ \hline
 % features (see Section 6)"
 
 \multirow{2}{*}{\cite{cai2012practicality}\textsuperscript{*}} & Accelerometer 
-& \tickmark  \\ \cline{2-3}
-& Gyroscope & \tickmark  \\ \hline
+& \multirow{2}{*}{Access frequency $\leq$ 30 Hz.}  \\ \cline{2-2}
+& Gyroscope &  \\ \hline
 % attack: accelerometer and gyroscope can be extracted to monitor inputs
 % solution: another attack paper. they showed attack remains effective 
 % even though the accuracy is affected by user habits, device dimension, 
 % screen orientation, and keyboard layout. 
-
-
-Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope 
-& \tickmark  \\ \hline
-% attack: use gyroscope to record voice
-% solution: this is an attack paper
-
-\cite{shokri2011quantifying}\textsuperscript{*}
-& Location & \tickmark  \\ \hline
-% attack: tracking and localization attacks
-% solution: a generic theoretical framework for modeling and evaluating
-% location privacy, lots of stats. tracking and localization attacks are 
-% modeled as statistical inferernce problems, and metric to evaluate 
-% location privacy is an adversary's expected error.
-
-Where's Wally \cite{polakis2015s}%\textsuperscript{*}
-& Location & \tickmark  \\ \hline
-% attack: tracking and localization attacks
-% solution: many apps use location proximity (notify who is nearby, at 
-% what distance). the paper theoretically model the problem of locating
-% users as a search problem, and device optimal algorithm to realize
-% those attacks
-
-\multirow{3}{*}{AnonySense~\cite{kapadia2008anonysense}} 
-& Location & \tickmark  \\ \cline{2-3}
-& \multirow{2}{1.8cm}{Network interface addresses} & 
-\multirow{2}{*}{\tickmark}  \\
-& & \\ \hline
-% attack: localization attacks
-% solution: partition the area of the user into tessellation, and report 
-% the tile number instead of real location of the user. also changes
-% IP and MAC addresses
 
 \multirow{2}{*}{\cite{liu2015good}\textsuperscript{*}}
 & Accelerometer & \tickmark   \\ \cline{2-3}
@@ -222,28 +236,17 @@ Where's Wally \cite{polakis2015s}%\textsuperscript{*}
 % solution: this is an attack paper. microphone is used to help 
 % accelerometer during the detection
 
-\cite{bordenabe2014optimal}\textsuperscript{*}
-& Location & \tickmark   \\ \hline
-% attack: localization attacks
-% solution: optimizing the trade-off between geo-indistinguishability 
-% and quality of service. 
+Gyrophone~\cite{michalevsky2014gyrophone} & Gyroscope 
+& Access frequency $\leq$ 100 Hz.  \\ \hline
+% attack: use gyroscope to record voice
+% solution: this is an attack paper
 
-PrivStats~\cite{popa2011privacy}
-& Location & \tickmark   \\ \hline
-% attack: localization attacks
-% solution: compute aggregate statistics over location data. achieves 
-% both strong guarantees of location privacy and protection against 
-% cheating clients.
-
-LP-Guardian~\cite{fawaz2014location} 
-& Location & \tickmark   \\ \hline
-% attack: tracking, profiling, and identification threats
-% solution:  anonymize location in the background and let user to choose 
-% appropriate anonymization strategy for foreground location access; 
-% feed app with the location granularity necessary to serve the user; 
-% for apps that require constant monitoring, replace the real location
-% with dummy ones that belong to a synthetic route
-
+\cite{jiang2012isolating}\textsuperscript{*} & Cellular & Disable dialing phone numbers.   \\\hline
+% attack: voice related fraud (dial a number without the user knowing it)
+% solution: detect voice-related fraud activities using call records, 
+% use voice calls from domestic callers to foreign recipients and 
+% a Markov Clustering based method for isolating dominant fraud 
+% activities from international calls
 
 \multicolumn{3}{l}{\textsuperscript{*}\scriptsize These projects do not have a project name.} \\ 
 
@@ -261,6 +264,16 @@ LP-Guardian~\cite{fawaz2014location}
 \label{tab:policy}
 %\vspace{-10pt}
 \end{table}
+
+\subsubsection{Policies Against Known Attacks}
+In order to evaluate if \sysname's policies are effective in preventing common 
+attacks, we surveyed 25 recent projects that 
+protect against sensor related privacy issues. We examined the sensor 
+privacy attacks in these projects, and how these projects control the access 
+to these sensors (in terms of data granularity, if available). We show these access control 
+in the form of equivalent \sysname default policies. The results are shown in 
+Table~\ref{tab:policy}. In some cases, the details about data access granularity
+is insufficient. We mark these cases as "unspecified". 
 
 As shown in the table, the most common risks are identifying a device or its 
 owner, locating a device, and inferring keys strokes typed by a device owner. 

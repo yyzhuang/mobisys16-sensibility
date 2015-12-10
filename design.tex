@@ -677,6 +677,25 @@ owner's policies > \sysname default policies > researcher's IRB policies.}
 %In the following, we describe how to implement each blurring layer, 
 %and use them to form a policy stack.
 
+In Sensibility Testbed, the priority of policy layers is as follows.  
+The participant's security policies are always applied first and restrict
+access to data.  Following this, the baseline policies for the experiment
+are used, unless NYU's IRB permits substituting a slightly modified version
+of them as was described in Section \cappos{XXX}.  Then the experiment specific
+policies are put into place.  The experimenter code is subject to all
+policies as it runs.
+
+If different policies perform a similar or related action, the result will
+be that of each policy applied in turn.  For example, suppose that the
+baseline policy blurs the GPS location data to round the latitude and longitude
+to the nearest whole number, while the experiment specific policy blurs the
+data to return a point in the middle of the country the user is in.  
+The latitude and longitude will be rounded before the country is estimated, 
+leading to the potential for additional error.  While this can lead to 
+accuracy problems as this example shows, the ability to combine policies
+makes it easy to create complex policies by composing simple ones,
+as we show in Section \cappos{ref eval looking at policy composition}.
+
 
 \subsection{Researcher Conducts an Experiment}\label{sec-emt}
 

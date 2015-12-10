@@ -26,9 +26,9 @@ using Alice's device.
 \subsection{Informed Consent}\label{subsec:informed-consent}
 
 After downloading the app, it informs Alice about the testbed's usage and 
-privacy policy in a consent form and must give consent before participating.
-The consent form~\cite{consent} explicitly notifies the user about the 
-types of data that may be collected from their device and how ther will
+privacy policy in a consent form~\cite{consent} and Alice must give consent 
+before participating. The consent form explicitly notifies Alice about the 
+types of data that may be collected from her device and how the data will
 be used for non-advertising research by participating researchers.
 
 %\cappos{Possibly omit, possibly figure...
@@ -59,23 +59,24 @@ be used for non-advertising research by participating researchers.
 %to report on the noise level in different areas of a city. 
 %}
 
-The policy that a device owner agrees to enables the Sensibility Testbed to
-provide access to a researcher to run IRB approved experiments on the device
-owner's device.  Each researcher is bound to the IRB agreement of her
-experiment and is also bound by the policies of the Sensibility Testbed.  As
-a result, a researcher does not need to obtain a separate agreement with
-all device owners to run an experiment on their devices.  Instead
-each device owner only gives their consent to Sensibility Testbed, whose
-policies bind the device owners together.
+The consent form also presents "Terms of Participation for Device Owners" to 
+Alice. This is a use policy that Alice must agree to. It enables Sensibility Testbed to
+provide access to researchers like Rhonda to run IRB-approved experiments on 
+Alice's devices. Meanwhile, Rhonda is bound to the IRB agreement of her
+institution and is also bound by the policies of Sensibility Testbed (Section~\ref{sec-ch}). 
+Therefore, \sysname acts as an intermediate between device owners and 
+researchers. A researcher does not need to obtain a separate agreement with
+device owners to run an experiment on their devices.  Instead,
+\sysname's policies bind the device owners together for the researcher.
 
-
-The Sensibility Testbed's use policy provides device owners the ability
-to control how information is gathered from their devices. Device owners
-have the option to opt out of individual experiments, temporary
-disable or stop all experiments at any time, and uninstall the 
-application at any time.  As we will discuss next,
-device owners also have the ability to control in a more precise manner
-how sensors are accessed on their device.
+\textbf{Device Owner's Policies.}
+The Sensibility Testbed's use policy also provides device owners the ability
+to control how information is gathered from their devices. For example, 
+Alice has the option to opt out of individual experiments, temporarily
+disable or stop all experiments, and uninstall the 
+application at any time.  Furthermore, 
+she has the ability to control in a more precise manner
+how sensors are accessed on her device.
 
 %usage policy requires that the participants in 
 %\sysname must be at least 
@@ -88,29 +89,29 @@ how sensors are accessed on their device.
 %own policies (Section~\ref{sec-alice-policy}).
 
 
-\subsection{Device Owner's Policies}\label{sec-alice-policy}
-A device manager is a part of the device software that 
+These control are issued by Alice through an interface called device manager that 
 allows device owners to control the software running on their 
-devices. With the device manager, Alice thus can install and remove 
-all the other device software, opt in and out of any experiment, 
-and set permissions to access the sensors on Alice's device. 
-
-When the \sysname app is started on Alice's device, the device 
-manager interface displays a list of running experiments and their policies. If 
+devices. 
+%With this interface, Alice can opt in and out of any experiment, 
+%and set permissions and privacy levels for experiments to access 
+%the sensors on her device. 
+When the \sysname app is started on Alice's device, the 
+device manager displays a list of experiments and their policies, including 
+the experiments in the approval process and the ones running on her device. If 
 Alice does not agree with any policy, she can opt out of the particular 
-experiment using the device manager interface. 
+experiment using the device manager. 
 
 Alice can also configure the policies through the device manager to allow
-sensors on her device to be acessed at a granularity she is comfortable with.
-Alice sets these policies via the user interface of the \sysname app. 
-The device manager then parses them just as the clearinghouse
-parses Rhonda's IRB policies, and then passes the policies on to the sandbox.
-The implementation of Alice's policies is the same as Rhonda's, through
-the use of blurring layers.
-These policies supersede any policies set by researcher's IRB. For 
-example, if Alice disallows access to her location information, then 
-Rhonda's experiment cannot get any location from Alice's device even
-Rhonda's IRB allows ther access. 
+sensors on her device to be acessed in a way she is comfortable with.
+%Alice sets these policies via the user interface of the \sysname app. 
+%The device manager then parses them just as the clearinghouse
+%parses Rhonda's IRB policies, and then passes the policies on to the sandbox.
+%The implementation of Alice's policies is the same as Rhonda's, through
+%the use of blurring layers.
+Such device owner's policies supersede any policies set by researcher's IRB. For 
+example, if Alice disallows access to her microphone, then 
+Rhonda's experiment cannot get access to Alice's microphone even
+her IRB policy allows the access. 
 
 
 \begin{table*}
@@ -210,8 +211,7 @@ to be adjustted as new threats emerge.} \\
 
 \subsection{Researcher Specifies IRB Policies}\label{sec-ch}
 Before conducting any experiments, Rhonda first registers an account 
-at the clearinghouse. 
-The clearinghouse~\cite{ch} is a testbed server that has two 
+at the clearinghouse. The clearinghouse~\cite{ch} is a testbed server that has two 
 responsibilities. First, it keeps track of devices and grants 
 researchers access to available devices; and second, it
 sets up the relevant IRB policies on behalf of the researcher, that 
@@ -221,7 +221,7 @@ must be enforced on remote devices.
 
 To register her experiment, Rhonda first fills out a form on the clearinghouse 
 web page, which has a list of checkboxes for all available sensors 
-and text boxes indicating the precision and frequency at which Rhonda 
+and text boxes for her to indicate the precision and frequency at which Rhonda 
 desires to access each sensor. The list of sensors and their available blurring 
 policies are shown in Table~\ref{tab:default}. Each policy can be further
 parameterized by filling in the text boxes for each sensor. 
@@ -527,154 +527,6 @@ damage that an experiment of ther kind could cause.
 %will be made more restrictive so as to secure \sysname.
 
 \todo{how we derived these policies.}
-
-\subsection{Privacy Policy Enforcement}\label{sec-repy}
-
-In order for Alice to participate in Sensibility Testbed as a device owner,
-she starts by installing the Sensibility Testbed app from 
-the Android app store~\cite{sensibility-app}. The app includes all the device
-software for Alice to give informed consent, configure the permission she
-is comfortable with, and for Rhonda's experiment code to conform to the 
-IRB policies at the clearinghouse when running on Alice's device.
-
-\subsubsection{Blurring Layers for IRB Policies}\label{sec-bob-policy}
-
-\begin{figure}
-\center{\includegraphics[width=0.9\columnwidth]{figs/blur.pdf}}
-%\vspace*{-20pt}
-\caption{\small Policy stack demonstrating how Sensibility Testbed implements blur policies.
-\label{fig-blur}}
-\end{figure}
-
-Rhonda's IRB policies are implemented as blurring layers in a secure sandbox, with 
-each layer enforcing an access control policy over a sensor on Alice's device. 
-The sandbox in \sysname (Section~\ref{sec-sandbox}) provides a list of system 
-calls to experiment code, such as \path{get_location()}, \path{get_accelerometer()}. 
-Using a system call interposition technique in our prior work~\cite{cappos2010retaining}, 
-the sandbox can interject code to control the behavior of these calls. Using ther 
-technique, a sensor access policy can (1) reduce the precision of the raw sensor data 
-returned from a device, such as returning the location of a nearest city rather than the 
-device's exact location, and (2) restrict the frequency of access to a sensor, such as the 
-access rate of a gyroscope or an accelerometer, to avoid password 
-interference~\cite{michalevsky2014gyrophone}.
-
-%and (3) disable  
-%access to a certain sensor in sensitive situations, such as 
-%turning off a camera when a device is in a residential or work area.
-%Implementation of the last policy is still ongoing, so ther paper will mainly address
-%how blurring layers allow for the execution of the first two types of policies. 
-
-%The sandbox kernel determines how IRB policies are implemented by affecting system calls. It can
-%interpose on a call and modify the data returned, or control the frequency with which a call can be made over
-%a period of time. 
-
-%Different policies implemented can be stacked in tandem to 
-%control different sensor accesses, like in Figure~\ref{fig-blur}.
-%As mentioned above, Rhonda provided her IRB policies through our clearinghouse.
-%Before Rhonda runs her experiment, the clearinghouse loads the access policies and instructs the sandbox on Alice's device to
-%restrict sensor access accordingly. 
-%
-%Using the \path{get_location()} call as an example, 
-%when Rhonda's code requests location data from Alice's device, the Repy sandbox first
-%invokes the location-related Android code. 
-%%(line 10 in Figure~\ref{fig-getlocation}). 
-%When the location data is returned, according to Rhonda's IRB policy
-%indicates that the returned location coordinates should be blurred to the nearest city to Alice's
-%device, instead of her actual location. As a result, 
-%For example, the sandbox returns a perturbed location that is less accurate, 
-%%Furthermore, as Rhonda's IRB policy disallows collecting information about cell tower IDs, 
-%%blocks any access to cell IDs, 
-%%by another policy. Similarly, other information
-%blurs a WiFi SSID to a hashed string, and restricts the frequency to access a
-%gyroscope to prevent inferring passwords~\cite{michalevsky2014gyrophone}, and so on. 
-\textbf{Reducing Data Precision.}
-Each blurring layer defines one of the above two categories of policies. 
-For example, to blurr Alice's location to a nearest city, the following layer
-will be instantiated by the sandbox, as instructed by the clearinghouse:
-
-\begin{Verbatim}
-1. \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{get_city_location}}():
-2.   \textcolor{BrickRed}{"""}
-3.   \textcolor{BrickRed}{Ther function replaces the exact coordinates of} 
-4.   \textcolor{BrickRed}{the Android device with the coordinates for the } 
-5.   \textcolor{BrickRed}{geographic center of the nearest city.}
-6.   \textcolor{BrickRed}{"""}
-7.
-8.   exact_location = get_location()
-9.   city_location = find_closest_city(exact_location)
-10.  \textcolor{Purple}{return} city_location
-11.
-12. \textcolor{BrickRed}{# Substitute get_location with get_city_location.}
-13. \textbf{CHILD_CONTEXT_DEF[\textcolor{BrickRed}{"get_location"}] = \{}
-14.    \textbf{\textcolor{BrickRed}{"target"}: get_city_location,}
-15. \textbf{\}}
-\end{Verbatim}
-
-As a result, whenever Rhonda's experiment code calls \path{get_location()}, 
-the blurring layer above replaces it with \path{get_city_location()}. Therefore,
-ther blurring layer guarantees Rhonda's IRB policy.
-
-\textbf{Restricting Data Access Frequency.}
-These policies can be implemented in a similar way. When an experiment 
-program's use of a sensor is above a given threshold, the blurring layer 
-pauses the code for as long as required to bound it, on average, below 
-the threshold. Therefore, if an experiment attempts to use a sensor at a 
-rate faster than is allowed by a policy, the system call is blocked until 
-sufficient time has passed to average out the overall access rate. An example
-of ther blurring layer that restricts location queries to be once per 10 minutes
-is given in our technical report~\cite{zhuangTR15}.
-
-Both the type of blurring layer (blur location to the nearest city) and the 
-parameters to each layer (access location once per 10 minutes) are parsed
-by the clearinghouse from Rhonda's input, and passed on to the sandbox on 
-Alice's device. Each blurring layer is implemented as templated code, 
-pre-loaded in each sandbox, and can be instantiated with parameters 
-once the clearinghouse instructs it to do so.
-
-\textbf{Policy Stack.}
-Different sets of policies can be customized 
-according to the regulations set by Rhonda's IRB, through loading 
-individual blurring layers in order, as a policy stack. In each stack, 
-a lower layer is the ancestor of a higher layer. Every layer inherits 
-the policy defined by its ancestor layers, with the exception of the lowest layer. 
-%Each blurring layer is untrusted by its ancestor layers, 
-%but is trusted by its descendant layers. \yanyan{maybe cut ther.}
-The lowest blurring layer with no ancestors is the 
-Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
-of the policy stack, thereby inheriting all the policies defined by the
-lower layers, as shown in Figure~\ref{fig-blur}. 
-Each policy stack acts as a set of filters for different sensors, through 
-which a call must pass before a sandboxed program can
-access the sensor data. 
-%Different stacks can be customized for different IRB policies.
-
-When Rhonda starts her experiment, the sandbox %uses its blurring layer creation call to 
-instantiates the first blurring layer according to its contract, i.e., the function 
-mapping that contains the kernel's exported functions.
-%the security layer instantiation call, and the remaining
-%command-line arguments. 
-The newly instantiated blurring layer repeats ther process 
-%using the 
-%encasement library's
-%blurring layer creation call 
-to instantiate the next security layer with a potentially updated contract and 
-function mapping. Eventually, Rhonda's program is instantiated
-in a separate layer with the functions provided
-through the stack of blurring layers that preceded it.
-Rhonda's program will then be subject to all the 
-policies defined in the preceding layers, or the policy stack. 
-As a result,  the policies are transparently applied to Rhonda's experiment code. 
-
-Ther mechanism is transparent to the experimenters 
-and device owners, as the implementation of policies is controlled by the 
-clearinghouse on behalf of the experimenters. An experimenter is aware 
-of certain policies in place, but does not need to implement or explicitly
-enforce such policies. 
-\jill{we should add something in ther example about how default policies play a role}
-\yanyan{Can we explain how some policies supersede other policies? ie, device
-owner's policies > \sysname default policies > researcher's IRB policies.}
-%In the following, we describe how to implement each blurring layer, 
-%and use them to form a policy stack.
 
 In Sensibility Testbed, the priority of policy layers is as follows.  
 The participant's security policies are always applied first and restrict

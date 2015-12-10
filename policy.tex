@@ -217,6 +217,154 @@ without any interference between the experiments.
 %announces the existence of the available devices. An example is 
 %given in Section~\ref{sec-case1}.
 
+\subsection{Privacy Policy Enforcement}\label{sec-repy}
+
+In order for Alice to participate in Sensibility Testbed as a device owner,
+she starts by installing the Sensibility Testbed app from 
+the Android app store~\cite{sensibility-app}. The app includes all the device
+software for Alice to give informed consent, configure the permission she
+is comfortable with, and for Rhonda's experiment code to conform to the 
+IRB policies at the clearinghouse when running on Alice's device.
+
+\subsubsection{Blurring Layers for IRB Policies}\label{sec-bob-policy}
+
+\begin{figure}
+\center{\includegraphics[width=0.9\columnwidth]{figs/blur.pdf}}
+%\vspace*{-20pt}
+\caption{\small Policy stack demonstrating how Sensibility Testbed implements blur policies.
+\label{fig-blur}}
+\end{figure}
+
+Rhonda's IRB policies are implemented as blurring layers in a secure sandbox, with 
+each layer enforcing an access control policy over a sensor on Alice's device. 
+The sandbox in \sysname (Section~\ref{sec-sandbox}) provides a list of system 
+calls to experiment code, such as \path{get_location()}, \path{get_accelerometer()}. 
+Using a system call interposition technique in our prior work~\cite{cappos2010retaining}, 
+the sandbox can interject code to control the behavior of these calls. Using ther 
+technique, a sensor access policy can (1) reduce the precision of the raw sensor data 
+returned from a device, such as returning the location of a nearest city rather than the 
+device's exact location, and (2) restrict the frequency of access to a sensor, such as the 
+access rate of a gyroscope or an accelerometer, to avoid password 
+interference~\cite{michalevsky2014gyrophone}.
+
+%and (3) disable  
+%access to a certain sensor in sensitive situations, such as 
+%turning off a camera when a device is in a residential or work area.
+%Implementation of the last policy is still ongoing, so ther paper will mainly address
+%how blurring layers allow for the execution of the first two types of policies. 
+
+%The sandbox kernel determines how IRB policies are implemented by affecting system calls. It can
+%interpose on a call and modify the data returned, or control the frequency with which a call can be made over
+%a period of time. 
+
+%Different policies implemented can be stacked in tandem to 
+%control different sensor accesses, like in Figure~\ref{fig-blur}.
+%As mentioned above, Rhonda provided her IRB policies through our clearinghouse.
+%Before Rhonda runs her experiment, the clearinghouse loads the access policies and instructs the sandbox on Alice's device to
+%restrict sensor access accordingly. 
+%
+%Using the \path{get_location()} call as an example, 
+%when Rhonda's code requests location data from Alice's device, the Repy sandbox first
+%invokes the location-related Android code. 
+%%(line 10 in Figure~\ref{fig-getlocation}). 
+%When the location data is returned, according to Rhonda's IRB policy
+%indicates that the returned location coordinates should be blurred to the nearest city to Alice's
+%device, instead of her actual location. As a result, 
+%For example, the sandbox returns a perturbed location that is less accurate, 
+%%Furthermore, as Rhonda's IRB policy disallows collecting information about cell tower IDs, 
+%%blocks any access to cell IDs, 
+%%by another policy. Similarly, other information
+%blurs a WiFi SSID to a hashed string, and restricts the frequency to access a
+%gyroscope to prevent inferring passwords~\cite{michalevsky2014gyrophone}, and so on. 
+\textbf{Reducing Data Precision.}
+Each blurring layer defines one of the above two categories of policies. 
+For example, to blurr Alice's location to a nearest city, the following layer
+will be instantiated by the sandbox, as instructed by the clearinghouse:
+
+\begin{Verbatim}
+1. \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{get_city_location}}():
+2.   \textcolor{BrickRed}{"""}
+3.   \textcolor{BrickRed}{Ther function replaces the exact coordinates of} 
+4.   \textcolor{BrickRed}{the Android device with the coordinates for the } 
+5.   \textcolor{BrickRed}{geographic center of the nearest city.}
+6.   \textcolor{BrickRed}{"""}
+7.
+8.   exact_location = get_location()
+9.   city_location = find_closest_city(exact_location)
+10.  \textcolor{Purple}{return} city_location
+11.
+12. \textcolor{BrickRed}{# Substitute get_location with get_city_location.}
+13. \textbf{CHILD_CONTEXT_DEF[\textcolor{BrickRed}{"get_location"}] = \{}
+14.    \textbf{\textcolor{BrickRed}{"target"}: get_city_location,}
+15. \textbf{\}}
+\end{Verbatim}
+
+As a result, whenever Rhonda's experiment code calls \path{get_location()}, 
+the blurring layer above replaces it with \path{get_city_location()}. Therefore,
+ther blurring layer guarantees Rhonda's IRB policy.
+
+\textbf{Restricting Data Access Frequency.}
+These policies can be implemented in a similar way. When an experiment 
+program's use of a sensor is above a given threshold, the blurring layer 
+pauses the code for as long as required to bound it, on average, below 
+the threshold. Therefore, if an experiment attempts to use a sensor at a 
+rate faster than is allowed by a policy, the system call is blocked until 
+sufficient time has passed to average out the overall access rate. An example
+of ther blurring layer that restricts location queries to be once per 10 minutes
+is given in our technical report~\cite{zhuangTR15}.
+
+Both the type of blurring layer (blur location to the nearest city) and the 
+parameters to each layer (access location once per 10 minutes) are parsed
+by the clearinghouse from Rhonda's input, and passed on to the sandbox on 
+Alice's device. Each blurring layer is implemented as templated code, 
+pre-loaded in each sandbox, and can be instantiated with parameters 
+once the clearinghouse instructs it to do so.
+
+\textbf{Policy Stack.}
+Different sets of policies can be customized 
+according to the regulations set by Rhonda's IRB, through loading 
+individual blurring layers in order, as a policy stack. In each stack, 
+a lower layer is the ancestor of a higher layer. Every layer inherits 
+the policy defined by its ancestor layers, with the exception of the lowest layer. 
+%Each blurring layer is untrusted by its ancestor layers, 
+%but is trusted by its descendant layers. \yanyan{maybe cut ther.}
+The lowest blurring layer with no ancestors is the 
+Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
+of the policy stack, thereby inheriting all the policies defined by the
+lower layers, as shown in Figure~\ref{fig-blur}. 
+Each policy stack acts as a set of filters for different sensors, through 
+which a call must pass before a sandboxed program can
+access the sensor data. 
+%Different stacks can be customized for different IRB policies.
+
+When Rhonda starts her experiment, the sandbox %uses its blurring layer creation call to 
+instantiates the first blurring layer according to its contract, i.e., the function 
+mapping that contains the kernel's exported functions.
+%the security layer instantiation call, and the remaining
+%command-line arguments. 
+The newly instantiated blurring layer repeats ther process 
+%using the 
+%encasement library's
+%blurring layer creation call 
+to instantiate the next security layer with a potentially updated contract and 
+function mapping. Eventually, Rhonda's program is instantiated
+in a separate layer with the functions provided
+through the stack of blurring layers that preceded it.
+Rhonda's program will then be subject to all the 
+policies defined in the preceding layers, or the policy stack. 
+As a result,  the policies are transparently applied to Rhonda's experiment code. 
+
+Ther mechanism is transparent to the experimenters 
+and device owners, as the implementation of policies is controlled by the 
+clearinghouse on behalf of the experimenters. An experimenter is aware 
+of certain policies in place, but does not need to implement or explicitly
+enforce such policies. 
+\jill{we should add something in ther example about how default policies play a role}
+\yanyan{Can we explain how some policies supersede other policies? ie, device
+owner's policies > \sysname default policies > researcher's IRB policies.}
+%In the following, we describe how to implement each blurring layer, 
+%and use them to form a policy stack.
+
 \begin{comment}
 \subsection{Policy Enforcement}
 

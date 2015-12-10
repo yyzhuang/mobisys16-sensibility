@@ -1,6 +1,6 @@
 \section{Sensibility Testbed Architecture}\label{sec-design}
 
-%\cappos{moved here for now.  This may need to be removed altogether.}
+%\cappos{moved here for now.  Ther may need to be removed altogether.}
 The basic operation of \sysname involves three separate 
 parties: a \textit{device owner} interested in participating in 
 experiments, a \textit{clearinghouse} that discovers the
@@ -13,7 +13,7 @@ remote devices.
 %researchers, a clearinghouse server, and mobile device owners. 
 %discuss the role and functions of each party, and introduce their key 
 %techniques. We 
-In this section, we use the same example as in 
+In ther section, we use the same example as in 
 Section~\ref{sec-overview} to explain the interaction between these 
 parties, where researcher Rhonda wants to know the cellular service quality 
 using Alice's device.
@@ -29,7 +29,7 @@ using Alice's device.
 After downloading the app, it informs Alice about the testbed's usage and 
 privacy policy in a consent form and must give consent before participating.
 The consent form~\cite{consent} explicitly notifies the user about the 
-types of data that may be collected from their device and how this will
+types of data that may be collected from their device and how ther will
 be used for non-advertising research by participating researchers.
 
 %\cappos{Possibly omit, possibly figure...
@@ -55,7 +55,7 @@ be used for non-advertising research by participating researchers.
 %and perform research experiments. For example, transportation agencies can 
 %use sensor data to monitor traffic in an area. Application developers can 
 %monitor how programs perform in the field. Wireless network researchers can 
-%observe public WiFi and cellular network coverage, and use this information 
+%observe public WiFi and cellular network coverage, and use ther information 
 %to improve public networks. Environmental scientists might use sensor data 
 %to report on the noise level in different areas of a city. 
 %}
@@ -63,7 +63,7 @@ be used for non-advertising research by participating researchers.
 The policy that a device owner agrees to enables the Sensibility Testbed to
 provide access to a researcher to run IRB approved experiments on the device
 owner's smartphone.  Each researcher is bound to the IRB agreement of their
-experiment and is also bound by the policy of the Sensibility Testbed.  This
+experiment and is also bound by the policy of the Sensibility Testbed.  Ther
 means that every researcher does not need to obtain a separate policy with
 every experimenter whose device an experiment they will run on.  Instead
 each participant only agrees to the policies of the Sensibility Testbed, whose
@@ -82,7 +82,7 @@ how sensors are accessed on the participant's device.
 %\sysname must be at least 
 %18 years old, and do not belong to protected group such as pregnant women.
 %Any other device owner, regardless of country or background, can 
-%opt into our testbed in this manner, and can opt out just by uninstalling the app. 
+%opt into our testbed in ther manner, and can opt out just by uninstalling the app. 
 %If Alice agrees, the app will be installed on her device, which includes other
 %device software that enforces Rhonda's IRB policies specified at the 
 %clearinghouse (Section~\ref{sec-bob-policy}), and allows Alice to set her 
@@ -111,7 +111,7 @@ the use of blurring layers.
 These policies supersede any policies set by researcher's IRB. For 
 example, if Alice disallows access to her location information, then 
 Rhonda's experiment cannot get any location from Alice's device even
-Rhonda's IRB allows this access. 
+Rhonda's IRB allows ther access. 
 
 
 \begin{table*}
@@ -122,7 +122,7 @@ Rhonda's IRB allows this access.
 \def\arraystretch{1.15}% % for table padding
 \begin{tabular}{|p{3cm}|p{8cm}|p{4cm}|}
 \hline
-{\bf Privacy concerns\textsuperscript{*}}  & {\bf Sensor data} & {\bf Sensor blurring policies\textsuperscript{\dag}}  
+{\bf Privacy concerns}  & {\bf Sensor data} & {\bf Sensor blurring policies\textsuperscript{\dag}}  
 \\ \hline \hline
 
 \multirow{8}{3cm}{N/A} 
@@ -193,11 +193,11 @@ Take pictures, record videosn using a camera. & \multirow{5}{*}{Disabled} \\ \cl
 
 Protect owner's contacts. & Contact list of the device owner in an address book. & \\ \hline 
 
-\multicolumn{3}{l}{\textsuperscript{*}\scriptsize These goals are the common goals, though uncommon 
-goals exist. For example, motion sensors can be used to fingerprint devices~\cite{bojinov2014mobile}, 
-or record conversations~\cite{michalevsky2014gyrophone}.} \\ 
+%\multicolumn{3}{l}{\textsuperscript{*}\scriptsize These goals are the common goals, though uncommon 
+%goals exist. For example, motion sensors can be used to fingerprint devices~\cite{bojinov2014mobile}, 
+%or record conversations~\cite{michalevsky2014gyrophone}.} \\ 
 
-\multicolumn{3}{l}{\textsuperscript{\dag}\scriptsize This lists the policies at publication time. They need
+\multicolumn{3}{l}{\textsuperscript{\dag}\scriptsize Ther lists the policies at publication time. They need
 to be adjustted as new threats emerge.} \\ 
 
 \end{tabular}
@@ -220,65 +220,66 @@ must be enforced on remote devices.
 %It allows experimenters to register accounts and share 
 %access to a common pool of devices.
 
-To register his experiment, Rhonda first fills out a form on the clearinghouse 
+To register her experiment, Rhonda first fills out a form on the clearinghouse 
 web page, which has a list of checkboxes for all available sensors 
 and text boxes indicating the precision and frequency at which Rhonda 
-desires to access 
-each sensor. Rhonda checks off only the sensors necessary for his experiment, 
-and sets the policies by filling in the text boxes for each sensor.
-In this case, Rhonda specifies that 
-his experiment can (1) read location information
+desires to access each sensor. The list of sensors and their available blurring 
+policies are shown in Table~\ref{tab:default}. Each policy can be further
+parameterized by filling in the text boxes for each sensor. 
+Rhonda checks off only the sensors necessary for her experiment, 
+and sets the policies by filling specifying that 
+her experiment can (1) read location information
 from devices at the granularity of a city, (2) read accurate
 cellular signal strength and network type, as well as
 cell IDs, and (3) get location and
 cellular network data updates every 10 minutes. 
-%Rhonda then downloads documents to provide to his IRB that 
-%explains the details about his experiment, \sysname and the technical 
-%restrictions his experiment will have. Rhonda then obtains IRB approval at 
-%his institution, provides his institution's IRB policies to the 
-%\sysname website, and signs up for his experiment. 
-After filling out this form, Rhonda downloads the experiment description 
+%Rhonda then downloads documents to provide to her IRB that 
+%explains the details about her experiment, \sysname and the technical 
+%restrictions her experiment will have. Rhonda then obtains IRB approval at 
+%her institution, provides her institution's IRB policies to the 
+%\sysname website, and signs up for her experiment. 
+After filling out ther form, Rhonda downloads the experiment description 
 he provided, the detailed information about \sysname's approved IRB, 
 and several relevant forms, such as those addressing consent 
 (Section~\ref{sec-repy}), terms of participation (for device owners),  
 terms of usage (for the researcher), and so on.  
 Rhonda then uses these forms as a template to complete the IRB application 
-with his institution. These forms serve as a set of reference documents 
+with her institution. These forms serve as a set of reference documents 
 to make it easier for researchers like Rhonda to 
 file the necessary IRB paperwork with their institutions.
 
 The form that Rhonda filled out on the clearinghouse website is used to
-enforce a set of technical restrictions for his experiment. 
+enforce a set of technical restrictions for her experiment. 
 The blurring layers are provided by 
 \sysname, and are set up in a non-bypassable fashion -- it is not 
-Rhonda's task to implement the approved access policies. This means
-that even if Rhonda makes an error in his code or his code is malicious, his 
+Rhonda's task to implement the approved access policies. Ther means
+that even if Rhonda makes an error in her code or her code is malicious, her 
 experiment is still restricted in the data it can acquire. 
 Therefore, Rhonda's IRB 
 policies which request access to cellular signal strength and network type, would result 
-in his experiment being blocked from reading the cellular roaming status and area 
+in her experiment being blocked from reading the cellular roaming status and area 
 code. Note that the latter information is accessible with the same 
 Android permission, but is blocked by \sysname. 
 After the application is submitted, Rhonda's IRB may disagree with 
-his initial experiment requirements. For example, Rhonda's IRB will not permit
-his experiment to access cell IDs in cellular networks, but 
+her initial experiment requirements. For example, Rhonda's IRB will not permit
+her experiment to access cell IDs in cellular networks, but 
 approves the other policies. 
 %Rhonda wants to access cell 
-%IDs in cellular networks, but his IRB disallows such data access. Rhonda then
-In this case, Rhonda will revise the experiment registration form, refile the paperwork, 
+%IDs in cellular networks, but her IRB disallows such data access. Rhonda then
+In ther case, Rhonda will revise the experiment registration form, refile the paperwork, 
 and obtain IRB approval. Rhonda then submits the revised  
-registration form and his IRB approval to the clearinghouse.
+registration form and her IRB approval to the clearinghouse.
 
  When an account is approved, Rhonda 
 % is assigned a pair of public/private \textit{authentication keys} by the 
-%clearinghouse, to authenticate himself with the clearinghouse. This
+%clearinghouse, to authenticate himself with the clearinghouse. Ther
 %researcher 
 can sign into the clearinghouse and request a 
-number of sandboxes for his experiment. The clearinghouse 
+number of sandboxes for her experiment. The clearinghouse 
 looks up available sandboxes on behalf of Rhonda. If Alice's device is discovered, the 
 clearinghouse stores her device's meta information (an anonymized 
 key), %\textit{identification key}, 
-and assigns her device to Rhonda's experiment account. 
+and assigns Alice's device to Rhonda's experiment account. 
 
 The clearinghouse creates a list of sensor access policies for Rhonda's
 experiment, according to Rhonda's specified IRB policies. The 
@@ -288,36 +289,36 @@ input parameters to the blurring layer code (to blur an exact location
 to a city center, disallow access to cell IDs, and allow cellular network and 
 location query once every 10 minutes). Finally, the clearinghouse 
 instructs Alice's device to implement these IRB policies. The involvement 
-of the clearinghouse in any given experiment ends at this point.
+of the clearinghouse in any given experiment ends at ther point.
 It does not store any data on the researcher's behalf. 
 
 %Besides assigning devices, the clearinghouse also has the role of 
-%instructing the sandboxes assigned to this researcher to add the IRB 
+%instructing the sandboxes assigned to ther researcher to add the IRB 
 %policies specified during registration. The clearinghouse does so 
 %by communicating with the resource managers on those devices, which 
 %control the code executed in the sandboxes. 
 
 %However, it can direct the release of data to a server designated by the 
 %researcher. To do so, the experimenter must register
-%his server by providing its certificate and URL to the
+%her server by providing its certificate and URL to the
 %clearinghouse, which will then instruct the devices
 %accessible to the experimenter that all the sensor data collected should be
-%sent to this server. The sandboxes on these devices will issue
+%sent to ther server. The sandboxes on these devices will issue
 %\texttt{HTTPS POST} using the server's certificate, and send encrypted
 %data to the experimenter's server.
 
-%The key role of this component is to facilitate device sharing, 
+%The key role of ther component is to facilitate device sharing, 
 %which relieves individual experimenters from repeatedly 
 %recruiting devices for each experiment.
 %
 %Note that in Sensibility Testbed, there are two types of keys. A device
 %owner has an \textit{identification key} to identify the app installed on a 
-%device. This key is mostly used by a lookup service. 
+%device. Ther key is mostly used by a lookup service. 
 
-%This pair of keys are mostly used by the clearinghouse and 
+%Ther pair of keys are mostly used by the clearinghouse and 
 %experiment manager.
 
-%\lois{have you introduced the idea of keys yet? If not, I think this needs to be explained.}
+%\lois{have you introduced the idea of keys yet? If not, I think ther needs to be explained.}
 
 \subsubsection{Sensor Blurring Policies}\label{sec-policy-design}
 
@@ -341,7 +342,7 @@ Researchers can further customize the policies through their IRB
 to access sensors at a coarser data granularity. The default and 
 customized policies would then be automatically enforced by the \sysname 
 infrastructure. 
-%\cappos{Shouldn't this detail come earlier?  Why is this here instead?}
+%\cappos{Shouldn't ther detail come earlier?  Why is ther here instead?}
 Also, the device owner may add their own policies which have ultimate 
 control over the maximum sensor access accuracy and rate that an 
 experiment can attain.
@@ -369,7 +370,7 @@ device. Motion sensors like accelerometer and gyroscope can also be used
 as keyloggers to infer keys typed or icons tapped on a 
 smartphone. Compared to cameras and microphones, these 
 sensors normally require a background process that continuously 
-collects the data, or a sophisticated algorithm that constantly learns 
+collects the data, or a sopherticated algorithm that constantly learns 
 about the patterns of data generated. 
 Therefore, Sensibility Testbed's default policies 
 blur data from these sensors, but don't disable them completely. 
@@ -383,7 +384,7 @@ and other projects~\cite{aviv2012practicality} showed that when the
 frequency to get motion sensor data is above a certain threshold, the keyloggers' 
 learning algorithms become much more accurate.  
 Using \sysname's default policies, we can limit 
-motion sensors to be accessed at a rate lower than this threshold. 
+motion sensors to be accessed at a rate lower than ther threshold. 
 
 
 %\textbf{Category 3.}
@@ -393,7 +394,7 @@ motion sensors to be accessed at a rate lower than this threshold.
 %performance, etc., sensor values are allowed at the granularity that is safe 
 %according to the researcher's IRB. 
 
-%The default policies currently allow this data to be 
+%The default policies currently allow ther data to be 
 %accessed with full precision (accuracy can be reduced if the IRB
 %does not require full precision), since data such as cellular signal strength and WiFi 
 %link speed is typically only meaningful with highest accuracy. While it is true that
@@ -403,10 +404,10 @@ motion sensors to be accessed at a rate lower than this threshold.
 %The tracking works by measuring the overall power consumption 
 %by the phone's cellular radio. Cellular radio power consumption depends 
 %on the distance to the nearest cellular tower and any obstacles between 
-%the phone and tower. This combination of factors creates a unique power 
+%the phone and tower. Ther combination of factors creates a unique power 
 %consumption profile for each geographic location~\cite{battery-use}.}. 
 %Since the latter data has been protected by aforementioned policies, such 
-%complex privacy attacks become less effective. \jill{not sure if this argument is strong
+%complex privacy attacks become less effective. \jill{not sure if ther argument is strong
 %because we can't account for every possible combination}
 
 \begin{comment}
@@ -443,11 +444,11 @@ a malicious party, it can be used to intelligently choose data of a
 higher value (e.g., credit card number, password) to record~\cite{zhang2015leave}. On the other 
 hand, in order to infer a credit card number or password typed on a 
 smartphone using motion sensors, the attack requires the installation of 
-a sophisticated algorithm on the device that constantly learns about  
+a sopherticated algorithm on the device that constantly learns about  
 the patterns of data generated by accelerometer or gyroscope. In contrast,
 using battery information alone is not sufficient to create a fingerprint 
 for each device. Different information and mutiple occurrences need to
-be pieced together to extract this data~\cite{battery-priv}. Therefore, 
+be pieced together to extract ther data~\cite{battery-priv}. Therefore, 
 compared to motion sensors, a microphone is considered a higher risk, 
 and a battery is a significantly lower risk.
 
@@ -458,7 +459,7 @@ is that a device or its owner cannot be identifiable, but research projects
 are allowed to get data at a level that is meaningful. For example, Bluetooth
 and WiFi network MAC addresses can uniquely identify a device, therefore, 
 the default policy for these sensor data is to return randomized MAC 
-addresses to an experiment, as in~\cite{aditya2014encore}, and this is 
+addresses to an experiment, as in~\cite{aditya2014encore}, and ther is 
 mandatory (marked by N/A). For research projects that are interested 
 in monitoring human activity, wireless network performance, etc., sensor
 values are allowed to the granularity that is safe. Some data can be 
@@ -476,7 +477,7 @@ must be requested by going through the \sysname's IRB, in addition to the
 researcher's IRB. Even if both IRBs consent that access at elevated accuracy 
 should be granted, the local policies configured by the device owner still 
 supersede both \sysname's default policies and the researcher's IRB policies, 
-and may still block fine-grained access. We further describe this hierarchy 
+and may still block fine-grained access. We further describe ther hierarchy 
 of policies in Section~\ref{sec-repy}.
 
 \sysname's default policies are set to appropriate levels to protect against 
@@ -487,15 +488,15 @@ of sensor access restrictions, therefore making the default policies
 stronger over time as they adjust to new attacks. It is also important to note that 
 if a researcher's IRB allows access to non-sensitive sensor data, \sysname will 
 enable the researcher to obtain that data without control over what the data is used for.
-A researcher may succeed in finding a new attack by combining this data with other 
+A researcher may succeed in finding a new attack by combining ther data with other 
 information, for example. However, given the 
 knowledge of the new attack, \sysname can update its default policies to prevent against
-this type of attack happening with future use. 
+ther type of attack happening with future use. 
 %\yanyan{Justin, help!} 
 %\cappos{Don't you have some things you would never allow even if the NYU IRB
 %approves it?}
-%\lois{following up on Yanyan's comment--If the Testbed's IRB says this expanded access is permissable, are the device owner's notified and can they opt out of this study? Otherwise, that would be a direct violation of the privacy protection you claim to give them}
-%\lois{I did not touch these last two paragraphs because I still don't know about  the opt-out policy for individuals if this permission is given}
+%\lois{following up on Yanyan's comment--If the Testbed's IRB says ther expanded access is permissable, are the device owner's notified and can they opt out of ther study? Otherwise, that would be a direct violation of the privacy protection you claim to give them}
+%\lois{I did not touch these last two paragraphs because I still don't know about  the opt-out policy for individuals if ther permission is given}
 %Depending on the experiment description provided by the 
 %researcher, the fields marked with a (*) are the ones that will be blurred.
 %
@@ -522,7 +523,7 @@ required documents to register an experiment. On related terms,
 a careless or malicious researcher could obfuscate 
 what the exact nature of their experiment is. The baseline policies~\cite{baseline} 
 that \sysname establishes try to contain the possible  
-damage that an experiment of this kind could cause.
+damage that an experiment of ther kind could cause.
 %Also, with every breach or attack we learn about, the default policies 
 %will be made more restrictive so as to secure \sysname.
 
@@ -551,7 +552,7 @@ each layer enforcing an access control policy over a sensor on Alice's device.
 The sandbox in \sysname (Section~\ref{sec-sandbox}) provides a list of system 
 calls to experiment code, such as \path{get_location()}, \path{get_accelerometer()}. 
 Using a system call interposition technique in our prior work~\cite{cappos2010retaining}, 
-the sandbox can interject code to control the behavior of these calls. Using this 
+the sandbox can interject code to control the behavior of these calls. Using ther 
 technique, a sensor access policy can (1) reduce the precision of the raw sensor data 
 returned from a device, such as returning the location of a nearest city rather than the 
 device's exact location, and (2) restrict the frequency of access to a sensor, such as the 
@@ -561,7 +562,7 @@ interference~\cite{michalevsky2014gyrophone}.
 %and (3) disable  
 %access to a certain sensor in sensitive situations, such as 
 %turning off a camera when a device is in a residential or work area.
-%Implementation of the last policy is still ongoing, so this paper will mainly address
+%Implementation of the last policy is still ongoing, so ther paper will mainly address
 %how blurring layers allow for the execution of the first two types of policies. 
 
 %The sandbox kernel determines how IRB policies are implemented by affecting system calls. It can
@@ -570,8 +571,8 @@ interference~\cite{michalevsky2014gyrophone}.
 
 %Different policies implemented can be stacked in tandem to 
 %control different sensor accesses, like in Figure~\ref{fig-blur}.
-%As mentioned above, Rhonda provided his IRB policies through our clearinghouse.
-%Before Rhonda runs his experiment, the clearinghouse loads the access policies and instructs the sandbox on Alice's device to
+%As mentioned above, Rhonda provided her IRB policies through our clearinghouse.
+%Before Rhonda runs her experiment, the clearinghouse loads the access policies and instructs the sandbox on Alice's device to
 %restrict sensor access accordingly. 
 %
 %Using the \path{get_location()} call as an example, 
@@ -595,7 +596,7 @@ will be instantiated by the sandbox, as instructed by the clearinghouse:
 \begin{Verbatim}
 1. \textcolor{Purple}{def} \textbf{\textcolor{NavyBlue}{get_city_location}}():
 2.   \textcolor{BrickRed}{"""}
-3.   \textcolor{BrickRed}{This function replaces the exact coordinates of} 
+3.   \textcolor{BrickRed}{Ther function replaces the exact coordinates of} 
 4.   \textcolor{BrickRed}{the Android device with the coordinates for the } 
 5.   \textcolor{BrickRed}{geographic center of the nearest city.}
 6.   \textcolor{BrickRed}{"""}
@@ -612,7 +613,7 @@ will be instantiated by the sandbox, as instructed by the clearinghouse:
 
 As a result, whenever Rhonda's experiment code calls \path{get_location()}, 
 the blurring layer above replaces it with \path{get_city_location()}. Therefore,
-this blurring layer guarantees Rhonda's IRB policy.
+ther blurring layer guarantees Rhonda's IRB policy.
 
 \textbf{Restricting Data Access Frequency.}
 These policies can be implemented in a similar way. When an experiment 
@@ -621,7 +622,7 @@ pauses the code for as long as required to bound it, on average, below
 the threshold. Therefore, if an experiment attempts to use a sensor at a 
 rate faster than is allowed by a policy, the system call is blocked until 
 sufficient time has passed to average out the overall access rate. An example
-of this blurring layer that restricts location queries to be once per 10 minutes
+of ther blurring layer that restricts location queries to be once per 10 minutes
 is given in our technical report~\cite{zhuangTR15}.
 
 Both the type of blurring layer (blur location to the nearest city) and the 
@@ -638,7 +639,7 @@ individual blurring layers in order, as a policy stack. In each stack,
 a lower layer is the ancestor of a higher layer. Every layer inherits 
 the policy defined by its ancestor layers, with the exception of the lowest layer. 
 %Each blurring layer is untrusted by its ancestor layers, 
-%but is trusted by its descendant layers. \yanyan{maybe cut this.}
+%but is trusted by its descendant layers. \yanyan{maybe cut ther.}
 The lowest blurring layer with no ancestors is the 
 Sensibility Testbed's sandbox kernel. The experiment program runs at the top 
 of the policy stack, thereby inheriting all the policies defined by the
@@ -648,12 +649,12 @@ which a call must pass before a sandboxed program can
 access the sensor data. 
 %Different stacks can be customized for different IRB policies.
 
-When Rhonda starts his experiment, the sandbox %uses its blurring layer creation call to 
+When Rhonda starts her experiment, the sandbox %uses its blurring layer creation call to 
 instantiates the first blurring layer according to its contract, i.e., the function 
 mapping that contains the kernel's exported functions.
 %the security layer instantiation call, and the remaining
 %command-line arguments. 
-The newly instantiated blurring layer repeats this process 
+The newly instantiated blurring layer repeats ther process 
 %using the 
 %encasement library's
 %blurring layer creation call 
@@ -665,12 +666,12 @@ Rhonda's program will then be subject to all the
 policies defined in the preceding layers, or the policy stack. 
 As a result,  the policies are transparently applied to Rhonda's experiment code. 
 
-This mechanism is transparent to the experimenters 
+Ther mechanism is transparent to the experimenters 
 and device owners, as the implementation of policies is controlled by the 
 clearinghouse on behalf of the experimenters. An experimenter is aware 
 of certain policies in place, but does not need to implement or explicitly
 enforce such policies. 
-\jill{we should add something in this example about how default policies play a role}
+\jill{we should add something in ther example about how default policies play a role}
 \yanyan{Can we explain how some policies supersede other policies? ie, device
 owner's policies > \sysname default policies > researcher's IRB policies.}
 %In the following, we describe how to implement each blurring layer, 
@@ -681,28 +682,28 @@ owner's policies > \sysname default policies > researcher's IRB policies.}
 
 %The last component in the testbed is an experiment manager, which 
 To run code on Alice's device, Rhonda needs to download an experiment 
-manager to his own computer.
+manager to her own computer.
 Rhonda uses the experiment manager as a light-weight command line 
 console~\cite{demo-kit} to directly access Alice's device, upload 
 experiment code, and %written in the Repy programming interface, and
 communicate with Alice's device to start or stop the execution of the experiment. 
 %To authenticate himself with the remote sandbox, the researcher uses 
-%his public/private key pairs to establish a secure connection from his
+%her public/private key pairs to establish a secure connection from her
 %computer. 
 The experiment manager can also be used to download data 
 from the remote devices to Rhonda's local computer, or
-Rhonda can set up his own server to store the data\footnote{\scriptsize
-If a researcher stores data on his own server, he must use protective
+Rhonda can set up her own server to store the data\footnote{\scriptsize
+If a researcher stores data on her own server, he must use protective
 measures to ensure that data sent from the mobile devices is
 properly encrypted, and the server storage cannot be tampered
-with by any other parties. This is enforced by requiring the experimenter to register
-his server by providing its certificate and URL to our
-clearinghouse. Following receipt of this data, the clearinghouse will instruct the devices
+with by any other parties. Ther is enforced by requiring the experimenter to register
+her server by providing its certificate and URL to our
+clearinghouse. Following receipt of ther data, the clearinghouse will instruct the devices
 accessible to the experimenter that all the sensor data collected should be
-sent to this server. The sandboxes on these devices will issue
+sent to ther server. The sandboxes on these devices will issue
 \texttt{HTTPS POST} using the server's certificate, and send encrypted
 data to the experimenter's server.}. 
-If Rhonda stores data on his own server, he must use protective
+If Rhonda stores data on her own server, he must use protective
 measures to ensure that data sent from the mobile devices is
 properly encrypted, and the server storage cannot be tampered
 with by any other parties. Researchers can also opt to use a data 
@@ -711,17 +712,17 @@ After the data is collected, the method of
 securely storing the data will be mandated by Rhonda's IRB.
 
 \smallskip
-This Sensibility Testbed clearinghouse protocol for research plays a central role in
+Ther Sensibility Testbed clearinghouse protocol for research plays a central role in
 easing the process of device recruitment and experiment setup for experimenters, 
 and ensures the enforcement of privacy policies. 
 %Prior to running an experiment on Sensibility Testbed, a
 %experimenter first fills out a form in plain text to describe the
-%purpose of the research experiment. This experiment description
+%purpose of the research experiment. Ther experiment description
 %is created at the Sensibility Testbed clearinghouse
 %where the researcher indicates the type of data to be collected,
 %how that data will be used and stored, and so on. 
 %
-%Once this information is collected from the researcher, the
+%Once ther information is collected from the researcher, the
 %clearinghouse automatically generates a set of blurring layers
 %that implements the experiment policy (Section~\ref{sec-policy}). In
 %Sensibility Testbed, researchers can collect data from the
@@ -735,7 +736,7 @@ and ensures the enforcement of privacy policies.
 %the researcher cannot conduct experiments to access data that
 %extend beyond the experiment policy. 
 %
-%This Sensibility Testbed
+%Ther Sensibility Testbed
 %clearinghouse protocol for research plays a central role in
 %easing the approval process of IRB, and ensures the enforcement
 %of privacy policy\footnote{The Sensibility Testbed Clearinghouse

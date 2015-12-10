@@ -28,37 +28,37 @@ using Alice's device.
 
 After downloading the app, it informs Alice about the testbed's usage and 
 privacy policy in a consent form and must give consent before participating.
-The consent form \cappos{figure? cite?} explicitly notifies the user about the 
+The consent form~\cite{consent} explicitly notifies the user about the 
 types of data that may be collected from their device and how this will
 be used for non-advertising research by participating researchers.
 
-\cappos{Possibly omit, possibly figure...
-
-Sensors that are accessible to experimenters using the Sensibility Testbed 
-report on environmental data around the device, such as temperature, motion, 
-geographic location, etc, but do not snoop on smartphone or network data. For 
-example, no network packet payloads (e.g., your communications with Facebook) 
-or smartphone MAC addresses (e.g., a unique identifier for your phone) will be 
-collected through a WiFi interface. Sensors and types of data collected by a 
-researcher may include: 
-
-\begin{itemize}
-\item Accelerometer, magnetometer, gyroscope, orientation sensors; microphones; etc.
-\item Information about batteries, such as battery technology and level,
-\item Device location using GPS, network, or passive location provider (cached 
-location data on the device);
-\item Network information about Bluetooth, cellular and WiFi connections and 
-the connection quality (data rate, signal strength, etc).   
-\end{itemize}
-
-Researchers use data they collect to examine problems that impact society 
-and perform research experiments. For example, transportation agencies can 
-use sensor data to monitor traffic in an area. Application developers can 
-monitor how programs perform in the field. Wireless network researchers can 
-observe public WiFi and cellular network coverage, and use this information 
-to improve public networks. Environmental scientists might use sensor data 
-to report on the noise level in different areas of a city. 
-}
+%\cappos{Possibly omit, possibly figure...
+%
+%Sensors that are accessible to experimenters using the Sensibility Testbed 
+%report on environmental data around the device, such as temperature, motion, 
+%geographic location, etc, but do not snoop on smartphone or network data. For 
+%example, no network packet payloads (e.g., your communications with Facebook) 
+%or smartphone MAC addresses (e.g., a unique identifier for your phone) will be 
+%collected through a WiFi interface. Sensors and types of data collected by a 
+%researcher may include: 
+%
+%\begin{itemize}
+%\item Accelerometer, magnetometer, gyroscope, orientation sensors; microphones; etc.
+%\item Information about batteries, such as battery technology and level,
+%\item Device location using GPS, network, or passive location provider (cached 
+%location data on the device);
+%\item Network information about Bluetooth, cellular and WiFi connections and 
+%the connection quality (data rate, signal strength, etc).   
+%\end{itemize}
+%
+%Researchers use data they collect to examine problems that impact society 
+%and perform research experiments. For example, transportation agencies can 
+%use sensor data to monitor traffic in an area. Application developers can 
+%monitor how programs perform in the field. Wireless network researchers can 
+%observe public WiFi and cellular network coverage, and use this information 
+%to improve public networks. Environmental scientists might use sensor data 
+%to report on the noise level in different areas of a city. 
+%}
 
 The policy that a device owner agrees to enables the Sensibility Testbed to
 provide access to a researcher to run IRB approved experiments on the device
@@ -69,26 +69,6 @@ every experimenter whose device an experiment they will run on.  Instead
 each participant only agrees to the policies of the Sensibility Testbed, whose
 policies bind the participants together.
 
-Note that this concept has occurred before both in the networking context.  
-Perhaps the key innovation behind the success
-of PlanetLab was its clever use of policies.  From a technical standpoint,
-PlanetLab is effectively just a set of Linux boxes where researchers
-at almost any university may obtain a VM.  However, if every researcher needed
-to contact colleagues at each other school to manage access, this would be
-a logistical nightmare because it would require pairwise agreements between
-each institution.  Instead PlanetLab wisely formed the PlanetLab Consortium 
-which provided identity and account management once each institution formed
-an agreement with it.  This meant that the PlanetLab Consortium serves as
-a middle man for policy agreements and that other organizations needed no
-direct agreements to cooperate.
-
-This type of agreement is also common in IRB studies, especially involving
-medical data.  A patient may agree to have their medical records made 
-available for future medical research by outside groups.  Despite the lack
-of a direct, study-specific consent form with the end patient, there is
-informed consent.  The patient consented to share data with researchers
-performing future medical studies given ethical guidelines are followed 
-and later medical studies consented to follow those ethical guidelines.
 
 The Sensibility Testbed's use policy provides participants the ability
 to control how information is gathered from their device. Participants
@@ -142,10 +122,10 @@ Rhonda's IRB allows this access.
 \def\arraystretch{1.15}% % for table padding
 \begin{tabular}{|p{3cm}|p{8cm}|p{4cm}|}
 \hline
-{\bf Goals\textsuperscript{*}}  & {\bf Sensor data} & {\bf Default policy\textsuperscript{\dag}}  
+{\bf Privacy concerns\textsuperscript{*}}  & {\bf Sensor data} & {\bf Sensor blurring policies\textsuperscript{\dag}}  
 \\ \hline \hline
 
-\multirow{8}{3cm}{Support research projects. \yanyan{this is not a prevention goal tho.}} 
+\multirow{8}{3cm}{N/A} 
 & Battery status (charging/discharging), temperature, 
  technology, health (good/overheat), battery level, voltage, plug-in type. & 
  \multirow{8}{4cm}{Full precision, round-up (if numeric), or constant.} \\ \cline{2-2}
@@ -217,13 +197,13 @@ Protect owner's contacts. & Contact list of the device owner in an address book.
 goals exist. For example, motion sensors can be used to fingerprint devices~\cite{bojinov2014mobile}, 
 or record conversations~\cite{michalevsky2014gyrophone}.} \\ 
 
-\multicolumn{3}{l}{\textsuperscript{\dag}\scriptsize As new threats emerge, we plan to adjust the default
-policies.} \\ 
+\multicolumn{3}{l}{\textsuperscript{\dag}\scriptsize This lists the policies at publication time. They need
+to be adjustted as new threats emerge.} \\ 
 
 \end{tabular}
 \egroup
 
-\caption{\small Sensibility Testbed's default policies for sensor data.}
+\caption{\small Sensibility Testbed's sensor blurring policies for sensor data.}
 \label{tab:default}
 %\vspace{-10pt}
 \end{table*}
@@ -339,7 +319,7 @@ It does not store any data on the researcher's behalf.
 
 %\lois{have you introduced the idea of keys yet? If not, I think this needs to be explained.}
 
-\subsection{Baseline Policies}\label{sec-policy-design}
+\subsubsection{Sensor Blurring Policies}\label{sec-policy-design}
 
 Policies govern at which accuracy and rate a sandboxed experiment can 
 access sensors on a device, if any. 
@@ -532,6 +512,21 @@ this type of attack happening with future use.
 %that researchers need only go through their local IRB to get
 %the sensor access they need for their experiment. 
 
+\subsubsection{Baseline Policies}\label{sec-policy-design}
+
+The mere existence of an IRB at an institution 
+does not necessarily mean that its review process will be thorough; 
+deliberately or not, an IRB may always greenlight ethically problematic 
+experiments, and help a less-than-diligent researcher produce the 
+required documents to register an experiment. On related terms, 
+a careless or malicious researcher could obfuscate 
+what the exact nature of their experiment is. The baseline policies~\cite{baseline} 
+that \sysname establishes try to contain the possible  
+damage that an experiment of this kind could cause.
+%Also, with every breach or attack we learn about, the default policies 
+%will be made more restrictive so as to secure \sysname.
+
+\todo{how we derived these policies.}
 
 \subsection{Privacy Policy Enforcement}\label{sec-repy}
 
